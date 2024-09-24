@@ -25,20 +25,24 @@ class DocenteController extends Controller
     public function store(Request $request)
     {
         //
+        $out = new \Symfony\Component\Console\Output\ConsoleOutput();
+        $out->writeln($request);
         $request->validate([
             'nombre' => 'required|max:64',
             'apellido' => 'required|max:64',
             'CI' => 'required|max:15',
             'codigoSiss' => 'required|max:15',
-            'contrasena' => 'require|max:225',
+            'contrasena' => 'required|max:225',
         ]);
+        
         $docente = new Docente();
         $docente ->nombre =$request['nombre'];
         $docente ->apellido =$request['apellido'];
-        $docente ->cedula_identidad =$request['ci'];
+        $docente ->cedula_identidad =$request['CI'];
         $docente ->codigo_Siss=$request['codigoSiss'];
         $docente ->contrasena=bcrypt($request['contrasena']);
         $docente->save();
+        return response()->json(['mensaje','se registro exitosamente el docente',200]);
     }
 
     /**
