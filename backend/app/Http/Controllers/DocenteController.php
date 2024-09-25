@@ -13,7 +13,9 @@ class DocenteController extends Controller
      */
     public function index()
     {
-        //
+        
+        $docentes=Docente::all();
+        return response()->json(['mensage',compact('docentes')]);
     }
 
     /**
@@ -25,8 +27,7 @@ class DocenteController extends Controller
     public function store(Request $request)
     {
         //
-        $out = new \Symfony\Component\Console\Output\ConsoleOutput();
-        $out->writeln($request);
+        
         $request->validate([
             'nombre' => 'required|max:64',
             'apellido' => 'required|max:64',
@@ -54,7 +55,8 @@ class DocenteController extends Controller
 
     public function show($id)
     {
-        //
+        $docente = Docente::find($id);
+        return response()->json(['mensaje',compact('docente')]);
     }
 
     /**
@@ -66,7 +68,16 @@ class DocenteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'nombre' => 'nullable|max:64',
+            'apellido' => 'nullable|max:64',
+            'CI' => 'nullable|max:15',
+            'codigoSiss' => 'nullable|max:15',
+            'contrasena' => 'nullable|max:225',
+        ]);
+        $docente = Docente::find($id);
+        $docente->update($request->all());
+        return response()->json(['mensaje','se actualizo con exito']);
     }
 
     /**
@@ -77,6 +88,8 @@ class DocenteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $docente = Docente::find($id);
+        $docente->delete();
+        return response()->json(['mensaje','eliminado con exito']);
     }
 }
