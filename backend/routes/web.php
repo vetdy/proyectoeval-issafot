@@ -18,8 +18,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/docente',[DocenteController::class,'index']);
-Route::post('/docente/create',[DocenteController::class, 'store']);
-Route::get('/docente/{id}',[DocenteController::class,'show']);
-Route::put('/docente/{id}',[DocenteController::class,'update']);
-Route::delete('/docente/{id}',[DocenteController::class,'destroy']);
+Route::get('/api/docente',[DocenteController::class,'index']);
+Route::post('/api/docente/create',[DocenteController::class, 'store']);
+Route::get('/api/docente/{id}',[DocenteController::class,'show']);
+Route::put('/api/docente/{id}',[DocenteController::class,'update']);
+Route::delete('/api/docente/{id}',[DocenteController::class,'destroy']);
