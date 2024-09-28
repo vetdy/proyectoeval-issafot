@@ -26,21 +26,23 @@ class DocenteController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        
         $request->validate([
             'nombre' => 'required|max:64',
             'apellido' => 'required|max:64',
-            'CI' => 'required|max:15',
-            'codigoSiss' => 'required|max:15',
+            'codigo_sis' => 'required|max:15',
+            'email'=>'required|max:32',
+            'telefono'=>'required|max:32',
             'contrasena' => 'required|max:225',
         ]);
+        
         
         $docente = new Docente();
         $docente ->nombre =$request['nombre'];
         $docente ->apellido =$request['apellido'];
-        $docente ->cedula_identidad =$request['CI'];
-        $docente ->codigo_Siss=$request['codigoSiss'];
+        $docente ->codigo_sis =$request['codigo_sis'];
+        $docente ->email=$request['email'];
+        $docente ->telefono=$request['telefono'];
+        $docente ->id_rol='1';// el usuario docente tiene id 1
         $docente ->contrasena=bcrypt($request['contrasena']);
         $docente->save();
         return response()->json(['mensaje','se registro exitosamente el docente',200]);
@@ -71,8 +73,9 @@ class DocenteController extends Controller
         $request->validate([
             'nombre' => 'nullable|max:64',
             'apellido' => 'nullable|max:64',
-            'CI' => 'nullable|max:15',
-            'codigoSiss' => 'nullable|max:15',
+            'codigo_sis' => 'nullable|max:15',
+            'email'=>'nullable|max:32',
+            'telefono'=>'nullable|max:32',
             'contrasena' => 'nullable|max:225',
         ]);
         $docente = Docente::find($id);
