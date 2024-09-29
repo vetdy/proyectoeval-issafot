@@ -30,3 +30,16 @@ Route::post('/empresa/create',[EmpresaController::class, 'store']);
 Route::get('/empresa/{id}',[EmpresaController::class,'show']);
 Route::put('/empresa/{id}',[EmpresaController::class,'update']);
 Route::delete('/empresa/{id}',[EmpresaController::class,'destroy']);
+
+
+Route::get('/plantilla_seguimiento',[EmpresaController::class,'index']);
+Route::post('/plantilla_seguimiento/create',[EmpresaController::class, 'store']);
+Route::get('/plantilla_seguimiento/{id}',[EmpresaController::class,'show']);
+Route::put('/plantilla_seguimiento/{id}',[EmpresaController::class,'update']);
+Route::delete('/plantilla_seguimiento/{id}',[EmpresaController::class,'destroy']);
+
+Route::get('/item_planilla',[EmpresaController::class,'index']);
+Route::post('/item_planilla/create',[EmpresaController::class, 'store']);
+Route::get('/item_planilla/{id}',[EmpresaController::class,'show']);
+Route::put('/item_planilla/{id}',[EmpresaController::class,'update']);
+Route::delete('/item_planilla/{id}',[EmpresaController::class,'destroy']);

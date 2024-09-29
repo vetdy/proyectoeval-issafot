@@ -15,7 +15,7 @@ class PlantillaSeguimientoController extends Controller
     public function index()
     {
         $plantilla_seguimiento=Plantilla_seguimiento::all();
-        return response()->json(['mensaje',compact('Plantilla_seguimiento')]);
+        return response()->json(['mensaje',compact('plantilla_seguimiento')]);
     }
 
     /**
