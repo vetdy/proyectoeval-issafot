@@ -20,7 +20,7 @@ class CreateEmpresaTable extends Migration
             $table->string('telefono');
             $table->string('correo');
             $table->string('url_logo');
-            $table->foreignId('id_representante_legal')->constrained('socio_empresas.id')->onDelete('cascade');
+            $table->foreignId('id_representante_legal')->constrained('socio_empresas')->onDelete('cascade');
             $table->timestamps();
         });
         
