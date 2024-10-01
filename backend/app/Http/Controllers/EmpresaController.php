@@ -27,32 +27,35 @@ class EmpresaController extends Controller
      */
     public function store(Request $request)
     {
-        $out = new \Symfony\Component\Console\Output\ConsoleOutput();
-        $request->validate([
-            'nombre_corto'=>'required|max:64',
-            'nombre_largo'=>'required|max:64',
-            'telefono'=>'required|max:64',
-            'correo'=>'required|max:64',
-            'url_logo'=>'required|max:64',
-            'id_usuario'=>'required|integer'
-        ]);
-        $socio_empresa = new Socio_empresa();
-        $socio_empresa->id_usuario = $request->input('id_usuario');
-        $socio_empresa->save();
+        try{
+            $request->validate([
+                'nombre_corto'=>'required|max:64',
+                'nombre_largo'=>'required|max:64',
+                'telefono'=>'required|max:64',
+                'correo'=>'required|max:64',
+                'url_logo'=>'required|max:64',
+                'id_usuario'=>'required|integer'
+            ]);
+            $socio_empresa = new Socio_empresa();
+            $socio_empresa->id_usuario = $request->input('id_usuario');
+            $socio_empresa->save();
 
-    // Crear Empresa
-        $empresa = new Empresa();
-        $empresa->nombre_corto = $request->input('nombre_corto');
-        $empresa->nombre_largo = $request->input('nombre_largo');
-        $empresa->telefono = $request->input('telefono');
-        $empresa->url_logo = $request->input('url_logo');
-        $empresa->correo= $request->input('correo');
-        $empresa->id_representante_legal = $socio_empresa->id; 
-        $empresa->save();
-        
-        
-        $socio_empresa->id_empresa = $empresa->id;
-        $socio_empresa->save();
+        // Crear Empresa
+            $empresa = new Empresa();
+            $empresa->nombre_corto = $request->input('nombre_corto');
+            $empresa->nombre_largo = $request->input('nombre_largo');
+            $empresa->telefono = $request->input('telefono');
+            $empresa->url_logo = $request->input('url_logo');
+            $empresa->correo= $request->input('correo');
+            $empresa->id_representante_legal = $socio_empresa->id; 
+            $empresa->save();
+            
+            
+            $socio_empresa->id_empresa = $empresa->id;
+            $socio_empresa->save();
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json($e->errors(), 422);
+        }
         
         return response()->json(['mensaje','se registro exitosamente a la empresa']);
         

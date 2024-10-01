@@ -26,12 +26,15 @@ class ItemPlantillaController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'titulo'=>'required|max:32',
-            'id_planilla'=>'required|exist:plantillas_segimientos.id'
-        ]);
-
-        $item_plantilla=Item_plantilla::create($request->all());
+        try{
+            $request->validate([
+                'titulo'=>'required|max:32',
+                'id_planilla'=>'required|exist:plantillas_segimientos.id'
+            ]);
+            $item_plantilla=Item_plantilla::create($request->all());
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json($e->errors(), 422);
+        }
         return response()->json(['mensaje',compact('item_plantilla')]);
     }
 

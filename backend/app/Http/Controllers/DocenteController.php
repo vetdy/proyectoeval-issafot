@@ -26,15 +26,18 @@ class DocenteController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'nombre' => 'required|max:64',
-            'apellido' => 'required|max:64',
-            'codigo_sis' => 'required|max:15',
-            'email'=>'required|max:32',
-            'telefono'=>'required|max:32',
-            'contrasena' => 'required|max:225',
-        ]);
-        
+        try{
+            $validor=$request->validate([
+                'nombre' => 'required|max:32',
+                'apellido' => 'required|max:32',
+                'codigo_sis' => 'required|max:9',
+                'email'=>'required|max:32',
+                'telefono'=>'required|max:32',
+                'contrasena' => 'required|max:225',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json($e->errors(), 422);
+        }
         
         $docente = new Docente();
         $docente ->nombre =$request['nombre'];
@@ -78,9 +81,15 @@ class DocenteController extends Controller
             'telefono'=>'nullable|max:32',
             'contrasena' => 'nullable|max:225',
         ]);
-        $docente = Docente::find($id);
-        $docente->update($request->all());
-        return response()->json(['mensaje','se actualizo con exito']);
+        
+            $docente = Docente::find($id);
+            if ($docente== null){
+                return response()->json(['mensaje'=>'no se encontro el id'],200);
+            }else{
+                $docente->update($request->all());
+                return response()->json(['mensaje'=>'se actualizo con exito'],200);
+            }
+        
     }
 
     /**
@@ -92,7 +101,11 @@ class DocenteController extends Controller
     public function destroy($id)
     {
         $docente = Docente::find($id);
-        $docente->delete();
-        return response()->json(['mensaje','eliminado con exito']);
+        if ($docente== null){
+            return response()->json(['mensaje'=>'no se encontro el id'],404);
+        }else{
+            $docente->delete();
+            return response()->json(['mensaje'=>'se elimino con exito'],200);
+        }
     }
 }

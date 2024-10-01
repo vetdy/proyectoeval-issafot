@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Plantilla_seguimiento;
+use Exception;
 
 class PlantillaSeguimientoController extends Controller
 {
@@ -15,6 +16,7 @@ class PlantillaSeguimientoController extends Controller
     public function index()
     {
         $plantilla_seguimiento=Plantilla_seguimiento::all();
+        
         return response()->json(['mensaje',compact('plantilla_seguimiento')]);
     }
 
@@ -26,16 +28,18 @@ class PlantillaSeguimientoController extends Controller
      */
     public function store(Request $request)
     {
-        $out = new \Symfony\Component\Console\Output\ConsoleOutput();
-        $request->validate([
-            'titulo'=>'required|max:64',
-            'fecha_revision'=>'required|date',
-            'hora_revision'=>'required|time',
-            'id_empresa'=>'required|exists:empresas.id'
-        ]);
-        $plantilla_seguimiento = Plantilla_seguimiento::create($request->all());
-        
-        return response()->json(['mensaje','se registro exitosamente a la plantilla seguimiento']);
+        try{
+            $request->validate([
+                'titulo'=>'required|max:64',
+                'fecha_revision'=>'required|date',
+                'hora_revision'=>'required|time',
+                'id_empresa'=>'required|exists:empresas.id'
+            ]);
+            $plantilla_seguimiento = Plantilla_seguimiento::create($request->all());
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json($e->errors(), 422);
+        }
+        return response()->json(['mensaje','se registro exitosamente a la plantilla seguimiento',200]);
         
     }
 
@@ -66,9 +70,13 @@ class PlantillaSeguimientoController extends Controller
             'hora_revision'=>'nullable|time',
             'id_empresa'=>'nullable|exists:empresas.id'
         ]);
-        $plantilla_seguimiento=Plantilla_seguimiento::find($id);
-        $plantilla_seguimiento->update($request->all());
-        return response()->json(['mensaje','se actualizo a la Plantilla_seguimiento con exito']);
+        try{
+            $plantilla_seguimiento=Plantilla_seguimiento::find($id);
+            $plantilla_seguimiento->update($request->all());
+            return response()->json(['mensaje','se actualizo a la Plantilla_seguimiento con exito'],200);
+        }catch (\Illuminate\Database\QueryException $e){
+            return response()->json(['mensaje','el id no existe'],404);
+        }
     }
 
     /**
