@@ -17,7 +17,7 @@ function RegistroEmpresa(){
                             <input className="form-control" type="text" name="Nombre Largo" id="nombrelg" placeholder="Nombre Largo"></input>
                         </div>
                         <div className="form-group mb-1">
-                            <input className="form-control" type="text" name="Telefono" id="telefono" placeholder="Telefono"></input>                            
+                            <input className="form-control" type="text" name="Telefono" id="telefono" placeholder="Teléfono"></input>                            
                         </div>
                         <div className="form-group mb-1">
                             <input className="form-control" type="text" name="Correo" id="correo" placeholder="Correo"></input>

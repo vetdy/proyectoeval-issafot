@@ -5,7 +5,9 @@ function App() {
   const [apellido, setApellido] = useState("");
   const [identificador, setIdentificador] = useState("");
   const [contrasenia, setContrasenia] = useState("");
-  
+  const [Codigosis, setCodigosis] = useState("");
+  const [Correo, setCorreo] = useState("");
+  const [Telefono, setTelefono] = useState("");
   
   const [mensaje, setMensaje] = useState(null);
   const [tipoMensaje, setTipoMensaje] = useState(null);
@@ -25,36 +27,69 @@ function App() {
   return (
     <div className="App container mt-4">
       <div className="datos form-group">
-        <label >Registrar datos de docente </label>
-        <label>Nombre:  
-          <input 
+       <h1> <label >Registrar datos de docente </label></h1>
+        <label>
+          <input
+            
             className="form-control mb-3"
             onChange={(event) => setNombre(event.target.value)}
             type="text"
+            placeholder='Nombre' 
           />
         </label>
 
-        <label>Apellido: 
+        <label>
           <input 
+            
             className="form-control mb-3"
             onChange={(event) => setApellido(event.target.value)}
             type="text"
+            placeholder='Apellido'
           />
         </label>
 
-        <label>Identificador: 
+        <label> 
           <input 
             className="form-control mb-3"
             onChange={(event) => setIdentificador(event.target.value)}
             type="text"
+            placeholder='Identificador'
           />
         </label>
 
-        <label>Contraseña: 
+        <label>
           <input 
             className="form-control mb-3"
             onChange={(event) => setContrasenia(event.target.value)}
             type="password"
+            placeholder='Contraseña'
+          />
+        </label>
+
+        <label>
+          <input 
+            className="form-control mb-3"
+            onChange={(event) => setCodigosis(event.target.value)}
+            type="text"
+            placeholder='Código SIS'
+          />
+        </label>
+
+        <label>
+          <input 
+            className="form-control mb-3"
+            onChange={(event) => setCorreo(event.target.value)}
+            type="text"
+            placeholder='Correo'
+          />
+        </label>
+
+        <label>
+          <input 
+            className="form-control mb-3"
+            onChange={(event) => setTelefono(event.target.value)}
+            type="text"
+            placeholder='Teléfono'
           />
         </label>
 

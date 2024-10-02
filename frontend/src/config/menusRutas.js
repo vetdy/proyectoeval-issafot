@@ -21,7 +21,7 @@ const docente = {
 const estudiante = {
     "Empresas":{
         "Mi empresa": "/mi-empresa/registro",
-        "Empresas Registradas": "/empresas",
+        "Empresas Registradas": "/em-registradas/EmpresasRegistradas",
     },
     "Proyectos":{
         "Catálogo": "/proyectos/catalogo",
@@ -32,11 +32,12 @@ const estudiante = {
         "Planillas de Seguimiento": "/mis-planillas",
         "Registrar Evaluación": "/nueva-evaluacion",
     },
+
 }
 
 const administrador = {
     "Usuarios":{
-        "Gestionar Usuarios": "/gestion/usuarios",
+        "Gestionar Usuarios": "/registrar/docente",
         "Crear Notificaciones": "/gestion/notificaciones",
     },
 }
