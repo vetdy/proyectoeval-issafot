@@ -1,7 +1,7 @@
 
 function RegistroEmpresa(){
     return(
-        <div>Nueva Empresa</div>
+        <div>Nueva Empresa xd </div>
     );
 }
 
