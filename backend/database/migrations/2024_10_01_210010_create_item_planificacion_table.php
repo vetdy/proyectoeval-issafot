@@ -10,7 +10,7 @@ class CreateItemPlanificacionTable extends Migration
      * Run the migrations.
      *
      * @return void
-     */ 
+     */
     public function up()
     {
         Schema::create('item_planificacion', function (Blueprint $table) {
