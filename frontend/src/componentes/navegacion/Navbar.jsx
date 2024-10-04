@@ -49,7 +49,7 @@ function Navbar({menuReferencia={}}){
     const NavMenu = ({children, id, nombre}) => {
         return(
             <li className="nav-item dropdown">
-            <button className="nav-link dropdown-toggle" onClick={() => controlMenu(id)}
+            <button className={`nav-link dropdown-toggle ${color.navbar.texto}`} onClick={() => controlMenu(id)}
             >
                 {nombre}
             </button>
