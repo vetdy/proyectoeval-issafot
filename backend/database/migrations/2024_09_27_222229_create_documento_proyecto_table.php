@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreteDocente extends Migration
+class CreateDocumentoProyectoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class CreteDocente extends Migration
      */
     public function up()
     {
-        
-        Schema::create('docentes', function (Blueprint $table) {
+        Schema::create('documento_proyectos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('apellido');
-            $table->string('cedula_identidad');
-            $table->string('codigo_Siss');
-            $table->string('contrasena');
+            $table->string('titulo');
+            $table->string('url_ubicacion');
+            $table->foreignId('id_proyecto')->constrained('proyectos')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -32,6 +29,6 @@ class CreteDocente extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('_documento_proyecto');
     }
 }

@@ -15,7 +15,7 @@ class DocenteController extends Controller
     {
         
         $docentes=Docente::all();
-        return response()->json(['mensage',compact('docentes')]);
+        return response()->json(['contenido'=>compact('docentes')],200);
     }
 
     /**
@@ -26,24 +26,29 @@ class DocenteController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        
-        $request->validate([
-            'nombre' => 'required|max:64',
-            'apellido' => 'required|max:64',
-            'CI' => 'required|max:15',
-            'codigoSiss' => 'required|max:15',
-            'contrasena' => 'required|max:225',
-        ]);
+        try{
+            $validor=$request->validate([
+                'nombre' => 'required|max:32',
+                'apellido' => 'required|max:32',
+                'codigo_sis' => 'required|max:9',
+                'email'=>'required|max:32',
+                'telefono'=>'required|max:32',
+                'contrasena' => 'required|max:225',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['contenido'=>compact($e->errors())], 422);
+        }
         
         $docente = new Docente();
         $docente ->nombre =$request['nombre'];
         $docente ->apellido =$request['apellido'];
-        $docente ->cedula_identidad =$request['CI'];
-        $docente ->codigo_Siss=$request['codigoSiss'];
+        $docente ->codigo_sis =$request['codigo_sis'];
+        $docente ->email=$request['email'];
+        $docente ->telefono=$request['telefono'];
+        $docente ->id_rol='1';// el usuario docente tiene id 1
         $docente ->contrasena=bcrypt($request['contrasena']);
         $docente->save();
-        return response()->json(['mensaje','se registro exitosamente el docente',200]);
+        return response()->json(['contenido'=>'se registro exitosamente el docente'],200);
     }
 
     /**
@@ -56,7 +61,7 @@ class DocenteController extends Controller
     public function show($id)
     {
         $docente = Docente::find($id);
-        return response()->json(['mensaje',compact('docente')]);
+        return response()->json(['contenido'=>compact('docente')],200);
     }
 
     /**
@@ -71,13 +76,20 @@ class DocenteController extends Controller
         $request->validate([
             'nombre' => 'nullable|max:64',
             'apellido' => 'nullable|max:64',
-            'CI' => 'nullable|max:15',
-            'codigoSiss' => 'nullable|max:15',
+            'codigo_sis' => 'nullable|max:15',
+            'email'=>'nullable|max:32',
+            'telefono'=>'nullable|max:32',
             'contrasena' => 'nullable|max:225',
         ]);
-        $docente = Docente::find($id);
-        $docente->update($request->all());
-        return response()->json(['mensaje','se actualizo con exito']);
+        
+            $docente = Docente::find($id);
+            if ($docente== null){
+                return response()->json(['contenido'=>'no se encontro el id'],200);
+            }else{
+                $docente->update($request->all());
+                return response()->json(['contenido'=>'se actualizo con exito'],200);
+            }
+        
     }
 
     /**
@@ -89,7 +101,11 @@ class DocenteController extends Controller
     public function destroy($id)
     {
         $docente = Docente::find($id);
-        $docente->delete();
-        return response()->json(['mensaje','eliminado con exito']);
+        if ($docente== null){
+            return response()->json(['contenido'=>'no se encontro el id'],404);
+        }else{
+            $docente->delete();
+            return response()->json(['contenido'=>'se elimino con exito'],200);
+        }
     }
 }
