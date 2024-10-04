@@ -16,7 +16,7 @@ class EmpresaController extends Controller
     public function index()
     {
         $empresa=Empresa::all();
-        return response()->json(['mensaje',compact('empresa')]);
+        return response()->json(['contenido'=>compact('empresa')],200);
     }
 
     /**
@@ -30,7 +30,7 @@ class EmpresaController extends Controller
         try{
             $request->validate([
                 'nombre_corto'=>'required|max:64',
-                'nombre_largo'=>'required|max:64',
+                'nombre_largo'=>'required|max:128',
                 'telefono'=>'required|max:64',
                 'correo'=>'required|max:64',
                 'url_logo'=>'required|max:64',
@@ -50,14 +50,13 @@ class EmpresaController extends Controller
             $empresa->id_representante_legal = $socio_empresa->id; 
             $empresa->save();
             
-            
             $socio_empresa->id_empresa = $empresa->id;
             $socio_empresa->save();
         } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json($e->errors(), 422);
+            return response()->json(['contenido'=>$e->errors()],422);
         }
         
-        return response()->json(['mensaje','se registro exitosamente a la empresa']);
+        return response()->json(['contenido'=>'se registro la empresa con exito'],200);
         
     }
 
@@ -70,7 +69,7 @@ class EmpresaController extends Controller
     public function show($id)
     {
         $empresa=Empresa::find($id);
-        return response()->json(['mensaje',compact('empresa')]);
+        return response()->json(['contendido'=>compact('empresa')],200);
     }
 
     /**
@@ -91,8 +90,12 @@ class EmpresaController extends Controller
             'id_representante_legal'=>'nullable|exists:socio_empresa,id'
         ]);
         $empresa=Empresa::find($id);
-        $empresa->update($request->all());
-        return response()->json(['mensaje','se actualizo a la empresa con exito']);
+        if ($empresa){
+            $empresa->update($request->all());
+            return response()->json(['contenido'=>'se actualizo a la empresa con exito'],200);
+        }else{
+            return response()->json(['contenido'=>'no se encontro el id'],404);
+        }   
     }
 
     /**
@@ -104,7 +107,11 @@ class EmpresaController extends Controller
     public function destroy($id)
     {
         $empresa=Empresa::find($id);
-        $empresa->delete();
-        return response()->json(['mensaje','eliminado con exito']);
+        if ($empresa){
+            $empresa->delete();
+            return response()->json(['contenido'=>'se elimino con exito'],200);
+        }else{
+            return response()->json(['contenido'=>'no existe la empresa'],404);
+        }
     }
 }

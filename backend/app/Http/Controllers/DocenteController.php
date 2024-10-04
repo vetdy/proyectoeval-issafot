@@ -36,7 +36,7 @@ class DocenteController extends Controller
                 'contrasena' => 'required|max:225',
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(['contenido'=>compact($e->errors())], 422);
+            return response()->json(['contenido'=>$e->errors()], 422);
         }
         
         $docente = new Docente();
@@ -84,7 +84,7 @@ class DocenteController extends Controller
         
             $docente = Docente::find($id);
             if ($docente== null){
-                return response()->json(['contenido'=>'no se encontro el id'],200);
+                return response()->json(['contenido'=>'no se encontro el id'],404);
             }else{
                 $docente->update($request->all());
                 return response()->json(['contenido'=>'se actualizo con exito'],200);
