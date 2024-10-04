@@ -17,7 +17,7 @@ class PlantillaSeguimientoController extends Controller
     {
         $plantilla_seguimiento=Plantilla_seguimiento::all();
         
-        return response()->json(['mensaje',compact('plantilla_seguimiento')]);
+        return response()->json(['contenido'=>compact('plantilla_seguimiento')],200);
     }
 
     /**
@@ -39,7 +39,7 @@ class PlantillaSeguimientoController extends Controller
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json($e->errors(), 422);
         }
-        return response()->json(['mensaje','se registro exitosamente a la plantilla seguimiento',200]);
+        return response()->json(['contenido'=>'se registro exitosamente a la plantilla seguimiento'],200);
         
     }
 
@@ -52,7 +52,7 @@ class PlantillaSeguimientoController extends Controller
     public function show($id)
     {
         $plantilla_seguimiento=Plantilla_seguimiento::find($id);
-        return response()->json(['mensaje',compact('plantilla_seguimiento')]);
+        return response()->json(['contenido'=>compact('plantilla_seguimiento')],200);
     }
 
     /**
@@ -73,9 +73,9 @@ class PlantillaSeguimientoController extends Controller
         try{
             $plantilla_seguimiento=Plantilla_seguimiento::find($id);
             $plantilla_seguimiento->update($request->all());
-            return response()->json(['mensaje','se actualizo a la Plantilla_seguimiento con exito'],200);
+            return response()->json(['contenido'=>'se actualizo a la Plantilla_seguimiento con exito'],200);
         }catch (\Illuminate\Database\QueryException $e){
-            return response()->json(['mensaje','el id no existe'],404);
+            return response()->json(['contenido'=>'el id no existe'],404);
         }
     }
 
@@ -89,6 +89,6 @@ class PlantillaSeguimientoController extends Controller
     {
         $plantilla_seguimiento=Plantilla_seguimiento::find($id);
         $plantilla_seguimiento->delete();
-        return response()->json(['mensaje','eliminado con exito']);
+        return response()->json(['contenido'=>'eliminado con exito'],200);
     }
 }
