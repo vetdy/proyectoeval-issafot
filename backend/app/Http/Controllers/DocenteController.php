@@ -31,7 +31,7 @@ class DocenteController extends Controller
                 'nombre' => 'required|max:32',
                 'apellido' => 'required|max:32',
                 'codigo_sis' => 'required|max:9',
-                'email'=>'required|max:32',
+                'correo'=>'required|max:32',
                 'telefono'=>'required|max:32',
                 'contrasena' => 'required|max:225',
             ]);
@@ -43,7 +43,7 @@ class DocenteController extends Controller
         $docente ->nombre =$request['nombre'];
         $docente ->apellido =$request['apellido'];
         $docente ->codigo_sis =$request['codigo_sis'];
-        $docente ->email=$request['email'];
+        $docente ->correo=$request['correo'];
         $docente ->telefono=$request['telefono'];
         $docente ->id_rol='1';// el usuario docente tiene id 1
         $docente ->contrasena=bcrypt($request['contrasena']);

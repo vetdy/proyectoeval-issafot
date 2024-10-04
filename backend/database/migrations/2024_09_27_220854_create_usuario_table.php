@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTable extends Migration
+class CreateUsuarioTable extends Migration
 {
     /**
      * Run the migrations.
@@ -19,10 +19,10 @@ class CreateUsersTable extends Migration
             $table->string('apellido');
             $table->string('codigo_sis')->unique();
             $table->string('correo')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            #$table->timestamp('email_verified_at')->nullable();
             $table->string('telefono');
             $table->string('contrasena');
-            $table->rememberToken();
+            #$table->rememberToken();
             $table->timestamps();
             $table->foreignId('id_rol')->constrained('rols')->onDelete('cascade');
         });
@@ -35,6 +35,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('usuarios');
     }
 }
