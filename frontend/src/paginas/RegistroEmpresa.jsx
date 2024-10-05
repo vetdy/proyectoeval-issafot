@@ -2,6 +2,7 @@ import logoDefecto from "/logo.png"
 import { Input, Formulario } from "@src/componentes/formularios";
 import { useState } from "react";
 import validarEntrada from "../utils/validarEntrada";
+import rutasBackend from "../config/rutasBackend";
 
 
 function RegistroEmpresa(){
@@ -11,55 +12,119 @@ function RegistroEmpresa(){
         telefono: "",
         correo: "",
     });
-    const [logoEmpresa, setLogoEmpresa] = useState(logoDefecto);
+    const [logoEmpresa, setLogoEmpresa] = useState(undefined);
     const [errores, setErrores] = useState({});
 
-    const formatosPermitidos = ["image/png", "image/jpeg", "image/jpg"];
+    const formatosValidosImagen = ["image/png", "image/jpeg", "image/jpg"];
+    const pesoMaximoImagen = 1048576;
    
     const actualizarCampo = (ev) =>{
         const { name, value } = ev.target;
-
         setCampos(c => ({...c, [name]:value}));
 
-        validarCampos(name, value);
+        const error = obtenerErrores(name, value);
+        setErrores(e => ({...e, [name]: error}));
     }
 
-    const validarCampos = (campo, valor) => {
-        let error = "";
+    const obtenerErrores = (campo, valor) => {
+        const validadores = {
+            nombre_corto: validarEntrada.nombreCortoEmpresa,
+            nombre_largo: validarEntrada.nombreLargoEmpresa,
+            telefono: validarEntrada.telefono,
+            correo: validarEntrada.correo,
+        };
 
-        if(campo === "nombre_corto"){
-            error = validarEntrada.nombreCortoEmpresa(valor);
-        }
-        if(campo === "nombre_largo"){
-            error = validarEntrada.nombreLargoEmpresa(valor);
-        }
-        if(campo === "telefono"){
-            error = validarEntrada.telefono(valor);
-        }
-        if(campo === "correo"){
-            error = validarEntrada.correo(valor);
-        }
-
-        setErrores(e => ({...e, [campo]: error}));
+        return validadores[campo](valor);
     }
 
-    const validarImagen = (ev) => {
+    const errorImagen = (imagen) => {
+        return validarEntrada.imagen(
+            imagen, 
+            formatosValidosImagen, 
+            pesoMaximoImagen
+        );
+    };
+
+    const actualizarImagen = (ev) => {
         const imagen = ev.target.files[0];
 
-        const error = validarEntrada.imagen(imagen, formatosPermitidos, 1048576);
+        const error = errorImagen(imagen);
 
         setErrores(e => ({...e, logo: error}));
 
-        if (error === ""){
-            setLogoEmpresa( URL.createObjectURL(imagen) );
-        }
-        else{
-            setLogoEmpresa( logoDefecto );
-        }
+        setLogoEmpresa( imagen );
     };
 
+    const truncarCampos = () =>{
+        const nuevosCampos = {};
+
+        Object.entries(campos).forEach( ([k, v]) => {
+            nuevosCampos[k] = v.trim();
+        });
+
+        return nuevosCampos;
+    }
+
+    const camposInvalidos = (camposActuales) =>{
+        const nuevosErrores = {}
+
+        Object.entries(camposActuales).forEach( ([campo, valor]) => {
+            const error = obtenerErrores(campo, valor);
+            if ( error ){
+                nuevosErrores[campo] = error;
+            }
+        });
+
+        const errImagen = errorImagen(logoEmpresa);
+
+        if( errImagen ){
+            nuevosErrores.logo = errImagen;
+        }
+
+        return nuevosErrores;
+    }
+
+    const enviarRegistro = async (ev) =>{
+        ev.preventDefault();
+
+        const nuevosCampos = truncarCampos();
+        setCampos(nuevosCampos);
+
+        const nuevosErrores = camposInvalidos(nuevosCampos);
+        setErrores(nuevosErrores);
+
+        if(! Object.values(nuevosErrores).every(e => e === "") ){
+            console.log("Hay errores");
+            return;
+        }
+
+        let formulario = new FormData();
+
+        Object.entries(nuevosCampos).forEach( ([campo, valor]) => {
+            formulario.append(campo, valor);
+        });
+
+        formulario.append("logo", logoEmpresa);
+
+        /* try{
+            const res = await fetch(rutasBackend.registroEmpresa, {
+                method: "POST",
+                content: "multipart/form-data",
+                mode: "no-cors",
+                accept: "application/json",
+                body: formulario,
+            });
+            console.log("Se enviaron los datos");
+        }
+        catch(err){
+            console.log("Error Enviando datos.");
+        } */
+    }
+
     return(
-        <Formulario tituloFormulario="Registro de Empresa" nombreBoton="Enviar">
+        <Formulario tituloFormulario="Registro de Empresa" nombreBoton="Enviar"
+            encType="multipart/form-data" onSubmit={enviarRegistro}
+        >
             <div className="row m-auto">
                 <div className="col-md-6 py-2 d-flex flex-column">
                     <Input name="nombre_corto" placeholder="Nombre Corto"
@@ -92,18 +157,16 @@ function RegistroEmpresa(){
                 </div>
 
                 <div className="col-md-6 p-2 d-flex flex-column align-items-center justify-content-center">
-                    <img src={logoEmpresa} 
+                    <img src={logoEmpresa === undefined ? logoDefecto : URL.createObjectURL(logoEmpresa)}
                         width="auto" height="115" alt="Vista previa"
                         max-width="100%"
                         className="mb-4 object-fit-scale"
                     ></img>
-                    <Input name="logo" accept={formatosPermitidos.join()}
+                    <Input name="logo" accept={formatosValidosImagen.join()}
                         type="file"
                         error={errores.hasOwnProperty("logo") && errores.logo}
-                        onChange={validarImagen}
-                    >
-
-                    </Input>
+                        onChange={actualizarImagen}
+                    ></Input>
                 </div>
             </div>
 

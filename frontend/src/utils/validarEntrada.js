@@ -1,22 +1,22 @@
-function longitudEntre(entrada="", n=0, m=0){
+function longitud(cadena="", n=0, m=0){
     if (n < 1 || m < 1){
         return false;
     }
     if(n === m){
-        return entrada.length === n;
+        return cadena.length === n;
     }
     if(n < m){
-        return entrada.length >= n && entrada.length <= m;
+        return cadena.length >= n && cadena.length <= m;
     }
-    return entrada.length >= m && entrada.length <= n;
+    return cadena.length >= m && cadena.length <= n;
 }
 
 function esAlfaNumerico(entrada=""){
-    return /^[\p{L}\d\s]+$/u.test(entrada);
+    return /^[\p{L}\d]+( [\p{L}\d]+)*$/u.test(entrada);
 }
 
 function esAlfabetico(entrada=""){
-    return /^[\p{L}\s]+$/u.test(entrada);
+    return /^[\p{L}]+( [\p{L}]+)*$/u.test(entrada);
 }
 
 function esNumerico(entrada=""){
@@ -37,11 +37,13 @@ const esArchivo = (archivo) => {
 const nombreCortoEmpresa = (nombre = "") =>{
     let error = "";
 
-    if (! longitud(nombre, 3, 12) ){
+    const nom = nombre.trim();
+
+    if (! longitud(nom, 3, 12) ){
         error = "Longitud debe ser entre 3 y 12 caracteres.";
     }
-    else if(! esAlfaNumerico(nombre)){
-        error = "Solo se admite letras y numeros.";
+    else if(! esAlfaNumerico(nom)){
+        error = "Letras y numeros. Un espacio entre palabras.";
     }
     return error;
 }
@@ -49,11 +51,13 @@ const nombreCortoEmpresa = (nombre = "") =>{
 const nombreLargoEmpresa = (nombre = "") =>{
     let error = "";
 
-    if (! longitud(nombre, 3, 32) ){
+    const nom = nombre.trim();
+
+    if (! longitud(nom, 3, 32) ){
         error = "Longitud debe ser entre 3 y 32 caracteres.";
     }
-    else if(! esAlfaNumerico(nombre)){
-        error = "Solo se admite letras y numeros.";
+    else if(! esAlfaNumerico(nom)){
+        error = "Letras y numeros. Un espacio entre palabras.";
     }
     return error;
 }
@@ -62,7 +66,7 @@ const telefono = (telefono = "") =>{
     let error = "";
 
     if(! esNumerico(telefono)){
-        error = "Solo se admite numeros.";
+        error = "Solo se admite numeros sin espacios.";
     }
     else if (! longitud(telefono, 7, 12) ){
         error = "Longitud debe ser entre 7 y 12 caracteres.";
@@ -95,7 +99,7 @@ const imagen = (imagen, formatos=[], peso=0) => {
 }
 
 const validarEntrada = {
-    longitud: longitudEntre,
+    longitud: longitud,
     esNumerico: esNumerico,
     esAlfabetico: esAlfabetico,
     esAlfaNumerico: esAlfaNumerico,
