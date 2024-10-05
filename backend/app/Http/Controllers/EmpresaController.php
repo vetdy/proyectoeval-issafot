@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Models\Empresa;
 use App\Models\Socio_empresa;
-
+use Illuminate\Support\Facades\Storage;
 class EmpresaController extends Controller
 {
     /**
@@ -27,14 +26,16 @@ class EmpresaController extends Controller
      */
     public function store(Request $request)
     {
+        
+
         try{
             $request->validate([
                 'nombre_corto'=>'required|max:64',
                 'nombre_largo'=>'required|max:128',
                 'telefono'=>'required|max:64',
                 'correo'=>'required|max:64',
-                'url_logo'=>'required|max:64',
-                'id_usuario'=>'required|integer'
+                'id_usuario'=>'required|integer',
+                'imagen' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
             ]);
             $socio_empresa = new Socio_empresa();
             $socio_empresa->id_usuario = $request->input('id_usuario');
@@ -45,11 +46,18 @@ class EmpresaController extends Controller
             $empresa->nombre_corto = $request->input('nombre_corto');
             $empresa->nombre_largo = $request->input('nombre_largo');
             $empresa->telefono = $request->input('telefono');
-            $empresa->url_logo = $request->input('url_logo');
             $empresa->correo= $request->input('correo');
             $empresa->id_representante_legal = $socio_empresa->id; 
             $empresa->save();
+
+            $archivo=$request->file('imagen');
+            $nombre=$archivo->getClientOriginalName();
+            $ruta=$archivo->storeAs('public/imagenes_empresa',$nombre);
             
+            $rutaPublica=Storage::url($ruta);
+
+            $empresa->url_logo = $rutaPublica;
+            $empresa->save();
             $socio_empresa->id_empresa = $empresa->id;
             $socio_empresa->save();
         } catch (\Illuminate\Validation\ValidationException $e) {
