@@ -2,7 +2,7 @@ import color from "@src/estilos/color";
 
 function Formulario({children, tituloFormulario="", nombreBoton="", ...props}){
     return(
-        <div className="container-fluid p-2">
+        <div className="container p-2">
             <div className={`row rounded-3 shadow-sm m-auto ${color.forms.fondoTitulo}`}>
                 <div className="col-md-12 py-2">
                     <h2 
@@ -27,7 +27,7 @@ function Formulario({children, tituloFormulario="", nombreBoton="", ...props}){
                         </div>
                     </div>
                 </form>
-            </div>            
+            </div>         
         </div>
     );
 }
