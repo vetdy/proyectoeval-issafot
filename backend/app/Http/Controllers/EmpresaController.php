@@ -35,14 +35,26 @@ class EmpresaController extends Controller
                 'telefono'=>'required|max:64',
                 'correo'=>'required|max:64',
                 'id_usuario'=>'required|integer',
-                'imagen' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+                'imagen' => [
+                    'required',
+                    'string'
+                ],
             ]);
             $socio_empresa = new Socio_empresa();
             $socio_empresa->id_usuario = $request->input('id_usuario');
             $socio_empresa->save();
-
-        // Crear Empresa
+// Crear Empresa
             $empresa = new Empresa();
+
+            $archivo=$request->input('imagen');
+            $rutaPublica=$this->storeImage($archivo,$request->input('nombre_corto'),null);
+            if ($rutaPublica){
+                $empresa->url_logo = $rutaPublica;
+            }else{
+                return response()->json(['contenido'=>'no se pudo guardar la imagen'],422);
+            }
+        
+            
             $empresa->nombre_corto = $request->input('nombre_corto');
             $empresa->nombre_largo = $request->input('nombre_largo');
             $empresa->telefono = $request->input('telefono');
@@ -50,13 +62,10 @@ class EmpresaController extends Controller
             $empresa->id_representante_legal = $socio_empresa->id; 
             $empresa->save();
 
-            $archivo=$request->file('imagen');
-            $nombre=$archivo->getClientOriginalName();
-            $ruta=$archivo->storeAs('public/imagenes_empresa',$nombre);
             
-            $rutaPublica=Storage::url($ruta);
 
-            $empresa->url_logo = $rutaPublica;
+
+            
             $empresa->save();
             $socio_empresa->id_empresa = $empresa->id;
             $socio_empresa->save();
@@ -121,5 +130,47 @@ class EmpresaController extends Controller
         }else{
             return response()->json(['contenido'=>'no existe la empresa'],404);
         }
+    }
+
+
+    /**
+     * Obtiene la extensión de la imagen según su tipo.
+     *
+     * @param string $type
+     * @return string
+     */
+    private function getImageExtension($type)
+    {
+        switch ($type) {
+            case 'jpeg':
+            case 'jpg':
+                return '.jpg';
+            case 'png':
+                return '.png';
+            case 'gif':
+                return '.gif';
+            case 'bmp':
+                return '.bmp';
+            default:
+                return '.jpg'; // Valor predeterminado
+        }
+    }
+
+    private function storeImage($base64,$name,$url){
+        preg_match('/^data:image\/(?<type>.+);base64,/', $base64, $matches);
+        
+        $imageType = $matches['type']; // tipo de imagen, ej: jpeg
+        $extension = $this->getImageExtension($imageType); // Obtener la extensión del archivo
+        if ($url){Storage::delete($url);}
+        // Extraer solo los datos Base64
+        $base64Image = preg_replace('/^data:image\/\w+;base64,/', '', $base64);
+        $imageData = base64_decode($base64Image); // Decodificar la cadena Base64
+        $imageName = $name . $extension; // usar la extensión correcta
+        
+        $ruta='public/imagenes_empresa/'.$imageName;
+        
+        $rutaPublica=Storage::put($ruta,$imageData);
+        return $rutaPublica;
+
     }
 }
