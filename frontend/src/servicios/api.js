@@ -1,4 +1,4 @@
-import rutas from "../rutas/backend"
+import { backend as rutas } from "../rutas"
 const URL_BACKEND = import.meta.env.VITE_SERVIDOR_BACKEND_URL;
 
 export const solicitud = async (url = URL_BACKEND, metodo = "get", datosJSON) => {

@@ -1,9 +1,9 @@
-import logoDefecto from "/logo.png"
-import { Input, Formulario } from "@src/componentes/formularios";
 import { useState } from "react";
-import validarEntrada from "../utils/validarEntrada";
-import rutasBackend from "../config/rutasBackend";
-
+import logoDefecto from "/logo.png"
+import { Input, Formulario } from "../componentes/formularios";
+import { validador as validar } from "../utils";
+import { base64 } from "../utils/conversor";
+import { registrarEmpresa } from "../servicios/api";
 
 function RegistroEmpresa(){
     const [campos, setCampos] = useState({
@@ -28,17 +28,17 @@ function RegistroEmpresa(){
 
     const obtenerErrores = (campo, valor) => {
         const validadores = {
-            nombre_corto: validarEntrada.nombreCortoEmpresa,
-            nombre_largo: validarEntrada.nombreLargoEmpresa,
-            telefono: validarEntrada.telefono,
-            correo: validarEntrada.correo,
+            nombre_corto: (v) => validar.nombreEmpresa(v, 3, 12),
+            nombre_largo: (v) => validar.nombreEmpresa(v, 3, 36),
+            telefono: validar.telefonoEmpresa,
+            correo: validar.correoEmpresa,
         };
 
         return validadores[campo](valor);
     }
 
     const errorImagen = (imagen) => {
-        return validarEntrada.imagen(
+        return validar.imagenEmpresa(
             imagen, 
             formatosValidosImagen, 
             pesoMaximoImagen
@@ -94,31 +94,23 @@ function RegistroEmpresa(){
         setErrores(nuevosErrores);
 
         if(! Object.values(nuevosErrores).every(e => e === "") ){
-            console.log("Hay errores");
+            console.log("Hay errores");  //<======= MOSTRAR MSG ERROR
             return;
         }
 
-        let formulario = new FormData();
-
-        Object.entries(nuevosCampos).forEach( ([campo, valor]) => {
-            formulario.append(campo, valor);
-        });
-
-        formulario.append("logo", logoEmpresa);
-
-        /* try{
-            const res = await fetch(rutasBackend.registroEmpresa, {
-                method: "POST",
-                content: "multipart/form-data",
-                mode: "no-cors",
-                accept: "application/json",
-                body: formulario,
-            });
-            console.log("Se enviaron los datos");
+        const id_rep = "4";   //<========= Debe cambiar cuando hayan usuarios
+        const imagenBase64 = await base64(logoEmpresa);
+        const datos = {
+            nombre_corto: nuevosCampos.nombre_corto,
+            nombre_largo: nuevosCampos.nombre_largo,
+            telefono: nuevosCampos.telefono,
+            correo: nuevosCampos.correo,
+            id_usuario: id_rep,
+            imagen: imagenBase64,
         }
-        catch(err){
-            console.log("Error Enviando datos.");
-        } */
+        //console.log(datos);
+        const respuesta = await registrarEmpresa(datos);
+        console.log(respuesta);
     }
 
     return(
