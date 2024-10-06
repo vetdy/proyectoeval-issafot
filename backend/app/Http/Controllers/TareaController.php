@@ -27,14 +27,14 @@ class TareaController extends Controller
     public function store(Request $request)
     {
         try{
-            $request->validate([                'terminado'=>'required|boolean',
+            $request->validate(['terminado'=>'required|boolean',
                 'descripcion'=>'required|max:64',
                 'observacion'=>'required|max:255',
                 'terminado'=>'required|boolean',
                 ]);
             $tarea = Tarea::create($request->all());
         } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(['contenido'=>'id no encontrado'], 422);
+            return response()->json(['contenido'=>$e->errors()], 422);
         }
         return response()->json(['contenido'=>'se registro exitosamente la tarea'],200);
    
@@ -61,7 +61,7 @@ class TareaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([                'terminado'=>'required|boolean',
+        $request->validate(['terminado'=>'required|boolean',
                 'descripcion'=>'required|max:64',
                 'observacion'=>'required|max:255',
                 'terminado'=>'required|boolean',
@@ -85,7 +85,11 @@ class TareaController extends Controller
     public function destroy($id)
     {
         $tarea=Tarea::find($id);
-        $tarea->delete();
-        return response()->json(['contenido'=>'eliminado con exito'],200);return response()->json(['contenido'=>'eliminado con exito'],200);
+        if ($tarea){
+            $tarea->delete();
+            return response()->json(['contenido'=>'eliminado con exito'],200);
+        }else{
+            return response()->json(['contenido'=>'no existe la tarea'],404);
+        }
     }
 }

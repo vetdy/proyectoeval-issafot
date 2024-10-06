@@ -7,6 +7,8 @@ use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\ItemPlantillaController;
 use App\Http\Controllers\PlantillaSeguimientoController;
 use App\Http\Controllers\PlantillaController;
+use App\Http\Controllers\TareaController;
+use Monolog\Handler\RotatingFileHandler;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,27 +24,42 @@ use App\Http\Controllers\PlantillaController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('/docente',[DocenteController::class,'index']);
-Route::post('/docente',[DocenteController::class, 'store']);
-Route::get('/docente/{id}',[DocenteController::class,'show']);
-Route::put('/docente/{id}',[DocenteController::class,'update']);
-Route::delete('/docente/{id}',[DocenteController::class,'destroy']);
+Route::controller(DocenteController::class)->group(function () {
+    Route::get('/docente', 'index');
+    Route::post('/docente', 'store');
+    Route::get('/docente/{id}', 'show');
+    Route::put('/docente/{id}', 'update');
+    Route::delete('/docente/{id}', 'destroy');
+});
 
-Route::get('/empresa',[EmpresaController::class,'index']);
-Route::post('/empresa/create',[EmpresaController::class, 'store']);
-Route::get('/empresa/{id}',[EmpresaController::class,'show']);
-Route::put('/empresa/{id}',[EmpresaController::class,'update']);
-Route::delete('/empresa/{id}',[EmpresaController::class,'destroy']);
+Route::controller(EmpresaController::class)->group(function () {
+    Route::get('/empresa', 'index');
+    Route::post('/empresa', 'store');
+    Route::get('/empresa/{id}', 'show');
+    Route::put('/empresa/{id}', 'update');
+    Route::delete('/empresa/{id}', 'destroy');
+});
 
+Route::controller(PlantillaSeguimientoController::class)->group(function () {
+    Route::get('/plantilla_seguimiento', 'index');
+    Route::post('/plantilla_seguimiento', 'store');
+    Route::get('/plantilla_seguimiento/{id}', 'show');
+    Route::put('/plantilla_seguimiento/{id}', 'update');
+    Route::delete('/plantilla_seguimiento/{id}', 'destroy');
+});
 
-Route::get('/plantilla_seguimiento',[PlantillaSeguimientoController::class,'index']);
-Route::post('/plantilla_seguimiento',[PlantillaSeguimientoController::class, 'store']);
-Route::get('/plantilla_seguimiento/{id}',[PlantillaSeguimientoController::class,'show']);
-Route::put('/plantilla_seguimiento/{id}',[PlantillaSeguimientoController::class,'update']);
-Route::delete('/plantilla_seguimiento/{id}',[PlantillaSeguimientoController::class,'destroy']);
+Route::controller(ItemPlantillaController::class)->group(function () {
+    Route::get('/item_plantilla', 'index');
+    Route::post('/item_plantilla', 'store');
+    Route::get('/item_plantilla/{id}', 'show');
+    Route::put('/item_plantilla/{id}', 'update');
+    Route::delete('/item_plantilla/{id}', 'destroy');
+});
 
-Route::get('/item_plantilla',[ItemPlantillaController::class,'index']);
-Route::post('/item_plantilla',[ItemPlantillaController::class, 'store']);
-Route::get('/item_plantilla/{id}',[ItemPlantillaController::class,'show']);
-Route::put('/item_plantilla/{id}',[ItemPlantillaController::class,'update']);
-Route::delete('/item_plantilla/{id}',[ItemPlantillaController::class,'destroy']);
+Route::controller(TareaController::class)->group(function () {
+    Route::get('/tarea', 'index');
+    Route::post('/tarea', 'store');
+    Route::get('/tarea/{id}', 'show');
+    Route::put('/tarea/{id}', 'update');
+    Route::delete('/tarea/{id}', 'destroy');
+});

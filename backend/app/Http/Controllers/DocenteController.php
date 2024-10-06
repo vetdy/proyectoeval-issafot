@@ -31,19 +31,19 @@ class DocenteController extends Controller
                 'nombre' => 'required|max:32',
                 'apellido' => 'required|max:32',
                 'codigo_sis' => 'required|max:9',
-                'email'=>'required|max:32',
+                'correo'=>'required|max:32',
                 'telefono'=>'required|max:32',
                 'contrasena' => 'required|max:225',
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(['contenido'=>compact($e->errors())], 422);
+            return response()->json(['contenido'=>$e->errors()], 422);
         }
         
         $docente = new Docente();
         $docente ->nombre =$request['nombre'];
         $docente ->apellido =$request['apellido'];
         $docente ->codigo_sis =$request['codigo_sis'];
-        $docente ->email=$request['email'];
+        $docente ->correo=$request['correo'];
         $docente ->telefono=$request['telefono'];
         $docente ->id_rol='1';// el usuario docente tiene id 1
         $docente ->contrasena=bcrypt($request['contrasena']);
@@ -84,7 +84,7 @@ class DocenteController extends Controller
         
             $docente = Docente::find($id);
             if ($docente== null){
-                return response()->json(['contenido'=>'no se encontro el id'],200);
+                return response()->json(['contenido'=>'no se encontro el id'],404);
             }else{
                 $docente->update($request->all());
                 return response()->json(['contenido'=>'se actualizo con exito'],200);

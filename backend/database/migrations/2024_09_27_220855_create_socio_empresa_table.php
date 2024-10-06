@@ -28,6 +28,6 @@ class CreateSocioEmpresaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('socio_empresa');
+        Schema::dropIfExists('socio_empresas');
     }
 }

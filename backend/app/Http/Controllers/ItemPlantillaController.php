@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item_plantilla;
+use Illuminate\Cache\Repository;
 use Illuminate\Http\Request;
 
 class ItemPlantillaController extends Controller
@@ -15,7 +16,7 @@ class ItemPlantillaController extends Controller
     public function index()
     {
         $item_plantilla=Item_plantilla::all();
-        return response()->json(['mensaje',compact('item_plantilla')]);
+        return response()->json(['contenido'=>compact('item_plantilla')],200);
     }
 
     /**
@@ -33,9 +34,9 @@ class ItemPlantillaController extends Controller
             ]);
             $item_plantilla=Item_plantilla::create($request->all());
         } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json($e->errors(), 422);
+            return response()->json(['contenido'=>$e->errors()], 422);
         }
-        return response()->json(['mensaje',compact('item_plantilla')]);
+        return response()->json(['contenido'=>compact('item_plantilla')],200);
     }
 
     /**
@@ -47,7 +48,7 @@ class ItemPlantillaController extends Controller
     public function show($id)
     {
         $item_plantilla=Item_plantilla::find($id);
-        return response()->json(['mensaje',compact('item_plantilla')]);
+        return response()->json(['contenido'=>compact('item_plantilla')],200);
     }
 
     /**
@@ -65,8 +66,12 @@ class ItemPlantillaController extends Controller
         
         ]);
         $item_plantilla=Item_plantilla::find($id);
-        $item_plantilla->update($request->all());
-        return response()->json(['mensaje','se actualizo la item plantilla']);
+        if($item_plantilla){
+            $item_plantilla->update($request->all());
+            return response()->json(['contenido'=>'se actualizo la item plantilla'],200);
+        }else{
+            return response()->json(['contenido'=>'id no encontrado'],404);
+        }
     }
 
     /**
@@ -78,7 +83,11 @@ class ItemPlantillaController extends Controller
     public function destroy($id)
     {
         $item_plantilla=Item_plantilla::find($id);
-        $item_plantilla->delete();
-        return response()->json(['mensaje','eliminado con exito']);
+        if($item_plantilla){
+            $item_plantilla->delete();
+            return response()->json(['contenido'=>'eliminado con exito'],200);
+        }else{
+            return response()->json(['contenido'=>'no existe el item plantilla'],404);
+        }
     }
 }

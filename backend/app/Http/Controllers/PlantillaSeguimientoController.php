@@ -89,6 +89,10 @@ class PlantillaSeguimientoController extends Controller
     {
         $plantilla_seguimiento=Plantilla_seguimiento::find($id);
         $plantilla_seguimiento->delete();
-        return response()->json(['contenido'=>'eliminado con exito'],200);
+        if ($plantilla_seguimiento){
+            return response()->json(['contenido'=>'eliminado con exito'],200);
+        }else{
+            return response()->json(['contenido'=>'no existe la plantilla seguimiento'],404);
+        }
     }
 }
