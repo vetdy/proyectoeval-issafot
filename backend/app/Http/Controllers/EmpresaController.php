@@ -170,7 +170,7 @@ class EmpresaController extends Controller
         $ruta='public/imagenes_empresa/'.$imageName;
         
         $rutaPublica=Storage::put($ruta,$imageData);
-        return $rutaPublica;
+        return $ruta;
 
     }
 }
