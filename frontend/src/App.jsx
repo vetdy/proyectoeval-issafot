@@ -13,8 +13,8 @@ function App() {
                 <Route path="/mi-empresa/registro" 
                     element={<paginas.RegistroEmpresa />}
                 ></Route>
-                <Route path="/registrar/docente" 
-                    element={<paginas.RegistroDocente />}
+                <Route path="/registrar/docentes" 
+                    element={<paginas.RegistroDocentes />}
                 ></Route>
                 <Route path="/em-registradas/EmpresasRegistradas" 
                     element={<paginas.EmpresasRegistradas />}

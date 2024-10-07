@@ -1,9 +1,10 @@
 import EmpresasRegistradas from "./EmpresasRegistradas";
-import RegistroDocente from "./RegistroDocente";
+import RegistroDocentes from "./RegistroDocentes";/* EXPORTAR OMPONENTE DE LAS PAGINAS */
 import RegistroEmpresa from "./RegistroEmpresa";
+
 
 export {
     EmpresasRegistradas,
-    RegistroDocente,
+    RegistroDocentes,
     RegistroEmpresa
 }
