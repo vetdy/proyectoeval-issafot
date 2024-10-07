@@ -47,4 +47,9 @@
     font-weight: bold;
     
   }
-  
+
+
+.text-shadow{
+    text-shadow:  5px 5px 5px hsla(0, 0%, 0%, 0.25);
+}
+

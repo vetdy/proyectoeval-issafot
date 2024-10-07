@@ -1,21 +1,28 @@
 import { Routes, Route } from "react-router-dom"
-import Header from "@src/componentes/Header"
-import menusRutas from "@src/config/menusRutas"
-import Navbar from "@src/componentes/navegacion/Navbar"
-import RegistroEmpresa from "@src/paginas/RegistroEmpresa"
-import RegistroDocente from "@src/paginas/RegistroDocente"
-import EmpresasRegistradas from "@src/paginas/EmpresasRegistradas"
+
+import { Header, Navbar } from "./componentes/navegacion"
+import * as paginas from "./paginas"
+import menus from "./config/menus"
+
 
 function App() {
 
     return (
         <>
             <Header />
-            <Navbar menuReferencia={menusRutas.estudiante}></Navbar>
+
+            <Navbar menuReferencia={menus.estudiante}></Navbar>
             <Routes>
-                <Route path="/mi-empresa/registro" element={<RegistroEmpresa />}></Route>
-                <Route path="/registrar/docente" element={<RegistroDocente />}></Route>
-                <Route path="/em-registradas/EmpresasRegistradas" element={<EmpresasRegistradas />}></Route>
+                <Route path="/mi-empresa/registro" 
+                    element={<paginas.RegistroEmpresa />}
+                ></Route>
+                <Route path="/registrar/docentes" 
+                    element={<paginas.RegistroDocentes />}
+                ></Route>
+                <Route path="/em-registradas/EmpresasRegistradas" 
+                    element={<paginas.EmpresasRegistradas />}
+                ></Route>
+
 
             </Routes>
             
