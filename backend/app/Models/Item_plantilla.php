@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class item_plantilla extends Model
+class Item_plantilla extends Model
 {
     use HasFactory;
     protected $fillable=['titulo','fecha_revision','hora_revision',];

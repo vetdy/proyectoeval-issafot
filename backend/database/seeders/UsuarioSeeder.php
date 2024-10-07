@@ -14,6 +14,7 @@ class UsuarioSeeder extends Seeder
      */
     public function run()
     {
+        //docentes
         DB::table('usuarios')->insert([
             [
                 'nombre'=>'juan',
@@ -41,8 +42,25 @@ class UsuarioSeeder extends Seeder
                 'telefono'=>'0931263',
                 'contrasena'=>'passwords3',
                 'id_rol'=>'1'
+            ],
+            [
+                'nombre'=>'prueba',
+                'apellido'=>'registro empresa',
+                'codigo_sis'=>'96274789',
+                'correo'=>'oososoad2@gmail.com',
+                'telefono'=>'6304567',
+                'contrasena'=>'password12',
+                'id_rol'=>'2'
+            ],
+            [
+                'nombre'=>'prueba2',
+                'apellido'=>'empresa',
+                'codigo_sis'=>'96674789',
+                'correo'=>'oolosdasad2@gmail.com',
+                'telefono'=>'63042673',
+                'contrasena'=>'passworl12',
+                'id_rol'=>'2'
             ]
-
         ]);
     }
 }
