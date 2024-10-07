@@ -34,7 +34,7 @@ class EmpresaController extends Controller
                 'nombre_largo'=>'required|max:128|unique:empresas',
                 'telefono'=>'required|max:64',
                 'correo'=>'required|max:64',
-                'id_usuario'=>'required|integer',
+                'id_usuario'=>'required|integer|unique:socio_empresas',
                 'imagen' => [
                     'required',
                     'string'
@@ -97,12 +97,11 @@ class EmpresaController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nombre_corto'=>'nullable|max:64',
-            'nombre_largo'=>'nullable|max:64',
+            'nombre_corto'=>'nullable|max:64|unique:empresa',
+            'nombre_largo'=>'nullable|max:64|unique:empresa',
             'telefono'=>'nullable|max:64',
             'correo'=>'nullable|max:64',
             'url_logo'=>'nullable|max:64',
-            'id_representante_legal'=>'nullable|exists:socio_empresa,id'
         ]);
         $empresa=Empresa::find($id);
         if ($empresa){
