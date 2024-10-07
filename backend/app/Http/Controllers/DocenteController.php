@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Docente;
+/**
+* @OA\Info(title="API Docente", version="1.0")
+*
+* @OA\Server(url="http://127.0.0.1:8000")
+*/
 class DocenteController extends Controller
 {
     /**
@@ -11,18 +16,46 @@ class DocenteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    /**
+     * @OA\Get(
+     *     path="/api/docente",
+     *     summary="Obtiene una lista de los docentes",
+     *     tags={"Docentes"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de docentes",
+     *     )
+     * )
+     */
     public function index()
     {
         
-        $docentes=Docente::all();
+        $docentes=Docente::where('id_rol',1)->get();
         return response()->json(['contenido'=>compact('docentes')],200);
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @OA\Post(
+     *     path="/api/docente",
+     *     summary="Crear un nuevo docente",
+     *     tags={"Docentes"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"nombre","apellido","codigo_sis", "correo","telefono","contrasena"},
+     *             @OA\Property(property="nombre", type="string", example="Juan"),
+     *             @OA\Property(property="apellido", type="string", example="Marcos"),
+     *             @OA\Property(property="codigo_sis", type="string", example="202503657"),
+     *             @OA\Property(property="correo", type="string", example="juan@correo.com"),
+     *             @OA\Property(property="telefono", type="string", example="4307845"),
+     *             @OA\Property(property="contrasena", type="string", example="password"),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Docente creado con éxito"
+     *     )
+     * )
      */
     public function store(Request $request)
     {
