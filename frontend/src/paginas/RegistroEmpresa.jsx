@@ -15,6 +15,7 @@ function RegistroEmpresa(){
     });
     const [logoEmpresa, setLogoEmpresa] = useState(undefined);
     const [errores, setErrores] = useState({});
+    const [enviando, setEnviando] = useState(false);
 
     const formatosValidosImagen = ["image/png", "image/jpeg", "image/jpg"];
     const pesoMaximoImagen = 1048576;
@@ -87,6 +88,7 @@ function RegistroEmpresa(){
 
     const enviarRegistro = async (ev) =>{
         ev.preventDefault();
+        setEnviando(true);
 
         const nuevosCampos = truncarCampos();
         setCampos(nuevosCampos);
@@ -96,9 +98,10 @@ function RegistroEmpresa(){
 
         if(! Object.values(nuevosErrores).every(e => e === "") ){
             console.log("Hay errores");  //<======= MOSTRAR MSG ERROR
+            setEnviando(false);
             return;
         }
-
+        
         const id_rep = "4";   //<========= Debe cambiar cuando hayan usuarios
         const imagenBase64 = await base64(logoEmpresa);
         const datos = {
@@ -111,12 +114,14 @@ function RegistroEmpresa(){
         }
         //console.log(datos);
         const respuesta = await registrarEmpresa(datos);
+        setEnviando(false);
         console.log(respuesta);
     }
 
     return(
         <Formulario tituloFormulario="Registro de Empresa" nombreBoton="Enviar"
             encType="multipart/form-data" onSubmit={enviarRegistro}
+            enviando={enviando}
         >
             <div className="row m-auto">
                 <div className="col-md-6 py-2 d-flex flex-column">
