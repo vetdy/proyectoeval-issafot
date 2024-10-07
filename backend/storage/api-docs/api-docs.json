@@ -1,0 +1,90 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Docente",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000"
+        }
+    ],
+    "paths": {
+        "/api/docente": {
+            "get": {
+                "tags": [
+                    "Docentes"
+                ],
+                "summary": "Obtiene una lista de los docentes",
+                "operationId": "333fee026ff9e6356de198172c1cbd2c",
+                "responses": {
+                    "200": {
+                        "description": "Lista de docentes"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Docentes"
+                ],
+                "summary": "Crear un nuevo docente",
+                "operationId": "6f96b78084ca67a74cdaf2f6463a5a06",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre",
+                                    "apellido",
+                                    "codigo_sis",
+                                    "correo",
+                                    "telefono",
+                                    "contrasena"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Juan"
+                                    },
+                                    "apellido": {
+                                        "type": "string",
+                                        "example": "Marcos"
+                                    },
+                                    "codigo_sis": {
+                                        "type": "string",
+                                        "example": "202503657"
+                                    },
+                                    "correo": {
+                                        "type": "string",
+                                        "example": "juan@correo.com"
+                                    },
+                                    "telefono": {
+                                        "type": "string",
+                                        "example": "4307845"
+                                    },
+                                    "contrasena": {
+                                        "type": "string",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Docente creado con éxito"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Docentes",
+            "description": "Docentes"
+        }
+    ]
+}

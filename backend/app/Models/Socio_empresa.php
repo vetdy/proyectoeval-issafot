@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Usuario;
 
-class socio_empresa extends Model
+class Socio_empresa extends Model
 {
     use HasFactory;
     protected $primaryKey = 'id';
