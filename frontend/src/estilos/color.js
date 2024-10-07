@@ -1,4 +1,6 @@
+
 //Colores Personalizados de Fondo
+
 const F_PRIMARIO = "bg-eva-primary";
 const F_SECUNDARIO = "bg-eva-secondary";
 const F_EXITO = "bg-eva-success";
@@ -8,7 +10,9 @@ const F_INFO = "bg-eva-info";
 const F_CLARO = "bg-eva-light";
 const F_OSCURO = "bg-eva-dark";
 
+
 //Colores Personalizados de Texto
+
 const T_PRIMARIO = "text-eva-primary";
 const T_SECUNDARIO = "text-eva-secondary";
 const T_EXITO = "text-eva-success";
@@ -20,6 +24,7 @@ const T_OSCURO = "text-eva-dark";
 
 const color = {
     navbar:{
+
         fondo: F_OSCURO,
         texto: T_CLARO,
         subfondo: "",
@@ -31,6 +36,7 @@ const color = {
         fondoCuerpo: "bg-light",
         estiloBoton: "btn-eva-secondary",
         textoBoton: "",
+
     },
     fondo:{
         primario:F_PRIMARIO,

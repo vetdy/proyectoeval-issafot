@@ -30,7 +30,26 @@ class EmpresaSeeder extends Seeder
             'telefono'=>'4567542',
             'contrasena'=>'passwords21',
             'id_rol'=>'2'
-        ]];
+        ],
+        [
+            'nombre'=>'marcos',
+            'apellido'=>'millanes',
+            'codigo_sis'=>'414146429',
+            'correo'=>'e123ail12@gmail.com',
+            'telefono'=>'4589542',
+            'contrasena'=>'passwords211',
+            'id_rol'=>'2'
+        ],
+        [
+            'nombre'=>'mariaa',
+            'apellido'=>'jaldines',
+            'codigo_sis'=>'124146899',
+            'correo'=>'passl12@gmail.com',
+            'telefono'=>'4519542',
+            'contrasena'=>'password212',
+            'id_rol'=>'2'
+        ]
+    ];
         foreach ($usuarios as $usuario) {
             $ids[] = DB::table('usuarios')->insertGetId($usuario);
         }
@@ -73,6 +92,11 @@ class EmpresaSeeder extends Seeder
             [
                 'id_empresa'=>$ids2[1],
             ]);
-
+        DB::table('socio_empresas')->insert([
+            ['id_usuario'=>$ids[2],
+            'id_empresa'=>$ids2[0]],
+            ['id_usuario'=>$ids[3],
+            'id_empresa'=>$ids2[0]
+            ]]);
     }
 }

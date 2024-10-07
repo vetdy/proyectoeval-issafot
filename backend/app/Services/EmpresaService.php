@@ -3,7 +3,7 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Storage;
 
-class MiServicio
+class EmpresaService
 {
     /**
      * Obtiene la extensión de la imagen según su tipo.
@@ -11,7 +11,7 @@ class MiServicio
      * @param string $type
      * @return string
      */
-    public function getImageExtension($type)
+    private function getImageExtension($type)
     {
         switch ($type) {
             case 'jpeg':

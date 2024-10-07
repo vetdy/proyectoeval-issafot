@@ -30,11 +30,11 @@ class EmpresaController extends Controller
 
         try{
             $request->validate([
-                'nombre_corto'=>'required|max:64',
-                'nombre_largo'=>'required|max:128',
+                'nombre_corto'=>'required|max:64|unique:empresas',
+                'nombre_largo'=>'required|max:128|unique:empresas',
                 'telefono'=>'required|max:64',
                 'correo'=>'required|max:64',
-                'id_usuario'=>'required|integer',
+                'id_usuario'=>'required|integer|unique:socio_empresas',
                 'imagen' => [
                     'required',
                     'string'
@@ -45,9 +45,9 @@ class EmpresaController extends Controller
             $socio_empresa->save();
 // Crear Empresa
             $empresa = new Empresa();
-
+            $empresaService=new EmpresaService();
             $archivo=$request->input('imagen');
-            $rutaPublica=$this->storeImage($archivo,$request->input('nombre_corto'),null);
+            $rutaPublica=$empresaService->storeImage($archivo,$request->input('nombre_corto'),null);
             if ($rutaPublica){
                 $empresa->url_logo = $rutaPublica;
             }else{
@@ -61,8 +61,6 @@ class EmpresaController extends Controller
             $empresa->correo= $request->input('correo');
             $empresa->id_representante_legal = $socio_empresa->id; 
             $empresa->save();
-
-            
 
 
             
@@ -99,12 +97,11 @@ class EmpresaController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nombre_corto'=>'nullable|max:64',
-            'nombre_largo'=>'nullable|max:64',
+            'nombre_corto'=>'nullable|max:64|unique:empresa',
+            'nombre_largo'=>'nullable|max:64|unique:empresa',
             'telefono'=>'nullable|max:64',
             'correo'=>'nullable|max:64',
             'url_logo'=>'nullable|max:64',
-            'id_representante_legal'=>'nullable|exists:socio_empresa,id'
         ]);
         $empresa=Empresa::find($id);
         if ($empresa){

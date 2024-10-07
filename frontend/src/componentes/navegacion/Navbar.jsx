@@ -1,6 +1,8 @@
 import { useState, useEffect} from "react";
 import { Link, useLocation } from "react-router-dom";
+
 import color from "../../estilos/color";
+
 
 function Navbar({menuReferencia={}}){    
     const estadoInicialMenus = Object.fromEntries(Object.keys(menuReferencia).map(item => [item, false]));
@@ -49,7 +51,9 @@ function Navbar({menuReferencia={}}){
     const NavMenu = ({children, id, nombre}) => {
         return(
             <li className="nav-item dropdown">
+
             <button className={`nav-link dropdown-toggle ${color.navbar.texto}`} onClick={() => controlMenu(id)}
+
             >
                 {nombre}
             </button>

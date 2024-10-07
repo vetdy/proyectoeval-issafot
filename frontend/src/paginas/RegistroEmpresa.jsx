@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import logoDefecto from "/logo.png"
 import { Input, Formulario } from "../componentes/formularios";
@@ -172,6 +173,7 @@ function RegistroEmpresa(){
                 <input type="hidden" name="id_representante_legal" value="Usuario"></input>
             </div>
         </Formulario>
+
     );
 }
 
