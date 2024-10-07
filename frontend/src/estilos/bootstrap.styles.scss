@@ -1,0 +1,22 @@
+@import "./node_modules/bootstrap/scss/functions";
+@import "./node_modules/bootstrap/scss/variables";
+@import "./node_modules/bootstrap/scss/mixins";
+//Primario#BEC5D3
+//Secundario #506278
+//Fondo #E2E1DC
+
+$custom-colors: (
+    "eva-primary": rgb(4, 140, 220),
+    "eva-secondary": rgb(80, 98, 120),
+    "eva-success": rgb(42, 162, 66),
+    "eva-danger": rgb(200, 24, 30),
+    "eva-warning": rgb(240, 188, 54),
+    "eva-info": rgb(202, 208, 210),
+    "eva-light": rgb(238, 238, 232),
+    "eva-dark": rgb(42, 48, 62)
+);
+    
+// Unir los mapas
+$theme-colors: map-merge($theme-colors, $custom-colors);
+  
+@import "./node_modules/bootstrap/scss/bootstrap";
