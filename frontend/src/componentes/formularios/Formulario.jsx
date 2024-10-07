@@ -1,4 +1,4 @@
-import color from "@src/estilos/color";
+import color from "../../estilos/color";
 
 function Formulario({children, tituloFormulario="", nombreBoton="", ...props}){
     return(

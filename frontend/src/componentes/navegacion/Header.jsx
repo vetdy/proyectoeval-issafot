@@ -1,5 +1,5 @@
-import {IconoLogo, IconoCampana, IconoUsuario} from "../iconos"
-import color from "@src/estilos/color"
+import {IconoLogo, IconoCampana, IconoUsuario} from "../iconos";
+import color from "../../estilos/color";
 
 function Boton({children}){
 

@@ -1,6 +1,6 @@
 import { useState, useEffect} from "react";
 import { Link, useLocation } from "react-router-dom";
-import color from "@src/estilos/color";
+import color from "../../estilos/color";
 
 function Navbar({menuReferencia={}}){    
     const estadoInicialMenus = Object.fromEntries(Object.keys(menuReferencia).map(item => [item, false]));
