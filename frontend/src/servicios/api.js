@@ -1,41 +1,62 @@
 import { backend as rutas } from "../rutas"
 const URL_BACKEND = import.meta.env.VITE_SERVIDOR_BACKEND_URL;
 
-export const solicitud = async (url = URL_BACKEND, metodo = "get", datosJSON) => {
+export const solicitud = async (url = URL_BACKEND, metodo = "get", datos={}) => {
     try{
-        const datos = {};
+        const trama = {};
 
         const headers = {
             "Content-Type": "application/json",
             "Accept": "application/json",
         }
 
-        datos.method = metodo;
-        datos.headers = headers;
+        trama.method = metodo;
+        trama.headers = headers;
 
-        if(datosJSON){
-            datos.body = JSON.stringify(datosJSON);
+        if(Object.keys(datos).length){
+            trama.body = JSON.stringify(datos);
         }
 
-        const respuestaBackend = await fetch(url, datos);
+        const respuesta = await fetch(url, trama);
 
-        if(! respuestaBackend.ok ){
-            console.error(`Error en backend: ${respuestaBackend.status}: ${respuestaBackend.statusText}`);
+        const tipoRespuesta = respuesta.headers.get("content-type");
+
+        if(! tipoRespuesta.includes("application/json") ){
+            console.error(`Error del tipo de respuesta del backend: 
+                Content-Type: ${tipoRespuesta}
+            `);
             return {
-                status: respuestaBackend.status,
-                message: respuestaBackend.statusText,
+                status: 501,
+                message: "El servicio no esta implementado."
+            };
+        }
+        
+        const contenido = await respuesta.json();
+
+        if(! respuesta.ok && respuesta.status !== 422){
+            console.error(`Error en backend: ${respuesta.status}: ${respuesta.statusText}`);
+            return {
+                status: respuesta.status,
+                message: respuesta.statusText,
+            };
+        }
+        
+        if(! contenido.hasOwnProperty("contenido") ){
+            console.error(`Error en backend: Se devolvio una respuesta sin contenido`);
+            return {
+                status: 404,
+                message: "No se encuentra el contenido.",
             };
         }
 
-        const resultado = await respuestaBackend.json();
         return {
-            status: respuestaBackend.status,
-            message: resultado.contenido,
+            status: respuesta.status,
+            message: contenido.contenido,
         };
     }
     catch(error){
         if(error instanceof SyntaxError){
-            console.error(`Los datos json no son validos: ${datosJSON}`);
+            console.error(`Los datos json no son validos: ${datos}`);
             return {
                 status: 422,
                 message: "Los datos son invalidos.",
@@ -58,8 +79,8 @@ export const solicitud = async (url = URL_BACKEND, metodo = "get", datosJSON) =>
     }
 }
 
-export const registrarEmpresa = async (datosFormulario={}) => {
-    const respuesta = await solicitud(rutas.REGISTRO_EMPRESA, "POST", datosFormulario);
+export const registrarEmpresa = async (datos={}) => {
+    const respuesta = await solicitud(rutas.REGISTRO_EMPRESA, "POST", datos);
     return respuesta;
 }
 

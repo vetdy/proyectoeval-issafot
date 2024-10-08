@@ -53,3 +53,42 @@
     text-shadow:  5px 5px 5px hsla(0, 0%, 0%, 0.25);
 }
 
+.modal-show{
+    display: block !important;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.e-control {
+    position: fixed;
+    width: 1.5rem;
+    height: 1.5rem;
+    bottom: 0;
+    background-color: rgb(60, 70, 100);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    place-content: center;
+    margin: auto;
+    user-select: none;
+}
+.e-text {
+    position: fixed;
+    bottom: 0.25rem;
+    left: 1.5rem;
+    font-weight: bold;
+    font-style: italic;
+    color: black;
+    user-select: none;
+    font-size: small;
+}
