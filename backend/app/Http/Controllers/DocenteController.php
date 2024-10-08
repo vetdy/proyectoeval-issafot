@@ -39,15 +39,7 @@ class DocenteController extends Controller
      *     path="/api/docente",
      *     summary="Crear un nuevo docente",
      *     tags={"Docentes"},
-     * @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="ID del docente",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer"
-     *         )
-     *      ),
+     *
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(

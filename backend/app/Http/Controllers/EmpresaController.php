@@ -4,13 +4,26 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Empresa;
 use App\Models\Socio_empresa;
+use Illuminate\Validation\Rule;
 use App\Services\EmpresaService;
+
 class EmpresaController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * @OA\Get(
+     *     path="/api/empresa",
+     *     summary="Obtiene una lista de los docentes",
+     *     tags={"Empresas"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de empresas",
+     *     )
+     * )
      */
     public function index()
     {
@@ -24,6 +37,34 @@ class EmpresaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    /**
+     * @OA\Post(
+     *     path="/api/empresa",
+     *     summary="Crear un nueva empresa",
+     *     tags={"Empresas"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"nombre_corto","nombre_largo","id_usuario", "correo","telefono","imagen"},
+     *             @OA\Property(property="nombre_corto", type="string", example="ISSA"),
+     *             @OA\Property(property="nombre_largo", type="string", example="Inovasion de solucion software amigable"),
+     *             @OA\Property(property="id_usuario", type="string", example="8"),
+     *             @OA\Property(property="correo", type="string", example="ISSA@correo.com"),
+     *             @OA\Property(property="telefono", type="string", example="4305445"),
+     *             @OA\Property(property="imagen", type="string", example="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAABmJLR0QABwAGAAamjb7oAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH6AoICzEL5B0y2gAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAOBSURBVHja7dxPSJt3HMfxd6PEhAiB9bIeViQXD9qDEEVQFi8KIsIiJiz4pxnr2VNHoqzYdEhguoIddhayCutJc1qX4Hr2tECzxGMEc1hYWTFbwWASY/LsMJSu2o5ko7rt84bf5eFLHp7fK+R5kkMutZjNBurCZNIWCEQJRCBKIAJRAhGIEohAlECUQASiBCIQJRCBKIEIRAlECUQgSiACUQIRiBKIQJRAlEAEogQiECUQgSiBCEQJRAlEIEogAlH/RZCV+/cplkqsPnjwp+OBYJAfUyl+ef6c/UKBn58944dEgtuh0KnXqGf2uK9WVymWSvz24gWd164J5E19cfcu8/PzmEwmFhYW6O/vJxwOYzKZCAQCfOB2NzT7cgMDAxQKBSwWCzMzM+d6vc0XHWR0dJRKpcL4+Dg7mQwA6VSKL+/dYyMapVqtNjR73PT167S1tbGxsUFfXx8ul0sgb8pqtVIsFk82+OW8Hk/Ds8f5fD7K5TLLy8uUy2Wmpqb4+MYNvo5E9JF1VtlsFrvdzjePHmGz2f6xWYB3r1zB6XSSTCZJPn3K4uIixWIRr9ere8jrCoVCZLNZPB4PP+VypNJpvovFCASDf2sWIBgI0Nrayvr6OgA7mQyJRAKn08l7V6+ey/U2NTc13b4omz8yMkJXVxfpdJpYLPbHu353l5WVFfL5PIeHh7S0tNDZ2cnw8DA+n49kMkkul6t7FuDzxUX29/f5yO8/OWYAY2NjWK1WNjc33/4mtJjNxkVZkUjEqNVqxtra2l/OxuNxo1arGVtbWw3NTkxMGNVq1ajVameunZ2dc9mDf+0Xw6nJSY6OjnA4HA3NTk9PUygUsFosp9bS0hIOh4MPfT7dQ17t+ydP6O3tPXX8fZeL5uZmSqVS3bM2m42enh4yZzyNAaw9fEilUmFyclKPva/W0dHBt48fE4/HiUaj7O3tMTg4iN/vxzCMk3tNPbOf3rqF3W4nlUqdec7d3V2y2Szd3d28c/kyv+bzAjlubm4Or9eLy+XC7XZjNps5ODggl8sRDof57M6dumeHhoYwDINoNPra825vb9Pe3s7s7Cyf3Lz51q73kv4mVj8uKoEIRAlEIEogAlECEYgSiBKIQJRABKIEIhAlEIEogSiBCEQJRCBKIAJRAhGIEogSiECUQASiBCIQJRCBKIEogQhECUQgSiACUQL5//U7xBcHwU6U9OAAAAAASUVORK5CYII="),
+     *          
+     *              )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Empresa creada con éxito"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Problemas con los datos ingresados"
+     *     )
+     * )
+     */
     public function store(Request $request)
     {
         
@@ -34,11 +75,15 @@ class EmpresaController extends Controller
                 'nombre_largo'=>'required|max:128|unique:empresas',
                 'telefono'=>'required|max:64',
                 'correo'=>'required|max:64',
-                'id_usuario'=>'required|integer|unique:socio_empresas',
-                'imagen' => [
-                    'required',
-                    'string'
-                ],
+                'id_usuario' => [
+                'required',
+                'integer',
+                'unique:socio_empresas',
+                Rule::exists('usuarios', 'id')->where(function ($query) {
+            $query->where('id_rol', 2);
+        })
+    ],
+                'imagen' => 'required|string',
             ]);
             
           
