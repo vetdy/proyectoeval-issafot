@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Plantilla_seguimiento extends Model
 {
     use HasFactory;
-    protected $fillable=['titulo',];
+    protected $fillable=['titulo','fecha_revision','hora_revision',"id_empresa"];
 
-    public function empresa(){
+    public function id_empresa(){
         return $this->hasOne(Empresa::class);
     }
 }

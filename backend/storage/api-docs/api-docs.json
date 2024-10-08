@@ -549,6 +549,182 @@
                     }
                 }
             }
+        },
+        "/api/plantilla_seguimiento": {
+            "get": {
+                "tags": [
+                    "Plantillas Seguimientos"
+                ],
+                "summary": "Obtiene una lista de los Plantillas seguimientos",
+                "operationId": "bc20c960ffe177596a3f53071cf81823",
+                "responses": {
+                    "200": {
+                        "description": "Lista de Plantillas seguimientos"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Plantillas Seguimientos"
+                ],
+                "summary": "Crear un nuevo Plantilla Seguimiento",
+                "operationId": "81f939cd9845381c17cff3eddbd81acd",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "titulo",
+                                    "fecha_revision",
+                                    "hora_revision",
+                                    "id_empresa"
+                                ],
+                                "properties": {
+                                    "titulo": {
+                                        "type": "string",
+                                        "example": "Item 1"
+                                    },
+                                    "fecha_revision": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024/8/10)"
+                                    },
+                                    "hora_revision": {
+                                        "type": "time",
+                                        "example": "18:00"
+                                    },
+                                    "id_empresa": {
+                                        "type": "string",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Plantilla Seguimiento creado con éxito"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            }
+        },
+        "/api/plantilla_seguimiento/{id}": {
+            "get": {
+                "tags": [
+                    "Plantillas Seguimientos"
+                ],
+                "summary": "Mostar un Plantilla Seguimiento",
+                "operationId": "58663f0da467aa23f0d31acc11ac9059",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del Plantilla Seguimiento",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos del Plantilla Seguimiento"
+                    },
+                    "404": {
+                        "description": "Plantilla Seguimiento no encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Plantillas Seguimientos"
+                ],
+                "summary": "Actualizar un Plantilla Seguimiento",
+                "operationId": "bb07d77361a64b77085d1f2b4b567e81",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del Plantilla Seguimiento",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "titulo": {
+                                        "type": "string",
+                                        "example": "Item 1"
+                                    },
+                                    "fecha_revision": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024/8/10)"
+                                    },
+                                    "hora_revision": {
+                                        "type": "time",
+                                        "example": "18:00"
+                                    },
+                                    "id_empresa": {
+                                        "type": "string",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Plantilla Seguimiento actualizado con éxito"
+                    },
+                    "404": {
+                        "description": "Plantilla Seguimiento no encontrado"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Plantillas Seguimientos"
+                ],
+                "summary": "Eliminar un Plantilla Seguimiento",
+                "operationId": "016c49c7c152ff2d27a943ad443e98aa",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del Plantilla Seguimiento",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Plantilla Seguimiento eliminado"
+                    },
+                    "404": {
+                        "description": "Plantilla Seguimiento no encontrado"
+                    }
+                }
+            }
         }
     },
     "tags": [
@@ -563,6 +739,10 @@
         {
             "name": "Item Plantillas",
             "description": "Item Plantillas"
+        },
+        {
+            "name": "Plantillas Seguimientos",
+            "description": "Plantillas Seguimientos"
         }
     ]
 }

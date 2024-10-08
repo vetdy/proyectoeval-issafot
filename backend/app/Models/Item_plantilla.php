@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Item_plantilla extends Model
 {
     use HasFactory;
-    protected $fillable=['titulo','fecha_revision','hora_revision',];
+    protected $fillable=['titulo'];
     public function plantilla_seguimiento(){
         return $this->hasOne(Plantilla_seguimiento::class);
     }
