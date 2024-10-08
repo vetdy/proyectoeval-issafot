@@ -68,7 +68,6 @@ class TareaController extends Controller
             $request->validate(['terminado'=>'required|boolean',
                 'descripcion'=>'required|max:64',
                 'observacion'=>'required|max:255',
-                'terminado'=>'required|boolean',
                 ]);
             $tarea = Tarea::create($request->all());
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -169,7 +168,6 @@ class TareaController extends Controller
             $request->validate(['terminado'=>'required|boolean',
                 'descripcion'=>'required|max:64',
                 'observacion'=>'required|max:255',
-                'terminado'=>'required|boolean',
                 ]);
             }catch (\Illuminate\Validation\ValidationException $e){
                 return response()->json(['contenido'=>$e->errors()], 422);

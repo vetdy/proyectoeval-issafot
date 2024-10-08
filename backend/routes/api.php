@@ -4,10 +4,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DocenteController;
 use App\Http\Controllers\EmpresaController;
+use App\Http\Controllers\ItemPlanificacionController;
 use App\Http\Controllers\ItemPlantillaController;
+use App\Http\Controllers\PlanificacionController;
 use App\Http\Controllers\PlantillaSeguimientoController;
 use App\Http\Controllers\PlantillaController;
 use App\Http\Controllers\TareaController;
+use App\Models\Planificacion;
 use Monolog\Handler\RotatingFileHandler;
 
 /*
@@ -62,4 +65,21 @@ Route::controller(TareaController::class)->group(function () {
     Route::get('/tarea/{id}', 'show');
     Route::put('/tarea/{id}', 'update');
     Route::delete('/tarea/{id}', 'destroy');
+});
+
+
+Route::controller(PlanificacionController::class)->group(function () {
+    Route::get('/planificacion', 'index');
+    Route::post('/planificacion', 'store');
+    Route::get('/planificacion/{id}', 'show');
+    Route::put('/planificacion/{id}', 'update');
+    Route::delete('/planificacion/{id}', 'destroy');
+});
+
+Route::controller(ItemPlanificacionController::class)->group(function () {
+    Route::get('/item_planificacion', 'index');
+    Route::post('/item_planificacion', 'store');
+    Route::get('/item_planificacion/{id}', 'show');
+    Route::put('/item_planificacion/{id}', 'update');
+    Route::delete('/item_planificacion/{id}', 'destroy');
 });

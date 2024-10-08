@@ -394,6 +394,162 @@
                 }
             }
         },
+        "/api/item_planificacion": {
+            "get": {
+                "tags": [
+                    "Item planificaciones"
+                ],
+                "summary": "Obtiene una lista de items planilla",
+                "operationId": "8a07954b1590e39aa1ef75e9c3b945aa",
+                "responses": {
+                    "200": {
+                        "description": "Lista de de items planilla"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Item planificaciones"
+                ],
+                "summary": "Crear un nuevo Item planificacion",
+                "operationId": "bccf22a04060e2b9ccb04b00ed4802b4",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "titulo",
+                                    "id_planificacion"
+                                ],
+                                "properties": {
+                                    "titulo": {
+                                        "type": "string",
+                                        "example": "Diseño de base de datos"
+                                    },
+                                    "id_planificacion": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Item planificacion creado con éxito"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            }
+        },
+        "/api/item_planificacion/{id}": {
+            "get": {
+                "tags": [
+                    "Item planificaciones"
+                ],
+                "summary": "Mostar un item planificacion",
+                "operationId": "7835a07b6409312df723330ad825852e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del item planificacion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos del item planificacion"
+                    },
+                    "404": {
+                        "description": "item planificacion no encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Item planificaciones"
+                ],
+                "summary": "Actualizar un item planilla",
+                "operationId": "605d567fbb7b60782a1cc6ad55309afe",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del item planificacion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "titulo": {
+                                        "type": "string",
+                                        "example": "Diseño de base de datos"
+                                    },
+                                    "id_planificacion": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "item planificacion actualizado con éxito"
+                    },
+                    "404": {
+                        "description": "item planificacion no encontrado"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Item planificaciones"
+                ],
+                "summary": "Eliminar un item planificacion",
+                "operationId": "9037d814f8e1369ac2e9f8c3846d76c0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del item planificacion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "item planificacion eliminado"
+                    },
+                    "404": {
+                        "description": "item planificacion no encontrado"
+                    }
+                }
+            }
+        },
         "/api/item_plantilla": {
             "get": {
                 "tags": [
@@ -546,6 +702,184 @@
                     },
                     "404": {
                         "description": "item plantilla no encontrado"
+                    }
+                }
+            }
+        },
+        "/api/planificacion": {
+            "get": {
+                "tags": [
+                    "Planificaciones"
+                ],
+                "summary": "Obtiene una lista de los Plantillas seguimientos",
+                "operationId": "df342a1d92f6617b5d7675823cedab72",
+                "responses": {
+                    "200": {
+                        "description": "Lista de Planificaciones"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Planificaciones"
+                ],
+                "summary": "Crear un nuevo Planificacion",
+                "operationId": "0ac2b2b2af4ed0085f0a7a3550994053",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "titulo",
+                                    "fecha_inicio",
+                                    "fecha_fin",
+                                    "id_proyecto_empresa"
+                                ],
+                                "properties": {
+                                    "titulo": {
+                                        "type": "string",
+                                        "example": "Item 1"
+                                    },
+                                    "fecha_inicio": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024/10/1"
+                                    },
+                                    "fecha_fin": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024/10/29"
+                                    },
+                                    "id_proyecto_empresa": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Planificacion creada con éxito"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            }
+        },
+        "/api/planificacion/{id}": {
+            "get": {
+                "tags": [
+                    "Planificaciones"
+                ],
+                "summary": "Mostar un Planificacion",
+                "operationId": "d68d4ace74dc8a308be94982a1bfeed8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la Planificacion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos de la Planificacion"
+                    },
+                    "404": {
+                        "description": "Planificacion no encontrada"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Planificaciones"
+                ],
+                "summary": "Actualizar un Planificacion",
+                "operationId": "723e98e928b6f1667991215c6fe8b73b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la Planificacion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "titulo": {
+                                        "type": "string",
+                                        "example": "Item 1"
+                                    },
+                                    "fecha_inicio": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024/10/1"
+                                    },
+                                    "fecha_fin": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024/10/29"
+                                    },
+                                    "id_proyecto_empresa": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Planificacion actualizada con éxito"
+                    },
+                    "404": {
+                        "description": "Planificacion no encontrada"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Planificaciones"
+                ],
+                "summary": "Eliminar una Planificacion",
+                "operationId": "ff2c0e4d58a367b6809c3d43927c5569",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la Planificacion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Planificacion eliminada "
+                    },
+                    "404": {
+                        "description": "Planificacion no encontrada"
                     }
                 }
             }
@@ -902,8 +1236,16 @@
             "description": "Empresas"
         },
         {
+            "name": "Item planificaciones",
+            "description": "Item planificaciones"
+        },
+        {
             "name": "Item Plantillas",
             "description": "Item Plantillas"
+        },
+        {
+            "name": "Planificaciones",
+            "description": "Planificaciones"
         },
         {
             "name": "Plantillas Seguimientos",

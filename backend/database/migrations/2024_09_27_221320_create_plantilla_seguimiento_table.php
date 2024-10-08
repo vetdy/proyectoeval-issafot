@@ -30,6 +30,6 @@ class CreatePlantillaSeguimientoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('plantilla_seguimiento');
+        Schema::dropIfExists('plantilla_seguimientos');
     }
 }
