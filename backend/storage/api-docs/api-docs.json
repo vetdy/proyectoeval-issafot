@@ -725,6 +725,171 @@
                     }
                 }
             }
+        },
+        "/api/tarea": {
+            "get": {
+                "tags": [
+                    "Tareas"
+                ],
+                "summary": "Obtiene una lista de los Tareas",
+                "operationId": "8a9da67d21c6d81746b7c7bb874441f0",
+                "responses": {
+                    "200": {
+                        "description": "Lista de Tareas"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Tareas"
+                ],
+                "summary": "Crear un nuevo Tarea",
+                "operationId": "b8df42e76d2a339d50ff70a384181e2a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "terminado",
+                                    "descripcion",
+                                    "observacion"
+                                ],
+                                "properties": {
+                                    "terminado": {
+                                        "type": "boolean",
+                                        "example": "true"
+                                    },
+                                    "descripcion": {
+                                        "type": "string",
+                                        "example": "Presentar la base de datos"
+                                    },
+                                    "observacion": {
+                                        "type": "string",
+                                        "example": "no llega a cumplir los criterios de la hu"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Tarea creada con éxito"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            }
+        },
+        "/api/tarea/{id}": {
+            "get": {
+                "tags": [
+                    "Tareas"
+                ],
+                "summary": "Mostar un Tarea",
+                "operationId": "651e88b0ad36d4c0b9033da4ffd57fea",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la Tarea",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos de la Tarea"
+                    },
+                    "404": {
+                        "description": "Tarea no encontrada"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Tareas"
+                ],
+                "summary": "Actualizar un Tarea",
+                "operationId": "72ca2b434ff72c239bd44de32871068e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la Tarea",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "terminado": {
+                                        "type": "boolean",
+                                        "example": "true"
+                                    },
+                                    "descripcion": {
+                                        "type": "string",
+                                        "example": "Presentar la base de datos"
+                                    },
+                                    "observacion": {
+                                        "type": "string",
+                                        "example": "no llega a cumplir los criterios de la hu"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Tarea actualizada con éxito"
+                    },
+                    "404": {
+                        "description": "Tarea no encontrada"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Tareas"
+                ],
+                "summary": "Eliminar una Tarea",
+                "operationId": "c54d3bf73ccd5dabc96cee71726b9d7a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la Tarea",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tarea eliminada "
+                    },
+                    "404": {
+                        "description": "Tarea no encontrada"
+                    }
+                }
+            }
         }
     },
     "tags": [
@@ -743,6 +908,10 @@
         {
             "name": "Plantillas Seguimientos",
             "description": "Plantillas Seguimientos"
+        },
+        {
+            "name": "Tareas",
+            "description": "Tareas"
         }
     ]
 }
