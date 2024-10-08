@@ -163,7 +163,7 @@ function RegistroEmpresa(){
                     ></Input>
 
                     <Input name="telefono" placeholder="Teléfono" 
-                        type="text"
+                        type="number"
                         value={campos.telefono}
                         error={errores.hasOwnProperty("telefono") && errores.telefono}
                         onChange={actualizarCampo}

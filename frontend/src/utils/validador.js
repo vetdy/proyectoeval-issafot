@@ -51,11 +51,16 @@ export const nombreEmpresa = (nombre = "", n=0, m=0) =>{
 export const telefonoEmpresa = (telefono = "", n=7, m=12) =>{
     let error = "";
 
+    const numeros = /^[467]/;
+
     if (! longitud(telefono, n, m) ){
-        error = `Longitud debe ser entre ${n} y ${m} caracteres.`;
+        error = `Longitud debe ser entre ${n} y ${m} digitos.`;
     }
     else if(! numerico(telefono)){
         error = "Solo se admite numeros sin espacios.";
+    }
+    else if (! numeros.test(telefono) ){
+        error = "Los numeros deben comenzar con 4, 6 o 7";
     }
     return error;
 }
@@ -63,8 +68,14 @@ export const telefonoEmpresa = (telefono = "", n=7, m=12) =>{
 export const correoEmpresa = (email = "") =>{
     let error = "";
 
+    const dominios = "@gmail.com @umss.edu";
+    const delimiter = /^[^@]+@/;
+
     if(! correo(email)){
         error = "Ingresa un correo (ej. ejemplo@gmail.com)";
+    }
+    else if(! dominios.includes(email.replace(delimiter, "@")) ){
+        error = `Dominios permitidos: ${dominios}`;
     }
     return error;
 }
