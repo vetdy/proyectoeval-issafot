@@ -43,7 +43,7 @@ export const nombreEmpresa = (nombre = "", n=0, m=0) =>{
         error = `Longitud debe ser entre ${n} y ${m} caracteres.`;
     }
     else if(! alfanumerico(nom) ){
-        error = "Letras y numeros. Un espacio entre palabras.";
+        error = "Letras y números. Un espacio entre palabras.";
     }
     return error;
 }
@@ -54,13 +54,13 @@ export const telefonoEmpresa = (telefono = "", n=7, m=12) =>{
     const numeros = /^[467]/;
 
     if (! longitud(telefono, n, m) ){
-        error = `Longitud debe ser entre ${n} y ${m} digitos.`;
+        error = `Longitud debe ser entre ${n} y ${m} dígitos.`;
     }
     else if(! numerico(telefono)){
-        error = "Solo se admite numeros sin espacios.";
+        error = "Solo se admite números sin espacios.";
     }
     else if (! numeros.test(telefono) ){
-        error = "Los numeros deben comenzar con 4, 6 o 7";
+        error = "Los números validos comienzan 4, 6 o 7";
     }
     return error;
 }
@@ -84,13 +84,13 @@ export const imagenEmpresa = (imagen, formatos=[], peso=0) => {
     let error = "";
 
     if(! archivo(imagen) ){
-        error = "Seleciona un Archivo.";
+        error = "Selecciona un Archivo.";
     }
     else if(! formatos.includes(imagen.type) ){
         error = "Formato de imagen: .jpg, .png";
     }
     else if(imagen.size > peso){
-        error = `La imagen es de maximo ${peso / 1048576 }mb.`;
+        error = `La imagen es de máximo ${peso / 1048576 }mb.`;
     } 
     return error;
 }
