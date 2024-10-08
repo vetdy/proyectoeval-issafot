@@ -23,6 +23,9 @@ function App() {
                 <Route path="/em-registradas/EmpresasRegistradas" 
                     element={<paginas.EmpresasRegistradas />}
                 ></Route>
+                <Route path="/mis-planillas" 
+                    element={<paginas.PlanillasSeguimiento />}
+                ></Route>
 
 
             </Routes>
