@@ -68,3 +68,27 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+.e-control {
+    position: fixed;
+    width: 1.5rem;
+    height: 1.5rem;
+    bottom: 0;
+    background-color: rgb(60, 70, 100);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    place-content: center;
+    margin: auto;
+    user-select: none;
+}
+.e-text {
+    position: fixed;
+    bottom: 0.25rem;
+    left: 1.5rem;
+    font-weight: bold;
+    font-style: italic;
+    color: black;
+    user-select: none;
+    font-size: small;
+}
