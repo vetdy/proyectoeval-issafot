@@ -13,6 +13,17 @@ class ItemPlantillaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    /**
+     * @OA\Get(
+     *     path="/api/item_plantilla",
+     *     summary="Obtiene una lista de items planilla",
+     *     tags={"Item Plantillas"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de de items planilla",
+     *     )
+     * )
+     */
     public function index()
     {
         $item_plantilla=Item_plantilla::all();
@@ -25,12 +36,36 @@ class ItemPlantillaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    /**
+     * @OA\Post(
+     *     path="/api/item_plantilla",
+     *     summary="Crear un nuevo Item Plantilla",
+     *     tags={"Item Plantillas"},
+     *
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"titulo","id_plantilla"},
+     *             @OA\Property(property="titulo", type="string", example="Diseño de base de datos"),
+     *             @OA\Property(property="id_plantilla", type="integer", example="1"),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Item Plantilla creado con éxito"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Problemas con los datos ingresados"
+     *     )
+     * )
+     */
     public function store(Request $request)
     {
         try{
             $request->validate([
                 'titulo'=>'required|max:32',
-                'id_planilla'=>'required|exist:plantillas_segimientos.id'
+                'id_plantilla'=>'required|exist:plantillas_segimientos.id'
             ]);
             $item_plantilla=Item_plantilla::create($request->all());
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -45,10 +80,46 @@ class ItemPlantillaController extends Controller
      * @param  \App\Models\item_plantilla  $item_plantilla
      * @return \Illuminate\Http\Response
      */
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+     /**
+     * @OA\Get(
+     *     path="/api/item_plantilla/{id}",
+     *     summary="Mostar un item plantilla",
+     *     tags={"Item Plantillas"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID del item plantilla",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *      ),
+     *     
+     *     @OA\Response(
+     *         response=200,
+     *         description="Datos del item plantilla"
+     *     ),
+     *      @OA\Response(
+     *         response=404,
+     *         description="item plantilla no encontrado"
+     *     )
+     * 
+     * )
+     */
     public function show($id)
     {
         $item_plantilla=Item_plantilla::find($id);
-        return response()->json(['contenido'=>compact('item_plantilla')],200);
+        if($item_plantilla){
+            return response()->json(['contenido'=>compact('item_plantilla')],200);
+        }else{
+            return response()->json(['contenido'=>'id item plantilla no existe'],404);
+        }
     }
 
     /**
@@ -58,13 +129,52 @@ class ItemPlantillaController extends Controller
      * @param  \App\Models\item_plantilla  $item_plantilla
      * @return \Illuminate\Http\Response
      */
+     /**
+     * @OA\Put(
+     *     path="/api/item_plantilla/{id}",
+     *     summary="Actualizar un item planilla",
+     *     tags={"Item Plantillas"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID del item plantilla",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\RequestBody(
+     *      required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="titulo", type="string", example="Diseño de base de datos"),
+     *             @OA\Property(property="id_plantilla", type="integer", example="1"),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="item plantilla actualizado con éxito",
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="item plantilla no encontrado"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Problemas con los datos ingresados"
+     *     )
+     * )
+     */
     public function update(Request $request, $id)
-    {
-        $request->validate([
-            'titulo'=>'nullable|max:32',
-            'id_planilla'=>'nullable|exist:plantillas_segimientos.id'
-        
-        ]);
+    { 
+        try{
+            $request->validate([
+                'titulo'=>'nullable|max:32',
+                'id_planilla'=>'nullable|exist:plantillas_segimientos.id'
+            
+            ]);
+        }catch (\Illuminate\Validation\ValidationException $e){
+            return response()->json(['contenido'=>$e->errors()], 422);
+        }
         $item_plantilla=Item_plantilla::find($id);
         if($item_plantilla){
             $item_plantilla->update($request->all());
@@ -79,6 +189,31 @@ class ItemPlantillaController extends Controller
      *
      * @param  \App\Models\item_plantilla  $item_plantilla
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * @OA\Delete(
+     *     path="/api/item_plantilla/{id}",
+     *     summary="Eliminar un item plantilla",
+     *     tags={"Item Plantillas"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID del item plantilla",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="item plantilla eliminado"
+     *     ),
+     *      @OA\Response(
+     *         response=404,
+     *         description="item plantilla no encontrado"
+     *     )
+     * 
+     * )
      */
     public function destroy($id)
     {

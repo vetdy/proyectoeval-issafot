@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Docente;
 /**
-* @OA\Info(title="API Docente", version="1.0")
+* @OA\Info(title="API proyecto EVA", version="1.0")
 *
 * @OA\Server(url="http://127.0.0.1:8000")
 */
@@ -23,8 +23,9 @@ class DocenteController extends Controller
      *     tags={"Docentes"},
      *     @OA\Response(
      *         response=200,
-     *         description="Lista de docentes",
-     *     )
+     *         description="Lista de docentes"
+     *      )
+     *     
      * )
      */
     public function index()
@@ -98,7 +99,7 @@ class DocenteController extends Controller
      /**
      * @OA\Get(
      *     path="/api/docente/{id}",
-     *     summary="Mostar un nuevo docente",
+     *     summary="Mostar un docente",
      *     tags={"Docentes"},
      *     @OA\Parameter(
      *         name="id",
@@ -143,7 +144,7 @@ class DocenteController extends Controller
       /**
      * @OA\Put(
      *     path="/api/docente/{id}",
-     *     summary="Actualizar un nuevo docente",
+     *     summary="Actualizar un docente",
      *     tags={"Docentes"},
      *     @OA\Parameter(
      *         name="id",
@@ -168,7 +169,7 @@ class DocenteController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Docente actualizado con éxito"
+     *         description="Docente actualizado con éxito",
      *     ),
      *     @OA\Response(
      *         response=404,

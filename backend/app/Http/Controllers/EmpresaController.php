@@ -52,7 +52,6 @@ class EmpresaController extends Controller
      *             @OA\Property(property="correo", type="string", example="ISSA@correo.com"),
      *             @OA\Property(property="telefono", type="string", example="4305445"),
      *             @OA\Property(property="imagen", type="string", example="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAABmJLR0QABwAGAAamjb7oAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH6AoICzEL5B0y2gAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAOBSURBVHja7dxPSJt3HMfxd6PEhAiB9bIeViQXD9qDEEVQFi8KIsIiJiz4pxnr2VNHoqzYdEhguoIddhayCutJc1qX4Hr2tECzxGMEc1hYWTFbwWASY/LsMJSu2o5ko7rt84bf5eFLHp7fK+R5kkMutZjNBurCZNIWCEQJRCBKIAJRAhGIEohAlECUQASiBCIQJRCBKIEIRAlECUQgSiACUQIRiBKIQJRAlEAEogQiECUQgSiBCEQJRAlEIEogAlH/RZCV+/cplkqsPnjwp+OBYJAfUyl+ef6c/UKBn58944dEgtuh0KnXqGf2uK9WVymWSvz24gWd164J5E19cfcu8/PzmEwmFhYW6O/vJxwOYzKZCAQCfOB2NzT7cgMDAxQKBSwWCzMzM+d6vc0XHWR0dJRKpcL4+Dg7mQwA6VSKL+/dYyMapVqtNjR73PT167S1tbGxsUFfXx8ul0sgb8pqtVIsFk82+OW8Hk/Ds8f5fD7K5TLLy8uUy2Wmpqb4+MYNvo5E9JF1VtlsFrvdzjePHmGz2f6xWYB3r1zB6XSSTCZJPn3K4uIixWIRr9ere8jrCoVCZLNZPB4PP+VypNJpvovFCASDf2sWIBgI0Nrayvr6OgA7mQyJRAKn08l7V6+ey/U2NTc13b4omz8yMkJXVxfpdJpYLPbHu353l5WVFfL5PIeHh7S0tNDZ2cnw8DA+n49kMkkul6t7FuDzxUX29/f5yO8/OWYAY2NjWK1WNjc33/4mtJjNxkVZkUjEqNVqxtra2l/OxuNxo1arGVtbWw3NTkxMGNVq1ajVameunZ2dc9mDf+0Xw6nJSY6OjnA4HA3NTk9PUygUsFosp9bS0hIOh4MPfT7dQ17t+ydP6O3tPXX8fZeL5uZmSqVS3bM2m42enh4yZzyNAaw9fEilUmFyclKPva/W0dHBt48fE4/HiUaj7O3tMTg4iN/vxzCMk3tNPbOf3rqF3W4nlUqdec7d3V2y2Szd3d28c/kyv+bzAjlubm4Or9eLy+XC7XZjNps5ODggl8sRDof57M6dumeHhoYwDINoNPra825vb9Pe3s7s7Cyf3Lz51q73kv4mVj8uKoEIRAlEIEogAlECEYgSiBKIQJRABKIEIhAlEIEogSiBCEQJRCBKIAJRAhGIEogSiECUQASiBCIQJRCBKIEogQhECUQgSiACUQL5//U7xBcHwU6U9OAAAAAASUVORK5CYII="),
-     *          
      *              )
      *     ),
      *     @OA\Response(
@@ -126,6 +125,32 @@ class EmpresaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    /**
+     * @OA\Get(
+     *     path="/api/empresa/{id}",
+     *     summary="Mostar una empresa",
+     *     tags={"Empresas"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID del empresa",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *      ),
+     *     
+     *     @OA\Response(
+     *         response=200,
+     *         description="Datos de una empresa"
+     *     ),
+     *      @OA\Response(
+     *         response=404,
+     *         description="Empresa no encontrada"
+     *     )
+     * 
+     * )
+     */
     public function show($id)
     {
         $empresa=Empresa::find($id);
@@ -138,6 +163,47 @@ class EmpresaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     */
+
+     /**
+     * @OA\Put(
+     *     path="/api/empresa/{id}",
+     *     summary="Actualizar una empresa",
+     *     tags={"Empresas"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID del empresa",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *      ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="nombre_corto", type="string", example="ISSA"),
+     *             @OA\Property(property="nombre_largo", type="string", example="Inovasion de solucion software amigable"),
+     *             @OA\Property(property="id_usuario", type="string", example="8"),
+     *             @OA\Property(property="correo", type="string", example="ISSA@correo.com"),
+     *             @OA\Property(property="telefono", type="string", example="4305445"),
+     *             @OA\Property(property="imagen", type="string", example="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAABmJLR0QABwAGAAamjb7oAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH6AoICzEL5B0y2gAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAOBSURBVHja7dxPSJt3HMfxd6PEhAiB9bIeViQXD9qDEEVQFi8KIsIiJiz4pxnr2VNHoqzYdEhguoIddhayCutJc1qX4Hr2tECzxGMEc1hYWTFbwWASY/LsMJSu2o5ko7rt84bf5eFLHp7fK+R5kkMutZjNBurCZNIWCEQJRCBKIAJRAhGIEohAlECUQASiBCIQJRCBKIEIRAlECUQgSiACUQIRiBKIQJRAlEAEogQiECUQgSiBCEQJRAlEIEogAlH/RZCV+/cplkqsPnjwp+OBYJAfUyl+ef6c/UKBn58944dEgtuh0KnXqGf2uK9WVymWSvz24gWd164J5E19cfcu8/PzmEwmFhYW6O/vJxwOYzKZCAQCfOB2NzT7cgMDAxQKBSwWCzMzM+d6vc0XHWR0dJRKpcL4+Dg7mQwA6VSKL+/dYyMapVqtNjR73PT167S1tbGxsUFfXx8ul0sgb8pqtVIsFk82+OW8Hk/Ds8f5fD7K5TLLy8uUy2Wmpqb4+MYNvo5E9JF1VtlsFrvdzjePHmGz2f6xWYB3r1zB6XSSTCZJPn3K4uIixWIRr9ere8jrCoVCZLNZPB4PP+VypNJpvovFCASDf2sWIBgI0Nrayvr6OgA7mQyJRAKn08l7V6+ey/U2NTc13b4omz8yMkJXVxfpdJpYLPbHu353l5WVFfL5PIeHh7S0tNDZ2cnw8DA+n49kMkkul6t7FuDzxUX29/f5yO8/OWYAY2NjWK1WNjc33/4mtJjNxkVZkUjEqNVqxtra2l/OxuNxo1arGVtbWw3NTkxMGNVq1ajVameunZ2dc9mDf+0Xw6nJSY6OjnA4HA3NTk9PUygUsFosp9bS0hIOh4MPfT7dQ17t+ydP6O3tPXX8fZeL5uZmSqVS3bM2m42enh4yZzyNAaw9fEilUmFyclKPva/W0dHBt48fE4/HiUaj7O3tMTg4iN/vxzCMk3tNPbOf3rqF3W4nlUqdec7d3V2y2Szd3d28c/kyv+bzAjlubm4Or9eLy+XC7XZjNps5ODggl8sRDof57M6dumeHhoYwDINoNPra825vb9Pe3s7s7Cyf3Lz51q73kv4mVj8uKoEIRAlEIEogAlECEYgSiBKIQJRABKIEIhAlEIEogSiBCEQJRCBKIAJRAhGIEogSiECUQASiBCIQJRCBKIEogQhECUQgSiACUQL5//U7xBcHwU6U9OAAAAAASUVORK5CYII="),
+     *          
+     *              )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Empresa creada con éxito"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Problemas con los datos ingresados"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Empresa no encontrada"
+     *     )
+     * )
      */
     public function update(Request $request, $id)
     {
@@ -162,6 +228,31 @@ class EmpresaController extends Controller
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     */
+    /**
+     * @OA\Delete(
+     *     path="/api/empresa/{id}",
+     *     summary="Eliminar un empresa",
+     *     tags={"Empresas"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID de la empresa",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Docente eliminado"
+     *     ),
+     *      @OA\Response(
+     *         response=404,
+     *         description="Docente no encontrado"
+     *     )
+     * 
+     * )
      */
     public function destroy($id)
     {
