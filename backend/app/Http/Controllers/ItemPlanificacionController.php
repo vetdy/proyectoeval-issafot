@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Item_plantilla;
-use Illuminate\Cache\Repository;
 use Illuminate\Http\Request;
-
-class ItemPlantillaController extends Controller
+use App\Models\Item_planificacion;
+class ItemPlanificacionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +13,9 @@ class ItemPlantillaController extends Controller
      */
     /**
      * @OA\Get(
-     *     path="/api/item_plantilla",
+     *     path="/api/item_planificacion",
      *     summary="Obtiene una lista de items planilla",
-     *     tags={"Item Plantillas"},
+     *     tags={"Item planificaciones"},
      *     @OA\Response(
      *         response=200,
      *         description="Lista de de items planilla",
@@ -26,8 +24,8 @@ class ItemPlantillaController extends Controller
      */
     public function index()
     {
-        $item_plantilla=Item_plantilla::all();
-        return response()->json(['contenido'=>compact('item_plantilla')],200);
+        $item_planificacion=Item_planificacion::all();
+        return response()->json(['contenido'=>compact('item_planificacion')],200);
     }
 
     /**
@@ -38,21 +36,21 @@ class ItemPlantillaController extends Controller
      */
     /**
      * @OA\Post(
-     *     path="/api/item_plantilla",
-     *     summary="Crear un nuevo Item Plantilla",
-     *     tags={"Item Plantillas"},
+     *     path="/api/item_planificacion",
+     *     summary="Crear un nuevo Item planificacion",
+     *     tags={"Item planificaciones"},
      *
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"titulo","id_plantilla"},
+     *             required={"titulo","id_planificacion"},
      *             @OA\Property(property="titulo", type="string", example="Diseño de base de datos"),
-     *             @OA\Property(property="id_plantilla", type="integer", example="1"),
+     *             @OA\Property(property="id_planificacion", type="integer", example="1"),
      *         )
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Item Plantilla creado con éxito"
+     *         description="Item planificacion creado con éxito"
      *     ),
      *     @OA\Response(
      *         response=422,
@@ -65,21 +63,16 @@ class ItemPlantillaController extends Controller
         try{
             $request->validate([
                 'titulo'=>'required|max:32',
-                'id_plantilla'=>'required|exists:plantilla_seguimientos,id'
+                'id_planificacion'=>'required|exists:planificaciones,id'
             ]);
-            $item_plantilla=Item_plantilla::create($request->all());
+            $item_planificacion=Item_planificacion::create($request->all());
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json(['contenido'=>$e->errors()], 422);
         }
-        return response()->json(['contenido'=>compact('item_plantilla')],200);
+        return response()->json(['contenido'=>compact('item_planificacion')],200);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\item_plantilla  $item_plantilla
-     * @return \Illuminate\Http\Response
-     */
+    
     /**
      * Display the specified resource.
      *
@@ -88,13 +81,13 @@ class ItemPlantillaController extends Controller
      */
      /**
      * @OA\Get(
-     *     path="/api/item_plantilla/{id}",
-     *     summary="Mostar un item plantilla",
-     *     tags={"Item Plantillas"},
+     *     path="/api/item_planificacion/{id}",
+     *     summary="Mostar un item planificacion",
+     *     tags={"Item planificaciones"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
-     *         description="ID del item plantilla",
+     *         description="ID del item planificacion",
      *         required=true,
      *         @OA\Schema(
      *             type="integer"
@@ -103,22 +96,22 @@ class ItemPlantillaController extends Controller
      *     
      *     @OA\Response(
      *         response=200,
-     *         description="Datos del item plantilla"
+     *         description="Datos del item planificacion"
      *     ),
      *      @OA\Response(
      *         response=404,
-     *         description="item plantilla no encontrado"
+     *         description="item planificacion no encontrado"
      *     )
      * 
      * )
      */
     public function show($id)
     {
-        $item_plantilla=Item_plantilla::find($id);
-        if($item_plantilla){
-            return response()->json(['contenido'=>compact('item_plantilla')],200);
+        $item_planificacion=Item_planificacion::find($id);
+        if($item_planificacion){
+            return response()->json(['contenido'=>compact('item_planificacion')],200);
         }else{
-            return response()->json(['contenido'=>'id item plantilla no existe'],404);
+            return response()->json(['contenido'=>'id item planificacion no existe'],404);
         }
     }
 
@@ -126,18 +119,18 @@ class ItemPlantillaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\item_plantilla  $item_plantilla
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-     /**
+    /**
      * @OA\Put(
-     *     path="/api/item_plantilla/{id}",
+     *     path="/api/item_planificacion/{id}",
      *     summary="Actualizar un item planilla",
-     *     tags={"Item Plantillas"},
+     *     tags={"Item planificaciones"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
-     *         description="ID del item plantilla",
+     *         description="ID del item planificacion",
      *         required=true,
      *         @OA\Schema(
      *             type="integer"
@@ -147,16 +140,16 @@ class ItemPlantillaController extends Controller
      *      required=true,
      *         @OA\JsonContent(
      *             @OA\Property(property="titulo", type="string", example="Diseño de base de datos"),
-     *             @OA\Property(property="id_plantilla", type="integer", example="1"),
+     *             @OA\Property(property="id_planificacion", type="integer", example="1"),
      *         )
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="item plantilla actualizado con éxito",
+     *         description="item planificacion actualizado con éxito",
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="item plantilla no encontrado"
+     *         description="item planificacion no encontrado"
      *     ),
      *     @OA\Response(
      *         response=422,
@@ -169,36 +162,37 @@ class ItemPlantillaController extends Controller
         try{
             $request->validate([
                 'titulo'=>'nullable|max:32',
-                'id_planilla'=>'nullable|exists:plantillas_segimientos.id'
+                'id_planilla'=>'nullable|exist:planificaciones,id'
             
             ]);
         }catch (\Illuminate\Validation\ValidationException $e){
             return response()->json(['contenido'=>$e->errors()], 422);
         }
-        $item_plantilla=Item_plantilla::find($id);
-        if($item_plantilla){
-            $item_plantilla->update($request->all());
-            return response()->json(['contenido'=>'se actualizo la item plantilla'],200);
+        $item_planificacion=Item_planificacion::find($id);
+        if($item_planificacion){
+            $item_planificacion->update($request->all());
+            return response()->json(['contenido'=>'se actualizo la item planificacion'],200);
         }else{
             return response()->json(['contenido'=>'id no encontrado'],404);
         }
     }
 
+
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\item_plantilla  $item_plantilla
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     /**
      * @OA\Delete(
-     *     path="/api/item_plantilla/{id}",
-     *     summary="Eliminar un item plantilla",
-     *     tags={"Item Plantillas"},
+     *     path="/api/item_planificacion/{id}",
+     *     summary="Eliminar un item planificacion",
+     *     tags={"Item planificaciones"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
-     *         description="ID del item plantilla",
+     *         description="ID del item planificacion",
      *         required=true,
      *         @OA\Schema(
      *             type="integer"
@@ -206,23 +200,23 @@ class ItemPlantillaController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="item plantilla eliminado"
+     *         description="item planificacion eliminado"
      *     ),
      *      @OA\Response(
      *         response=404,
-     *         description="item plantilla no encontrado"
+     *         description="item planificacion no encontrado"
      *     )
      * 
      * )
      */
     public function destroy($id)
     {
-        $item_plantilla=Item_plantilla::find($id);
-        if($item_plantilla){
-            $item_plantilla->delete();
+        $item_planificacion=Item_planificacion::find($id);
+        if($item_planificacion){
+            $item_planificacion->delete();
             return response()->json(['contenido'=>'eliminado con exito'],200);
         }else{
-            return response()->json(['contenido'=>'no existe el item plantilla'],404);
+            return response()->json(['contenido'=>'no existe el item planificacion'],404);
         }
     }
 }

@@ -10,7 +10,7 @@ class Socio_empresa extends Model
 {
     use HasFactory;
     protected $primaryKey = 'id';
-    public function rempresa(){
+    public function empresa(){
         return $this->hasOne(Empresa::class);
     }
     public function usuario(){

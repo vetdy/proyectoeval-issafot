@@ -1,4 +1,6 @@
 .env
+#ignorar el git ignore
+.gitignore 
 # Laravel ignore
 /vendor/
 node_modules/
@@ -23,4 +25,6 @@ Homestead.yaml
 Homestead.json
 /.vagrant
 .phpunit.result.cache
+
 .vscode/settings.json
+
