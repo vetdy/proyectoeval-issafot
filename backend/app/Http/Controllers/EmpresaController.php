@@ -40,9 +40,8 @@ class EmpresaController extends Controller
                     'string'
                 ],
             ]);
-            $socio_empresa = new Socio_empresa();
-            $socio_empresa->id_usuario = $request->input('id_usuario');
-            $socio_empresa->save();
+            
+          
 // Crear Empresa
             $empresa = new Empresa();
             $empresaService=new EmpresaService();
@@ -59,12 +58,13 @@ class EmpresaController extends Controller
             $empresa->nombre_largo = $request->input('nombre_largo');
             $empresa->telefono = $request->input('telefono');
             $empresa->correo= $request->input('correo');
-            $empresa->id_representante_legal = $socio_empresa->id; 
+            $empresa->id_representante_legal = $request->input('id_usuario'); 
             $empresa->save();
 
 
             
-            $empresa->save();
+            $socio_empresa = new Socio_empresa();
+            $socio_empresa->id_usuario = $request->input('id_usuario');
             $socio_empresa->id_empresa = $empresa->id;
             $socio_empresa->save();
         } catch (\Illuminate\Validation\ValidationException $e) {

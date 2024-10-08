@@ -30,7 +30,7 @@ class DocenteController extends Controller
     public function index()
     {
         
-        $docentes=Docente::where('id_rol',1)->get();
+        $docentes=Docente::all();
         return response()->json(['contenido'=>compact('docentes')],200);
     }
 
@@ -39,6 +39,15 @@ class DocenteController extends Controller
      *     path="/api/docente",
      *     summary="Crear un nuevo docente",
      *     tags={"Docentes"},
+     * @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID del docente",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *      ),
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
@@ -54,6 +63,10 @@ class DocenteController extends Controller
      *     @OA\Response(
      *         response=200,
      *         description="Docente creado con éxito"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Problemas con los datos ingresados"
      *     )
      * )
      */
@@ -90,11 +103,41 @@ class DocenteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-
+     /**
+     * @OA\Get(
+     *     path="/api/docente/{id}",
+     *     summary="Mostar un nuevo docente",
+     *     tags={"Docentes"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID del docente",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *      ),
+     *     
+     *     @OA\Response(
+     *         response=200,
+     *         description="Datos del docente"
+     *     ),
+     *      @OA\Response(
+     *         response=404,
+     *         description="Docente no encontrado"
+     *     )
+     * 
+     * )
+     */
     public function show($id)
     {
         $docente = Docente::find($id);
-        return response()->json(['contenido'=>compact('docente')],200);
+        if ($docente){
+            return response()->json(['contenido'=>compact('docente')],200);
+        }
+        else{
+            return response()->json(['contenido'=>'id docente no existe'],404);
+        }
     }
 
     /**
@@ -104,19 +147,64 @@ class DocenteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+      /**
+     * @OA\Put(
+     *     path="/api/docente/{id}",
+     *     summary="Actualizar un nuevo docente",
+     *     tags={"Docentes"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID del docente",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\RequestBody(
+     *      required=true,
+     *         @OA\JsonContent(
+     *             
+     *             @OA\Property(property="nombre", type="string", example="Juan"),
+     *             @OA\Property(property="apellido", type="string", example="Marcos"),
+     *             @OA\Property(property="codigo_sis", type="string", example="202503657"),
+     *             @OA\Property(property="correo", type="string", example="juan@correo.com"),
+     *             @OA\Property(property="telefono", type="string", example="4307845"),
+     *             @OA\Property(property="contrasena", type="string", example="password"),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Docente actualizado con éxito"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Docente no encontrado"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Problemas con los datos ingresados"
+     *     )
+     * )
+     */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'nombre' => 'nullable|max:64',
-            'apellido' => 'nullable|max:64',
-            'codigo_sis' => 'nullable|max:15',
-            'email'=>'nullable|max:32',
-            'telefono'=>'nullable|max:32',
-            'contrasena' => 'nullable|max:225',
-        ]);
+        try{
+            $request->validate([
+                'nombre' => 'nullable|max:64',
+                'apellido' => 'nullable|max:64',
+                'codigo_sis' => 'nullable|max:15',
+                'email'=>'nullable|max:32',
+                'telefono'=>'nullable|max:32',
+                'contrasena' => 'nullable|max:225',
+            ]);
+        }catch (\Illuminate\Validation\ValidationException $e){
+            return response()->json(['contenido'=>$e->errors()], 422);
+        }
         
             $docente = Docente::find($id);
-            if ($docente== null){
+            if (!$docente){
                 return response()->json(['contenido'=>'no se encontro el id'],404);
             }else{
                 $docente->update($request->all());
@@ -131,10 +219,35 @@ class DocenteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    /**
+     * @OA\Delete(
+     *     path="/api/docente/{id}",
+     *     summary="Eliminar un docente",
+     *     tags={"Docentes"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID del docente",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Docente eliminado"
+     *     ),
+     *      @OA\Response(
+     *         response=404,
+     *         description="Docente no encontrado"
+     *     )
+     * 
+     * )
+     */
     public function destroy($id)
     {
         $docente = Docente::find($id);
-        if ($docente== null){
+        if (!$docente){
             return response()->json(['contenido'=>'no se encontro el id'],404);
         }else{
             $docente->delete();

@@ -29,6 +29,17 @@
                 ],
                 "summary": "Crear un nuevo docente",
                 "operationId": "6f96b78084ca67a74cdaf2f6463a5a06",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del docente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -76,6 +87,128 @@
                 "responses": {
                     "200": {
                         "description": "Docente creado con éxito"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            }
+        },
+        "/api/docente/{id}": {
+            "get": {
+                "tags": [
+                    "Docentes"
+                ],
+                "summary": "Mostar un nuevo docente",
+                "operationId": "37831e907cc4854634b06b90428f97bd",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del docente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos del docente"
+                    },
+                    "404": {
+                        "description": "Docente no encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Docentes"
+                ],
+                "summary": "Actualizar un nuevo docente",
+                "operationId": "8f46da718f5a5078ca5d754deade6559",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del docente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Juan"
+                                    },
+                                    "apellido": {
+                                        "type": "string",
+                                        "example": "Marcos"
+                                    },
+                                    "codigo_sis": {
+                                        "type": "string",
+                                        "example": "202503657"
+                                    },
+                                    "correo": {
+                                        "type": "string",
+                                        "example": "juan@correo.com"
+                                    },
+                                    "telefono": {
+                                        "type": "string",
+                                        "example": "4307845"
+                                    },
+                                    "contrasena": {
+                                        "type": "string",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Docente actualizado con éxito"
+                    },
+                    "404": {
+                        "description": "Docente no encontrado"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Docentes"
+                ],
+                "summary": "Eliminar un docente",
+                "operationId": "bb047d7ca215ccf4f7c48cd3057f18b1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del docente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Docente eliminado"
+                    },
+                    "404": {
+                        "description": "Docente no encontrado"
                     }
                 }
             }
