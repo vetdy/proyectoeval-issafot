@@ -37,13 +37,11 @@ export const archivo = (archivo) => {
 export const nombreEmpresa = (nombre = "", n=0, m=0) =>{
     let error = "";
 
-    const nom = nombre.trim();
-
-    if (! longitud(nom, n, m) ){
+    if (! longitud(nombre, n, m) ){
         error = `Longitud debe ser entre ${n} y ${m} caracteres.`;
     }
-    else if(! alfanumerico(nom) ){
-        error = "Letras y números. Un espacio entre palabras.";
+    else if(! alfanumerico(nombre) ){
+        error = "Letras y números. Un espacio entre palabras. Sin espacios al inicio/fin.";
     }
     return error;
 }
@@ -60,7 +58,7 @@ export const telefonoEmpresa = (telefono = "", n=7, m=12) =>{
         error = "Solo se admite números sin espacios.";
     }
     else if (! numeros.test(telefono) ){
-        error = "Los números validos comienzan 4, 6 o 7";
+        error = "Los números validos comienzan en 4, 6 o 7";
     }
     return error;
 }
