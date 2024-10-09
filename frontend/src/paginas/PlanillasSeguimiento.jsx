@@ -17,7 +17,7 @@ const PlanillasSeguimiento = () => {
         },
         {
             "ID": "Sprint 2",
-            "Fecha revision": "27-08-24",
+            "Fecha revision": "07-09-24",
             "Hora revision": "8:00 AM",
             "Detalle": "<boton>Detalle",
         },
@@ -28,7 +28,9 @@ const PlanillasSeguimiento = () => {
 
     return(
         <div>
-            <div className="mx-4 mt-2">
+            <h2 className="my-2 text-center fw-bold">Planillas de Seguimiento</h2>
+            
+            <div className="mx-4 mt-4">
                 <div className="d-flex justify-content-between">
                     <div>
                         <h3>NOMBRE EMPRESA: <span className="fw-bold">ISSA SOFT</span></h3>
