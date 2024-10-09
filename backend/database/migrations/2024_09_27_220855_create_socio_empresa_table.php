@@ -17,6 +17,7 @@ class CreateSocioEmpresaTable extends Migration
             $table->id();
             $table->string('id_empresa')->constrained('empresas')->onDelete('cascade')->nullable();
             $table->string('id_usuario')->constrained('usuarios')->onDelete('cascade');
+            $table->boolean('activo')->default(true);
             $table->timestamps();
         });
     }

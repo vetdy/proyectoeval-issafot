@@ -17,4 +17,5 @@ class Socio_empresa extends Model
         return $this->hasOne(Usuario::class);
     }
     
+    
 }
