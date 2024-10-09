@@ -27,3 +27,4 @@ export const EST_EVALUACIONES_REGISTRAR = "/nueva-evaluacion";
 // ========== Rutas para usuario Administrador ==========
 export const ADMIN_USUARIOS_GESTIONAR = "/registrar/docentes";
 export const ADMIN_USUARIOS_CREAR_NOTIF = "/gestion/notificaciones";
+export const ADMIN_USUARIOS_REGISTRAR = "/registrar/planificacion";

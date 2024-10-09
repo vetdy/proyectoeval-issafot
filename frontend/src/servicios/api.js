@@ -83,5 +83,8 @@ export const registrarEmpresa = async (datos={}) => {
     const respuesta = await solicitud(rutas.REGISTRO_EMPRESA, "POST", datos);
     return respuesta;
 }
-
+export const registrarDocente = async (datosFormulario={}) => {
+    const respuesta = await solicitud(rutas.REGISTRO_DOCENTE, "POST", datosFormulario);
+    return respuesta;
+}/* AQUI IGUAL HACER. PREGUNTAR ALK SAMUEL  */
 export default solicitud

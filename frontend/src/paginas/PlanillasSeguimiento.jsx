@@ -1,9 +1,18 @@
 import { useState } from "react";
-import { Planilla } from "../componentes/planillas";
+import { Tabla } from "../componentes/tablas";
 
 const PlanillasSeguimiento = () => {
+    const [datos, setDatos] = useState([
+        {
+            "id": "",
+            "Parametros": "",
+            "Responsable": "",
+            "Valoracion": "",
+        },
+    ]);
+
     return(
-        <Planilla></Planilla>
+        <Tabla datos={datos}></Tabla>
     );
 }
 

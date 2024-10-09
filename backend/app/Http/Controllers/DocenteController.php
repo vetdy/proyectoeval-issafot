@@ -69,7 +69,8 @@ class DocenteController extends Controller
             $validor=$request->validate([
                 'nombre' => 'required|max:32',
                 'apellido' => 'required|max:32',
-                'codigo_sis' => 'required|max:9|unique',
+                'codigo_sis' => 'required|max:9|unique:usuarios',
+
                 'correo'=>'required|max:32',
                 'telefono'=>'required|max:32',
                 'contrasena' => 'required|max:225',

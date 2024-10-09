@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import logoDefecto from "/logo.png"
-import { Input, Formulario } from "../componentes/formularios";
+import { Input, InputFile, Formulario } from "../componentes/formularios";
 import { validador as validar } from "../utils";
 import { base64, cadenaValoresJSON } from "../utils/conversor";
 import { registrarEmpresa } from "../servicios/api";
@@ -61,8 +61,12 @@ function RegistroEmpresa(){
         const error = errorImagen(imagen);
 
         setErrores(e => ({...e, logo: error}));
-
-        setLogoEmpresa( imagen );
+        if(! error ){
+            setLogoEmpresa( imagen );
+        }            
+        else{
+            setLogoEmpresa( undefined );
+        }
     };
 
     const truncarCampos = () =>{
@@ -105,7 +109,6 @@ function RegistroEmpresa(){
         setErrores(nuevosErrores);
 
         if(! Object.values(nuevosErrores).every(e => e === "") ){
-            console.log("Hay errores");  //<======= MOSTRAR MSG ERROR
             setEnviando(false);
             setContenidoModal("Llena todos los campos.");
             setVerModal(true);
@@ -122,17 +125,14 @@ function RegistroEmpresa(){
             id_usuario: id_rep,
             imagen: imagenBase64,
         }
-        //console.log(datos);
         const respuesta = await registrarEmpresa(datos);
         setEnviando(false);
 
         const mensajeModal = cadenaValoresJSON(respuesta.message);
-        //console.log("DESDE REGISTRO",mensajeModal);
-        //console.log(respuesta.message);
 
         setContenidoModal( mensajeModal );
         setVerModal(true);
-        console.log(respuesta);
+        //console.log(respuesta);
     }
 
     return(
@@ -142,7 +142,7 @@ function RegistroEmpresa(){
                 {contenidoModal}
             </Modal>
         }
-        <Formulario tituloFormulario="Registro de Empresa" nombreBoton="Enviar"
+        <Formulario tituloFormulario="Registro de Empresa" nombreBoton="Registrar"
             encType="multipart/form-data" onSubmit={enviarRegistro}
             enviando={enviando}
         >
@@ -185,11 +185,13 @@ function RegistroEmpresa(){
                         max-width="100%"
                         className="mb-4 object-fit-scale"
                     ></img>
-                    <Input name="logo" accept={formatosValidosImagen.join()}
-                        type="file"
-                        error={errores.hasOwnProperty("logo") && errores.logo}
-                        onChange={actualizarImagen}
-                    ></Input>
+                    <InputFile
+                        name="logo"
+                        error= {errores.hasOwnProperty("logo") && errores.logo}
+                        archivo= { logoEmpresa ? logoEmpresa.name : "" }
+                        onChange= {actualizarImagen}
+                        formatos= {formatosValidosImagen}
+                    ></InputFile>
                 </div>
             </div>
 
