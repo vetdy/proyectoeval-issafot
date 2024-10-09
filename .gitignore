@@ -27,3 +27,4 @@ Homestead.json
 .phpunit.result.cache
 frontend/src/paginas/apuntes.jsx
 .gitignore
+#
