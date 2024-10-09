@@ -27,3 +27,5 @@ Homestead.json
 .phpunit.result.cache
 #ignorar el front
 frontend/*
+.vscode/settings.json
+

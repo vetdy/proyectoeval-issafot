@@ -6,8 +6,32 @@ export const base64 = (archivo) => {
             resolve(reader.result);
         }
         reader.onerror = () => {
-            reject( new Error("El archivo no se convirtio a BASE64") );
+            reject( new Error("El archivo no se convirtió a BASE64") );
         }
     });
     return promise;
+}
+
+export const cadenaValoresJSON = (json) => {
+    let cadena = "";
+
+    if(typeof json === "string"){
+        return json;
+    }
+
+    Object.entries(json).forEach(([k, v]) => {
+        if( cadena ) cadena += "\n";
+        if( Array.isArray(v) ){
+            cadena += v.join("\n");
+        }
+        if( typeof v === "string" ){
+            cadena += v;
+        }
+        if(v !== null && typeof v === "object" && 
+            ! Array.isArray(v) && Object.keys(v).length
+        ){
+            cadena += "Objeto anidado";
+        }
+    });
+    return cadena;
 }

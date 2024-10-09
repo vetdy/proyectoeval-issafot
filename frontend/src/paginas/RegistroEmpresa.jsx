@@ -3,8 +3,9 @@ import { useState } from "react";
 import logoDefecto from "/logo.png"
 import { Input, Formulario } from "../componentes/formularios";
 import { validador as validar } from "../utils";
-import { base64 } from "../utils/conversor";
+import { base64, cadenaValoresJSON } from "../utils/conversor";
 import { registrarEmpresa } from "../servicios/api";
+import { Modal } from "../componentes/modales";
 
 function RegistroEmpresa(){
     const [campos, setCampos] = useState({
@@ -15,10 +16,18 @@ function RegistroEmpresa(){
     });
     const [logoEmpresa, setLogoEmpresa] = useState(undefined);
     const [errores, setErrores] = useState({});
+    const [enviando, setEnviando] = useState(false);
+    const [verModal, setVerModal] = useState(false);
+    const [contenidoModal, setContenidoModal] = useState("");
 
     const formatosValidosImagen = ["image/png", "image/jpeg", "image/jpg"];
     const pesoMaximoImagen = 1048576;
-   
+
+    function cerrarModal(){
+        setContenidoModal("");
+        setVerModal(false);
+    }
+
     const actualizarCampo = (ev) =>{
         const { name, value } = ev.target;
         setCampos(c => ({...c, [name]:value}));
@@ -87,6 +96,7 @@ function RegistroEmpresa(){
 
     const enviarRegistro = async (ev) =>{
         ev.preventDefault();
+        setEnviando(true);
 
         const nuevosCampos = truncarCampos();
         setCampos(nuevosCampos);
@@ -96,10 +106,13 @@ function RegistroEmpresa(){
 
         if(! Object.values(nuevosErrores).every(e => e === "") ){
             console.log("Hay errores");  //<======= MOSTRAR MSG ERROR
+            setEnviando(false);
+            setContenidoModal("Llena todos los campos.");
+            setVerModal(true);
             return;
         }
-
-        const id_rep = "4";   //<========= Debe cambiar cuando hayan usuarios
+        
+        const id_rep = "8";   //<========= Debe cambiar cuando hayan usuarios
         const imagenBase64 = await base64(logoEmpresa);
         const datos = {
             nombre_corto: nuevosCampos.nombre_corto,
@@ -111,12 +124,27 @@ function RegistroEmpresa(){
         }
         //console.log(datos);
         const respuesta = await registrarEmpresa(datos);
+        setEnviando(false);
+
+        const mensajeModal = cadenaValoresJSON(respuesta.message);
+        //console.log("DESDE REGISTRO",mensajeModal);
+        //console.log(respuesta.message);
+
+        setContenidoModal( mensajeModal );
+        setVerModal(true);
         console.log(respuesta);
     }
 
     return(
+        <>
+        {verModal &&
+            <Modal mostrar={verModal} cerrar={cerrarModal}>
+                {contenidoModal}
+            </Modal>
+        }
         <Formulario tituloFormulario="Registro de Empresa" nombreBoton="Enviar"
             encType="multipart/form-data" onSubmit={enviarRegistro}
+            enviando={enviando}
         >
             <div className="row m-auto">
                 <div className="col-md-6 py-2 d-flex flex-column">
@@ -124,6 +152,7 @@ function RegistroEmpresa(){
                         type="text"
                         value={campos.nombre_corto}
                         error={errores.hasOwnProperty("nombre_corto") && errores.nombre_corto}
+                        maxLength={64}
                         onChange={actualizarCampo}
                     ></Input>
 
@@ -131,11 +160,12 @@ function RegistroEmpresa(){
                         type="text"
                         value={campos.nombre_largo}
                         error={errores.hasOwnProperty("nombre_largo") && errores.nombre_largo}
+                        maxLength={64}
                         onChange={actualizarCampo}
                     ></Input>
 
                     <Input name="telefono" placeholder="Teléfono" 
-                        type="text"
+                        type="number"
                         value={campos.telefono}
                         error={errores.hasOwnProperty("telefono") && errores.telefono}
                         onChange={actualizarCampo}
@@ -173,6 +203,7 @@ function RegistroEmpresa(){
                 <input type="hidden" name="id_representante_legal" value="Usuario"></input>
             </div>
         </Formulario>
+        </>
 
     );
 }

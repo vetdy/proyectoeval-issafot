@@ -2,7 +2,7 @@ import { frontend as rutas } from "../rutas";
 
 const docente = {
     "Empresas":{
-        "Administracion": rutas.DOC_EMPRESAS_ADMINISTRACION,
+        "Administración": rutas.DOC_EMPRESAS_ADMINISTRACION,
         "Empresas Registradas": rutas.EMPRESAS_TODAS_REGISTRADAS,
     },
     "Proyectos":{
@@ -10,11 +10,11 @@ const docente = {
         "Crear un Proyecto": rutas.DOC_PROYECTOS_CREAR,
     },
     "Evaluaciones":{
-        "Crear Evaluacion Final": rutas.DOC_EVALUACIONES_CREAR_FINAL,
+        "Crear Evaluación Final": rutas.DOC_EVALUACIONES_CREAR_FINAL,
         "Recuperar Evaluaciones": rutas.DOC_EVALUACIONES_RECUPERAR,
     },
     "Reportes":{
-        "Desenpeño de Empresas": rutas.DOC_REPORTES_EMPRESAS,
+        "Desempeño de Empresas": rutas.DOC_REPORTES_EMPRESAS,
         "Evaluaciones Realizadas": rutas.DOC_REPORTES_EVAL_REALIZADAS,
         "Estudiantes Asignados": rutas.DOC_REPORTES_EST_ASIGNADOS,
     },
