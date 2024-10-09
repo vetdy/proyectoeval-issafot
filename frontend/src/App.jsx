@@ -26,7 +26,9 @@ function App() {
                 <Route path="/mis-planillas" 
                     element={<paginas.PlanillasSeguimiento />}
                 ></Route>
-
+                <Route path="/registrar/planificacion" 
+                    element={<paginas.RegistroPlanificacion />}
+                ></Route>
 
             </Routes>
             <Control inicial={"estudiante"} menus={menus} clickHandle={setUsrMenu}></Control>
