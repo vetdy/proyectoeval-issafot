@@ -11,7 +11,8 @@ class Empresa extends Model
     protected $primaryKey = 'id';
     protected $fillable = ['nombre_corto','nombre_largo','telefono','correo','url_logo'];
     public function representante_legal(){
-        return $this->hasOne(Socio_empresa::class);
+        return $this->hasMany(Socio_empresa::class);
     }
+   
 }
 
