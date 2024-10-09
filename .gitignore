@@ -28,3 +28,4 @@ Homestead.json
 frontend/src/paginas/apuntes.jsx
 .gitignore
 #
+.vscode/settings.json
