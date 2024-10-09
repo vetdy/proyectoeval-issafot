@@ -77,11 +77,11 @@ class EmpresaController extends Controller
                 'id_usuario' => [
                 'required',
                 'integer',
-                'unique:socio_empresas',
+                Rule::unique('socio_empresas', 'id_usuario')->where(function ($query) {
+                    $query->where('activo', true);
+                }),
                 Rule::exists('usuarios', 'id')->where(function ($query) {
-            $query->where('id_rol', 2);
-        })
-    ],
+                $query->where('id_rol', 2);})],
                 'imagen' => 'required|string',
             ]);
             
@@ -258,6 +258,7 @@ class EmpresaController extends Controller
     {
         $empresa=Empresa::find($id);
         if ($empresa){
+            Socio_empresa::where('id_empresa', $id)->update(['activo' => false]);
             $empresa->delete();
             return response()->json(['contenido'=>'se elimino con exito'],200);
         }else{
