@@ -152,6 +152,7 @@ function RegistroEmpresa(){
                         type="text"
                         value={campos.nombre_corto}
                         error={errores.hasOwnProperty("nombre_corto") && errores.nombre_corto}
+                        maxLength={64}
                         onChange={actualizarCampo}
                     ></Input>
 
@@ -159,11 +160,12 @@ function RegistroEmpresa(){
                         type="text"
                         value={campos.nombre_largo}
                         error={errores.hasOwnProperty("nombre_largo") && errores.nombre_largo}
+                        maxLength={64}
                         onChange={actualizarCampo}
                     ></Input>
 
                     <Input name="telefono" placeholder="Teléfono" 
-                        type="text"
+                        type="number"
                         value={campos.telefono}
                         error={errores.hasOwnProperty("telefono") && errores.telefono}
                         onChange={actualizarCampo}

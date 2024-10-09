@@ -64,7 +64,7 @@ class EmpresaSeeder extends Seeder
                 'correo'=>'email1@gmail.com',
                 'telefono'=>'4321542',
                 'url_logo'=>'url/uno',
-                'id_representante_legal'=>$ids3[0]
+                'id_representante_legal'=>$ids[0]
             ],
             [
                 'nombre_corto'=>'IssaSoft',
@@ -72,7 +72,7 @@ class EmpresaSeeder extends Seeder
                 'correo'=>'e12il1@gmail.com',
                 'telefono'=>'43091542',
                 'url_logo'=>'url/dos',
-                'id_representante_legal'=>$ids3[1]
+                'id_representante_legal'=>$ids[1]
             ],
 
         ];

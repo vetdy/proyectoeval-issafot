@@ -25,5 +25,6 @@ export const EST_EVALUACIONES_PLANILLA_SEG = "/mis-planillas";
 export const EST_EVALUACIONES_REGISTRAR = "/nueva-evaluacion";
 
 // ========== Rutas para usuario Administrador ==========
-export const ADMIN_USUARIOS_GESTIONAR = "/registrar/docente";
+export const ADMIN_USUARIOS_GESTIONAR = "/registrar/docentes";
 export const ADMIN_USUARIOS_CREAR_NOTIF = "/gestion/notificaciones";
+export const ADMIN_USUARIOS_REGISTRAR = "/registrar/planificacion";

@@ -4,16 +4,16 @@ import logo from "/logo.png";
 function RegistroDocentes() {
     const [nombre, setNombre] = useState('');
     const [apellido, setApellido] = useState('');
-    const [identificador, setIdentificador] = useState('');
-    const [contrasena, setContrasena] = useState('');
     const [codsis, setCodsis] = useState('');
     const [correo, setCorreo] = useState('');
     const [telefono, setTelefono] = useState('');
+    const [contrasena, setContrasena] = useState('');
+    
+    
 
     const [errores, setErrores] = useState({
         nombre: '',
         apellido: '',
-        identificador: '',
         contrasena: '',
         codsis: '',
         correo: '',
@@ -41,16 +41,6 @@ function RegistroDocentes() {
         }
     };
 
-    const validarIdentificador = (valor) => {
-        setIdentificador(valor);
-        if (!/^\d*$/.test(valor)) {
-            setErrores({ ...errores, identificador: 'El identificador solo debe contener números.' });
-        } else if (valor.length > 9) {
-            setErrores({ ...errores, identificador: 'El identificador no puede exceder 9 caracteres.' });
-        } else {
-            setErrores({ ...errores, identificador: '' });
-        }
-    };
 
     const validarContrasena = () => {
         if (!/^(?=.*[A-Z])(?=.*\d).{6,32}$/.test(contrasena)) {
@@ -83,19 +73,57 @@ function RegistroDocentes() {
             setErrores({ ...errores, telefono: '' });
         }
     };
-
-    const registrarDocente = () => {
-        //tal locica
-        setConfirmacion('El docente ha sido registrado exitosamente.');  
-        if(
-            !errores.nombre && !errores.apellido && !errores.identificador && !errores.contrasena 
-            && !errores.correo && !errores.codsis && !errores.telefono
-        ){
-            setConfirmacion('El docente se ha registrado');
-        }else{
-            setConfirmacion('');
-        }
-    };
+        //validar datos
+        const registrarDocente = async () => {
+            // Validar campos antes de enviar
+            if (
+                !errores.nombre && !errores.apellido && !errores.contrasena
+                && !errores.correo && !errores.codsis && !errores.telefono
+            ) {
+                // Crear el objeto con los datos del docente
+                const docenteData = {
+                    nombre,
+                    apellido,
+                    codigo_sis: codsis,
+                    correo,
+                    telefono,
+                    contrasena,
+                };
+        
+                try {
+                    // Llamada a la API
+                    const response = await fetch('http://127.0.0.1:8000/api/docente', {  // URL de la API
+                        method: 'POST',  // Método POST
+                        headers: {
+                            'Content-Type': 'application/json',  // Tipo de contenido
+                        },
+                        body: JSON.stringify(docenteData),  // Convertir el objeto docenteData a JSON
+                    });
+        
+                    // Procesar la respuesta del servidor
+                    const data = await response.json();  // Convertir la respuesta a JSON
+        
+                    if (response.ok) {
+                        setConfirmacion(data.contenido);  // Mensaje de éxito
+                        // Limpiar los campos después del registro
+                        setNombre('');
+                        setApellido('');
+                        setCodsis('');
+                        setCorreo('');
+                        setTelefono('');
+                        setContrasena('');
+                    } else {
+                        setConfirmacion(data.contenido);  // Mostrar mensaje de error
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    setConfirmacion('Ocurrió un error al registrar al docente.');
+                }
+            } else {
+                setConfirmacion('Por favor, corrige los errores antes de enviar.');  // Mensaje de error de validación
+            }
+        };
+        
 
 
     return (
@@ -108,7 +136,7 @@ function RegistroDocentes() {
                 <div className="row mb-2">
                     <div className="col-md-3"></div>
                     <div className="col-md-6">
-                        <div className="form-group mb-1">
+                    <div className="form-group mb-1">
                             <input
                                 className="form-control"
                                 type="text"
@@ -133,43 +161,6 @@ function RegistroDocentes() {
                             />
                             {errores.apellido && <small className="text-danger">{errores.apellido}</small>}
                         </div>
-
-                        <div className="form-group mb-1">
-                            <input
-                                className="form-control"
-                                type="number"
-                                name="Identificador"
-                                id="identificadordocente"
-                                placeholder="Identificador"
-                                value={identificador}
-                                onChange={(e) => validarIdentificador(e.target.value)}
-                            />
-                            {errores.identificador && <small className="text-danger">{errores.identificador}</small>}
-                        </div>
-
-                        <div className="form-group mb-1">
-                            <div className="input-group">
-                                <input
-                                    className="form-control"
-                                    type={mostrarContrasena ? "text" : "password"}  // Cambia entre texto y contraseña
-                                    name="Contrasena"
-                                    id="contrasenadocente"
-                                    placeholder="Contraseña"
-                                    value={contrasena}
-                                    onChange={(e) => setContrasena(e.target.value)}
-                                    onBlur={validarContrasena}
-                                />
-                                <button
-                                    type="button"
-                                    className="btn btn-outline-secondary"
-                                    onClick={() => setMostrarContrasena(!mostrarContrasena)}
-                                >
-                                    {mostrarContrasena ? "Ocultar" : "Mostrar"}
-                                </button>
-                            </div>
-                            {errores.contrasena && <small className="text-danger">{errores.contrasena}</small>}
-                        </div>
-
                         <div className="form-group mb-1">
                             <input
                                 className="form-control"
@@ -183,7 +174,6 @@ function RegistroDocentes() {
                             />
                             {errores.codsis && <small className="text-danger">{errores.codsis}</small>}
                         </div>
-
                         <div className="form-group mb-1">
                             <input
                                 className="form-control"
@@ -211,6 +201,30 @@ function RegistroDocentes() {
                             />
                             {errores.telefono && <small className="text-danger">{errores.telefono}</small>}
                         </div>
+                        <div className="form-group mb-1">
+                            <div className="input-group">
+                                <input
+                                    className="form-control"
+                                    type={mostrarContrasena ? "text" : "password"}  // Cambia entre texto y contraseña
+                                    name="Contrasena"
+                                    id="contrasenadocente"
+                                    placeholder="Contraseña"
+                                    value={contrasena}
+                                    onChange={(e) => setContrasena(e.target.value)}
+                                    onBlur={validarContrasena}
+                                />
+                                <button
+                                    type="button"
+                                    className="btn btn-outline-secondary"
+                                    onClick={() => setMostrarContrasena(!mostrarContrasena)}
+                                >
+                                    {mostrarContrasena ? "Ocultar" : "Mostrar"}
+                                </button>
+                            </div>
+                            {errores.contrasena && <small className="text-danger">{errores.contrasena}</small>}
+                        </div>
+
+                        
                     </div>
                     <div className="col-md-3"></div>
                 </div>

@@ -6,7 +6,7 @@ export const base64 = (archivo) => {
             resolve(reader.result);
         }
         reader.onerror = () => {
-            reject( new Error("El archivo no se convirtio a BASE64") );
+            reject( new Error("El archivo no se convirtió a BASE64") );
         }
     });
     return promise;
@@ -14,10 +14,6 @@ export const base64 = (archivo) => {
 
 export const cadenaValoresJSON = (json) => {
     let cadena = "";
-
-    console.log("DESDE CONV", json);
-    console.log(json instanceof String);
-    console.log(typeof json);
 
     if(typeof json === "string"){
         return json;

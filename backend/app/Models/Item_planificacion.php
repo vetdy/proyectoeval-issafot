@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Item_plantilla extends Model
+class Item_planificacion extends Model
 {
     use HasFactory;
+    protected $table='item_planificacion';
     protected $fillable=['titulo'];
-    public function plantilla_seguimiento(){
-        return $this->hasOne(Plantilla_seguimiento::class);
+    public function planificacion(){
+        return $this->hasOne(Planificacion::class);
     }
 }
