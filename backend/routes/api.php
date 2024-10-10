@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DocenteController;
 use App\Http\Controllers\EmpresaController;
+use App\Http\Controllers\EvaluacionController;
 use App\Http\Controllers\ItemPlanificacionController;
 use App\Http\Controllers\ItemPlantillaController;
 use App\Http\Controllers\PlanificacionController;
@@ -82,4 +83,12 @@ Route::controller(ItemPlanificacionController::class)->group(function () {
     Route::get('/item_planificacion/{id}', 'show');
     Route::put('/item_planificacion/{id}', 'update');
     Route::delete('/item_planificacion/{id}', 'destroy');
+});
+
+Route::controller(EvaluacionController::class)->group(function () {
+    Route::get('/evaluacion', 'index');
+    Route::post('/evaluacion', 'store');
+    Route::get('/evaluacion/{id}', 'show');
+    Route::put('/evaluacion/{id}', 'update');
+    Route::delete('/evaluacion/{id}', 'destroy');
 });
