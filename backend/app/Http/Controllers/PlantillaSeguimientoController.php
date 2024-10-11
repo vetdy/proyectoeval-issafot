@@ -226,4 +226,47 @@ class PlantillaSeguimientoController extends Controller
             return response()->json(['contenido'=>'no existe la plantilla seguimiento'],404);
         }
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    /**
+     * @OA\Get(
+     *     path="/api/plantilla_seguimiento/empresa/{id}",
+     *     summary="Mostar un Plantilla Seguimiento",
+     *     tags={"Plantillas Seguimientos"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID del empresa",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *      ),
+     *     
+     *     @OA\Response(
+     *         response=200,
+     *         description="Datos del Plantilla Seguimiento por empresa"
+     *     ),
+     *      @OA\Response(
+     *         response=404,
+     *         description="Empresa no encontrada"
+     *     )
+     * 
+     * )
+     */
+    public function show_empresa($id)
+    {
+        $plantilla_seguimiento=Plantilla_seguimiento::where('id_empresa', $id)->get();;
+        if(!$plantilla_seguimiento->isEmpty()){
+            return response()->json(['contenido'=>compact('plantilla_seguimiento')],200);
+        }else{
+            return response()->json(['contenido'=>'id empresa no existe'],404);
+        }
+        
+    }
 }

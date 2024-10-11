@@ -38,16 +38,41 @@ class PlantillaSeeder extends Seeder
         DB::table('item_plantillas')->insert([
             [
                 'titulo'=>'product backlog',
-                'id_plantilla'=>'1'
+                'id_plantilla_seguimiento'=>'1'
             ],
             [
                 'titulo'=>'historias de usuario revisadas',
-                'id_plantilla'=>'2'
+                'id_plantilla_seguimiento'=>'1'
             ],
             [
                 'titulo'=>'Sprint backlog',
-                'id_plantilla'=>'3'
+                'id_plantilla_seguimiento'=>'1'
             ],
+            [
+                'titulo'=>'product backlog',
+                'id_plantilla_seguimiento'=>'2'
+            ],
+            [
+                'titulo'=>'historias de usuario revisadas',
+                'id_plantilla_seguimiento'=>'2'
+            ],
+            [
+                'titulo'=>'Sprint backlog',
+                'id_plantilla_seguimiento'=>'2'
+            ],
+            [
+                'titulo'=>'product backlog',
+                'id_plantilla_seguimiento'=>'3'
+            ],
+            [
+                'titulo'=>'historias de usuario revisadas',
+                'id_plantilla_seguimiento'=>'3'
+            ],
+            [
+                'titulo'=>'Sprint backlog',
+                'id_plantilla_seguimiento'=>'3'
+            ],
+            
         ]);
     }
 }

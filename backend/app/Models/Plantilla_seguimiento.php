@@ -10,7 +10,7 @@ class Plantilla_seguimiento extends Model
     use HasFactory;
     protected $fillable=['titulo','fecha_revision','hora_revision',"id_empresa"];
 
-    public function id_empresa(){
+    public function empresa(){
         return $this->hasOne(Empresa::class);
     }
 }
