@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Planificacion;
 use App\Models\Usuario;
 use Illuminate\Database\Seeder;
 
@@ -18,6 +19,9 @@ class DatabaseSeeder extends Seeder
         $this->call(RolSeeder::class);
         $this->call(EmpresaSeeder::class);
         $this->call(UsuarioSeeder::class);
+        $this->call(PlantillaSeeder::class);
         $this->call(EvaluacionSeeder::class);
+        $this->call(ProyectoEmpresaSeeder::class);
+        $this->call(PlanificacionSeeder::class);
     }
 }
