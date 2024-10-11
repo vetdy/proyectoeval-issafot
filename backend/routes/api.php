@@ -4,12 +4,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DocenteController;
 use App\Http\Controllers\EmpresaController;
+use App\Http\Controllers\EvaluacionController;
 use App\Http\Controllers\ItemPlanificacionController;
 use App\Http\Controllers\ItemPlantillaController;
 use App\Http\Controllers\PlanificacionController;
 use App\Http\Controllers\PlantillaSeguimientoController;
 use App\Http\Controllers\PlantillaController;
 use App\Http\Controllers\TareaController;
+use App\Http\Controllers\TipoEvaluacionController;
 use App\Models\Planificacion;
 use Monolog\Handler\RotatingFileHandler;
 
@@ -82,4 +84,20 @@ Route::controller(ItemPlanificacionController::class)->group(function () {
     Route::get('/item_planificacion/{id}', 'show');
     Route::put('/item_planificacion/{id}', 'update');
     Route::delete('/item_planificacion/{id}', 'destroy');
+});
+
+Route::controller(EvaluacionController::class)->group(function () {
+    Route::get('/evaluacion', 'index');
+    Route::post('/evaluacion', 'store');
+    Route::get('/evaluacion/{id}', 'show');
+    Route::put('/evaluacion/{id}', 'update');
+    Route::delete('/evaluacion/{id}', 'destroy');
+});
+
+Route::controller(TipoEvaluacionController::class)->group(function () {
+    Route::get('/tipo_evaluacion', 'index');
+    Route::post('/tipo_evaluacion', 'store');
+    Route::get('/tipo_evaluacion/{id}', 'show');
+    Route::put('/tipo_evaluacion/{id}', 'update');
+    Route::delete('/tipo_evaluacion/{id}', 'destroy');
 });

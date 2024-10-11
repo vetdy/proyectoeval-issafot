@@ -394,6 +394,184 @@
                 }
             }
         },
+        "/api/evaluacion": {
+            "get": {
+                "tags": [
+                    "Evaluaciones"
+                ],
+                "summary": "Obtiene una lista de los evaluacions",
+                "operationId": "7881e5c31a0a53bb3eb148548da6f57d",
+                "responses": {
+                    "200": {
+                        "description": "Lista de evaluacions"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Evaluaciones"
+                ],
+                "summary": "Crear un nuevo evaluacion",
+                "operationId": "78d1e532f228132082d857405a938612",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "titulo",
+                                    "fecha_inicio",
+                                    "fecha_fin",
+                                    "id_proyecto_empresa"
+                                ],
+                                "properties": {
+                                    "titulo": {
+                                        "type": "string",
+                                        "example": "Item 1"
+                                    },
+                                    "fecha_inicio": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024/10/1"
+                                    },
+                                    "fecha_fin": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024/10/29"
+                                    },
+                                    "id_proyecto_empresa": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "evaluacion creada con éxito"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            }
+        },
+        "/api/evaluacion/{id}": {
+            "get": {
+                "tags": [
+                    "Evaluaciones"
+                ],
+                "summary": "Mostar un evaluacion",
+                "operationId": "1a06bbcda976cfa88c85b1ffda1e7b29",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la evaluacion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos de la evaluacion"
+                    },
+                    "404": {
+                        "description": "evaluacion no encontrada"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Evaluaciones"
+                ],
+                "summary": "Actualizar un evaluacion",
+                "operationId": "ab96158ade3c36b79cf6bcfb7769aa5c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la evaluacion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "titulo": {
+                                        "type": "string",
+                                        "example": "Item 1"
+                                    },
+                                    "fecha_inicio": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024/10/1"
+                                    },
+                                    "fecha_fin": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024/10/29"
+                                    },
+                                    "id_proyecto_empresa": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "evaluacion actualizada con éxito"
+                    },
+                    "404": {
+                        "description": "evaluacion no encontrada"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Evaluaciones"
+                ],
+                "summary": "Eliminar una evaluacion",
+                "operationId": "5ef3dd512fe70fb2572123ce749f15d5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la evaluacion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "evaluacion eliminada "
+                    },
+                    "404": {
+                        "description": "evaluacion no encontrada"
+                    }
+                }
+            }
+        },
         "/api/item_planificacion": {
             "get": {
                 "tags": [
@@ -1224,6 +1402,59 @@
                     }
                 }
             }
+        },
+        "/api/tipo_evaluacion": {
+            "get": {
+                "tags": [
+                    "Tipo Evaluacion"
+                ],
+                "summary": "Obtiene una lista de items planilla",
+                "operationId": "d9f9cff7006b8c5d745ef63dd16d077a",
+                "responses": {
+                    "200": {
+                        "description": "Lista de de items planilla"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Tipo Evaluacion"
+                ],
+                "summary": "Crear un nuevo Item Plantilla",
+                "operationId": "f1b5eaf1736763eedcd9b5b24833a48e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "titulo",
+                                    "id_plantilla"
+                                ],
+                                "properties": {
+                                    "titulo": {
+                                        "type": "string",
+                                        "example": "Diseño de base de datos"
+                                    },
+                                    "id_plantilla": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Item Plantilla creado con éxito"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            }
         }
     },
     "tags": [
@@ -1234,6 +1465,10 @@
         {
             "name": "Empresas",
             "description": "Empresas"
+        },
+        {
+            "name": "Evaluaciones",
+            "description": "Evaluaciones"
         },
         {
             "name": "Item planificaciones",
@@ -1254,6 +1489,10 @@
         {
             "name": "Tareas",
             "description": "Tareas"
+        },
+        {
+            "name": "Tipo Evaluacion",
+            "description": "Tipo Evaluacion"
         }
     ]
 }
