@@ -1402,6 +1402,59 @@
                     }
                 }
             }
+        },
+        "/api/tipo_evaluacion": {
+            "get": {
+                "tags": [
+                    "Tipo Evaluacion"
+                ],
+                "summary": "Obtiene una lista de items planilla",
+                "operationId": "d9f9cff7006b8c5d745ef63dd16d077a",
+                "responses": {
+                    "200": {
+                        "description": "Lista de de items planilla"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Tipo Evaluacion"
+                ],
+                "summary": "Crear un nuevo Item Plantilla",
+                "operationId": "f1b5eaf1736763eedcd9b5b24833a48e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "titulo",
+                                    "id_plantilla"
+                                ],
+                                "properties": {
+                                    "titulo": {
+                                        "type": "string",
+                                        "example": "Diseño de base de datos"
+                                    },
+                                    "id_plantilla": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Item Plantilla creado con éxito"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            }
         }
     },
     "tags": [
@@ -1436,6 +1489,10 @@
         {
             "name": "Tareas",
             "description": "Tareas"
+        },
+        {
+            "name": "Tipo Evaluacion",
+            "description": "Tipo Evaluacion"
         }
     ]
 }

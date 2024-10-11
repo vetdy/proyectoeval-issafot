@@ -20,8 +20,8 @@ class CreateEvaluacionTable extends Migration
             $table->time('hora_revision');
             $table->boolean('concluido');
             $table->integer('nota');
-            $table->string('id_empresa')->constrained('empresas')->onDelete('cascade');
-            $table->string('id_tipo_evaluacion')->constrained('tipo_evaluacions')->onDelete('cascade');
+            $table->string('id_empresa')->constrained('empresas');
+            $table->string('id_tipo_evaluacion')->constrained('tipo_evaluacions');
             $table->timestamps();
         });
   

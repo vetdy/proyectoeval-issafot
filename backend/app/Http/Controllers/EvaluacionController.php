@@ -47,11 +47,13 @@ class EvaluacionController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"titulo","fecha_inicio","fecha_fin","id_proyecto_empresa"},
+     *             required={"titulo","fecha_revision","hora_revision","concluido","nota","id_empresa","id_tipo_evaluacion"},
      *             @OA\Property(property="titulo", type="string", example="Item 1"),
-     *             @OA\Property(property="fecha_inicio", type="date", example="2024/10/1"),
-     *             @OA\Property(property="fecha_fin", type="date", example="2024/10/29"),
-     *             @OA\Property(property="id_proyecto_empresa", type="integer", example="1")
+     *             @OA\Property(property="fecha_revision", type="date", example="2024/10/21"),
+     *             @OA\Property(property="hora_revision", type="time", example="18:00"),
+     *             @OA\Property(property="nota", type="integer", example="50"),
+     *             @OA\Property(property="id_empresa", type="integer", example="1"),
+     *             @OA\Property(property="id_tipo_evaluacion", type="integer", example="2"),
      *         )
      *     ),
      *     @OA\Response(
@@ -154,9 +156,11 @@ class EvaluacionController extends Controller
      *      required=true,
      *         @OA\JsonContent(
      *             @OA\Property(property="titulo", type="string", example="Item 1"),
-     *             @OA\Property(property="fecha_inicio", type="date", example="2024/10/1"),
-     *             @OA\Property(property="fecha_fin", type="date", example="2024/10/29"),
-     *             @OA\Property(property="id_proyecto_empresa", type="integer", example="1")
+     *             @OA\Property(property="fecha_revision", type="date", example="2024/10/21"),
+     *             @OA\Property(property="hora_revision", type="time", example="18:00"),
+     *             @OA\Property(property="nota", type="integer", example="50"),
+     *             @OA\Property(property="id_empresa", type="integer", example="1"),
+     *             @OA\Property(property="id_tipo_evaluacion", type="integer", example="2"),
      *         )
      *     ),
      *     @OA\Response(
