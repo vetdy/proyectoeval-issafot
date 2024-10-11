@@ -225,4 +225,47 @@ class ItemPlantillaController extends Controller
             return response()->json(['contenido'=>'no existe el item plantilla'],404);
         }
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    /**
+     * @OA\Get(
+     *     path="/api/item_plantilla/plantilla_seguimiento/{id}",
+     *     summary="Mostar una lista item planilla por plantilla seguimiento",
+     *     tags={"Plantillas Seguimientos"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID del empresa",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *      ),
+     *     
+     *     @OA\Response(
+     *         response=200,
+     *         description="Datos del item planilla por plantilla seguimiento"
+     *     ),
+     *      @OA\Response(
+     *         response=404,
+     *         description="plantilla no encontrada"
+     *     )
+     * 
+     * )
+     */
+    public function show_plantilla_seguimiento($id)
+    {
+        $item_plantilla=Item_plantilla::where('id_plantilla_seguimiento', $id)->get();;
+        if(!$item_plantilla->isEmpty()){
+            return response()->json(['contenido'=>compact('item_plantilla')],200);
+        }else{
+            return response()->json(['contenido'=>'id plantilla seguimiento no existe'],404);
+        }
+        
+    }
 }

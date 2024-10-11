@@ -16,7 +16,7 @@ class CreateItemPlantillaTable extends Migration
         Schema::create('item_plantillas', function (Blueprint $table) {
             $table->id();
             $table->string('titulo');
-            $table->string('id_plantilla')->constrained('plantilla_segimientos')->onDelete('cascade');
+            $table->string('id_plantilla_seguimiento')->constrained('plantilla_segimientos')->onDelete('cascade');
             $table->timestamps();
         });
     }

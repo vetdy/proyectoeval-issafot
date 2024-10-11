@@ -13,6 +13,7 @@ class Empresa extends Model
     public function representante_legal(){
         return $this->hasMany(Socio_empresa::class);
     }
+    
    
 }
 

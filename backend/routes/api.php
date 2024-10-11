@@ -51,6 +51,8 @@ Route::controller(PlantillaSeguimientoController::class)->group(function () {
     Route::get('/plantilla_seguimiento/{id}', 'show');
     Route::put('/plantilla_seguimiento/{id}', 'update');
     Route::delete('/plantilla_seguimiento/{id}', 'destroy');
+
+    Route::get('/plantilla_seguimiento/empresa/{id}','show_empresa');
 });
 
 Route::controller(ItemPlantillaController::class)->group(function () {
@@ -59,6 +61,8 @@ Route::controller(ItemPlantillaController::class)->group(function () {
     Route::get('/item_plantilla/{id}', 'show');
     Route::put('/item_plantilla/{id}', 'update');
     Route::delete('/item_plantilla/{id}', 'destroy');
+
+    Route::get('/item_plantilla/plantilla_seguimiento/{id}','show_plantilla_seguimiento');
 });
 
 Route::controller(TareaController::class)->group(function () {
