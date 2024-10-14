@@ -1,4 +1,3 @@
-import { useState } from "react";
 import BotonControl from "./BotonControl";
 
 const leerTitulos = (datos = []) => {
@@ -11,35 +10,62 @@ const leerTitulos = (datos = []) => {
     return Object.keys(datos[0]);
 };
 
-const Elemento = ({ texto = "", lista = [], index = 0, regex, pkey = "" }) => {
-    const uniqueKey = `${pkey}-elem-${index}`;
+/**
+ * Genera un componente lista con los datos de la posición y llave indicados.
+ * Genera tomado la posicion del json y su llave, el valor debe ser string[].
+ * @param {Object<string,*>[]} datos El arreglo de datos en formato json.
+ * @param {number} index La posicion en el arreglo de donde leer los datos.
+ * @param {string} llave La llave o key del json donde esta el arreglo de string.
+ * @param {string} pkey Una cadena para generar key unico del componente.
+ * @param {function[]} handle Una funcion o arreglo de funciones para manejar eventos.
+ * @returns El componente con la lista.
+ */
+const Lista = ({ datos = [], index = 0, llave = "", pkey = "", handle }) => {
+    const arreglo = datos[index][llave];
+    const olkey = `${pkey}-ol`;
 
-    if (!texto) {
-        return;
-    }
-    if (!regex.test(texto)) {
-        if (index > 0 && lista[index - 1] === "<boton>") {
-            return;
-        }
-        return <>{texto}</>;
-    }
-    if (texto !== "<boton>") {
-        return <BotonControl tipo={texto} key={uniqueKey}></BotonControl>;
-    }
-    return <BotonControl key={uniqueKey}>{lista[index + 1]}</BotonControl>;
+    return (
+        <ol key={olkey}>
+            {arreglo.map((cad, i) => {
+                return(
+                    <li key={`${olkey}-${i}`}>{cad}</li>
+                )
+            })}
+        </ol>
+    );
 };
+
+const genBoton = ({cadena = "", index = 0, llave = "",  pkey="", botones, handle}) => {
+    const palabras = cadena.split(botones);
+    return(
+        <>
+            {palabras.map(p => {
+                if(! p){
+                    return;
+                }
+                if( botones.test(p) ){
+                    const bkey = `${pkey}-${p}`;
+                    return (
+                        <BotonControl 
+                            tipo={p}
+                            key={bkey}
+                        />
+                    )
+                }
+                return <>{p}</>
+            })}
+        </>
+    )
+}
 
 /**
  * Genera una tabla con los datos otorgados a la funcion.
- * Las llaves son los titulos y los valores el contenido.
- * @param {Array<Object>} datos
+ * @param {(Object<string,*>[]|[])} datos Los datos
  * @returns El componente Tabla con los datos
  */
-const Tabla = ({ datos = [], children, pagina = 1, porPagina = 10 }) => {
+const Tabla = ({ datos = [], children, handle }) => {
     const titulos = leerTitulos(datos);
-
-    const botones = /(<boton>|<agregar>|<editar>|<eliminar>)/;
-
+    const botones = /(<detalle>|<agregar>|<editar>|<eliminar>)/;
     return (
         <div className="container-fluid ">
             <table className="table table-hover">
@@ -49,7 +75,7 @@ const Tabla = ({ datos = [], children, pagina = 1, porPagina = 10 }) => {
                             return (
                                 <th
                                     scope="col"
-                                    key={t}
+                                    key={`th-${t}`}
                                     className="bg-eva-secondary text-eva-light"
                                 >
                                     {t}
@@ -61,39 +87,46 @@ const Tabla = ({ datos = [], children, pagina = 1, porPagina = 10 }) => {
                 <tbody>
                     {datos.length &&
                         typeof datos[0] !== "string" &&
-                        datos.map((json, idx) => {
+                        datos.map((d, idx) => {
                             return (
-                                <tr key={`dataRow${idx}`}>
-                                    {Object.values(json).map((cadena, pos) => {
-                                        if (!botones.test(cadena)) {
+                                <tr key={`f-${idx}`}>
+                                    {Object.entries(d).map(([llave, valor]) => {
+                                        const key = `f-${idx}-c${llave}`;
+                                        if ( typeof valor === "string" ) {
+                                            if( botones.test(valor) ){
+                                                return (
+                                                    <td key={key}>
+                                                        {genBoton({
+                                                            cadena:valor, 
+                                                            index:idx,
+                                                            llave, 
+                                                            pkey:key,
+                                                            botones
+                                                        })}
+                                                    </td>
+                                                )
+                                            }
+                                            return <td key={key}>{valor}</td>;
+                                        }
+                                        if ( Array.isArray(valor) ) {
+                                            const listakey = `${key}-lista`
                                             return (
-                                                <td key={`row${idx}Col${pos}`}>
-                                                    {cadena}
+                                                <td key={key}>
+                                                    <Lista
+                                                        pkey={listakey}
+                                                        key={listakey}
+                                                        datos={datos}
+                                                        index={idx}
+                                                        llave={llave}
+                                                    />
                                                 </td>
                                             );
                                         }
-                                        const conBotones =
-                                            cadena.split(botones);
-                                        return (
-                                            <td key={`row${idx}Col${pos}`}>
-                                                {conBotones.map((texto, k) => {
-                                                    return (
-                                                        <Elemento
-                                                            key={`row${idx}Col${pos}-elem-${k}`}
-                                                            texto={texto}
-                                                            lista={conBotones}
-                                                            regex={botones}
-                                                            index={k}
-                                                            pkey={`row${idx}Col${pos}`}
-                                                        ></Elemento>
-                                                    );
-                                                })}
-                                            </td>
-                                        );
                                     })}
                                 </tr>
                             );
-                        })}
+                        })
+                    }
                     {children}
                 </tbody>
             </table>

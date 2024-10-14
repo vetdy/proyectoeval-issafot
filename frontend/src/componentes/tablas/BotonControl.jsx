@@ -4,24 +4,38 @@ import dashSVG from "../../assets/dash.svg";
 import trashSVG from "../../assets/trash.svg";
 import crossSVG from "../../assets/x.svg";
 
-const BotonControl = ({ tipo = "<boton>", children, handle, ...props }) => {
+const BotonControl = ({ tipo = "<detalle>", pkey = "", handle }) => {
+    const contenido = {
+        "<detalle>": () => {
+            return "detalle";
+        },
+        "<agregar>": () => {
+            return <img src={plusSVG} alt="+" />;
+        },
+        "<editar>": () => {
+            return <img src={pencilSVG} alt="<_" />;
+        },
+        "<eliminar>": () => {
+            return <img src={dashSVG} alt="-" />;
+        },
+    };
+
+    const estiloBotonIcono = "border btn-light";
+
+    const estilo = {
+        "<detalle>": "btn-eva-info",
+        "<agregar>": estiloBotonIcono,
+        "<editar>": estiloBotonIcono,
+        "<eliminar>": estiloBotonIcono,
+    };
+
     return (
         <button
-            className={`btn ${tipo === "<boton>" ? "btn-eva-info" : ""}`}
+            className={`btn ${estilo[tipo]}`}
+            key={`${pkey}-${tipo}`}
             onClick={handle}
-            {...props}
         >
-            {tipo === "<agregar>" && (
-                <img src={plusSVG} alt="" />
-            )}
-            {tipo === "<editar>" && (
-                
-                <img src={pencilSVG} alt="" />
-            )}
-            {tipo === "<eliminar>" && (
-                <img src={dashSVG} alt="" />
-            )}
-            {children}
+            {contenido[tipo]()}
         </button>
     );
 };
