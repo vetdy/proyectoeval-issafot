@@ -9,5 +9,5 @@ export {
     RegistroDocentes,
     RegistroEmpresa,
     PlanillasSeguimiento,
-    RegistroPlanificacion,
+    RegistroPlanificacion
 }
