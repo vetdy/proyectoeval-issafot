@@ -71,7 +71,7 @@ class DocenteController extends Controller
                 'apellido' => 'required|max:32',
                 'codigo_sis' => 'required|max:9|unique:usuarios',
 
-                'correo'=>'required|max:32',
+                'correo'=>'required|max:32|unique:usuarios',
                 'telefono'=>'required|max:32',
                 'contrasena' => 'required|max:225',
             ]);
