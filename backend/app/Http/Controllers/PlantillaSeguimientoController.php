@@ -173,7 +173,7 @@ class PlantillaSeguimientoController extends Controller
         $request->validate([
             'titulo'=>'nullable|max:64',
             'fecha_revision'=>'nullable|date',
-            'hora_revision'=>'nullable|time',
+            'hora_revision'=>'nullable|date',
             'id_empresa'=>'nullable|exists:empresas.id'
         ]);
         try{

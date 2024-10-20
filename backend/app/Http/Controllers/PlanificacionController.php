@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Item_planificacion;
 use Illuminate\Http\Request;
 use App\Models\Planificacion;
 
@@ -229,4 +230,29 @@ class PlanificacionController extends Controller
             return response()->json(['contenido'=>'no existe la Planificacion'],404);
         }
     }
+
+    public function storePlanificacionTareas(Request $request)
+    {
+        try{
+            $request -> validate(['titulo'=>'required|max:64',
+                'tarea.*.nombre'=>'required|max:64',
+                'tarea.*.fecha_inicio'=>'required|date',
+                'tarea.*.fecha_fin'=>'required|date',
+                'dia_rev'=>'required|date',
+                'hora_rev'=>'required|date_format:H:i',
+                'id_proyecto_empresa'=>'required|exists:proyecto_empresas,id',]);
+
+        }catch(\Illuminate\Validation\ValidationException $e){
+            return response()->json(['contenido'=>$e->errors()], 422);
+        }
+        $planificacion = Planificacion::create($request->all());
+        foreach ($request->tarea as $tareaData) {
+            
+            $tareaData['id_planificacion']=$planificacion->id;
+            #dd($tareaData);
+            Item_planificacion::create($tareaData);
+        }
+        return response()->json(['contenido'=>'se registro exitosamente la planificacion con tareas'],200);
+    }
 }
+

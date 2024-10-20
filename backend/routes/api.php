@@ -80,6 +80,8 @@ Route::controller(PlanificacionController::class)->group(function () {
     Route::get('/planificacion/{id}', 'show');
     Route::put('/planificacion/{id}', 'update');
     Route::delete('/planificacion/{id}', 'destroy');
+
+    Route::post('/planificacion_tareas', 'storePlanificacionTareas');
 });
 
 Route::controller(ItemPlanificacionController::class)->group(function () {
