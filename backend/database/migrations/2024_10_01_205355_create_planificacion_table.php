@@ -16,8 +16,8 @@ class CreatePlanificacionTable extends Migration
         Schema::create('planificaciones', function (Blueprint $table) {
             $table->id();
             $table->string('titulo');
-            $table->string('dia_rev');
-            $table->string('hora_rev');
+            $table->string('fecha_revision');
+            $table->string('hora_revision');
             $table->timestamps();
             $table->string('id_proyecto_empresa')->constrained('proyecto_empresas')->onDelete('cascade');
         });
