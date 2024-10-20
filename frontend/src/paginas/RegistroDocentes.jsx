@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import logo from "/logo.png";
+import '../estilos/RegistroDocentes.css';
 
 function RegistroDocentes() {
     const [nombre, setNombre] = useState('');
@@ -73,64 +74,101 @@ function RegistroDocentes() {
             setErrores({ ...errores, telefono: '' });
         }
     };
-        //validar datos
-        const registrarDocente = async () => {
-            // Validar campos antes de enviar
-            if (
-                !errores.nombre && !errores.apellido && !errores.contrasena
-                && !errores.correo && !errores.codsis && !errores.telefono
-            ) {
-                // Crear el objeto con los datos del docente
-                const docenteData = {
-                    nombre,
-                    apellido,
-                    codigo_sis: codsis,
-                    correo,
-                    telefono,
-                    contrasena,
-                };
-        
-                try {
-                    // Llamada a la API
-                    const response = await fetch('http://127.0.0.1:8000/api/docente', {  // URL de la API
-                        method: 'POST',  // Método POST
-                        headers: {
-                            'Content-Type': 'application/json',  // Tipo de contenido
-                        },
-                        body: JSON.stringify(docenteData),  // Convertir el objeto docenteData a JSON
-                    });
-        
-                    // Procesar la respuesta del servidor
-                    const data = await response.json();  // Convertir la respuesta a JSON
-        
-                    if (response.ok) {
-                        setConfirmacion(data.contenido);  // Mensaje de éxito
-                        // Limpiar los campos después del registro
-                        setNombre('');
-                        setApellido('');
-                        setCodsis('');
-                        setCorreo('');
-                        setTelefono('');
-                        setContrasena('');
-                    } else {
-                        setConfirmacion(data.contenido);  // Mostrar mensaje de error
+
+
+
+
+
+
+    const registrarDocente = async (e) => {
+        e.preventDefault();  // Prevenir el comportamiento por defecto del botón
+    
+        // Validar campos antes de enviar
+        if (
+            !errores.nombre && !errores.apellido && !errores.contrasena
+            && !errores.correo && !errores.codsis && !errores.telefono
+        ) {
+            // Crear el objeto con los datos del docente
+            const docenteData = {
+                nombre,
+                apellido,
+                codigo_sis: codsis,
+                correo,
+                telefono,
+                contrasena,
+            };
+    
+            try {
+                // Llamada a la API
+                const response = await fetch('http://127.0.0.1:8000/api/docente', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(docenteData),
+                });
+    
+                const data = await response.json();  // Convertir la respuesta a JSON
+    
+                if (response.ok) {
+                    setConfirmacion(data.contenido);  // Mensaje de éxito
+                    // Limpiar los campos después del registro
+                    setNombre('');
+                    setApellido('');
+                    setCodsis('');
+                    setCorreo('');
+                    setTelefono('');
+                    setContrasena('');
+                    setErrores({});  // Limpiar los errores
+                } else if (response.status === 422) {
+                    // Manejo de errores de validación del servidor
+                    if (data.contenido.codigo_sis) {
+                        setErrores((prev) => ({
+                            ...prev,
+                            codsis: 'El código SIS ya está registrado.',
+                        }));
                     }
-                } catch (error) {
-                    console.error('Error:', error);
-                    setConfirmacion('Ocurrió un error al registrar al docente.');
+    
+                    if (data.contenido.correo) {
+                        setErrores((prev) => ({
+                            ...prev,
+                            correo: 'El correo electrónico ya está registrado.',
+                        }));
+                    }
+    
+                    setConfirmacion('Por favor, corrige los errores.');
+                } else {
+                    // Mostrar detalles del error devuelto por el servidor
+                    setConfirmacion(`Error: ${response.statusText}`);
+                    console.error('Error en la respuesta:', data);
                 }
-            } else {
-                setConfirmacion('Por favor, corrige los errores antes de enviar.');  // Mensaje de error de validación
+            } catch (error) {
+                // Mostrar el mensaje completo del error en la consola y en la interfaz
+                console.error('Error en la solicitud:', error);
+                setConfirmacion(`Error de solicitud: ${error.message}`);
             }
-        };
+        } else {
+            setConfirmacion('Por favor, corrige los errores antes de enviar.');
+        }
+    };
+    
+
+
+
+
+
         
 
 
     return (
         <div className="container w-75">
-            <div className="row mb-5">
-                <h2 className="text-center">Registrar Docentes</h2>
-            </div>
+            <div className="row mb-2">
+         </div>
+            <div className="banda-titulo">
+            <h2 className="text-center text-white">REGISTRO DE DOCENTES</h2>
+         </div>
+
+    
 
             <form>
                 <div className="row mb-2">
@@ -139,7 +177,7 @@ function RegistroDocentes() {
                     <div className="form-group mb-1">
                             <input
                                 className="form-control"
-                                type="text"
+                                type=""
                                 name="Nombre"
                                 id="nombredocente"
                                 placeholder="Nombre"
@@ -230,8 +268,14 @@ function RegistroDocentes() {
                 </div>
 
                 <div className="row justify-content-center">
-                    <input className="btn btn-primary col-sm-3" type="button" value="Registrar" onClick={registrarDocente} />
-                </div>
+    <button 
+        className="btn btn-eva-secondary col-sm-3" 
+        onClick={registrarDocente} 
+        style={{ fontWeight: 'bold' }}
+    >
+        REGISTRAR
+    </button>
+</div>
 
                 {/* Mostrar mensaje de confirmación si existe */}
                 {confirmacion && (

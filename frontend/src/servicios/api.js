@@ -83,6 +83,17 @@ export const registrarEmpresa = async (datos={}) => {
     const respuesta = await solicitud(rutas.REGISTRO_EMPRESA, "POST", datos);
     return respuesta;
 }
+
+export const obtenerPlanillasEmpresa = async (empresa=1) => {
+    const respuesta = await solicitud(`${rutas.PLANTILLA_EMPRESA}/${empresa}`);
+    return respuesta;
+}
+
+export const obtenerItemsPlanilla = async (plantilla=1) => {
+    const respuesta = await solicitud(`${rutas.ITEMS_PLANTILLA}/${plantilla}`);
+    return respuesta;
+}
+
 export const registrarDocente = async (datosFormulario={}) => {
     const respuesta = await solicitud(rutas.REGISTRO_DOCENTE, "POST", datosFormulario);
     return respuesta;
