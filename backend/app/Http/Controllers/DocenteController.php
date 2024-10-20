@@ -68,6 +68,7 @@ class DocenteController extends Controller
 {
     Log::info('Datos recibidos:', $request->all());
 
+
     try {
         // Validación de los campos
         $validator = $request->validate([
@@ -87,6 +88,7 @@ class DocenteController extends Controller
 
     try {
         // Crear el nuevo registro de docente
+
         $docente = new Docente();
         $docente->nombre = $request['nombre'];
         $docente->apellido = $request['apellido'];
