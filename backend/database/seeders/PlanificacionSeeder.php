@@ -18,20 +18,20 @@ class PlanificacionSeeder extends Seeder
         DB::table('planificaciones')->insert([
             [
                 'titulo'=>'presencial',
-                'dia_rev'=>'2024/10/27',
-                'hora_rev'=>'11:00',
+                'fecha_revision'=>'2024/10/27',
+                'hora_revision'=>'11:00',
                 'id_proyecto_empresa'=>'2'
             ],
             [
                 'titulo'=>'plan 1',
-                'dia_rev'=>'2024/10/28',
-                'hora_rev'=>'11:30',
+                'fecha_revision'=>'2024/10/28',
+                'hora_revision'=>'11:30',
                 'id_proyecto_empresa'=>'1'
             ],
             [
                 'titulo'=>'plan 2',
-                'dia_rev'=>'2024/10/27',
-                'hora_rev'=>'12:00',
+                'fecha_revision'=>'2024/10/27',
+                'hora_revision'=>'12:00',
                 'id_proyecto_empresa'=>'1'
             ],
 
