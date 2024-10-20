@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Docente;
+use Illuminate\Support\Facades\Log;
 /**
 * @OA\Info(title="API proyecto EVA", version="1.0")
 *
@@ -64,32 +65,54 @@ class DocenteController extends Controller
      * )
      */
     public function store(Request $request)
-    {
-        try{
-            $validor=$request->validate([
-                'nombre' => 'required|max:32',
-                'apellido' => 'required|max:32',
-                'codigo_sis' => 'required|max:9|unique:usuarios',
+{
+    Log::info('Datos recibidos:', $request->all());
 
-                'correo'=>'required|max:32|unique:usuarios',
-                'telefono'=>'required|max:32',
-                'contrasena' => 'required|max:225',
-            ]);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(['contenido'=>$e->errors()], 422);
-        }
-        
-        $docente = new Docente();
-        $docente ->nombre =$request['nombre'];
-        $docente ->apellido =$request['apellido'];
-        $docente ->codigo_sis =$request['codigo_sis'];
-        $docente ->correo=$request['correo'];
-        $docente ->telefono=$request['telefono'];
-        $docente ->id_rol='1';// el usuario docente tiene id 1
-        $docente ->contrasena=bcrypt($request['contrasena']);
-        $docente->save();
-        return response()->json(['contenido'=>'se registro exitosamente el docente'],200);
+
+    try {
+        // Validación de los campos
+        $validator = $request->validate([
+            'nombre' => 'required|max:32',
+            'apellido' => 'required|max:32',
+            'codigo_sis' => 'required|digits:9|unique:usuarios,codigo_sis', // Verifica la unicidad en la tabla 'docentes'
+            'correo' => 'required|email|max:32|unique:usuarios,correo', // Verifica la unicidad en la tabla 'docentes'
+            'telefono' => 'required|max:32',
+            'contrasena' => 'required|max:225',
+        ]);
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        // Devuelve los errores de validación, incluyendo duplicados
+        return response()->json([
+            'contenido' => $e->errors(),
+        ], 422);
     }
+
+    try {
+        // Crear el nuevo registro de docente
+
+        $docente = new Docente();
+        $docente->nombre = $request['nombre'];
+        $docente->apellido = $request['apellido'];
+        $docente->codigo_sis = $request['codigo_sis'];
+        $docente->correo = $request['correo'];
+        $docente->telefono = $request['telefono'];
+        $docente->id_rol = 1; // El usuario docente tiene id 1
+        $docente->contrasena = bcrypt($request['contrasena']);
+        $docente->save();
+
+        // Respuesta de éxito
+        return response()->json([
+            'contenido' => 'Se registró exitosamente el docente',
+        ], 200);
+
+    } catch (\Exception $e) {
+        // Captura errores inesperados y devuelve una respuesta genérica
+        Log::error('Error al registrar docente: ' . $e->getMessage());
+        return response()->json([
+            'contenido' => 'Ocurrió un error al registrar el docente. Inténtelo de nuevo más tarde.',
+        ], 500);
+    }
+}
+
 
     /**
      * Display the specified resource.

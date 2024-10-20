@@ -1,55 +1,137 @@
-import { useState } from "react"
+import BotonControl from "./BotonControl";
+
+const leerTitulos = (datos = []) => {
+    if (!datos.length) {
+        return [];
+    }
+    if (typeof datos[0] === "string") {
+        return datos;
+    }
+    return Object.keys(datos[0]);
+};
+
+/**
+ * Genera un componente lista con los datos de la posición y llave indicados.
+ * Genera tomado la posicion del json y su llave, el valor debe ser string[].
+ * @param {Object<string,*>[]} datos El arreglo de datos en formato json.
+ * @param {number} index La posicion en el arreglo de donde leer los datos.
+ * @param {string} llave La llave o key del json donde esta el arreglo de string.
+ * @param {string} pkey Una cadena para generar key unico del componente.
+ * @param {function[]} handle Una funcion o arreglo de funciones para manejar eventos.
+ * @returns El componente con la lista.
+ */
+const Lista = ({ datos = [], index = 0, llave = "", pkey = "", handle }) => {
+    const arreglo = datos[index][llave];
+    const olkey = `${pkey}-ol`;
+
+    return (
+        <ol key={olkey}>
+            {arreglo.map((cad, i) => {
+                return(
+                    <li key={`${olkey}-${i}`}>{cad}</li>
+                )
+            })}
+        </ol>
+    );
+};
+
+const genBoton = ({cadena = "", index = 0, llave = "",  pkey="", botones, handle}) => {
+    const palabras = cadena.split(botones);
+    return(
+        <>
+            {palabras.map(p => {
+                if(! p){
+                    return;
+                }
+                if( botones.test(p) ){
+                    const bkey = `${pkey}-${p}`;
+                    return (
+                        <BotonControl 
+                            tipo={p}
+                            key={bkey}
+                        />
+                    )
+                }
+                return <>{p}</>
+            })}
+        </>
+    )
+}
 
 /**
  * Genera una tabla con los datos otorgados a la funcion.
- * Las llaves son los titulos y los valores el contenido.
- * @param {Array<Object>} datos 
+ * @param {(Object<string,*>[]|[])} datos Los datos
  * @returns El componente Tabla con los datos
  */
-const Tabla = ({datos=[]}) => {
-    const titulos = datos.length ? Object.keys(datos[0]) : [];
-    console.log(titulos);
-    //console.log(datos[0]);
-    //console.log(datos.datos);
-    //console.log( Object.keys(datos[0]) );
-    //console.log(datos[0]);
-
-    return(
+const Tabla = ({ datos = [], children, handle }) => {
+    const titulos = leerTitulos(datos);
+    const botones = /(<detalle>|<agregar>|<editar>|<eliminar>)/;
+    return (
         <div className="container-fluid ">
-            <h2>Nombre empresa ISSA SOFT</h2>
-            <br></br>
             <table className="table table-hover">
-                <thead className="thead-dark">
+                <thead>
                     <tr>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Fecha Revision</th>
-                        <th scope="col">Hora Revision</th>
-                        <th scope="col">Entregables</th>
+                        {titulos.map((t) => {
+                            return (
+                                <th
+                                    scope="col"
+                                    key={`th-${t}`}
+                                    className="bg-eva-secondary text-eva-light"
+                                >
+                                    {t}
+                                </th>
+                            );
+                        })}
                     </tr>
                 </thead>
-                <tbody >
-                    <tr>
-                        <td>Sprint 0</td>
-                        <td>20-08-24</td>
-                        <td>8:00 AM</td>
-                        <td><button className="btn btn-eva-secondary">detalle</button></td>
-                    </tr>
-                    <tr>
-                        <td>Sprint 1</td>
-                        <td>20-08-24</td>
-                        <td>9:00 AM</td>
-                        <td><button className="btn btn-eva-secondary">detalle</button></td>
-                    </tr>
-                    <tr>
-                        <td>Sprint 2</td>
-                        <td>20-08-24</td>
-                        <td>2:00 PM</td>
-                        <td><button className="btn btn-eva-secondary">detalle</button></td>
-                    </tr>
+                <tbody>
+                    {datos.length &&
+                        typeof datos[0] !== "string" &&
+                        datos.map((d, idx) => {
+                            return (
+                                <tr key={`f-${idx}`}>
+                                    {Object.entries(d).map(([llave, valor]) => {
+                                        const key = `f-${idx}-c${llave}`;
+                                        if ( typeof valor === "string" ) {
+                                            if( botones.test(valor) ){
+                                                return (
+                                                    <td key={key}>
+                                                        {genBoton({
+                                                            cadena:valor, 
+                                                            index:idx,
+                                                            llave, 
+                                                            pkey:key,
+                                                            botones
+                                                        })}
+                                                    </td>
+                                                )
+                                            }
+                                            return <td key={key}>{valor}</td>;
+                                        }
+                                        if ( Array.isArray(valor) ) {
+                                            const listakey = `${key}-lista`
+                                            return (
+                                                <td key={key}>
+                                                    <Lista
+                                                        pkey={listakey}
+                                                        key={listakey}
+                                                        datos={datos}
+                                                        index={idx}
+                                                        llave={llave}
+                                                    />
+                                                </td>
+                                            );
+                                        }
+                                    })}
+                                </tr>
+                            );
+                        })
+                    }
+                    {children}
                 </tbody>
             </table>
         </div>
     );
-}
+};
 
 export default Tabla;
