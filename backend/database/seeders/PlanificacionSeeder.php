@@ -18,20 +18,20 @@ class PlanificacionSeeder extends Seeder
         DB::table('planificaciones')->insert([
             [
                 'titulo'=>'presencial',
-                'fecha_inicio'=>'2024/10/28',
-                'fecha_fin'=>'2019/11/6',
+                'fecha_revision'=>'2024/10/27',
+                'hora_revision'=>'11:00',
                 'id_proyecto_empresa'=>'2'
             ],
             [
                 'titulo'=>'plan 1',
-                'fecha_inicio'=>'2024/10/29',
-                'fecha_fin'=>'2019/11/7',
+                'fecha_revision'=>'2024/10/28',
+                'hora_revision'=>'11:30',
                 'id_proyecto_empresa'=>'1'
             ],
             [
                 'titulo'=>'plan 2',
-                'fecha_inicio'=>'2024/11/1',
-                'fecha_fin'=>'2019/11/8',
+                'fecha_revision'=>'2024/10/27',
+                'hora_revision'=>'12:00',
                 'id_proyecto_empresa'=>'1'
             ],
 
@@ -39,14 +39,20 @@ class PlanificacionSeeder extends Seeder
         DB::table('item_planificacion')->insert([
             [
                 'nombre'=>'product backlog',
+                'fecha_inicio'=>'2024/10/28',
+                'fecha_fin'=>'2019/11/6',
                 'id_planificacion'=>'2'
             ],
             [
                 'nombre'=>'sprint backlog',
+                'fecha_inicio'=>'2024/10/29',
+                'fecha_fin'=>'2019/11/7',
                 'id_planificacion'=>'2'
             ],
             [
                 'nombre'=>'historia de usuario',
+                'fecha_inicio'=>'2024/11/1',
+                'fecha_fin'=>'2019/11/8',
                 'id_planificacion'=>'2'
             ],
         ]);

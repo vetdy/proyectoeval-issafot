@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Item_planificacion;
 use Illuminate\Http\Request;
 use App\Models\Planificacion;
+use Illuminate\Support\Carbon;
+use App\Services\PlanificacionService;
 
 class PlanificacionController extends Controller
 {
@@ -229,4 +232,49 @@ class PlanificacionController extends Controller
             return response()->json(['contenido'=>'no existe la Planificacion'],404);
         }
     }
+
+    public function storePlanificacionTareas(Request $request)
+    {
+        $planifiacionService= new PlanificacionService();
+        try{
+            $request -> validate(
+                ['planificacion.*.titulo'=>'required|max:64',
+                'planificacion.*.tarea.*'=>'required|max:64',
+                'planificacion.*.fecha_inicio'=>'required|date',
+                'planificacion.*.fecha_fin'=>'required|date',
+                'dia_revision'=>'required|integer',
+                'hora_revision'=>'required|date_format:H:i',
+                'id_proyecto_empresa'=>'required|exists:proyecto_empresas,id',]
+            );
+
+        }catch(\Illuminate\Validation\ValidationException $e){
+            return response()->json(['contenido'=>$e->errors()], 422);
+        }
+        foreach ($request->planificacion as $itemPlanificacion ){
+            
+            $planificacion = new Planificacion();
+            $planificacion->hora_revision=$request['hora_revision'];
+            $planificacion->fecha_revision=$planifiacionService->getProximoDiaRevision($itemPlanificacion['fecha_fin'],$request['dia_revision']);
+            $planificacion->titulo=$itemPlanificacion['titulo'];
+            $planificacion->id_proyecto_empresa=$request['id_proyecto_empresa'];
+            
+            $planificacion->save();
+            foreach ($itemPlanificacion['tarea'] as $tareaData) {
+                $tarea=new Item_planificacion();
+                $tarea['nombre']=$tareaData;
+                $tarea['id_planificacion']=$planificacion->id;
+                $tarea['fecha_inicio']=$itemPlanificacion['fecha_inicio'];
+                $tarea['fecha_fin']=$itemPlanificacion['fecha_fin'];
+                $tarea ->save();
+            }
+        }
+        return response()->json(['contenido'=>'se registro exitosamente la planificacion con tareas'],200);
+    }
+
+
+
 }
+
+
+
+

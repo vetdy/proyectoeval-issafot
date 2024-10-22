@@ -9,7 +9,7 @@ class Planificacion extends Model
 {
     protected $table='planificaciones';
     use HasFactory;
-    protected $fillable=['titulo','fecha_inicio',"fecha_fin","id_proyecto_empresa"];
+    protected $fillable=['titulo',"fecha_rev",'hora_rev','id_proyecto_empresa'];
     public function proyecto_empresa(){
         return $this->hasOne(Proyecto_empresa::class);
     }

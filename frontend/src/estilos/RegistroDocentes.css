@@ -1,0 +1,13 @@
+.banda-titulo {
+    background-color: #2c3440; /* Color de fondo oscuro */
+    padding: 10px;
+    border-radius: 10px; 
+    margin-bottom: 20px; 
+    text-align: center;
+}
+
+.banda-titulo h2 {
+    margin: 0; 
+    color: white; 
+    font-weight: bold;
+}
