@@ -13,7 +13,7 @@ export {
     RegistroDocentes,
     RegistroEmpresa,
     PlanillasSeguimiento,
-    RegistroPlanificacion
+    RegistroPlanificacion,
     RegistroItemPlanilla,
     OtroRegistroPlanificacion,
     Empresas,
