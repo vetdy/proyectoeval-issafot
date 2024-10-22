@@ -3,6 +3,10 @@ import RegistroDocentes from "./RegistroDocentes";/* EXPORTAR OMPONENTE DE LAS P
 import RegistroEmpresa from "./RegistroEmpresa";
 import PlanillasSeguimiento from "./PlanillasSeguimiento";
 import RegistroPlanificacion from "./RegistroPlanificacion";
+import RegistroItemPlanilla from "./RegistroItemPlanilla"
+import OtroRegistroPlanificacion from "./OtroRegistroPlanificacion";
+import Empresas from "./Empresas";
+import PlanillasDocente from "./PlanillasDocente";
 
 export {
     EmpresasRegistradas,
@@ -10,4 +14,8 @@ export {
     RegistroEmpresa,
     PlanillasSeguimiento,
     RegistroPlanificacion,
+    RegistroItemPlanilla,
+    OtroRegistroPlanificacion,
+    Empresas,
+    PlanillasDocente,
 }

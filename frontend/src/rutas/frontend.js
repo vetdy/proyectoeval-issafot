@@ -10,6 +10,8 @@ export const DOC_PROYECTOS_CREAR = "/proyectos/nuevo";
 export const DOC_EVALUACIONES_CREAR_FINAL = "/evaluaciones/nuevo";
 export const DOC_EVALUACIONES_RECUPERAR = "/evaluaciones";
 
+export const DOC_PLANILLAS_SEGUIMIENTO = "/planillas"
+
 export const DOC_REPORTES_EMPRESAS = "/reportes/desempeno";
 export const DOC_REPORTES_EVAL_REALIZADAS = "/reportes/evaluaciones";
 export const DOC_REPORTES_EST_ASIGNADOS = "/reportes/estudiantes";

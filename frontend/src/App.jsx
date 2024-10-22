@@ -26,10 +26,21 @@ function App() {
                 <Route path="/mis-planillas" 
                     element={<paginas.PlanillasSeguimiento />}
                 ></Route>
+                <Route path="/registro-item-planilla" 
+                    element={<paginas.RegistroItemPlanilla />}
+                ></Route>
                 <Route path="/registrar/planificacion" 
                     element={<paginas.RegistroPlanificacion />}
                 ></Route>
-
+                <Route path="/mi-proyecto"
+                    element={<paginas.OtroRegistroPlanificacion />}
+                ></Route>
+                <Route path="/empresas"
+                    element={<paginas.Empresas />}
+                ></Route>
+                <Route path="/planillas"
+                    element={<paginas.PlanillasDocente />}
+                ></Route>
             </Routes>
             <Control inicial={"estudiante"} menus={menus} clickHandle={setUsrMenu}></Control>
         </>
