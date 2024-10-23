@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Plantilla_seguimiento;
+use App\Models\Planilla_seguimiento;
 use Exception;
 
-class PlantillaSeguimientoController extends Controller
+class PlanillaSeguimientoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,21 +15,21 @@ class PlantillaSeguimientoController extends Controller
      */
     /**
      * @OA\Get(
-     *     path="/api/plantilla_seguimiento",
-     *     summary="Obtiene una lista de los Plantillas seguimientos",
-     *     tags={"Plantillas Seguimientos"},
+     *     path="/api/planilla_seguimiento",
+     *     summary="Obtiene una lista de los planillas seguimientos",
+     *     tags={"planillas Seguimientos"},
      *     @OA\Response(
      *         response=200,
-     *         description="Lista de Plantillas seguimientos"
+     *         description="Lista de planillas seguimientos"
      *      )
      *     
      * )
      */
     public function index()
     {
-        $plantilla_seguimiento=Plantilla_seguimiento::all();
+        $planilla_seguimiento=Planilla_seguimiento::all();
         
-        return response()->json(['contenido'=>compact('plantilla_seguimiento')],200);
+        return response()->json(['contenido'=>compact('planilla_seguimiento')],200);
     }
 
     /**
@@ -40,9 +40,9 @@ class PlantillaSeguimientoController extends Controller
      */
     /**
      * @OA\Post(
-     *     path="/api/plantilla_seguimiento",
-     *     summary="Crear un nuevo Plantilla Seguimiento",
-     *     tags={"Plantillas Seguimientos"},
+     *     path="/api/planilla_seguimiento",
+     *     summary="Crear un nuevo planilla Seguimiento",
+     *     tags={"planillas Seguimientos"},
      *
      *     @OA\RequestBody(
      *         required=true,
@@ -56,7 +56,7 @@ class PlantillaSeguimientoController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Plantilla Seguimiento creado con éxito"
+     *         description="planilla Seguimiento creado con éxito"
      *     ),
      *     @OA\Response(
      *         response=422,
@@ -73,11 +73,11 @@ class PlantillaSeguimientoController extends Controller
                 'hora_revision'=>'required|date_format:H:i',
                 'id_empresa'=>'required|exists:empresas,id'
             ]);
-            $plantilla_seguimiento = Plantilla_seguimiento::create($request->all());
+            $planilla_seguimiento = Planilla_seguimiento::create($request->all());
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json(["contenido"=>$e->errors()], 422);
         }
-        return response()->json(['contenido'=>'se registro exitosamente a la plantilla seguimiento'],200);
+        return response()->json(['contenido'=>'se registro exitosamente a la planilla seguimiento'],200);
         
     }
 
@@ -89,13 +89,13 @@ class PlantillaSeguimientoController extends Controller
      */
     /**
      * @OA\Get(
-     *     path="/api/plantilla_seguimiento/{id}",
-     *     summary="Mostar un Plantilla Seguimiento",
-     *     tags={"Plantillas Seguimientos"},
+     *     path="/api/planilla_seguimiento/{id}",
+     *     summary="Mostar un planilla Seguimiento",
+     *     tags={"planillas Seguimientos"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
-     *         description="ID del Plantilla Seguimiento",
+     *         description="ID del planilla Seguimiento",
      *         required=true,
      *         @OA\Schema(
      *             type="integer"
@@ -104,22 +104,22 @@ class PlantillaSeguimientoController extends Controller
      *     
      *     @OA\Response(
      *         response=200,
-     *         description="Datos del Plantilla Seguimiento"
+     *         description="Datos del planilla Seguimiento"
      *     ),
      *      @OA\Response(
      *         response=404,
-     *         description="Plantilla Seguimiento no encontrado"
+     *         description="planilla Seguimiento no encontrado"
      *     )
      * 
      * )
      */
     public function show($id)
     {
-        $plantilla_seguimiento=Plantilla_seguimiento::find($id);
-        if($plantilla_seguimiento){
-            return response()->json(['contenido'=>compact('plantilla_seguimiento')],200);
+        $planilla_seguimiento=Planilla_seguimiento::find($id);
+        if($planilla_seguimiento){
+            return response()->json(['contenido'=>compact('planilla_seguimiento')],200);
         }else{
-            return response()->json(['contenido'=>'id plantilla seguimiento no existe'],404);
+            return response()->json(['contenido'=>'id planilla seguimiento no existe'],404);
         }
         
     }
@@ -133,13 +133,13 @@ class PlantillaSeguimientoController extends Controller
      */
      /**
      * @OA\Put(
-     *     path="/api/plantilla_seguimiento/{id}",
-     *     summary="Actualizar un Plantilla Seguimiento",
-     *     tags={"Plantillas Seguimientos"},
+     *     path="/api/planilla_seguimiento/{id}",
+     *     summary="Actualizar un planilla Seguimiento",
+     *     tags={"planillas Seguimientos"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
-     *         description="ID del Plantilla Seguimiento",
+     *         description="ID del planilla Seguimiento",
      *         required=true,
      *         @OA\Schema(
      *             type="integer"
@@ -156,11 +156,11 @@ class PlantillaSeguimientoController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Plantilla Seguimiento actualizado con éxito",
+     *         description="planilla Seguimiento actualizado con éxito",
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Plantilla Seguimiento no encontrado"
+     *         description="planilla Seguimiento no encontrado"
      *     ),
      *     @OA\Response(
      *         response=422,
@@ -177,9 +177,9 @@ class PlantillaSeguimientoController extends Controller
             'id_empresa'=>'nullable|exists:empresas.id'
         ]);
         try{
-            $plantilla_seguimiento=Plantilla_seguimiento::find($id);
-            $plantilla_seguimiento->update($request->all());
-            return response()->json(['contenido'=>'se actualizo a la Plantilla_seguimiento con exito'],200);
+            $planilla_seguimiento=Planilla_seguimiento::find($id);
+            $planilla_seguimiento->update($request->all());
+            return response()->json(['contenido'=>'se actualizo a la planilla_seguimiento con exito'],200);
         }catch (\Illuminate\Database\QueryException $e){
             return response()->json(['contenido'=>'el id no existe'],404);
         }
@@ -193,13 +193,13 @@ class PlantillaSeguimientoController extends Controller
      */
     /**
      * @OA\Delete(
-     *     path="/api/plantilla_seguimiento/{id}",
-     *     summary="Eliminar un Plantilla Seguimiento",
-     *     tags={"Plantillas Seguimientos"},
+     *     path="/api/planilla_seguimiento/{id}",
+     *     summary="Eliminar un planilla Seguimiento",
+     *     tags={"planillas Seguimientos"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
-     *         description="ID del Plantilla Seguimiento",
+     *         description="ID del planilla Seguimiento",
      *         required=true,
      *         @OA\Schema(
      *             type="integer"
@@ -207,23 +207,23 @@ class PlantillaSeguimientoController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Plantilla Seguimiento eliminado"
+     *         description="planilla Seguimiento eliminado"
      *     ),
      *      @OA\Response(
      *         response=404,
-     *         description="Plantilla Seguimiento no encontrado"
+     *         description="planilla Seguimiento no encontrado"
      *     )
      * 
      * )
      */
     public function destroy($id)
     {
-        $plantilla_seguimiento=Plantilla_seguimiento::find($id);
-        $plantilla_seguimiento->delete();
-        if ($plantilla_seguimiento){
+        $planilla_seguimiento=Planilla_seguimiento::find($id);
+        $planilla_seguimiento->delete();
+        if ($planilla_seguimiento){
             return response()->json(['contenido'=>'eliminado con exito'],200);
         }else{
-            return response()->json(['contenido'=>'no existe la plantilla seguimiento'],404);
+            return response()->json(['contenido'=>'no existe la planilla seguimiento'],404);
         }
     }
 
@@ -235,9 +235,9 @@ class PlantillaSeguimientoController extends Controller
      */
     /**
      * @OA\Get(
-     *     path="/api/plantilla_seguimiento/empresa/{id}",
-     *     summary="Mostar un Plantilla Seguimiento",
-     *     tags={"Plantillas Seguimientos"},
+     *     path="/api/planilla_seguimiento/empresa/{id}",
+     *     summary="Mostar un planilla Seguimiento",
+     *     tags={"planillas Seguimientos"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -250,7 +250,7 @@ class PlantillaSeguimientoController extends Controller
      *     
      *     @OA\Response(
      *         response=200,
-     *         description="Datos del Plantilla Seguimiento por empresa"
+     *         description="Datos del planilla Seguimiento por empresa"
      *     ),
      *      @OA\Response(
      *         response=404,
@@ -261,9 +261,9 @@ class PlantillaSeguimientoController extends Controller
      */
     public function show_empresa($id)
     {
-        $plantilla_seguimiento=Plantilla_seguimiento::where('id_empresa', $id)->get();;
-        if(!$plantilla_seguimiento->isEmpty()){
-            return response()->json(['contenido'=>compact('plantilla_seguimiento')],200);
+        $planilla_seguimiento=Planilla_seguimiento::where('id_empresa', $id)->get();;
+        if(!$planilla_seguimiento->isEmpty()){
+            return response()->json(['contenido'=>compact('planilla_seguimiento')],200);
         }else{
             return response()->json(['contenido'=>'id empresa no existe'],404);
         }

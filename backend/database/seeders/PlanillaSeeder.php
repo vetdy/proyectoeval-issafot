@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use \Illuminate\Support\Facades\DB;
 
-class PlantillaSeeder extends Seeder
+class PlanillaSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,7 +14,7 @@ class PlantillaSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('plantilla_seguimientos')->insert([
+        DB::table('planilla_seguimientos')->insert([
             [
                 'titulo'=>'presencial',
                 'fecha_revision'=>'2019/10/28',
@@ -35,42 +35,42 @@ class PlantillaSeeder extends Seeder
             ],
 
         ]);
-        DB::table('item_plantillas')->insert([
+        DB::table('item_planillas')->insert([
             [
                 'titulo'=>'product backlog',
-                'id_plantilla_seguimiento'=>'1'
+                'id_planilla_seguimiento'=>'1',
             ],
             [
                 'titulo'=>'historias de usuario revisadas',
-                'id_plantilla_seguimiento'=>'1'
+                'id_planilla_seguimiento'=>'1'
             ],
             [
                 'titulo'=>'Sprint backlog',
-                'id_plantilla_seguimiento'=>'1'
+                'id_planilla_seguimiento'=>'1'
             ],
             [
                 'titulo'=>'product backlog',
-                'id_plantilla_seguimiento'=>'2'
+                'id_planilla_seguimiento'=>'2'
             ],
             [
                 'titulo'=>'historias de usuario revisadas',
-                'id_plantilla_seguimiento'=>'2'
+                'id_planilla_seguimiento'=>'2'
             ],
             [
                 'titulo'=>'Sprint backlog',
-                'id_plantilla_seguimiento'=>'2'
+                'id_planilla_seguimiento'=>'2'
             ],
             [
                 'titulo'=>'product backlog',
-                'id_plantilla_seguimiento'=>'3'
+                'id_planilla_seguimiento'=>'3'
             ],
             [
                 'titulo'=>'historias de usuario revisadas',
-                'id_plantilla_seguimiento'=>'3'
+                'id_planilla_seguimiento'=>'3'
             ],
             [
                 'titulo'=>'Sprint backlog',
-                'id_plantilla_seguimiento'=>'3'
+                'id_planilla_seguimiento'=>'3'
             ],
             
         ]);
