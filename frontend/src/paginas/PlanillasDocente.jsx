@@ -1,10 +1,11 @@
 import color from "../estilos/color";
 import { Tabla } from "../componentes/tablas";
+import { useState, useEffect } from "react";
 
 const Planilla = ({
     empresa = "ISSA Soft",
     empresaID = 1,
-    tipoPlanilla = "evaluacion",
+    tipoPlanilla = "seguimiento",
     fecha = "20-10-24",
 }) => {
     return (
@@ -114,7 +115,7 @@ const Planilla = ({
                 </Tabla>
             </div>
 
-            <div className="row my-2">
+            <div className="row my-2 g-0">
                 <div className="col container">
                     <div className="row g-1">
                         <div className="col-md-2">
@@ -186,8 +187,11 @@ const VistaGenegal = () => {
 }
 
 const PlanillasDocente = () => {
+    const [datos, setDatos] = useState({});
+    
+
     return (
-        <VistaGenegal />
+        <Planilla />
     );
 };
 

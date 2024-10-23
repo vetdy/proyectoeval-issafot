@@ -2,6 +2,7 @@ import { Tabla } from "../componentes/tablas";
 import { BotonControl } from "../componentes/botones";
 import { useState, useRef, useEffect } from "react";
 import { TituloRegistros } from "../componentes/titulos";
+import { validador } from "../utils";
 
 const actualizarLlave = (obj, viejaLlave, nuevaLlave) => {
     let nuevoObjeto = {};
@@ -22,6 +23,7 @@ const OtroRegistroPlanificacion = () => {
     useEffect(() =>{
         if(ref?.current){
             ref.current.focus();
+            ref.current = null;
         }
     }, [planificacion]);
 
@@ -40,6 +42,7 @@ const OtroRegistroPlanificacion = () => {
         const nuevaPlanif = [...planificacion];
         nuevaPlanif[indexFila].id = nuevoID;
         setPlanificacion(nuevaPlanif);
+        
     };
 
     const editarTarea = (ev, indexFila, indexTarea) => {
@@ -86,6 +89,35 @@ const OtroRegistroPlanificacion = () => {
         setPlanificacion(nuevaPlanif);
     };
 
+    const verificarID = (ev, indexFila) => {
+        if( ev.target.value.trim() === "" ){
+            if( !planificacion[indexFila].tareas.length ){
+                eliminarFila(indexFila);
+            }
+            else{
+                ev.target.focus();
+            }
+        }
+    }
+
+    const verificarTarea = (ev, indexFila, indexTarea) =>{
+        if( ev.target.value.trim() === "" ){
+            eliminarTarea(indexFila, indexTarea);
+        }
+    }
+    
+    const verificarLetrasID = (ev, indexFila) =>{
+        if (ev.key === 'Escape' && ev.target.value.trim() === "") {
+            eliminarFila(indexFila);
+          }
+    }
+
+    const verificarLetrasTarea = (ev, indexFila, indexTarea) =>{
+        if (ev.key === 'Escape' && ev.target.value.trim() === "") {
+            eliminarTarea(indexFila, indexTarea);
+          }
+    }
+
     return (
         <div className="container-fluid">
             <TituloRegistros titulo="Registro de Planificacion de Empresa"/>
@@ -111,6 +143,8 @@ const OtroRegistroPlanificacion = () => {
                                                 onChange={(ev) => {
                                                     editarID(ev, idx);
                                                 }}
+                                                onBlur={(ev) => verificarID(ev, idx)}
+                                                onKeyDown={(ev) => {verificarLetrasID(ev,idx)}}
                                             />
                                             <BotonControl
                                                 tipo="<eliminar>"
@@ -147,6 +181,12 @@ const OtroRegistroPlanificacion = () => {
                                                                         idx,
                                                                         i
                                                                     );
+                                                                }}
+                                                                onBlur={(ev) =>{
+                                                                    verificarTarea(ev,idx, i);
+                                                                }}
+                                                                onKeyDown={(ev) =>{
+                                                                    verificarLetrasTarea(ev,idx,i);
                                                                 }}
                                                             />
                                                             <BotonControl
@@ -213,7 +253,11 @@ const OtroRegistroPlanificacion = () => {
                         <div className="row justify-content-center">
                             <label className="col-md-5">
                                 Dia de Revisión
-                                <input className="form-control" type="date" />
+                                
+                                <select className="form-select">
+                                    <option value="2">Martes</option>
+                                    <option value="3">Miercoes</option>
+                                </select>
                             </label>
 
                             <label className="col-md-5">
