@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePlantillaSeguimientoTable extends Migration
+class CreatePlanillaSeguimientoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreatePlantillaSeguimientoTable extends Migration
      */
     public function up()
     {
-        Schema::create('plantilla_seguimientos', function (Blueprint $table) {
+        Schema::create('planilla_seguimientos', function (Blueprint $table) {
             $table->id();
             $table->string('titulo');
             $table->date('fecha_revision');
             $table->time('hora_revision');
+            $table->boolean('concluido')->default(false);
             $table->timestamps();
             $table->foreignId('id_empresa')->constrained('empresas')->onDelete('cascade');
         });
@@ -30,6 +31,6 @@ class CreatePlantillaSeguimientoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('plantilla_seguimientos');
+        Schema::dropIfExists('planilla_seguimientos');
     }
 }

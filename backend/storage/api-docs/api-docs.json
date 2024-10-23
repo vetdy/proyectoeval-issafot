@@ -420,28 +420,38 @@
                             "schema": {
                                 "required": [
                                     "titulo",
-                                    "fecha_inicio",
-                                    "fecha_fin",
-                                    "id_proyecto_empresa"
+                                    "fecha_revision",
+                                    "hora_revision",
+                                    "concluido",
+                                    "nota",
+                                    "id_empresa",
+                                    "id_tipo_evaluacion"
                                 ],
                                 "properties": {
                                     "titulo": {
                                         "type": "string",
                                         "example": "Item 1"
                                     },
-                                    "fecha_inicio": {
+                                    "fecha_revision": {
                                         "type": "string",
                                         "format": "date",
-                                        "example": "2024/10/1"
+                                        "example": "2024/10/21"
                                     },
-                                    "fecha_fin": {
-                                        "type": "string",
-                                        "format": "date",
-                                        "example": "2024/10/29"
+                                    "hora_revision": {
+                                        "type": "time",
+                                        "example": "18:00"
                                     },
-                                    "id_proyecto_empresa": {
+                                    "nota": {
+                                        "type": "integer",
+                                        "example": "50"
+                                    },
+                                    "id_empresa": {
                                         "type": "integer",
                                         "example": "1"
+                                    },
+                                    "id_tipo_evaluacion": {
+                                        "type": "integer",
+                                        "example": "2"
                                     }
                                 },
                                 "type": "object"
@@ -513,19 +523,26 @@
                                         "type": "string",
                                         "example": "Item 1"
                                     },
-                                    "fecha_inicio": {
+                                    "fecha_revision": {
                                         "type": "string",
                                         "format": "date",
-                                        "example": "2024/10/1"
+                                        "example": "2024/10/21"
                                     },
-                                    "fecha_fin": {
-                                        "type": "string",
-                                        "format": "date",
-                                        "example": "2024/10/29"
+                                    "hora_revision": {
+                                        "type": "time",
+                                        "example": "18:00"
                                     },
-                                    "id_proyecto_empresa": {
+                                    "nota": {
+                                        "type": "integer",
+                                        "example": "50"
+                                    },
+                                    "id_empresa": {
                                         "type": "integer",
                                         "example": "1"
+                                    },
+                                    "id_tipo_evaluacion": {
+                                        "type": "integer",
+                                        "example": "2"
                                     }
                                 },
                                 "type": "object"
@@ -728,13 +745,13 @@
                 }
             }
         },
-        "/api/item_plantilla": {
+        "/api/item_planilla": {
             "get": {
                 "tags": [
-                    "Item Plantillas"
+                    "Item planillas"
                 ],
                 "summary": "Obtiene una lista de items planilla",
-                "operationId": "afc281315e967dadc1191cf0f522633b",
+                "operationId": "2363fb7dd14e1f3dddf44b54d474a62a",
                 "responses": {
                     "200": {
                         "description": "Lista de de items planilla"
@@ -743,10 +760,10 @@
             },
             "post": {
                 "tags": [
-                    "Item Plantillas"
+                    "Item planillas"
                 ],
-                "summary": "Crear un nuevo Item Plantilla",
-                "operationId": "0e53fc29961ce75a19a07665788898b1",
+                "summary": "Crear un nuevo Item planilla",
+                "operationId": "7c196d194942d8e71cafb81e959d0f86",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -754,14 +771,14 @@
                             "schema": {
                                 "required": [
                                     "titulo",
-                                    "id_plantilla"
+                                    "id_planilla"
                                 ],
                                 "properties": {
                                     "titulo": {
                                         "type": "string",
                                         "example": "Diseño de base de datos"
                                     },
-                                    "id_plantilla": {
+                                    "id_planilla": {
                                         "type": "integer",
                                         "example": "1"
                                     }
@@ -773,7 +790,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Item Plantilla creado con éxito"
+                        "description": "Item planilla creado con éxito"
                     },
                     "422": {
                         "description": "Problemas con los datos ingresados"
@@ -781,18 +798,18 @@
                 }
             }
         },
-        "/api/item_plantilla/{id}": {
+        "/api/item_planilla/{id}": {
             "get": {
                 "tags": [
-                    "Item Plantillas"
+                    "Item planillas"
                 ],
-                "summary": "Mostar un item plantilla",
-                "operationId": "4508e38400dd5826b93ba780afc3a56d",
+                "summary": "Mostar un item planilla",
+                "operationId": "5763b6ac1924c7733c8a936234c6fcb8",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID del item plantilla",
+                        "description": "ID del item planilla",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -801,24 +818,24 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Datos del item plantilla"
+                        "description": "Datos del item planilla"
                     },
                     "404": {
-                        "description": "item plantilla no encontrado"
+                        "description": "item planilla no encontrado"
                     }
                 }
             },
             "put": {
                 "tags": [
-                    "Item Plantillas"
+                    "Item planillas"
                 ],
                 "summary": "Actualizar un item planilla",
-                "operationId": "d1d5ede5b6049a6d2206cbb86c613944",
+                "operationId": "f6dea6abd004b3802cfd33393faf1686",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID del item plantilla",
+                        "description": "ID del item planilla",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -835,7 +852,7 @@
                                         "type": "string",
                                         "example": "Diseño de base de datos"
                                     },
-                                    "id_plantilla": {
+                                    "id_planilla": {
                                         "type": "integer",
                                         "example": "1"
                                     }
@@ -847,10 +864,10 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "item plantilla actualizado con éxito"
+                        "description": "item planilla actualizado con éxito"
                     },
                     "404": {
-                        "description": "item plantilla no encontrado"
+                        "description": "item planilla no encontrado"
                     },
                     "422": {
                         "description": "Problemas con los datos ingresados"
@@ -859,15 +876,15 @@
             },
             "delete": {
                 "tags": [
-                    "Item Plantillas"
+                    "Item planillas"
                 ],
-                "summary": "Eliminar un item plantilla",
-                "operationId": "34c947e3ec92a4172cfdfb83356c4e46",
+                "summary": "Eliminar un item planilla",
+                "operationId": "12f94a12466f5ef8b56f018225470f04",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID del item plantilla",
+                        "description": "ID del item planilla",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -876,10 +893,38 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "item plantilla eliminado"
+                        "description": "item planilla eliminado"
                     },
                     "404": {
-                        "description": "item plantilla no encontrado"
+                        "description": "item planilla no encontrado"
+                    }
+                }
+            }
+        },
+        "/api/item_planilla/planilla_seguimiento/{id}": {
+            "get": {
+                "tags": [
+                    "planillas Seguimientos"
+                ],
+                "summary": "Mostar una lista item planilla por planilla seguimiento",
+                "operationId": "d6b401fbc46517167c8466fda645f94c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del empresa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos del item planilla por planilla seguimiento"
+                    },
+                    "404": {
+                        "description": "planilla no encontrada"
                     }
                 }
             }
@@ -1062,25 +1107,25 @@
                 }
             }
         },
-        "/api/plantilla_seguimiento": {
+        "/api/planilla_seguimiento": {
             "get": {
                 "tags": [
-                    "Plantillas Seguimientos"
+                    "planillas Seguimientos"
                 ],
-                "summary": "Obtiene una lista de los Plantillas seguimientos",
-                "operationId": "bc20c960ffe177596a3f53071cf81823",
+                "summary": "Obtiene una lista de los planillas seguimientos",
+                "operationId": "4550bda1cc291d34ce63064f93079066",
                 "responses": {
                     "200": {
-                        "description": "Lista de Plantillas seguimientos"
+                        "description": "Lista de planillas seguimientos"
                     }
                 }
             },
             "post": {
                 "tags": [
-                    "Plantillas Seguimientos"
+                    "planillas Seguimientos"
                 ],
-                "summary": "Crear un nuevo Plantilla Seguimiento",
-                "operationId": "81f939cd9845381c17cff3eddbd81acd",
+                "summary": "Crear un nuevo planilla Seguimiento",
+                "operationId": "7a89b3fd58954de6d679d4d7a169dd38",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1118,7 +1163,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Plantilla Seguimiento creado con éxito"
+                        "description": "planilla Seguimiento creado con éxito"
                     },
                     "422": {
                         "description": "Problemas con los datos ingresados"
@@ -1126,18 +1171,18 @@
                 }
             }
         },
-        "/api/plantilla_seguimiento/{id}": {
+        "/api/planilla_seguimiento/{id}": {
             "get": {
                 "tags": [
-                    "Plantillas Seguimientos"
+                    "planillas Seguimientos"
                 ],
-                "summary": "Mostar un Plantilla Seguimiento",
-                "operationId": "58663f0da467aa23f0d31acc11ac9059",
+                "summary": "Mostar un planilla Seguimiento",
+                "operationId": "5dab0a2d77b7a18f873e5fd6b833a4b5",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID del Plantilla Seguimiento",
+                        "description": "ID del planilla Seguimiento",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -1146,24 +1191,24 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Datos del Plantilla Seguimiento"
+                        "description": "Datos del planilla Seguimiento"
                     },
                     "404": {
-                        "description": "Plantilla Seguimiento no encontrado"
+                        "description": "planilla Seguimiento no encontrado"
                     }
                 }
             },
             "put": {
                 "tags": [
-                    "Plantillas Seguimientos"
+                    "planillas Seguimientos"
                 ],
-                "summary": "Actualizar un Plantilla Seguimiento",
-                "operationId": "bb07d77361a64b77085d1f2b4b567e81",
+                "summary": "Actualizar un planilla Seguimiento",
+                "operationId": "a65d68397f8a3641abbf3738f890361d",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID del Plantilla Seguimiento",
+                        "description": "ID del planilla Seguimiento",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -1201,10 +1246,10 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Plantilla Seguimiento actualizado con éxito"
+                        "description": "planilla Seguimiento actualizado con éxito"
                     },
                     "404": {
-                        "description": "Plantilla Seguimiento no encontrado"
+                        "description": "planilla Seguimiento no encontrado"
                     },
                     "422": {
                         "description": "Problemas con los datos ingresados"
@@ -1213,15 +1258,15 @@
             },
             "delete": {
                 "tags": [
-                    "Plantillas Seguimientos"
+                    "planillas Seguimientos"
                 ],
-                "summary": "Eliminar un Plantilla Seguimiento",
-                "operationId": "016c49c7c152ff2d27a943ad443e98aa",
+                "summary": "Eliminar un planilla Seguimiento",
+                "operationId": "87bb1f381bdaff418eae2ea131a99dc3",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID del Plantilla Seguimiento",
+                        "description": "ID del planilla Seguimiento",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -1230,10 +1275,38 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Plantilla Seguimiento eliminado"
+                        "description": "planilla Seguimiento eliminado"
                     },
                     "404": {
-                        "description": "Plantilla Seguimiento no encontrado"
+                        "description": "planilla Seguimiento no encontrado"
+                    }
+                }
+            }
+        },
+        "/api/planilla_seguimiento/empresa/{id}": {
+            "get": {
+                "tags": [
+                    "planillas Seguimientos"
+                ],
+                "summary": "Mostar un planilla Seguimiento",
+                "operationId": "16be7e8b9b1b461db43ba3d217cb0e3c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del empresa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos del planilla Seguimiento por empresa"
+                    },
+                    "404": {
+                        "description": "Empresa no encontrada"
                     }
                 }
             }
@@ -1406,7 +1479,7 @@
         "/api/tipo_evaluacion": {
             "get": {
                 "tags": [
-                    "Tipo Evaluacion"
+                    "Tipo Evaluaciones"
                 ],
                 "summary": "Obtiene una lista de items planilla",
                 "operationId": "d9f9cff7006b8c5d745ef63dd16d077a",
@@ -1418,9 +1491,9 @@
             },
             "post": {
                 "tags": [
-                    "Tipo Evaluacion"
+                    "Tipo Evaluaciones"
                 ],
-                "summary": "Crear un nuevo Item Plantilla",
+                "summary": "Crear un nuevo tipo evaluacion",
                 "operationId": "f1b5eaf1736763eedcd9b5b24833a48e",
                 "requestBody": {
                     "required": true,
@@ -1428,17 +1501,17 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "titulo",
-                                    "id_plantilla"
+                                    "nombre",
+                                    "descripcion"
                                 ],
                                 "properties": {
-                                    "titulo": {
+                                    "nombre": {
                                         "type": "string",
-                                        "example": "Diseño de base de datos"
+                                        "example": "Evaluacion grupal"
                                     },
-                                    "id_plantilla": {
-                                        "type": "integer",
-                                        "example": "1"
+                                    "descripcion": {
+                                        "type": "string",
+                                        "example": "evaluacion entre miembros del mismo equipo"
                                     }
                                 },
                                 "type": "object"
@@ -1448,10 +1521,113 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Item Plantilla creado con éxito"
+                        "description": "tipo evaluacion creado con éxito"
                     },
                     "422": {
                         "description": "Problemas con los datos ingresados"
+                    }
+                }
+            }
+        },
+        "/api/tipo_evaluacion/{id}": {
+            "get": {
+                "tags": [
+                    "Tipo Evaluaciones"
+                ],
+                "summary": "Mostar un tipo evaluacion",
+                "operationId": "f1ad8b536deb9b9fb72d3163bc553e06",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del tipo evaluacion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos del tipo evaluacion"
+                    },
+                    "404": {
+                        "description": "tipo evaluacion no encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Tipo Evaluaciones"
+                ],
+                "summary": "Actualizar un item planilla",
+                "operationId": "e8c0166cb74c4c27251dc1e61727d272",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del tipo evaluacion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Evaluacion grupal"
+                                    },
+                                    "descripcion": {
+                                        "type": "string",
+                                        "example": "evaluacion entre miembros del mismo equipo"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "tipo evaluacion actualizado con éxito"
+                    },
+                    "404": {
+                        "description": "tipo evaluacion no encontrado"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Tipo Evaluaciones"
+                ],
+                "summary": "Eliminar un tipo evaluacion",
+                "operationId": "083fed014903f06907d5baac1822b275",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del tipo evaluacion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "tipo evaluacion eliminado"
+                    },
+                    "404": {
+                        "description": "tipo evaluacion no encontrado"
                     }
                 }
             }
@@ -1475,24 +1651,24 @@
             "description": "Item planificaciones"
         },
         {
-            "name": "Item Plantillas",
-            "description": "Item Plantillas"
+            "name": "Item planillas",
+            "description": "Item planillas"
+        },
+        {
+            "name": "planillas Seguimientos",
+            "description": "planillas Seguimientos"
         },
         {
             "name": "Planificaciones",
             "description": "Planificaciones"
         },
         {
-            "name": "Plantillas Seguimientos",
-            "description": "Plantillas Seguimientos"
-        },
-        {
             "name": "Tareas",
             "description": "Tareas"
         },
         {
-            "name": "Tipo Evaluacion",
-            "description": "Tipo Evaluacion"
+            "name": "Tipo Evaluaciones",
+            "description": "Tipo Evaluaciones"
         }
     ]
 }
