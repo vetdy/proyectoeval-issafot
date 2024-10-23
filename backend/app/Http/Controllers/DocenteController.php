@@ -74,8 +74,8 @@ class DocenteController extends Controller
         $validator = $request->validate([
             'nombre' => 'required|max:32',
             'apellido' => 'required|max:32',
-            'codigo_sis' => 'required|digits:9|unique:usuarios,codigo_sis', // Verifica la unicidad en la tabla 'docentes'
-            'correo' => 'required|email|max:32|unique:usuarios,correo', // Verifica la unicidad en la tabla 'docentes'
+            'codigo_sis' => 'required|digits:9|unique:usuarios,codigo_sis', 
+            'correo' => 'required|email|max:32|unique:usuarios,correo', 
             'telefono' => 'required|max:32',
             'contrasena' => 'required|max:225',
         ]);
@@ -211,8 +211,8 @@ class DocenteController extends Controller
             $request->validate([
                 'nombre' => 'nullable|max:64',
                 'apellido' => 'nullable|max:64',
-                'codigo_sis' => 'nullable|max:15',
-                'email'=>'nullable|max:32',
+                'codigo_sis' => 'nullable|digits:9|unique:usuarios,codigo_sis', 
+                'correo' => 'nullable|email|max:32|unique:usuarios,correo',
                 'telefono'=>'nullable|max:32',
                 'contrasena' => 'nullable|max:225',
             ]);

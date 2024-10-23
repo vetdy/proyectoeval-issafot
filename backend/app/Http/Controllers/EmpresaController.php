@@ -155,7 +155,12 @@ class EmpresaController extends Controller
     public function show($id)
     {
         $empresa=Empresa::find($id);
-        return response()->json(['contendido'=>compact('empresa')],200);
+        if ($empresa){
+            return response()->json(['contendido'=>compact('empresa')],200);
+        }else{
+            return response()->json(['contenido'=>'no se encontro el id'],404);
+        }  
+        
     }
 
     /**
@@ -208,13 +213,17 @@ class EmpresaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'nombre_corto'=>'nullable|max:64|unique:empresa',
-            'nombre_largo'=>'nullable|max:64|unique:empresa',
-            'telefono'=>'nullable|max:64',
-            'correo'=>'nullable|max:64',
-            'url_logo'=>'nullable|max:64',
-        ]);
+        try{
+            $request->validate([
+                'nombre_corto'=>'nullable|max:64|unique:empresas,nombre_corto',
+                'nombre_largo'=>'nullable|max:64|unique:empresas,nombre_largo',
+                'telefono'=>'nullable|max:64',
+                'correo'=>'nullable|max:64',
+                'url_logo'=>'nullable|max:64',
+            ]);
+        }catch (\Illuminate\Validation\ValidationException $e){
+            return response()->json(['contenido'=>$e->errors()], 422);
+        }
         $empresa=Empresa::find($id);
         if ($empresa){
             $empresa->update($request->all());

@@ -30,7 +30,7 @@ class EvaluacionTest extends TestCase
         'hora_revision'=>'18:00',
         'concluido'=>false,
         'nota'=>20,
-        'id_empresa'=>'1',
+        'id_empresa'=>'3',
         'id_tipo_evaluacion'=>'2']);
 
         $response->assertStatus(200);
