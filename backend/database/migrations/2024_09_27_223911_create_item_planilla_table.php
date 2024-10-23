@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateItemPlantillaTable extends Migration
+class CreateItemPlanillaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateItemPlantillaTable extends Migration
      */
     public function up()
     {
-        Schema::create('item_plantillas', function (Blueprint $table) {
+        Schema::create('item_planillas', function (Blueprint $table) {
             $table->id();
             $table->string('titulo');
-            $table->string('id_plantilla_seguimiento')->constrained('plantilla_segimientos')->onDelete('cascade');
+            $table->string('observacion')->default('');
+            $table->string('id_planilla_seguimiento')->constrained('planilla_segimientos')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateItemPlantillaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('item_plantilla');
+        Schema::dropIfExists('item_planilla');
     }
 }

@@ -6,10 +6,10 @@ use App\Http\Controllers\DocenteController;
 use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\EvaluacionController;
 use App\Http\Controllers\ItemPlanificacionController;
-use App\Http\Controllers\ItemPlantillaController;
+use App\Http\Controllers\ItemPlanillaController;
 use App\Http\Controllers\PlanificacionController;
-use App\Http\Controllers\PlantillaSeguimientoController;
-use App\Http\Controllers\PlantillaController;
+use App\Http\Controllers\PlanillaSeguimientoController;
+use App\Http\Controllers\PlanillaController;
 use App\Http\Controllers\TareaController;
 use App\Http\Controllers\TipoEvaluacionController;
 use App\Models\Planificacion;
@@ -45,24 +45,24 @@ Route::controller(EmpresaController::class)->group(function () {
     Route::delete('/empresa/{id}', 'destroy');
 });
 
-Route::controller(PlantillaSeguimientoController::class)->group(function () {
-    Route::get('/plantilla_seguimiento', 'index');
-    Route::post('/plantilla_seguimiento', 'store');
-    Route::get('/plantilla_seguimiento/{id}', 'show');
-    Route::put('/plantilla_seguimiento/{id}', 'update');
-    Route::delete('/plantilla_seguimiento/{id}', 'destroy');
+Route::controller(PlanillaSeguimientoController::class)->group(function () {
+    Route::get('/planilla_seguimiento', 'index');
+    Route::post('/planilla_seguimiento', 'store');
+    Route::get('/planilla_seguimiento/{id}', 'show');
+    Route::put('/planilla_seguimiento/{id}', 'update');
+    Route::delete('/planilla_seguimiento/{id}', 'destroy');
 
-    Route::get('/plantilla_seguimiento/empresa/{id}','show_empresa');
+    Route::get('/planilla_seguimiento/empresa/{id}','show_empresa');
 });
 
-Route::controller(ItemPlantillaController::class)->group(function () {
-    Route::get('/item_plantilla', 'index');
-    Route::post('/item_plantilla', 'store');
-    Route::get('/item_plantilla/{id}', 'show');
-    Route::put('/item_plantilla/{id}', 'update');
-    Route::delete('/item_plantilla/{id}', 'destroy');
+Route::controller(ItemPlanillaController::class)->group(function () {
+    Route::get('/item_planilla', 'index');
+    Route::post('/item_planilla', 'store');
+    Route::get('/item_planilla/{id}', 'show');
+    Route::put('/item_planilla/{id}', 'update');
+    Route::delete('/item_planilla/{id}', 'destroy');
 
-    Route::get('/item_plantilla/plantilla_seguimiento/{id}','show_plantilla_seguimiento');
+    Route::get('/item_planilla/planilla_seguimiento/{id}','show_planilla_seguimiento');
 });
 
 Route::controller(TareaController::class)->group(function () {
