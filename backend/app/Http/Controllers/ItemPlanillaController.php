@@ -65,7 +65,8 @@ class ItemPlanillaController extends Controller
         try{
             $request->validate([
                 'titulo'=>'required|max:32',
-                'id_planilla'=>'required|exists:planilla_seguimientos,id'
+                'observacion'=>'required|max:255',
+                'id_planilla_seguimiento'=>'required|exists:planilla_seguimientos,id'
             ]);
             $item_planilla=Item_planilla::create($request->all());
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -169,7 +170,8 @@ class ItemPlanillaController extends Controller
         try{
             $request->validate([
                 'titulo'=>'nullable|max:32',
-                'id_planilla'=>'nullable|exists:planillas_segimientos.id'
+                'observacion'=>'nulltable|max:255',
+                'id_planilla_seguimiento'=>'nullable|exists:planilla_seguimientos,id'
             
             ]);
         }catch (\Illuminate\Validation\ValidationException $e){

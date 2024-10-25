@@ -43,9 +43,11 @@ class ItemPlanificacionController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"titulo","id_planificacion"},
-     *             @OA\Property(property="titulo", type="string", example="Diseño de base de datos"),
+     *             required={"nombre","id_planificacion","fecha_inicio","fecha_fin"},
+     *             @OA\Property(property="nombre", type="string", example="Diseño de base de datos"),
      *             @OA\Property(property="id_planificacion", type="integer", example="1"),
+     *             @OA\Property(property="fecha_inicio", type="date", example="1"),
+     *             @OA\Property(property="fecha_fin", type="date", example="1"),
      *         )
      *     ),
      *     @OA\Response(
@@ -62,8 +64,10 @@ class ItemPlanificacionController extends Controller
     {
         try{
             $request->validate([
-                'titulo'=>'required|max:32',
-                'id_planificacion'=>'required|exists:planificaciones,id'
+                'nombre'=>'required|max:32',
+                'id_planificacion'=>'required|exists:planificaciones,id',
+                'fecha_inicio'=>'required|date',
+                'fecha_fin'=>'required|date',
             ]);
             $item_planificacion=Item_planificacion::create($request->all());
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -162,7 +166,7 @@ class ItemPlanificacionController extends Controller
         try{
             $request->validate([
                 'titulo'=>'nullable|max:32',
-                'id_planilla'=>'nullable|exist:planificaciones,id'
+                'id_planificacion'=>'nullable|exists:planificaciones,id'
             
             ]);
         }catch (\Illuminate\Validation\ValidationException $e){
