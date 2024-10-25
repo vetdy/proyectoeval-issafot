@@ -93,4 +93,18 @@ class ItemPlanillaTest extends TestCase
          $response = $this->delete('/api/item_planilla/11');
          $response->assertStatus(404);
      }
+
+
+     public function test_mostar_planilla_seguimiento_exitoso():void
+     {
+         $response = $this->get('/api/item_planilla/planilla_seguimiento/1');
+         $response->assertStatus(200);
+     }
+
+     public function test_mostar_planilla_seguimiento_fallido():void
+     {
+         $response = $this->get('/api/item_planilla/planilla_seguimiento/5');
+         $response->assertStatus(404);
+     }
+
 }

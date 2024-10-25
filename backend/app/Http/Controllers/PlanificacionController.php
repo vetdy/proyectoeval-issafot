@@ -70,8 +70,8 @@ class PlanificacionController extends Controller
     {
         try{
             $request->validate(['titulo'=>'required|max:64',
-                'fecha_inicio'=>'required|date',
-                'fecha_fin'=>'required|date',
+                'fecha_revision'=>'required|date',
+                'hora_revision'=>'required|date_format:H:i',
                 'id_proyecto_empresa'=>'required|exists:proyecto_empresas,id',
                 ]);
             $planificacion = Planificacion::create($request->all());
@@ -171,10 +171,10 @@ class PlanificacionController extends Controller
     {
         try{
             $request->validate(['titulo'=>'nullable|max:64',
-                'fecha_inicio'=>'nullable|date',
-                'fecha_fin'=>'nullable|date',
-                'id_proyecto_empresa'=>'nullable|exists:proyecto_empresas,id',
-                ]);
+            'fecha_revision'=>'nullable|date',
+            'hora_revision'=>'nullable|date_format:H:i',
+            'id_proyecto_empresa'=>'nullable|exists:proyecto_empresas,id',
+            ]);
             }catch (\Illuminate\Validation\ValidationException $e){
                 return response()->json(['contenido'=>$e->errors()], 422);
             }
