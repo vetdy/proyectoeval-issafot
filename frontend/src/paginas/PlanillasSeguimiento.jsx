@@ -12,11 +12,12 @@ const PlanillasSeguimiento = () => {
     useEffect( () =>{
         const planilla = async () =>{
             const p = await obtenerPlanillasEmpresa(1);
+            console.log(p.status, p.message);
             if(p.status !== 200){
                 setError(true);
             }
             else{
-                const nuevosDatos = p.message.plantilla_seguimiento;
+                const nuevosDatos = p.message.planilla_seguimiento;
                 const nuevoMostrar = Array(nuevosDatos.length).fill(false);
                 const nuevoItems = Array(nuevosDatos.length).fill(null);
                 setDatos(nuevosDatos);
@@ -38,7 +39,7 @@ const PlanillasSeguimiento = () => {
         if(itemsJson.status === 200){
             const nuevoItems = [...items];
             nuevoItems[index] = [];
-            itemsJson.message.item_plantilla.forEach(i =>{
+            itemsJson.message.item_planilla.forEach(i =>{
                 nuevoItems[index].push(i.titulo);
             })
             setItems(nuevoItems);
@@ -53,7 +54,7 @@ const PlanillasSeguimiento = () => {
 
         if(! items[index]){
             actualizarItems(index);
-        }
+        }   
     };
 
     return (

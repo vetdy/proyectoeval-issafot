@@ -1,6 +1,7 @@
 import color from "../estilos/color";
 import { Tabla } from "../componentes/tablas";
 import { useState, useEffect } from "react";
+import logo from "/logo.png"
 
 const Planilla = ({
     empresa = "ISSA Soft",
@@ -11,22 +12,34 @@ const Planilla = ({
     return (
         <div className="container-fluid">
             <div className="row">
-                <div className="col-md-12 text-center">
+                <div className="col-md-12 d-flex flex-column justify-content-center align-items-center">
                     <h2 className="fw-bold">{`${tipoPlanilla === "evaluacion" ? "Evaluación" : "Seguimiento Semanal"}`}</h2>
-                    <h3 className="fw-bold">Empresa: <span className="fw-normal">{empresa}</span></h3>
-                </div>
-            </div>
-            
-            <div className="row mt-2">
-                <div className="col-md-6 d-flex flex-column">
-                    <h3>Datos de la Planificación</h3>
-                    <h4 className="fw-bold">Titulo: <span className="fw-normal">Sprint 2</span></h4>
-                    <h5 className="fw-bold">Fecha:  <span className="fw-normal">{fecha}</span></h5>
-                    <h5 className="fw-bold">Hora:   <span className="fw-normal">{"08:15"}</span></h5>
+                    <div className="d-flex justify-content-center align-items-center">
+                        <h3 className="fw-bold m-0">
+                            Empresa: 
+                        </h3>
+                        <img style={{width:"40px",height:"100%", margin:"auto",padding:"4px"}} src={logo} alt="logo Empresa" />
+                        <span className="fw-normal">{empresa}</span>
+
+                    </div>
                 </div>
             </div>
 
             <div className="row mt-2">
+                <div className="col-md-6 ">
+                    <div className="container">
+                        <div className="row">
+                            <h3>Datos de la Planificación</h3>
+                        </div>
+                        <div className="row">
+                            <div className="col">
+                                <h4 className="fw-bold">Titulo: <span className="fw-normal">Sprint 2</span></h4>
+                                <h5 className="fw-bold">Fecha:  <span className="fw-normal">{fecha}</span></h5>
+                                <h5 className="fw-bold">Hora:   <span className="fw-normal">{"08:15"}</span></h5>
+                            </div>
+                    </div>
+                </div>
+                </div>
                 <div className="col-md-6">
                     <h3>Control de Asistencia</h3>
                     <div className="container">
@@ -80,6 +93,7 @@ const Planilla = ({
                         </div>
                     </div>
                 </div>
+                
             </div>
 
             <br />

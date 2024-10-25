@@ -110,8 +110,8 @@ function RegistroEmpresa(){
 
         if(! Object.values(nuevosErrores).every(e => e === "") ){
             setEnviando(false);
-            setContenidoModal("Llena todos los campos.");
-            setVerModal(true);
+            //setContenidoModal("Llena todos los campos.");
+            //setVerModal(true);
             return;
         }
         
