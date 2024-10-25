@@ -165,9 +165,9 @@ class TareaController extends Controller
     public function update(Request $request, $id)
     {
         try{
-            $request->validate(['terminado'=>'required|boolean',
-                'descripcion'=>'required|max:64',
-                'observacion'=>'required|max:255',
+            $request->validate(['terminado'=>'nullable|boolean',
+                'descripcion'=>'nullable|max:64',
+                'observacion'=>'nullable|max:255',
                 ]);
             }catch (\Illuminate\Validation\ValidationException $e){
                 return response()->json(['contenido'=>$e->errors()], 422);

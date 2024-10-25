@@ -170,17 +170,25 @@ class PlanillaSeguimientoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'titulo'=>'nullable|max:64',
-            'fecha_revision'=>'nullable|date',
-            'hora_revision'=>'nullable|date',
-            'id_empresa'=>'nullable|exists:empresas.id'
-        ]);
+        
         try{
-            $planilla_seguimiento=Planilla_seguimiento::find($id);
+            $request->validate([
+                'titulo'=>'nullable|max:64',
+                'fecha_revision'=>'nullable|date',
+                'hora_revision'=>'nullable|date_format:H:i',
+                'id_empresa'=>'nullable|exists:empresas,id'
+            ]);
+            
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(["contenido"=>$e->errors()], 422);
+        }
+        $planilla_seguimiento=Planilla_seguimiento::find($id);
+        
+            
+        if($planilla_seguimiento){
             $planilla_seguimiento->update($request->all());
             return response()->json(['contenido'=>'se actualizo a la planilla_seguimiento con exito'],200);
-        }catch (\Illuminate\Database\QueryException $e){
+        }else{
             return response()->json(['contenido'=>'el id no existe'],404);
         }
     }
@@ -219,8 +227,9 @@ class PlanillaSeguimientoController extends Controller
     public function destroy($id)
     {
         $planilla_seguimiento=Planilla_seguimiento::find($id);
-        $planilla_seguimiento->delete();
+       
         if ($planilla_seguimiento){
+            $planilla_seguimiento->delete();
             return response()->json(['contenido'=>'eliminado con exito'],200);
         }else{
             return response()->json(['contenido'=>'no existe la planilla seguimiento'],404);
