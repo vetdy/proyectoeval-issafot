@@ -27,9 +27,7 @@ class TareaTest extends TestCase
         
           
          $response = $this->postJson('/api/tarea'
-         ,[ 'terminado'=>true,
-                'descripcion'=>"item 1 sprin 1",
-                'observacion'=>'falto requisitos no funcionales']);
+         ,['titulo'=>"item 1 sprin 1",]);
          $response->assertStatus(200);
      }
  

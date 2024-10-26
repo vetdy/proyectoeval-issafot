@@ -65,9 +65,8 @@ class TareaController extends Controller
     public function store(Request $request)
     {
         try{
-            $request->validate(['terminado'=>'required|boolean',
-                'descripcion'=>'required|max:64',
-                'observacion'=>'required|max:255',
+            $request->validate([
+                'titulo'=>'required|max:64',
                 ]);
             $tarea = Tarea::create($request->all());
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -166,7 +165,7 @@ class TareaController extends Controller
     {
         try{
             $request->validate(['terminado'=>'nullable|boolean',
-                'descripcion'=>'nullable|max:64',
+                'titulo'=>'nullable|max:64',
                 'observacion'=>'nullable|max:255',
                 ]);
             }catch (\Illuminate\Validation\ValidationException $e){

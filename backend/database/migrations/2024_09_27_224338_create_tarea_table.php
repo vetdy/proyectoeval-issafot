@@ -15,9 +15,9 @@ class CreateTareaTable extends Migration
     {
         Schema::create('tareas', function (Blueprint $table) {
             $table->id();
-            $table->string('descripcion');
-            $table->string('observacion');
-            $table->boolean('terminado');
+            $table->string('titulo');
+            $table->string('observacion')->default('');
+            $table->boolean('terminado')->default(false);
             $table->timestamps();
         });
     }
