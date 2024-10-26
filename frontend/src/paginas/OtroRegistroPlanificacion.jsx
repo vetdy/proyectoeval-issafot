@@ -3,6 +3,7 @@ import { BotonControl } from "../componentes/botones";
 import { useState, useRef, useEffect } from "react";
 import { TituloRegistros } from "../componentes/titulos";
 import { validador } from "../utils";
+import { ModalConfirmar } from "../componentes/modales";
 
 const actualizarLlave = (obj, viejaLlave, nuevaLlave) => {
     let nuevoObjeto = {};
@@ -14,39 +15,82 @@ const actualizarLlave = (obj, viejaLlave, nuevaLlave) => {
     return nuevoObjeto;
 };
 
+const compararFecha = (f1, f2) =>{
+    const fecha1 = new Date(f1);
+    const fecha2 = new Date(f2);
+
+    if (fecha2 > fecha1){
+        return 1
+    }
+    return 0
+}
+
+const limpiarTexto = (texto) => {
+    let nuevoTexto = texto.replace(/[!-\/:-@[-`{-~]/, "");
+
+    nuevoTexto = nuevoTexto.replace(/\s+/g, " ");
+
+    if(texto.length > 0 && texto[0] === " "){
+        nuevoTexto = nuevoTexto.replace(/^\s/, "");
+    }
+
+    return nuevoTexto
+}
+
 const OtroRegistroPlanificacion = () => {
-    const titulos = ["ID", "Tareas", "Fecha Inicio", "Fecha Fin"];
+    const titulos = ["Titulo", "Objetivos", "Fecha Inicio", "Fecha Fin"];
     const fecha = new Date().toISOString().slice(0, 10);
     const ref = useRef(null);
     const [planificacion, setPlanificacion] = useState([]);
+    const [modal, setModal] = useState({
+        mostrar: false,
+        texto: "",
+        accion: null,
+    });
 
-    useEffect(() =>{
-        if(ref?.current){
+    useEffect(() => {
+        if (ref?.current) {
             ref.current.focus();
             ref.current = null;
         }
     }, [planificacion]);
 
-    const planif3 = [
-        {
-            id: "Sprint 1",
-            tareas: ["Tarea 1", "Tarea 2"],
-            fecha_ini: fecha,
-            fecha_fin: fecha,
-        },
-    ];
+    const abrirModal = (texto, accion) => {
+        const nuevoModal = {
+            mostrar: true,
+            texto: texto,
+            accion: accion
+        };
+        setModal(nuevoModal);
+    };
 
+    const cerrarModal = () => {
+        setModal({
+            mostrar: false,
+            texto: "",
+            accion: null,
+        });
+    };
 
     const editarID = (ev, indexFila) => {
-        const nuevoID = ev.target.value;
+        let nuevoID = ev.target.value;
+
+        if ( !validador.alfanumerico(nuevoID) ){
+            nuevoID = limpiarTexto(nuevoID);
+        }
+
         const nuevaPlanif = [...planificacion];
         nuevaPlanif[indexFila].id = nuevoID;
         setPlanificacion(nuevaPlanif);
-        
     };
 
     const editarTarea = (ev, indexFila, indexTarea) => {
-        const nuevaTarea = ev.target.value;
+        let nuevaTarea = ev.target.value;
+
+        if ( !validador.alfanumerico(nuevaTarea) ){
+            nuevaTarea = limpiarTexto(nuevaTarea);
+        }
+
         const nuevaPlanif = [...planificacion];
         nuevaPlanif[indexFila].tareas[indexTarea] = nuevaTarea;
         setPlanificacion(nuevaPlanif);
@@ -64,7 +108,27 @@ const OtroRegistroPlanificacion = () => {
     };
 
     const eliminarFila = (indexFila) => {
-        setPlanificacion(planificacion.filter((v, i) => i !== indexFila));
+        if( !planificacion[indexFila].id ){
+            if( !planificacion[indexFila].tareas.length ){
+                setPlanificacion(planificacion.filter((v, i) => i !== indexFila));
+            }
+            else{
+                abrirModal(`La fila contiene Objetivos, eliminar de todas formas?`, 
+                    () => {
+                        setPlanificacion(planificacion.filter((v, i) => i !== indexFila));
+                        cerrarModal();
+                    }
+                );
+            }
+        }            
+        else{
+            abrirModal(`Eliminar fila: ${planificacion[indexFila].id}?`, 
+                () => {
+                    setPlanificacion(planificacion.filter((v, i) => i !== indexFila));
+                    cerrarModal();
+                }
+            );
+        }
     };
 
     const agregarTarea = (indexFila) => {
@@ -85,42 +149,61 @@ const OtroRegistroPlanificacion = () => {
     const actualizarFecha = (ev, indexFila) => {
         const { name, value } = ev.target;
         const nuevaPlanif = [...planificacion];
-        nuevaPlanif[indexFila][name] = value;
-        setPlanificacion(nuevaPlanif);
+        if ( name === "fecha_fin" ){
+            if( compararFecha(planificacion[indexFila].fecha_ini, value) ){
+                nuevaPlanif[indexFila][name] = value;
+                setPlanificacion(nuevaPlanif);
+            }
+            else{
+                alert("La fecha fin Debe ser Mayor a la fecha inicio.");
+            }
+        }
+        if ( name === "fecha_ini" ){
+            nuevaPlanif[indexFila][name] = value;
+            setPlanificacion(nuevaPlanif);
+        }
     };
 
     const verificarID = (ev, indexFila) => {
-        if( ev.target.value.trim() === "" ){
-            if( !planificacion[indexFila].tareas.length ){
+        if (ev.target.value.trim() === "") {
+            if (!planificacion[indexFila].tareas.length) {
                 eliminarFila(indexFila);
-            }
-            else{
+            } else {
                 ev.target.focus();
             }
         }
-    }
+    };
 
-    const verificarTarea = (ev, indexFila, indexTarea) =>{
-        if( ev.target.value.trim() === "" ){
+    const verificarTarea = (ev, indexFila, indexTarea) => {
+        if (ev.target.value.trim() === "") {
             eliminarTarea(indexFila, indexTarea);
         }
-    }
-    
-    const verificarLetrasID = (ev, indexFila) =>{
-        if (ev.key === 'Escape' && ev.target.value.trim() === "") {
-            eliminarFila(indexFila);
-          }
-    }
+    };
 
-    const verificarLetrasTarea = (ev, indexFila, indexTarea) =>{
-        if (ev.key === 'Escape' && ev.target.value.trim() === "") {
+    const verificarLetrasID = (ev, indexFila) => {
+        if (ev.key === "Escape" && ev.target.value.trim() === "") {
+            eliminarFila(indexFila);
+        }
+    };
+
+    const verificarLetrasTarea = (ev, indexFila, indexTarea) => {
+        if (ev.key === "Escape" && ev.target.value.trim() === "") {
             eliminarTarea(indexFila, indexTarea);
-          }
-    }
+        }
+    };
 
     return (
         <div className="container-fluid">
-            <TituloRegistros titulo="Registro de Planificacion de Empresa"/>
+            {modal.mostrar && (
+                <ModalConfirmar
+                    texto={modal.texto}
+                    tipo={"borrar"}
+                    mostrar={modal.mostrar}
+                    aceptar={modal.accion}
+                    cancelar={cerrarModal}
+                />
+            )}
+            <TituloRegistros titulo="Registro de Planificacion de Empresa" />
             <div className="row">
                 <div className="col">
                     <Tabla datos={titulos} px0={true} hover={false}>
@@ -137,14 +220,24 @@ const OtroRegistroPlanificacion = () => {
                                                 type="text"
                                                 name={`${key}-id`}
                                                 value={p.id}
-                                                ref={idx === planificacion.length - 1 ?  ref : undefined}
+                                                ref={
+                                                    idx ===
+                                                    planificacion.length - 1
+                                                        ? ref
+                                                        : undefined
+                                                }
                                                 className="form-control"
                                                 placeholder="Titulo"
+                                                maxLength={40}
                                                 onChange={(ev) => {
                                                     editarID(ev, idx);
                                                 }}
-                                                onBlur={(ev) => verificarID(ev, idx)}
-                                                onKeyDown={(ev) => {verificarLetrasID(ev,idx)}}
+                                                onBlur={(ev) =>
+                                                    verificarID(ev, idx)
+                                                }
+                                                onKeyDown={(ev) => {
+                                                    verificarLetrasID(ev, idx);
+                                                }}
                                             />
                                             <BotonControl
                                                 tipo="<eliminar>"
@@ -170,9 +263,17 @@ const OtroRegistroPlanificacion = () => {
                                                                 type="text"
                                                                 name={`${key}-t-${i}`}
                                                                 value={t}
-                                                                placeholder="Tarea"
+                                                                placeholder="Objetivo"
+                                                                maxLength={64}
                                                                 className="form-control"
-                                                                ref={p.tareas.length - 1 === i ?  ref : undefined}
+                                                                ref={
+                                                                    p.tareas
+                                                                        .length -
+                                                                        1 ===
+                                                                    i
+                                                                        ? ref
+                                                                        : undefined
+                                                                }
                                                                 onChange={(
                                                                     ev
                                                                 ) => {
@@ -182,11 +283,23 @@ const OtroRegistroPlanificacion = () => {
                                                                         i
                                                                     );
                                                                 }}
-                                                                onBlur={(ev) =>{
-                                                                    verificarTarea(ev,idx, i);
+                                                                onBlur={(
+                                                                    ev
+                                                                ) => {
+                                                                    verificarTarea(
+                                                                        ev,
+                                                                        idx,
+                                                                        i
+                                                                    );
                                                                 }}
-                                                                onKeyDown={(ev) =>{
-                                                                    verificarLetrasTarea(ev,idx,i);
+                                                                onKeyDown={(
+                                                                    ev
+                                                                ) => {
+                                                                    verificarLetrasTarea(
+                                                                        ev,
+                                                                        idx,
+                                                                        i
+                                                                    );
                                                                 }}
                                                             />
                                                             <BotonControl
@@ -253,10 +366,12 @@ const OtroRegistroPlanificacion = () => {
                         <div className="row justify-content-center">
                             <label className="col-md-5">
                                 Dia de Revisión
-                                
                                 <select className="form-select">
+                                    <option value="1">Lunes</option>
                                     <option value="2">Martes</option>
-                                    <option value="3">Miercoes</option>
+                                    <option value="3">Miercoles</option>
+                                    <option value="4">Jueves</option>
+                                    <option value="5">Viernes</option>
                                 </select>
                             </label>
 
@@ -265,7 +380,6 @@ const OtroRegistroPlanificacion = () => {
                                 <input className="form-control" type="time" />
                             </label>
                         </div>
-
                     </div>
                 </div>
             </div>
