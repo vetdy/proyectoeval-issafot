@@ -29,7 +29,7 @@ class EvaluacionController extends Controller
     {
         
         $evaluacion=Evaluacion::all();
-        return response()->json(['evaluacion'=>compact('evaluacion')],200);
+        return response()->json(['contenido'=>compact('evaluacion')],200);
     }
 
     /**
@@ -243,5 +243,42 @@ class EvaluacionController extends Controller
         }else{
             return response()->json(['contenido'=>'no existe la evaluacion'],404);
         }
+    }
+    /**
+     * @OA\Delete(
+     *     path="/api/evaluacion/empresa/{id}",
+     *     summary="Mostar una evaluaciones por empresa",
+     *     tags={"Evaluaciones"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID de la empresa",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="muestra evaluacion "
+     *     ),
+     *      @OA\Response(
+     *         response=404,
+     *         description="evaluacion no encontrada"
+     *     )
+     * 
+     * )
+     */
+
+
+    public function indexEmpresa($id)
+    {
+        $evaluacion=Evaluacion::where('id_empresa', $id)->get();
+        if(!$evaluacion->isEmpty()){ 
+            return response()->json(['contenido'=>compact('evaluacion')],200);
+        }else{
+            return response()->json(['contenido'=>'no existe la evaluacion'],404);
+        }
+        
     }
 }

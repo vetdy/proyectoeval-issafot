@@ -24,10 +24,10 @@ class TareaTest extends TestCase
  
      public function test_registar_tarea_correcto():void
      {
-        
-          
          $response = $this->postJson('/api/tarea'
-         ,['titulo'=>"item 1 sprin 1",]);
+         ,['titulo'=>"item 1 sprin 1",
+        'id_evaluacion'=>2 ]);
+        
          $response->assertStatus(200);
      }
  

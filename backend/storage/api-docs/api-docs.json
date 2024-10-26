@@ -614,16 +614,28 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "titulo",
-                                    "id_planificacion"
+                                    "nombre",
+                                    "id_planificacion",
+                                    "fecha_inicio",
+                                    "fecha_fin"
                                 ],
                                 "properties": {
-                                    "titulo": {
+                                    "nombre": {
                                         "type": "string",
                                         "example": "Diseño de base de datos"
                                     },
                                     "id_planificacion": {
                                         "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "fecha_inicio": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "1"
+                                    },
+                                    "fecha_fin": {
+                                        "type": "string",
+                                        "format": "date",
                                         "example": "1"
                                     }
                                 },
