@@ -67,6 +67,7 @@ class TareaController extends Controller
         try{
             $request->validate([
                 'titulo'=>'required|max:64',
+                'id_evaluacion'=>'required|exists:evaluacions,id'
                 ]);
             $tarea = Tarea::create($request->all());
         } catch (\Illuminate\Validation\ValidationException $e) {

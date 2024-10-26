@@ -18,6 +18,7 @@ class CreateTareaTable extends Migration
             $table->string('titulo');
             $table->string('observacion')->default('');
             $table->boolean('terminado')->default(false);
+            $table->string('id_evaluacion')->constrained('evaluacions')->onDelete('cascade');
             $table->timestamps();
         });
     }
