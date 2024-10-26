@@ -15,33 +15,34 @@ const actualizarLlave = (obj, viejaLlave, nuevaLlave) => {
     return nuevoObjeto;
 };
 
-const compararFecha = (f1, f2) =>{
+const compararFecha = (f1, f2) => {
     const fecha1 = new Date(f1);
     const fecha2 = new Date(f2);
 
-    if (fecha2 > fecha1){
-        return 1
+    if (fecha2 > fecha1) {
+        return 1;
     }
-    return 0
-}
+    return 0;
+};
 
 const limpiarTexto = (texto) => {
     let nuevoTexto = texto.replace(/[!-\/:-@[-`{-~]/, "");
 
     nuevoTexto = nuevoTexto.replace(/\s+/g, " ");
 
-    if(texto.length > 0 && texto[0] === " "){
+    if (texto.length > 0 && texto[0] === " ") {
         nuevoTexto = nuevoTexto.replace(/^\s/, "");
     }
 
-    return nuevoTexto
-}
+    return nuevoTexto;
+};
 
 const OtroRegistroPlanificacion = () => {
-    const titulos = ["Titulo", "Objetivos", "Fecha Inicio", "Fecha Fin"];
+    const titulos = ["Titulo", "Objetivo", "Fecha Inicio", "Fecha Fin"];
     const fecha = new Date().toISOString().slice(0, 10);
     const ref = useRef(null);
     const [planificacion, setPlanificacion] = useState([]);
+    const [revision, setRevision] = useState({ dia_rev: "1", hora_rev: "08:15" });
     const [modal, setModal] = useState({
         mostrar: false,
         texto: "",
@@ -59,7 +60,7 @@ const OtroRegistroPlanificacion = () => {
         const nuevoModal = {
             mostrar: true,
             texto: texto,
-            accion: accion
+            accion: accion,
         };
         setModal(nuevoModal);
     };
@@ -72,101 +73,103 @@ const OtroRegistroPlanificacion = () => {
         });
     };
 
-    const editarID = (ev, indexFila) => {
-        let nuevoID = ev.target.value;
+    const editarTitulo = (ev, indexFila) => {
+        let nuevoTitulo = ev.target.value;
 
-        if ( !validador.alfanumerico(nuevoID) ){
-            nuevoID = limpiarTexto(nuevoID);
+        if (!validador.alfanumerico(nuevoTitulo)) {
+            nuevoTitulo = limpiarTexto(nuevoTitulo);
         }
 
         const nuevaPlanif = [...planificacion];
-        nuevaPlanif[indexFila].id = nuevoID;
+        nuevaPlanif[indexFila].titulo = nuevoTitulo;
         setPlanificacion(nuevaPlanif);
     };
 
     const editarTarea = (ev, indexFila, indexTarea) => {
         let nuevaTarea = ev.target.value;
 
-        if ( !validador.alfanumerico(nuevaTarea) ){
+        if (!validador.alfanumerico(nuevaTarea)) {
             nuevaTarea = limpiarTexto(nuevaTarea);
         }
 
         const nuevaPlanif = [...planificacion];
-        nuevaPlanif[indexFila].tareas[indexTarea] = nuevaTarea;
+        nuevaPlanif[indexFila].tarea[indexTarea] = nuevaTarea;
         setPlanificacion(nuevaPlanif);
     };
 
     const agregarFila = () => {
         const nuevaPlanif = [...planificacion];
         nuevaPlanif.push({
-            id: "",
-            tareas: [],
-            fecha_ini: fecha,
+            titulo: "",
+            tarea: [],
+            fecha_inicio: fecha,
             fecha_fin: fecha,
         });
         setPlanificacion(nuevaPlanif);
     };
 
     const eliminarFila = (indexFila) => {
-        if( !planificacion[indexFila].id ){
-            if( !planificacion[indexFila].tareas.length ){
-                setPlanificacion(planificacion.filter((v, i) => i !== indexFila));
-            }
-            else{
-                abrirModal(`La fila contiene Objetivos, eliminar de todas formas?`, 
+        if (!planificacion[indexFila].titulo) {
+            if (!planificacion[indexFila].tarea.length) {
+                setPlanificacion(
+                    planificacion.filter((v, i) => i !== indexFila)
+                );
+            } else {
+                abrirModal(
+                    `La fila contiene Objetivos, eliminar de todas formas?`,
                     () => {
-                        setPlanificacion(planificacion.filter((v, i) => i !== indexFila));
+                        setPlanificacion(
+                            planificacion.filter((v, i) => i !== indexFila)
+                        );
                         cerrarModal();
                     }
                 );
             }
-        }            
-        else{
-            abrirModal(`Eliminar fila: ${planificacion[indexFila].id}?`, 
-                () => {
-                    setPlanificacion(planificacion.filter((v, i) => i !== indexFila));
-                    cerrarModal();
-                }
-            );
+        } else {
+            abrirModal(`Eliminar fila: ${planificacion[indexFila].titulo}?`, () => {
+                setPlanificacion(
+                    planificacion.filter((v, i) => i !== indexFila)
+                );
+                cerrarModal();
+            });
         }
     };
 
     const agregarTarea = (indexFila) => {
         const nuevaPlanif = [...planificacion];
-        nuevaPlanif[indexFila].tareas.push("");
+        nuevaPlanif[indexFila].tarea.push("");
         setPlanificacion(nuevaPlanif);
     };
 
     const eliminarTarea = (indexFila, indexTarea) => {
         const nuevaPlanif = [...planificacion];
-        const nuevasTareas = nuevaPlanif[indexFila].tareas.filter(
+        const nuevaTarea = nuevaPlanif[indexFila].tarea.filter(
             (v, i) => indexTarea !== i
         );
-        nuevaPlanif[indexFila].tareas = nuevasTareas;
+        nuevaPlanif[indexFila].tarea = nuevaTarea;
         setPlanificacion(nuevaPlanif);
     };
 
     const actualizarFecha = (ev, indexFila) => {
         const { name, value } = ev.target;
         const nuevaPlanif = [...planificacion];
-        if ( name === "fecha_fin" ){
-            if( compararFecha(planificacion[indexFila].fecha_ini, value) ){
+        if (name === "fecha_fin") {
+            if (compararFecha(planificacion[indexFila].fecha_inicio, value)) {
                 nuevaPlanif[indexFila][name] = value;
                 setPlanificacion(nuevaPlanif);
-            }
-            else{
+            } else {
                 alert("La fecha fin Debe ser Mayor a la fecha inicio.");
             }
         }
-        if ( name === "fecha_ini" ){
+        if (name === "fecha_inicio") {
             nuevaPlanif[indexFila][name] = value;
             setPlanificacion(nuevaPlanif);
         }
     };
 
-    const verificarID = (ev, indexFila) => {
+    const verificarTitulo = (ev, indexFila) => {
         if (ev.target.value.trim() === "") {
-            if (!planificacion[indexFila].tareas.length) {
+            if (!planificacion[indexFila].tarea.length) {
                 eliminarFila(indexFila);
             } else {
                 ev.target.focus();
@@ -180,7 +183,7 @@ const OtroRegistroPlanificacion = () => {
         }
     };
 
-    const verificarLetrasID = (ev, indexFila) => {
+    const verificarLetrasTitulo = (ev, indexFila) => {
         if (ev.key === "Escape" && ev.target.value.trim() === "") {
             eliminarFila(indexFila);
         }
@@ -189,6 +192,24 @@ const OtroRegistroPlanificacion = () => {
     const verificarLetrasTarea = (ev, indexFila, indexTarea) => {
         if (ev.key === "Escape" && ev.target.value.trim() === "") {
             eliminarTarea(indexFila, indexTarea);
+        }
+    };
+
+    const editarRevision = (ev) => {
+        const { name, value } = ev.target;
+        const nuevaRevision = { ...revision };
+        nuevaRevision[name] = value;
+        setRevision(nuevaRevision);
+    };
+
+    const enviarDatos = (ev) => {
+        const datos = {}
+        if ( planificacion.length ){
+            datos["id_proyecto_empresa"] = "1";   //<=== Debe cambiar con usuario/empresa
+            datos["dia_revision"] = revision.dia_rev;
+            datos["hora_revision"] = revision.hora_rev;
+            datos["planificacion"] = planificacion;
+            console.log(datos);
         }
     };
 
@@ -219,7 +240,7 @@ const OtroRegistroPlanificacion = () => {
                                             <input
                                                 type="text"
                                                 name={`${key}-id`}
-                                                value={p.id}
+                                                value={p.titulo}
                                                 ref={
                                                     idx ===
                                                     planificacion.length - 1
@@ -230,13 +251,13 @@ const OtroRegistroPlanificacion = () => {
                                                 placeholder="Titulo"
                                                 maxLength={40}
                                                 onChange={(ev) => {
-                                                    editarID(ev, idx);
+                                                    editarTitulo(ev, idx);
                                                 }}
                                                 onBlur={(ev) =>
-                                                    verificarID(ev, idx)
+                                                    verificarTitulo(ev, idx)
                                                 }
                                                 onKeyDown={(ev) => {
-                                                    verificarLetrasID(ev, idx);
+                                                    verificarLetrasTitulo(ev, idx);
                                                 }}
                                             />
                                             <BotonControl
@@ -252,7 +273,7 @@ const OtroRegistroPlanificacion = () => {
                                             key={`${key}-Tarea`}
                                             className="list-group list-group-flush gap-1"
                                         >
-                                            {p.tareas.map((t, i) => {
+                                            {p.tarea.map((t, i) => {
                                                 return (
                                                     <li
                                                         key={`${key}-Tarea-${i}`}
@@ -267,7 +288,7 @@ const OtroRegistroPlanificacion = () => {
                                                                 maxLength={64}
                                                                 className="form-control"
                                                                 ref={
-                                                                    p.tareas
+                                                                    p.tarea
                                                                         .length -
                                                                         1 ===
                                                                     i
@@ -330,8 +351,8 @@ const OtroRegistroPlanificacion = () => {
                                             className="form-control"
                                             type="date"
                                             style={{ maxWidth: "140px" }}
-                                            name="fecha_ini"
-                                            value={p.fecha_ini}
+                                            name="fecha_inicio"
+                                            value={p.fecha_inicio}
                                             onChange={(ev) => {
                                                 actualizarFecha(ev, idx);
                                             }}
@@ -366,7 +387,12 @@ const OtroRegistroPlanificacion = () => {
                         <div className="row justify-content-center">
                             <label className="col-md-5">
                                 Dia de Revisión
-                                <select className="form-select">
+                                <select
+                                    name="dia_rev"
+                                    className="form-select"
+                                    value={revision.dia_rev}
+                                    onChange={editarRevision}
+                                >
                                     <option value="1">Lunes</option>
                                     <option value="2">Martes</option>
                                     <option value="3">Miercoles</option>
@@ -377,7 +403,21 @@ const OtroRegistroPlanificacion = () => {
 
                             <label className="col-md-5">
                                 Hora de Revisión
-                                <input className="form-control" type="time" />
+                                <select
+                                    name="hora_rev"
+                                    className="form-select"
+                                    value={revision.hora_rev}
+                                    onChange={editarRevision}
+                                >
+                                    <option value="08:15">08:15</option>
+                                    <option value="09:45">09:45</option>
+                                    <option value="11:15">11:15</option>
+                                    <option value="12:45">12:45</option>
+                                    <option value="14:15">14:15</option>
+                                    <option value="15:45">15:45</option>
+                                    <option value="17:15">17:15</option>
+                                    <option value="18:45">18:45</option>
+                                </select>
                             </label>
                         </div>
                     </div>
@@ -391,7 +431,12 @@ const OtroRegistroPlanificacion = () => {
                     >
                         Agregar Fila
                     </button>
-                    <button className="btn btn-eva-secondary">Registrar</button>
+                    <button
+                        className="btn btn-eva-secondary"
+                        onClick={enviarDatos}
+                    >
+                        Registrar
+                    </button>
                 </div>
             </div>
         </div>
