@@ -41,8 +41,15 @@ const OtroRegistroPlanificacion = () => {
     const titulos = ["Titulo", "Objetivo", "Fecha Inicio", "Fecha Fin"];
     const fecha = new Date().toISOString().slice(0, 10);
     const ref = useRef(null);
+    const [fechasValidadProyecto, setFechasValidasProyecto] = useState({
+        fecha_inicio: "",
+        fecha_fin: ""
+    });
     const [planificacion, setPlanificacion] = useState([]);
-    const [revision, setRevision] = useState({ dia_rev: "1", hora_rev: "08:15" });
+    const [revision, setRevision] = useState({
+        dia_rev: "1",
+        hora_rev: "08:15",
+    });
     const [modal, setModal] = useState({
         mostrar: false,
         texto: "",
@@ -126,12 +133,15 @@ const OtroRegistroPlanificacion = () => {
                 );
             }
         } else {
-            abrirModal(`Eliminar fila: ${planificacion[indexFila].titulo}?`, () => {
-                setPlanificacion(
-                    planificacion.filter((v, i) => i !== indexFila)
-                );
-                cerrarModal();
-            });
+            abrirModal(
+                `Eliminar fila: ${planificacion[indexFila].titulo}?`,
+                () => {
+                    setPlanificacion(
+                        planificacion.filter((v, i) => i !== indexFila)
+                    );
+                    cerrarModal();
+                }
+            );
         }
     };
 
@@ -202,10 +212,48 @@ const OtroRegistroPlanificacion = () => {
         setRevision(nuevaRevision);
     };
 
+    const controlDatos = () => {
+        if (planificacion.length) {
+            for (const p of planificacion) {
+                if (p.titulo === "") {
+                    alert("Ningun titulo puede estar vacio");
+                    return false;
+                }
+
+                if (!p.tarea.length) {
+                    alert(
+                        `Debe haber al menos X objetivos. En la fila con titulo: ${p.titulo}`
+                    );
+                    return false;
+                }
+
+                for (const t of p.tarea) {
+                    if (t === "") {
+                        alert(
+                            `Ningun objetivo puede ser vacio. En la fila con titulo: ${p.titulo}`
+                        );
+                        return false;
+                    }
+                }
+
+                if (!compararFecha(p.fecha_inicio, p.fecha_fin)) {
+                    alert(
+                        `La fecha Fin debe ser mayor a la Fecha Inicio. En la fila con titulo: ${p.titulo}`
+                    );
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            alert("Debe llenar al menos X datos.");
+            return false;
+        }
+    };
+
     const enviarDatos = (ev) => {
-        const datos = {}
-        if ( planificacion.length ){
-            datos["id_proyecto_empresa"] = "1";   //<=== Debe cambiar con usuario/empresa
+        const datos = {};
+        if (controlDatos()) {
+            datos["id_proyecto_empresa"] = "1"; //<=== Debe cambiar con usuario/empresa
             datos["dia_revision"] = revision.dia_rev;
             datos["hora_revision"] = revision.hora_rev;
             datos["planificacion"] = planificacion;
@@ -257,7 +305,10 @@ const OtroRegistroPlanificacion = () => {
                                                     verificarTitulo(ev, idx)
                                                 }
                                                 onKeyDown={(ev) => {
-                                                    verificarLetrasTitulo(ev, idx);
+                                                    verificarLetrasTitulo(
+                                                        ev,
+                                                        idx
+                                                    );
                                                 }}
                                             />
                                             <BotonControl
