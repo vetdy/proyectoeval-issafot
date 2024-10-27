@@ -29,7 +29,7 @@ class PlanillaSeguimientoTest extends TestCase
         ,['titulo'=>'revision sprint1',
                 'fecha_revision'=>'23-10-2024',
                 'hora_revision'=>'13:00',
-                'id_empresa'=>'2'
+                'id_empresa'=>'3'
         ]);
         #dd($response->json());
          $response->assertStatus(200);
@@ -47,7 +47,7 @@ class PlanillaSeguimientoTest extends TestCase
      }
      public function test_mostar_planilla_seguimiento_exitoso():void
      {
-         $response = $this->get('/api/planilla_seguimiento/4');
+         $response = $this->get('/api/planilla_seguimiento/3');
          $response->assertStatus(200);
      }
  
@@ -59,7 +59,7 @@ class PlanillaSeguimientoTest extends TestCase
  
      public function test_modificar_planilla_seguimiento_exitoso():void
      {
-         $response = $this->putJson('/api/planilla_seguimiento/4'
+         $response = $this->putJson('/api/planilla_seguimiento/3'
          ,[
          "titulo"=>"Mejora sprint1",]);
          $response->assertStatus(200);
@@ -69,14 +69,14 @@ class PlanillaSeguimientoTest extends TestCase
      {
          $response = $this->putJson('/api/planilla_seguimiento/99'
          ,[
-         'id_empresa'=>'2']);
+         'titulo'=>'2111111111111111']);
          $response->assertStatus(404);
      }
  
      public function test_modificar_planilla_seguimiento_fallido_dato():void
      {
-         $response = $this->putJson('/api/planilla_seguimiento/4'
-         ,['id_empresa'=>'10'
+         $response = $this->putJson('/api/planilla_seguimiento/3'
+         ,['fecha_revision'=>'2111111111111111111111111111111111111111111111111'
          ]);
          $response->assertStatus(422);
      }
@@ -84,25 +84,25 @@ class PlanillaSeguimientoTest extends TestCase
  
      public function test_eliminar_planilla_seguimiento_exito():void
      {
-         $response = $this->delete('/api/planilla_seguimiento/4');
+         $response = $this->delete('/api/planilla_seguimiento/3');
          $response->assertStatus(200);
      }
  
      public function test_eliminar_planilla_seguimiento_fallido():void
      {
-         $response = $this->delete('/api/planilla_seguimiento/1');
+         $response = $this->delete('/api/planilla_seguimiento/3');
          $response->assertStatus(404);
      }
 
      public function test_mostar_por_empresa_exitoso():void
      {
-        $response = $this->get('/api/planilla_seguimiento/empresa/2');
+        $response = $this->get('/api/planilla_seguimiento/empresa/1');
         $response->assertStatus(200);
      }
 
      public function test_mostar_por_empresa_fallido():void
      {
-        $response = $this->get('/api/planilla_seguimiento/empresa/1');
+        $response = $this->get('/api/planilla_seguimiento/empresa/2');
         $response->assertStatus(404);
      }
 }

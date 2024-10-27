@@ -2,9 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Models\Empresa;
 use App\Models\Planilla_seguimiento;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class ItemPlanillaTest extends TestCase
@@ -25,15 +27,30 @@ class ItemPlanillaTest extends TestCase
  
      public function test_registar_item_planilla_correcto():void
      {
+        
+        $u=DB::table('usuarios')->insertGetId(['nombre'=>'mateo',
+            'apellido'=>'corina',
+            'codigo_sis'=>'800252752',
+            'correo'=>'e32@gmail.com',
+            'telefono'=>'4322372',
+            'contrasena'=>'passwords11',
+            'id_rol'=>'2']);
+        $e=Empresa::create(['nombre_corto'=>'SolTech',
+                'nombre_largo'=>'sol tecologia',
+                'correo'=>'email42@gmail.com',
+                'telefono'=>'4321542',
+                'url_logo'=>'url/uno',
+                'id_representante_legal'=>$u]);
         $pg=Planilla_seguimiento::create(["titulo"=> "Revisión de Proyecto de Software",
             "fecha_revision"=> "2023-10-25",
             "hora_revision"=> "14:30",
-            "id_empresa"=> 2]);
+            "id_empresa"=> $e->id]);
           
          $response = $this->postJson('/api/item_planilla'
          ,[ "titulo"=>"crear la base de datos",
             "observacion"=>"no tengo ninguna observacion",
             "id_planilla_seguimiento"=>$pg->id]);
+        
          $response->assertStatus(200);
      }
  
@@ -76,7 +93,7 @@ class ItemPlanillaTest extends TestCase
      public function test_modificar_item_planilla_fallido_dato():void
      {
          $response = $this->putJson('/api/item_planilla/1'
-         ,["id_planilla_seguimiento"=> 9,
+         ,["titulo"=>'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
          ]);
          $response->assertStatus(422);
      }

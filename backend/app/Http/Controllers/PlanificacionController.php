@@ -70,14 +70,18 @@ class PlanificacionController extends Controller
     {
         try{
             $request->validate(['titulo'=>'required|max:64',
-                'fecha_revision'=>'required|date',
+                'dia_revision'=>'required|integer',
                 'hora_revision'=>'required|date_format:H:i',
+                'fecha_inicio'=>'required|date',
+                'fecha_fin'=>'required|date',
                 'id_proyecto_empresa'=>'required|exists:proyecto_empresas,id',
                 ]);
             $planificacion = Planificacion::create($request->all());
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json(['contenido'=>$e->errors()], 422);
         }
+        $ps=new PlanificacionService();
+        $ps->registarPlanillaSeguimiento($request->all());
         return response()->json(['contenido'=>'se registro exitosamente la planificacion'],200);
    
     }
@@ -171,16 +175,19 @@ class PlanificacionController extends Controller
     {
         try{
             $request->validate(['titulo'=>'nullable|max:64',
-            'fecha_revision'=>'nullable|date',
-            'hora_revision'=>'nullable|date_format:H:i',
-            'id_proyecto_empresa'=>'nullable|exists:proyecto_empresas,id',
-            ]);
+                'dia_revision'=>'nullable|integer',
+                'hora_revision'=>'nullable|date_format:H:i',
+                'fecha_inicio'=>'nullable|date',
+                'fecha_fin'=>'nullable|date',
+                ]);
+            $validData = $request->only(['titulo', 'dia_revision', 'hora_revision', 'fecha_inicio', 'fecha_fin']);
+
             }catch (\Illuminate\Validation\ValidationException $e){
                 return response()->json(['contenido'=>$e->errors()], 422);
             }
         $Planificacion=Planificacion::find($id);
         if($Planificacion){
-            $Planificacion->update($request->all());
+            $Planificacion->update($validData);
             return response()->json(['contenido'=>'se actualizo a la Planificacion con exito'],200);
     
         }else{
@@ -254,17 +261,18 @@ class PlanificacionController extends Controller
             
             $planificacion = new Planificacion();
             $planificacion->hora_revision=$request['hora_revision'];
-            $planificacion->fecha_revision=$planifiacionService->getProximoDiaRevision($itemPlanificacion['fecha_fin'],$request['dia_revision']);
+            $planificacion->dia_revision=$request['dia_revision'];
             $planificacion->titulo=$itemPlanificacion['titulo'];
+            $planificacion->fecha_inicio=$itemPlanificacion['fecha_inicio'];
+            $planificacion->fecha_fin=$itemPlanificacion['fecha_fin'];
             $planificacion->id_proyecto_empresa=$request['id_proyecto_empresa'];
-            
+            $ps=new PlanificacionService();
+            $ps->registarPlanillaSeguimientoItems($itemPlanificacion,$itemPlanificacion['tarea'],$planificacion->hora_revision,$planificacion->dia_revision,$planificacion->id_proyecto_empresa);
             $planificacion->save();
             foreach ($itemPlanificacion['tarea'] as $tareaData) {
                 $tarea=new Item_planificacion();
                 $tarea['nombre']=$tareaData;
                 $tarea['id_planificacion']=$planificacion->id;
-                $tarea['fecha_inicio']=$itemPlanificacion['fecha_inicio'];
-                $tarea['fecha_fin']=$itemPlanificacion['fecha_fin'];
                 $tarea ->save();
             }
         }

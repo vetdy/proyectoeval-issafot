@@ -17,9 +17,9 @@ class CreateAsistenciaPlanillaSegimientoTable extends Migration
             $table->id();
             $table->boolean('presente'); 
             $table->timestamps();
-            $table->string('observacion'); 
-            $table->string('id_planilla_seguimiento')->constrained('planilla_seguimiento')->onDelete('cascade');
-            $table->string('id_usuario')->constrained('usuarios')->onDelete('cascade');
+            $table->foreignId('observacion'); 
+            $table->foreignId('id_planilla_seguimiento')->constrained('planilla_seguimientos')->onDelete('cascade');
+            $table->foreignId('id_usuario')->constrained('usuarios')->onDelete('cascade');
             
         });
     }
@@ -31,6 +31,6 @@ class CreateAsistenciaPlanillaSegimientoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('_asistencia_planilla_segimiento');
+        Schema::dropIfExists('asistencia_planilla_segimiento');
     }
 }

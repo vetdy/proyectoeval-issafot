@@ -26,17 +26,15 @@ class ItemPlanificacionTest extends TestCase
      {
          $response = $this->postJson('/api/item_planificacion'
          ,["nombre"=> "Item 1",
-            "id_planificacion"=> 1,
-            "fecha_inicio"=>"2024-03-20",
-            "fecha_fin"=>"2024-04-20"]);
- 
+            "id_planificacion"=> 2,]);
+        
          $response->assertStatus(200);
      }
  
      public function test_registar_item_planificacion_fallido():void
      {
          $response = $this->postJson('/api/item_planificacion'
-         ,["nombre"=> "Item 1",
+         ,["nombre"=> "Item 1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
             "id_planificacion"=> 0,
             "fecha_inicio"=>"2024-03-20",
             "fecha_fin"=>"2024-04-20"]);
@@ -59,10 +57,7 @@ class ItemPlanificacionTest extends TestCase
      {
          $response = $this->putJson('/api/item_planificacion/1'
          ,[
-         'hora_revisions'=>'18:00',
-         'concluido'=>false,
-         'nota'=>70,
-         'id_tipo_item_planificacion'=>'2']);
+         'nombre'=>'Item1']);
          $response->assertStatus(200);
      }
  
@@ -77,7 +72,7 @@ class ItemPlanificacionTest extends TestCase
      public function test_modificar_item_planificacion_fallido_dato():void
      {
          $response = $this->putJson('/api/item_planificacion/1'
-         ,["id_planificacion"=> 0,
+         ,["nombre"=>"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
          ]);
          $response->assertStatus(422);
      }

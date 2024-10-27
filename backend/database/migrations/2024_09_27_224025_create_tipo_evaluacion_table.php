@@ -28,6 +28,6 @@ class CreateTipoEvaluacionTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tipo_evaluacion');
+        Schema::dropIfExists('tipo_evaluacions');
     }
 }

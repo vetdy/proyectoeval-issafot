@@ -169,12 +169,13 @@ class TareaController extends Controller
                 'titulo'=>'nullable|max:64',
                 'observacion'=>'nullable|max:255',
                 ]);
+                $data=$request->only(['titulo','observacion']);
             }catch (\Illuminate\Validation\ValidationException $e){
                 return response()->json(['contenido'=>$e->errors()], 422);
             }
         $tarea=Tarea::find($id);
         if($tarea){
-            $tarea->update($request->all());
+            $tarea->update($data);
             return response()->json(['contenido'=>'se actualizo a la tarea con exito'],200);
     
         }else{

@@ -171,15 +171,15 @@ class ItemPlanillaController extends Controller
             $request->validate([
                 'titulo'=>'nullable|max:32',
                 'observacion'=>'nulltable|max:255',
-                'id_planilla_seguimiento'=>'nullable|exists:planilla_seguimientos,id'
             
             ]);
+            $data=$request->only(['titulo','observacion',]);
         }catch (\Illuminate\Validation\ValidationException $e){
             return response()->json(['contenido'=>$e->errors()], 422);
         }
         $item_planilla=Item_planilla::find($id);
         if($item_planilla){
-            $item_planilla->update($request->all());
+            $item_planilla->update($data);
             return response()->json(['contenido'=>'se actualizo la item planilla'],200);
         }else{
             return response()->json(['contenido'=>'id no encontrado'],404);

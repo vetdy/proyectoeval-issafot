@@ -216,15 +216,15 @@ class DocenteController extends Controller
                 'telefono'=>'nullable|max:32',
                 'contrasena' => 'nullable|max:225',
             ]);
+            $data=$request->only(['nombre','apellido','codigo_sis','correo','telefono','contrasena']);
         }catch (\Illuminate\Validation\ValidationException $e){
             return response()->json(['contenido'=>$e->errors()], 422);
-        }
-        
+        }        
             $docente = Docente::find($id);
             if (!$docente){
                 return response()->json(['contenido'=>'no se encontro el id'],404);
             }else{
-                $docente->update($request->all());
+                $docente->update($data);
                 return response()->json(['contenido'=>'se actualizo con exito'],200);
             }
         

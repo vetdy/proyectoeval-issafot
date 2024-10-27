@@ -28,6 +28,6 @@ class CreateEstadoContratoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('estado_contrato');
+        Schema::dropIfExists('estado_contratos');
     }
 }

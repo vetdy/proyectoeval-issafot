@@ -29,6 +29,6 @@ class CreateDocumentoProyectoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('_documento_proyecto');
+        Schema::dropIfExists('documento_proyectos');
     }
 }

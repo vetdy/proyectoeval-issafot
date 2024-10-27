@@ -176,9 +176,8 @@ class PlanillaSeguimientoController extends Controller
                 'titulo'=>'nullable|max:64',
                 'fecha_revision'=>'nullable|date',
                 'hora_revision'=>'nullable|date_format:H:i',
-                'id_empresa'=>'nullable|exists:empresas,id'
             ]);
-            
+            $data=$request->only(['titulo','fecha_revision','hora_revision']);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json(["contenido"=>$e->errors()], 422);
         }
@@ -186,7 +185,7 @@ class PlanillaSeguimientoController extends Controller
         
             
         if($planilla_seguimiento){
-            $planilla_seguimiento->update($request->all());
+            $planilla_seguimiento->update($data);
             return response()->json(['contenido'=>'se actualizo a la planilla_seguimiento con exito'],200);
         }else{
             return response()->json(['contenido'=>'el id no existe'],404);

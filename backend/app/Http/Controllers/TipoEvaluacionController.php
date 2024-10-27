@@ -170,12 +170,13 @@ class TipoEvaluacionController extends Controller
                 'nombre'=>'required|max:32',
                 'descripcion'=>'required|max:252'
             ]);
+            $data=$request->only(['nombre','descripcion']);
         }catch (\Illuminate\Validation\ValidationException $e){
             return response()->json(['contenido'=>$e->errors()], 422);
         }
         $tipo_evaluacion=Tipo_evaluacion::find($id);
         if($tipo_evaluacion){
-            $tipo_evaluacion->update($request->all());
+            $tipo_evaluacion->update($data);
             return response()->json(['contenido'=>'se actualizo el tipo evaluacion'],200);
         }else{
             return response()->json(['contenido'=>'id no encontrado'],404);
