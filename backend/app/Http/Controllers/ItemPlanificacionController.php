@@ -43,9 +43,11 @@ class ItemPlanificacionController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             required={"titulo","id_planificacion"},
-     *             @OA\Property(property="titulo", type="string", example="Diseño de base de datos"),
+     *             required={"nombre","id_planificacion","fecha_inicio","fecha_fin"},
+     *             @OA\Property(property="nombre", type="string", example="Diseño de base de datos"),
      *             @OA\Property(property="id_planificacion", type="integer", example="1"),
+     *             @OA\Property(property="fecha_inicio", type="date", example="1"),
+     *             @OA\Property(property="fecha_fin", type="date", example="1"),
      *         )
      *     ),
      *     @OA\Response(
@@ -62,8 +64,7 @@ class ItemPlanificacionController extends Controller
     {
         try{
             $request->validate([
-                'titulo'=>'required|max:32',
-                'id_planificacion'=>'required|exists:planificaciones,id'
+                'nombre'=>'required|max:32',
             ]);
             $item_planificacion=Item_planificacion::create($request->all());
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -139,7 +140,7 @@ class ItemPlanificacionController extends Controller
      *     @OA\RequestBody(
      *      required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="titulo", type="string", example="Diseño de base de datos"),
+     *             @OA\Property(property="nombre", type="string", example="Diseño de base de datos"),
      *             @OA\Property(property="id_planificacion", type="integer", example="1"),
      *         )
      *     ),
@@ -161,16 +162,15 @@ class ItemPlanificacionController extends Controller
     { 
         try{
             $request->validate([
-                'titulo'=>'nullable|max:32',
-                'id_planilla'=>'nullable|exist:planificaciones,id'
-            
+                'nombre'=>'nullable|max:32',
             ]);
+            $data=$request->only(['nombre']);
         }catch (\Illuminate\Validation\ValidationException $e){
             return response()->json(['contenido'=>$e->errors()], 422);
         }
         $item_planificacion=Item_planificacion::find($id);
         if($item_planificacion){
-            $item_planificacion->update($request->all());
+            $item_planificacion->update($data);
             return response()->json(['contenido'=>'se actualizo la item planificacion'],200);
         }else{
             return response()->json(['contenido'=>'id no encontrado'],404);

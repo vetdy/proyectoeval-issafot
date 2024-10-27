@@ -31,6 +31,6 @@ class CreateDocumentoEmpresaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('_documento_empresa');
+        Schema::dropIfExists('documento_empresas');
     }
 }

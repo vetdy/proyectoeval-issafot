@@ -8,5 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Tarea extends Model
 {
     use HasFactory;
-    protected $fillable=['descripcion','observacion','terminado',];
+    protected $fillable=['titulo','observacion','terminado','id_evaluacion'];
+    public function evaluacion(){
+        return $this->hasOne(Evaluacion::class);
+    }
 }

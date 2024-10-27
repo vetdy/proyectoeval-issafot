@@ -20,8 +20,8 @@ class CreateEvaluacionTable extends Migration
             $table->time('hora_revision');
             $table->boolean('concluido');
             $table->integer('nota');
-            $table->string('id_empresa')->constrained('empresas');
-            $table->string('id_tipo_evaluacion')->constrained('tipo_evaluacions');
+            $table->foreignId('id_empresa')->constrained('empresas');
+            $table->foreignId('id_tipo_evaluacion')->constrained('tipo_evaluacions');
             $table->timestamps();
         });
   
@@ -34,6 +34,6 @@ class CreateEvaluacionTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('evaluacion');
+        Schema::dropIfExists('evaluacions');
     }
 }

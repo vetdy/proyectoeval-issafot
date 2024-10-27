@@ -65,9 +65,9 @@ class TareaController extends Controller
     public function store(Request $request)
     {
         try{
-            $request->validate(['terminado'=>'required|boolean',
-                'descripcion'=>'required|max:64',
-                'observacion'=>'required|max:255',
+            $request->validate([
+                'titulo'=>'required|max:64',
+                'id_evaluacion'=>'required|exists:evaluacions,id'
                 ]);
             $tarea = Tarea::create($request->all());
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -165,16 +165,17 @@ class TareaController extends Controller
     public function update(Request $request, $id)
     {
         try{
-            $request->validate(['terminado'=>'required|boolean',
-                'descripcion'=>'required|max:64',
-                'observacion'=>'required|max:255',
+            $request->validate(['terminado'=>'nullable|boolean',
+                'titulo'=>'nullable|max:64',
+                'observacion'=>'nullable|max:255',
                 ]);
+                $data=$request->only(['titulo','observacion']);
             }catch (\Illuminate\Validation\ValidationException $e){
                 return response()->json(['contenido'=>$e->errors()], 422);
             }
         $tarea=Tarea::find($id);
         if($tarea){
-            $tarea->update($request->all());
+            $tarea->update($data);
             return response()->json(['contenido'=>'se actualizo a la tarea con exito'],200);
     
         }else{

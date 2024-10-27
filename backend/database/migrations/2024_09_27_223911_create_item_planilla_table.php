@@ -17,7 +17,7 @@ class CreateItemPlanillaTable extends Migration
             $table->id();
             $table->string('titulo');
             $table->string('observacion')->default('');
-            $table->string('id_planilla_seguimiento')->constrained('planilla_segimientos')->onDelete('cascade');
+            $table->foreignId('id_planilla_seguimiento')->constrained('planilla_seguimientos')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateItemPlanillaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('item_planilla');
+        Schema::dropIfExists('item_planillas');
     }
 }
