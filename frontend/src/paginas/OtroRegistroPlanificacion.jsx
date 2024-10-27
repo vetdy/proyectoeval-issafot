@@ -60,6 +60,7 @@ const OtroRegistroPlanificacion = () => {
         mostrar: false,
         texto: ""
     });
+    const [deshabilitarEnvio, setDeshabilitarEnvio] = useState(false);
 
     useEffect(() => {
         if (ref?.current) {
@@ -264,14 +265,16 @@ const OtroRegistroPlanificacion = () => {
         }
     };
 
-    const enviarDatos = (ev) => {
+    const enviarDatos = async (ev) => {
         const datos = {};
-        if (controlDatos()) {
+        if ( controlDatos() ) {
+            setDeshabilitarEnvio(true);
             datos["id_proyecto_empresa"] = "1"; //<=== Debe cambiar con usuario/empresa
             datos["dia_revision"] = revision.dia_rev;
             datos["hora_revision"] = revision.hora_rev;
             datos["planificacion"] = planificacion;
-            console.log(datos);
+            //const res = await registrarPlanificacionEmpresa(datos);
+
         }
     };
 
@@ -507,6 +510,7 @@ const OtroRegistroPlanificacion = () => {
                     <button
                         className="btn btn-eva-secondary"
                         onClick={enviarDatos}
+                        disabled={deshabilitarEnvio}
                     >
                         Registrar
                     </button>
