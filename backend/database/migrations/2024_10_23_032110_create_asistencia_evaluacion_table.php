@@ -18,8 +18,8 @@ class CreateAsistenciaEvaluacionTable extends Migration
             $table->boolean('presente'); 
             $table->timestamps();
             $table->string('observacion'); 
-            $table->string('id_evaluacion')->constrained('evaluaciones')->onDelete('cascade');
-            $table->string('id_usuario')->constrained('usuarios')->onDelete('cascade');
+            $table->foreignId('id_evaluacion')->constrained('evaluacions')->onDelete('cascade');
+            $table->foreignId('id_usuario')->constrained('usuarios')->onDelete('cascade');
             
         });
     }
@@ -31,6 +31,6 @@ class CreateAsistenciaEvaluacionTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('_asistencia_evaluacion');
+        Schema::dropIfExists('asistencia_evaluacion');
     }
 }

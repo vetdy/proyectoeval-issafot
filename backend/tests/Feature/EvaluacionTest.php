@@ -30,7 +30,7 @@ class EvaluacionTest extends TestCase
         'hora_revision'=>'18:00',
         'concluido'=>false,
         'nota'=>20,
-        'id_empresa'=>'1',
+        'id_empresa'=>'3',
         'id_tipo_evaluacion'=>'2']);
 
         $response->assertStatus(200);
@@ -103,6 +103,18 @@ class EvaluacionTest extends TestCase
     public function test_eliminar_evaluacion_fallido():void
     {
         $response = $this->delete('/api/evaluacion/10');
+        $response->assertStatus(404);
+    }
+
+    public function test_mostar_evaluacion_empresa_correcto():void
+    {
+        $response = $this->get('/api/evaluacion/empresa/1');
+        $response->assertStatus(200);
+    }
+
+    public function test_mostar_evaluacion_empresa_fallido():void
+    {
+        $response = $this->get('/api/evaluacion/empresa/5');
         $response->assertStatus(404);
     }
 }

@@ -25,6 +25,14 @@ class ProyectoEmpresaSeeder extends Seeder
             ],
 
         ]);
+        DB::table('proyectos')->insert([
+            'nombre'=>'proyecto de creacion de ambientes',
+            'descripcion'=>'este proyecto consiste en crear una ambientes con sus estudiantes',
+            'codigo'=>'PCA-01',
+            'fecha_inicio'=>'2024-10-10',
+            'fecha_cierre'=>'2024-12-20',
+            'id_creado_por'=>"1"
+        ]);
         DB::table('proyecto_empresas')->insert([
             [
                 'habilitado'=>true,
@@ -41,7 +49,7 @@ class ProyectoEmpresaSeeder extends Seeder
             [
                 'habilitado'=>true,
                 'id_proyecto'=>'1',
-                'id_empresa'=>'3',
+                'id_empresa'=>'2',
                 'id_estado_contrato'=>'2'
             ],
 

@@ -65,7 +65,8 @@ class ItemPlanillaController extends Controller
         try{
             $request->validate([
                 'titulo'=>'required|max:32',
-                'id_planilla'=>'required|exists:planilla_seguimientos,id'
+                'observacion'=>'required|max:255',
+                'id_planilla_seguimiento'=>'required|exists:planilla_seguimientos,id'
             ]);
             $item_planilla=Item_planilla::create($request->all());
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -169,15 +170,16 @@ class ItemPlanillaController extends Controller
         try{
             $request->validate([
                 'titulo'=>'nullable|max:32',
-                'id_planilla'=>'nullable|exists:planillas_segimientos.id'
+                'observacion'=>'nulltable|max:255',
             
             ]);
+            $data=$request->only(['titulo','observacion',]);
         }catch (\Illuminate\Validation\ValidationException $e){
             return response()->json(['contenido'=>$e->errors()], 422);
         }
         $item_planilla=Item_planilla::find($id);
         if($item_planilla){
-            $item_planilla->update($request->all());
+            $item_planilla->update($data);
             return response()->json(['contenido'=>'se actualizo la item planilla'],200);
         }else{
             return response()->json(['contenido'=>'id no encontrado'],404);
@@ -260,7 +262,7 @@ class ItemPlanillaController extends Controller
      */
     public function show_planilla_seguimiento($id)
     {
-        $item_planilla=Item_planilla::where('id_planilla_seguimiento', $id)->get();;
+        $item_planilla=Item_planilla::where('id_planilla_seguimiento', $id)->get();
         if(!$item_planilla->isEmpty()){
             return response()->json(['contenido'=>compact('item_planilla')],200);
         }else{

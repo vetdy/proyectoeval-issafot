@@ -16,9 +16,9 @@ class CreateProyectoEmpresaTable extends Migration
         Schema::create('proyecto_empresas', function (Blueprint $table) {
             $table->id();
             $table->boolean('habilitado');
-            $table->string('id_proyecto')->constrained('proyectos')->onDelete('cascade');
-            $table->string('id_empresa')->constrained('empresas')->onDelete('cascade');
-            $table->string('id_estado_contrato')->constrained('estado_contratos')->onDelete('cascade');
+            $table->foreignId('id_proyecto')->constrained('proyectos')->onDelete('cascade');
+            $table->foreignId('id_empresa')->constrained('empresas')->onDelete('cascade');
+            $table->foreignId('id_estado_contrato')->constrained('estado_contratos')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateProyectoEmpresaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('proyecto_empresa');
+        Schema::dropIfExists('proyecto_empresas');
     }
 }

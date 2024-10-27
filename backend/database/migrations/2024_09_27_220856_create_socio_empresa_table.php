@@ -15,8 +15,8 @@ class CreateSocioEmpresaTable extends Migration
     {
         Schema::create('socio_empresas', function (Blueprint $table) {
             $table->id();
-            $table->string('id_empresa')->constrained('empresas')->onDelete('cascade')->nullable();
-            $table->string('id_usuario')->constrained('usuarios')->onDelete('cascade');
+            $table->foreignId('id_empresa')->constrained('empresas')->onDelete('cascade')->nullable();
+            $table->foreignId('id_usuario')->constrained('usuarios')->onDelete('cascade');
             $table->boolean('activo')->default(true);
             $table->timestamps();
         });

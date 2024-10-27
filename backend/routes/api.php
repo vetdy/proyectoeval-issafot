@@ -98,6 +98,8 @@ Route::controller(EvaluacionController::class)->group(function () {
     Route::get('/evaluacion/{id}', 'show');
     Route::put('/evaluacion/{id}', 'update');
     Route::delete('/evaluacion/{id}', 'destroy');
+
+    Route::get('/evaluacion/empresa/{id}', 'indexEmpresa');
 });
 
 Route::controller(TipoEvaluacionController::class)->group(function () {
