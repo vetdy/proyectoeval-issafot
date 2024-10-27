@@ -1,5 +1,6 @@
-import IconoCampana from "./IconoCampana"
-import IconoLogo from "./IconoLogo"
-import IconoUsuario from "./IconoUsuario"
+import IconoCampana from "./IconoCampana";
+import IconoLogo from "./IconoLogo";
+import IconoUsuario from "./IconoUsuario";
+import IconoCargando from "./IconoCargando";
 
-export {IconoCampana, IconoLogo, IconoUsuario}
+export { IconoCampana, IconoLogo, IconoUsuario, IconoCargando };
