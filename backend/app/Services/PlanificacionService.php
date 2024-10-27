@@ -1,9 +1,12 @@
 <?php
 namespace App\Services;
 
+use App\Models\Asistencia_planilla_seguimiento;
+use App\Models\Evaluacion;
 use App\Models\Item_planilla;
 use App\Models\Planilla_seguimiento;
 use App\Models\Proyecto_empresa;
+use App\Models\Socio_empresa;
 use Illuminate\Support\Carbon;
 
 class PlanificacionService
@@ -41,7 +44,7 @@ class PlanificacionService
         $fecha_inicio=Carbon::createFromDate($registar['fecha_inicio']);
         $fecha_fin=Carbon::createFromDate($registar['fecha_fin']);
         $fecha_inicio=Carbon::createFromDate($this->getProximoDiaRevision($fecha_inicio,$dia));
-        while($fecha_inicio->lte($fecha_fin)){
+        while($fecha_inicio->lt($fecha_fin)){
             
             $pg=new Planilla_seguimiento();
             $pg->titulo=$registar['titulo'];
@@ -53,11 +56,22 @@ class PlanificacionService
                 $ta=new Item_planilla();
                 $ta->titulo=$tarea;
                 $ta->id_planilla_seguimiento=$pg->id;
-            }  
-
+                $ta->save();
+            } 
             $fecha_inicio->addDay();
             $fecha_inicio=Carbon::createFromDate($this->getProximoDiaRevision($fecha_inicio,$dia));
+            
+            foreach(Socio_empresa::where('id_empresa',$pg->id_empresa)->get() as $id_usuario ){
+                $aps=new Asistencia_planilla_seguimiento();
+                $aps->id_usuario=$id_usuario->id;
+                $aps->id_planilla_seguimiento=$pg->id;
+                $aps->save();
+                
+            }
+            
+            
         }
+        
     }
 
     

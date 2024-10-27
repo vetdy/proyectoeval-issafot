@@ -17,7 +17,7 @@ class CreateAsistenciaEvaluacionTable extends Migration
             $table->id();
             $table->boolean('presente'); 
             $table->timestamps();
-            $table->foreignId('observacion'); 
+            $table->string('observacion'); 
             $table->foreignId('id_evaluacion')->constrained('evaluacions')->onDelete('cascade');
             $table->foreignId('id_usuario')->constrained('usuarios')->onDelete('cascade');
             

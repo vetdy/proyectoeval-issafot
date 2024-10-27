@@ -13,11 +13,11 @@ class CreateAsistenciaPlanillaSegimientoTable extends Migration
      */
     public function up()
     {
-        Schema::create('asistencia_planilla_segimiento', function (Blueprint $table) {
+        Schema::create('asistencia_planilla_seguimiento', function (Blueprint $table) {
             $table->id();
-            $table->boolean('presente'); 
+            $table->boolean('presente')->default(false); 
             $table->timestamps();
-            $table->foreignId('observacion'); 
+            $table->string('observacion')->default(''); 
             $table->foreignId('id_planilla_seguimiento')->constrained('planilla_seguimientos')->onDelete('cascade');
             $table->foreignId('id_usuario')->constrained('usuarios')->onDelete('cascade');
             
