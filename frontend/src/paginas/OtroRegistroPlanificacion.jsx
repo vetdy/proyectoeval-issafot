@@ -3,7 +3,8 @@ import { BotonControl } from "../componentes/botones";
 import { useState, useRef, useEffect } from "react";
 import { TituloRegistros } from "../componentes/titulos";
 import { validador } from "../utils";
-import { ModalConfirmar } from "../componentes/modales";
+import { ModalConfirmar, ModalSimple } from "../componentes/modales";
+import { registrarPlanificacionEmpresa } from "../servicios/api"
 
 const actualizarLlave = (obj, viejaLlave, nuevaLlave) => {
     let nuevoObjeto = {};
@@ -55,6 +56,10 @@ const OtroRegistroPlanificacion = () => {
         texto: "",
         accion: null,
     });
+    const [modalInf, setModalInf] = useState({
+        mostrar: false,
+        texto: ""
+    });
 
     useEffect(() => {
         if (ref?.current) {
@@ -77,6 +82,21 @@ const OtroRegistroPlanificacion = () => {
             mostrar: false,
             texto: "",
             accion: null,
+        });
+    };
+
+    const AbrirModalInf = (texto) => {
+        const nuevoModal = {
+            mostrar: true,
+            texto: texto
+        };
+        setModalInf(nuevoModal);
+    }
+
+    const cerrarModalInf = () => {
+        setModalInf({
+            mostrar: false,
+            texto: "",
         });
     };
 
@@ -168,7 +188,7 @@ const OtroRegistroPlanificacion = () => {
                 nuevaPlanif[indexFila][name] = value;
                 setPlanificacion(nuevaPlanif);
             } else {
-                alert("La fecha fin Debe ser Mayor a la fecha inicio.");
+                AbrirModalInf("La fecha fin Debe ser Mayor a la fecha inicio.");
             }
         }
         if (name === "fecha_inicio") {
@@ -216,36 +236,30 @@ const OtroRegistroPlanificacion = () => {
         if (planificacion.length) {
             for (const p of planificacion) {
                 if (p.titulo === "") {
-                    alert("Ningun titulo puede estar vacio");
+                    AbrirModalInf("Ningun titulo puede estar vacio");
                     return false;
                 }
 
                 if (!p.tarea.length) {
-                    alert(
-                        `Debe haber al menos X objetivos. En la fila con titulo: ${p.titulo}`
-                    );
+                    AbrirModalInf(`Debe haber al menos X objetivos. En la fila con titulo: ${p.titulo}`);
                     return false;
                 }
-
+                
                 for (const t of p.tarea) {
                     if (t === "") {
-                        alert(
-                            `Ningun objetivo puede ser vacio. En la fila con titulo: ${p.titulo}`
-                        );
+                        AbrirModalInf(`Ningun objetivo puede ser vacio. En la fila con titulo: ${p.titulo}`);
                         return false;
                     }
                 }
-
+                
                 if (!compararFecha(p.fecha_inicio, p.fecha_fin)) {
-                    alert(
-                        `La fecha Fin debe ser mayor a la Fecha Inicio. En la fila con titulo: ${p.titulo}`
-                    );
+                    AbrirModalInf(`La fecha Fin debe ser mayor a la Fecha Inicio. En la fila con titulo: ${p.titulo}`);
                     return false;
                 }
             }
             return true;
         } else {
-            alert("Debe llenar al menos X datos.");
+            AbrirModalInf("Debe llenar al menos X datos.");
             return false;
         }
     };
@@ -270,6 +284,14 @@ const OtroRegistroPlanificacion = () => {
                     mostrar={modal.mostrar}
                     aceptar={modal.accion}
                     cancelar={cerrarModal}
+                />
+            )}
+            {modalInf.mostrar && (
+                <ModalSimple
+                    mostrar={modalInf.mostrar}
+                    texto={modalInf.texto}
+                    tipo={"error"}
+                    cerrar={cerrarModalInf}
                 />
             )}
             <TituloRegistros titulo="Registro de Planificacion de Empresa" />
