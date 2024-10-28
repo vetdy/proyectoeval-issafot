@@ -41,6 +41,9 @@ function App() {
                 <Route path="/planillas"
                     element={<paginas.PlanillasDocente />}
                 ></Route>
+                <Route path="/planillas/revision"
+                    element={<paginas.RevisionPlanilla />}
+                ></Route>
             </Routes>
             <Control inicial={"estudiante"} menus={menus} clickHandle={setUsrMenu}></Control>
         </>

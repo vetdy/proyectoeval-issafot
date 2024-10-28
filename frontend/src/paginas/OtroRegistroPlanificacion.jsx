@@ -274,7 +274,8 @@ const OtroRegistroPlanificacion = () => {
             datos["hora_revision"] = revision.hora_rev;
             datos["planificacion"] = planificacion;
             //const res = await registrarPlanificacionEmpresa(datos);
-
+            console.log(datos);
+            setDeshabilitarEnvio(false);
         }
     };
 
@@ -364,10 +365,7 @@ const OtroRegistroPlanificacion = () => {
                                                                 maxLength={64}
                                                                 className="form-control"
                                                                 ref={
-                                                                    p.tarea
-                                                                        .length -
-                                                                        1 ===
-                                                                    i
+                                                                    p.tarea.length - 1 === i
                                                                         ? ref
                                                                         : undefined
                                                                 }
