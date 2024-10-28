@@ -5,16 +5,7 @@ import { TituloRegistros } from "../componentes/titulos";
 import { validador } from "../utils";
 import { ModalConfirmar, ModalSimple } from "../componentes/modales";
 import { registrarPlanificacionEmpresa } from "../servicios/api"
-
-const actualizarLlave = (obj, viejaLlave, nuevaLlave) => {
-    let nuevoObjeto = {};
-
-    for (let [k, v] of Object.entries(obj))
-        if (k === viejaLlave) nuevoObjeto[nuevaLlave] = v;
-        else nuevoObjeto[k] = v;
-
-    return nuevoObjeto;
-};
+import { cadenaValoresJSON } from "../utils/conversor";
 
 const compararFecha = (f1, f2) => {
     const fecha1 = new Date(f1);
@@ -58,6 +49,7 @@ const OtroRegistroPlanificacion = () => {
     });
     const [modalInf, setModalInf] = useState({
         mostrar: false,
+        tipo: "",
         texto: ""
     });
     const [deshabilitarEnvio, setDeshabilitarEnvio] = useState(false);
@@ -86,9 +78,10 @@ const OtroRegistroPlanificacion = () => {
         });
     };
 
-    const AbrirModalInf = (texto) => {
+    const AbrirModalInf = (texto, tipo="error") => {
         const nuevoModal = {
             mostrar: true,
+            tipo: tipo,
             texto: texto
         };
         setModalInf(nuevoModal);
@@ -97,6 +90,7 @@ const OtroRegistroPlanificacion = () => {
     const cerrarModalInf = () => {
         setModalInf({
             mostrar: false,
+            tipo: "",
             texto: "",
         });
     };
@@ -273,8 +267,16 @@ const OtroRegistroPlanificacion = () => {
             datos["dia_revision"] = revision.dia_rev;
             datos["hora_revision"] = revision.hora_rev;
             datos["planificacion"] = planificacion;
-            //const res = await registrarPlanificacionEmpresa(datos);
-            console.log(datos);
+            const res = await registrarPlanificacionEmpresa(datos);
+            if (res.status === 200){
+                AbrirModalInf("Se ha registrado la planificación", "normal");
+            }
+            else if ( res.status === 422 ){
+                AbrirModalInf( cadenaValoresJSON(res.message) );
+            }
+            else{
+                AbrirModalInf( res.message );
+            }
             setDeshabilitarEnvio(false);
         }
     };
@@ -294,7 +296,7 @@ const OtroRegistroPlanificacion = () => {
                 <ModalSimple
                     mostrar={modalInf.mostrar}
                     texto={modalInf.texto}
-                    tipo={"error"}
+                    tipo={modalInf.tipo}
                     cerrar={cerrarModalInf}
                 />
             )}

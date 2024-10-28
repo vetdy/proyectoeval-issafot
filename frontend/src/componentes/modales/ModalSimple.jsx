@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import color from "../../estilos/color";
 
 const ModalSimple = ({
     mostrar = false,
@@ -7,9 +8,10 @@ const ModalSimple = ({
     tipo = "normal",
 }) => {
     const colorTexto = {
-        normal: "text-dark",
-        error: "text-eva-danger",
-        info: "text-eva-info",
+        normal: color.texto.oscuro,
+        exito: color.texto.exito,
+        error: color.texto.peligro,
+        info: color.texto.info,
     };
 
     const handleTeclaCerrar = (ev) => {

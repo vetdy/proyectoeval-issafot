@@ -328,7 +328,7 @@ class PlanillaSeguimientoController extends Controller
                     }
                 }
             }
-            return response()->json(['contenido'=>compact('planillas_seguitos')],200); 
+            return response()->json(['contenido'=>compact('planillas_seguimientos')],200); 
         }else{
             return response()->json(['contenido'=>'el suario no tiene Proyectos activos'],404);
         }
