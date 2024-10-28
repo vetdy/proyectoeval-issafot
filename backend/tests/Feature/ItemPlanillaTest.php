@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Empresa;
 use App\Models\Planilla_seguimiento;
+use App\Models\Proyecto_empresa;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\DB;
@@ -41,10 +42,14 @@ class ItemPlanillaTest extends TestCase
                 'telefono'=>'4321542',
                 'url_logo'=>'url/uno',
                 'id_representante_legal'=>$u]);
+        $pe=Proyecto_empresa::create(['habilitado'=>true,
+                'id_proyecto'=>'1',
+                'id_empresa'=>$e->id,
+                'id_estado_contrato'=>'1']);
         $pg=Planilla_seguimiento::create(["titulo"=> "Revisión de Proyecto de Software",
             "fecha_revision"=> "2023-10-25",
             "hora_revision"=> "14:30",
-            "id_empresa"=> $e->id]);
+            "id_proyecto_empresa"=> $pe->id]);
           
          $response = $this->postJson('/api/item_planilla'
          ,[ "titulo"=>"crear la base de datos",
@@ -64,7 +69,7 @@ class ItemPlanillaTest extends TestCase
      }
      public function test_mostar_item_planilla_exitoso():void
      {
-         $response = $this->get('/api/item_planilla/1');
+         $response = $this->get('/api/item_planilla/10');
          $response->assertStatus(200);
      }
  
@@ -76,7 +81,7 @@ class ItemPlanillaTest extends TestCase
  
      public function test_modificar_item_planilla_exitoso():void
      {
-         $response = $this->putJson('/api/item_planilla/1'
+         $response = $this->putJson('/api/item_planilla/10'
          ,[
          "titulo"=>"base de datos con mejorar",]);
          $response->assertStatus(200);
@@ -92,7 +97,7 @@ class ItemPlanillaTest extends TestCase
  
      public function test_modificar_item_planilla_fallido_dato():void
      {
-         $response = $this->putJson('/api/item_planilla/1'
+         $response = $this->putJson('/api/item_planilla/10'
          ,["titulo"=>'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
          ]);
          $response->assertStatus(422);
@@ -101,7 +106,7 @@ class ItemPlanillaTest extends TestCase
  
      public function test_eliminar_item_planilla_exito():void
      {
-         $response = $this->delete('/api/item_planilla/1');
+         $response = $this->delete('/api/item_planilla/10');
          $response->assertStatus(200);
      }
  
@@ -115,6 +120,7 @@ class ItemPlanillaTest extends TestCase
      public function test_mostar_planilla_seguimiento_exitoso():void
      {
          $response = $this->get('/api/item_planilla/planilla_seguimiento/1');
+         
          $response->assertStatus(200);
      }
 

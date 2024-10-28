@@ -29,7 +29,7 @@ class PlanillaSeguimientoTest extends TestCase
         ,['titulo'=>'revision sprint1',
                 'fecha_revision'=>'23-10-2024',
                 'hora_revision'=>'13:00',
-                'id_empresa'=>'3'
+                'id_proyecto_empresa'=>'1'
         ]);
         #dd($response->json());
          $response->assertStatus(200);
@@ -103,6 +103,16 @@ class PlanillaSeguimientoTest extends TestCase
      public function test_mostar_por_empresa_fallido():void
      {
         $response = $this->get('/api/planilla_seguimiento/empresa/2');
+        $response->assertStatus(404);
+     }
+     public function test_mostar_por_semana_exitoso():void
+     {
+        $response = $this->get('/api/planilla_seguimiento/semana/1');
+        $response->assertStatus(200);
+     }
+     public function test_mostar_por_semana_fallido():void
+     {
+        $response = $this->get('/api/planilla_seguimiento/semana/99');
         $response->assertStatus(404);
      }
 }

@@ -31,7 +31,7 @@ class PlanificacionService
             $pg->titulo=$registar['titulo'];
             $pg->fecha_revision=$fecha_inicio->toDateString();
             $pg->hora_revision=$registar['hora_revision'];
-            $pg->id_empresa=Proyecto_empresa::find($registar['id_proyecto_empresa'])->id_empresa;
+            $pg->id_proyecto_empresa=$registar['id_proyecto_empresa'];
             $pg->save();
             $fecha_inicio->addDay();
             $fecha_inicio=Carbon::createFromDate($this->getProximoDiaRevision($fecha_inicio,$dia));
@@ -50,7 +50,7 @@ class PlanificacionService
             $pg->titulo=$registar['titulo'];
             $pg->fecha_revision=$fecha_inicio->toDateString();
             $pg->hora_revision=$h;
-            $pg->id_empresa=Proyecto_empresa::find($pe)->id_empresa;
+            $pg->id_proyecto_empresa=$pe;
             $pg->save();
             foreach ($tareas as $tarea){
                 $ta=new Item_planilla();

@@ -53,6 +53,7 @@ Route::controller(PlanillaSeguimientoController::class)->group(function () {
     Route::delete('/planilla_seguimiento/{id}', 'destroy');
 
     Route::get('/planilla_seguimiento/empresa/{id}','show_empresa');
+    Route::get('/planilla_seguimiento/semana/{idUsuario}','show_semanal');
 });
 
 Route::controller(ItemPlanillaController::class)->group(function () {

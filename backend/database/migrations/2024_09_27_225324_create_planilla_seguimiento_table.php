@@ -20,7 +20,7 @@ class CreatePlanillaSeguimientoTable extends Migration
             $table->time('hora_revision');
             $table->boolean('concluido')->default(false);
             $table->timestamps();
-            $table->foreignId('id_empresa')->constrained('empresas')->onDelete('cascade');
+            $table->foreignId('id_proyecto_empresa')->constrained('proyecto_empresas')->onDelete('cascade');
         });
     }
     
