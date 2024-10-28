@@ -14,42 +14,43 @@ class PlanillaSeeder extends Seeder
      */
     public function run()
     {
+        
         DB::table('planilla_seguimientos')->insert([
             [
                 'titulo'=>'presencial',
                 'fecha_revision'=>'2019/10/28',
                 'hora_revision'=>'18:00',
-                'id_empresa'=>'1'
+                'id_proyecto_empresa'=>'1'
             ],
             [
                 'titulo'=>'revision 1',
                 'fecha_revision'=>'2019/10/28',
                 'hora_revision'=>'18:00',
-                'id_empresa'=>'1'
+                'id_proyecto_empresa'=>'1'
             ],
             [
                 'titulo'=>'revision 2',
                 'fecha_revision'=>'2019/10/28',
                 'hora_revision'=>'18:00',
-                'id_empresa'=>'1'
+                'id_proyecto_empresa'=>'1'
             ],
             [
                 'titulo'=>'presencial',
                 'fecha_revision'=>'2019/10/28',
                 'hora_revision'=>'18:00',
-                'id_empresa'=>'2'
+                'id_proyecto_empresa'=>'2'
             ],
             [
                 'titulo'=>'revision 1',
                 'fecha_revision'=>'2019/10/28',
                 'hora_revision'=>'18:00',
-                'id_empresa'=>'2'
+                'id_proyecto_empresa'=>'2'
             ],
             [
                 'titulo'=>'revision 2',
                 'fecha_revision'=>'2019/10/28',
                 'hora_revision'=>'18:00',
-                'id_empresa'=>'2'
+                'id_proyecto_empresa'=>'2'
             ],
 
         ]);

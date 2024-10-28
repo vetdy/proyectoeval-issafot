@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Planilla_seguimiento;
+use App\Models\Proyecto;
+use App\Models\Proyecto_empresa;
+use Carbon\Carbon;
 use Exception;
 
 class PlanillaSeguimientoController extends Controller
@@ -71,7 +74,7 @@ class PlanillaSeguimientoController extends Controller
                 'titulo'=>'required|max:64',
                 'fecha_revision'=>'required|date',
                 'hora_revision'=>'required|date_format:H:i',
-                'id_empresa'=>'required|exists:empresas,id'
+                'id_proyecto_empresa'=>'required|exists:empresas,id'
             ]);
             $planilla_seguimiento = Planilla_seguimiento::create($request->all());
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -269,11 +272,65 @@ class PlanillaSeguimientoController extends Controller
      */
     public function show_empresa($id)
     {
-        $planilla_seguimiento=Planilla_seguimiento::where('id_empresa', $id)->get();;
+        $planilla_seguimiento=Planilla_seguimiento::where('id_proyecto_empresa', $id)->get();;
         if(!$planilla_seguimiento->isEmpty()){
             return response()->json(['contenido'=>compact('planilla_seguimiento')],200);
         }else{
             return response()->json(['contenido'=>'id empresa no existe'],404);
+        }
+        
+    }
+    /**
+     * @OA\Get(
+     *     path="/api/planilla_seguimiento/semanal/",
+     *     summary="Mostar planillas Seguimientos por docente",
+     *     tags={"planillas Seguimientos"},
+     *     @OA\Parameter(
+     *         name="idUsuario",
+     *         in="path",
+     *         description="ID de el docente",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *      ),
+     *     
+     *     @OA\Response(
+     *         response=200,
+     *         description="Datos del planilla Seguimiento por docente"
+     *     ),
+     *      @OA\Response(
+     *         response=404,
+     *         description='docente no encontrada"
+     *     )
+     * 
+     * )
+     */
+    public function show_semanal($idUsuario){
+        
+        $proyectos=Proyecto::where('id_creado_por',$idUsuario)->get();
+        if(!$proyectos->isEmpty()){
+            $planillas_seguimientos=[];
+            foreach ($proyectos as $proyecto){
+                $protectoEmpresa= Proyecto_empresa::where('id_empresa',$proyecto->id)->get();
+                foreach($protectoEmpresa as $proyect){
+                    $usuario=Planilla_seguimiento::where('id_proyecto_empresa',$proyect->id)->get();
+                    foreach ($usuario as $usua){
+                        
+                        $fechaActual = Carbon::now();
+                        // Calcula el inicio de la semana (lunes) y el fin de la semana (domingo)
+                        $inicioDeSemana = $fechaActual->copy()->startOfWeek();
+                        $finDeSemana = $fechaActual->copy()->endOfWeek();
+                        $fecha_a_verificar = Carbon::parse($usua->fecha_revision);
+                        if($fecha_a_verificar->between($inicioDeSemana, $finDeSemana)){
+                            $planillas_seguimientos[]=$usua;
+                        }
+                    }
+                }
+            }
+            return response()->json(['contenido'=>compact('planillas_seguitos')],200); 
+        }else{
+            return response()->json(['contenido'=>'el suario no tiene Proyectos activos'],404);
         }
         
     }
