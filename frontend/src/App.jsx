@@ -41,6 +41,9 @@ function App() {
                 <Route path="/planillas"
                     element={<paginas.PlanillasDocente />}
                 ></Route>
+                <Route path="/IncluirTareas/EnPlanillas"
+                    element={<paginas.IncluirTareasEnPlanillas />}
+                ></Route>
             </Routes>
             <Control inicial={"estudiante"} menus={menus} clickHandle={setUsrMenu}></Control>
         </>

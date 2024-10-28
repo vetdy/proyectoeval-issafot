@@ -7,7 +7,7 @@ import RegistroItemPlanilla from "./RegistroItemPlanilla"
 import OtroRegistroPlanificacion from "./OtroRegistroPlanificacion";
 import Empresas from "./Empresas";
 import PlanillasDocente from "./PlanillasDocente";
-
+import IncluirTareasEnPlanillas from "./IncluirTareasEnPlanillas";
 export {
     EmpresasRegistradas,
     RegistroDocentes,
@@ -18,4 +18,5 @@ export {
     OtroRegistroPlanificacion,
     Empresas,
     PlanillasDocente,
+    IncluirTareasEnPlanillas
 }
