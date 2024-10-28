@@ -2,20 +2,20 @@ import React, { useState } from 'react';
 import '../estilos/AgregarTareas.css';
 
 function AgregarTareas() {
-    const [tareas, setTareas] = useState([{ estado: false, nombre: '', descripcion: '' }]);
+    const [tareas, setTareas] = useState([{ id: 1, nombre: '', descripcion: '' }]);
     const [empresa, setEmpresa] = useState('');
-    const [planilla, setPlanilla] = useState(1);
     const [mensajeConfirmacion, setMensajeConfirmacion] = useState('');
 
     const handleInputChange = (index, event) => {
-        const { name, value, type, checked } = event.target;
+        const { name, value } = event.target;
         const newTareas = [...tareas];
-        newTareas[index][name] = type === 'checkbox' ? checked : value;
+        newTareas[index][name] = value;
         setTareas(newTareas);
     };
 
     const agregarTarea = () => {
-        setTareas([...tareas, { estado: false, nombre: '', descripcion: '' }]);
+        const nuevaTarea = { id: tareas.length + 1, nombre: '', descripcion: '' };
+        setTareas([...tareas, nuevaTarea]);
     };
 
     const eliminarTarea = (index) => {
@@ -23,12 +23,28 @@ function AgregarTareas() {
         setTareas(nuevasTareas);
     };
 
-    const guardarTareas = () => {
+    const agregarTareas = async () => {
         try {
-            console.log('Datos preparados para la API:', { planilla, empresa, tareas });
-            setMensajeConfirmacion('Tareas guardadas correctamente en la base de datos');
+            const response = await fetch('http://localhost:8000/api/tareas', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    empresa,
+                    tareas,
+                }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setMensajeConfirmacion(data.mensaje);
+            } else {
+                setMensajeConfirmacion('Ocurrió un error al intentar guardar las tareas');
+                console.error('Error al guardar las tareas:', response.statusText);
+            }
         } catch (error) {
-            console.error('Error al guardar las tareas:', error);
+            console.error('Error en la solicitud:', error);
             setMensajeConfirmacion('Ocurrió un error al intentar guardar las tareas');
         }
     };
@@ -54,52 +70,51 @@ function AgregarTareas() {
                     <option value="Empresa 2">Empresa 2</option>
                     <option value="Empresa 3">Issa soft</option>
                 </select>
-                
-                <label className="ms-3">Plantilla: {planilla}</label>
             </div>
 
             <div className="container">
-            <div className="row justify-content-center">
-            <div className="col-md-8">
-                <table className="table text-center">
-                    <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {tareas.map((tarea, index) => (
-                        <tr key={index}>
-                            <td>
-                                <input
-                                    type="text"
-                                    name="nombre"
-                                    className="form-control"
-                                    value={tarea.nombre}
-                                    onChange={(e) => handleInputChange(index, e)}
-                                    placeholder="Nombre de la tarea"
-                                />
-                            </td>
-                            <td>
-                                <button className="btn-delete" onClick={() => eliminarTarea(index)}>
-                                    Eliminar
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+                <div className="row justify-content-center">
+                    <div className="col-md-8">
+                        <table className="table text-center">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {tareas.map((tarea, index) => (
+                                    <tr key={tarea.id}>
+                                        <td>{tarea.id}</td>
+                                        <td>
+                                            <input
+                                                type="text"
+                                                name="nombre"
+                                                className="form-control"
+                                                value={tarea.nombre}
+                                                onChange={(e) => handleInputChange(index, e)}
+                                                placeholder="Nombre de la tarea"
+                                            />
+                                        </td>
+                                        <td>
+                                            <button className="btn-delete" onClick={() => eliminarTarea(index)}>
+                                                Eliminar
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
-            
             <div className="d-flex justify-content-start mb-3">
                 <button className="btn-add-task me-2" onClick={agregarTarea}>
                     Añadir Tarea
                 </button>
-                <button className="btn-save" onClick={guardarTareas}>
+                <button className="btn-save" onClick={agregarTareas}>
                     Guardar
                 </button>
             </div>
