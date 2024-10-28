@@ -16,6 +16,8 @@ export const DOC_REPORTES_EMPRESAS = "/reportes/desempeno";
 export const DOC_REPORTES_EVAL_REALIZADAS = "/reportes/evaluaciones";
 export const DOC_REPORTES_EST_ASIGNADOS = "/reportes/estudiantes";
 
+export const DOC_INCLUIR_TAREAS_EN_PLANILLAS = "/IncluirTareas/EnPlanillas";
+
 // ========== Rutas para usuario Estudiante ==========
 export const EST_EMPRESAS_MI_EMPR = "/mi-empresa/registro";
 
