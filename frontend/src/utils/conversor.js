@@ -35,3 +35,13 @@ export const cadenaValoresJSON = (json) => {
     });
     return cadena;
 }
+
+export const actualizarNombreLlave = (obj, viejaLlave, nuevaLlave) => {
+    let nuevoObjeto = {};
+
+    for (let [k, v] of Object.entries(obj))
+        if (k === viejaLlave) nuevoObjeto[nuevaLlave] = v;
+        else nuevoObjeto[k] = v;
+
+    return nuevoObjeto;
+};
