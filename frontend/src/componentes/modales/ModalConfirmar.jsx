@@ -19,12 +19,20 @@ const ModalConfirmar = ({
         }
     }
 
+    const handleClickCerrar = (ev) => {
+        if( ev.target.classList.contains("fade") ){
+            cancelar();
+        }
+    }
+
     useEffect ( () =>{
         if(mostrar){
             document.addEventListener("keydown", handleTeclaCerrar);
+            document.addEventListener("click", handleClickCerrar);
         }
         return () =>{
             document.removeEventListener("keydown", handleTeclaCerrar);
+            document.removeEventListener("click", handleClickCerrar);
         };
     }, []);
 
