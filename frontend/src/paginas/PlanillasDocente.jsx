@@ -40,8 +40,6 @@ const filtrarDatos = (datos=[], semana) => {
 const VistaGenegal = ({ datos=[] }) => {
     const semana = obtenerSemanaActual();
     const datosDia = filtrarDatos(datos,semana);
-    //console.log(datos);
-    //console.log(datosDia);
 
     return (
         <div className="container-fluid">
@@ -102,7 +100,7 @@ const VistaGenegal = ({ datos=[] }) => {
                                                     color={color.fondo.exito}
                                                 />
                                                 <span className="m-0">
-                                                    &nbsp;ISSA Soft
+                                                    &nbsp;{d.nombre_empresa}
                                                 </span>
                                             </Link>
                                         </div>
@@ -121,7 +119,7 @@ const VistaGenegal = ({ datos=[] }) => {
                                                     color={color.fondo.exito}
                                                 />
                                                 <span className="m-0">
-                                                    &nbsp;ISSA Soft
+                                                    &nbsp;{d.nombre_empresa}
                                                 </span>
                                             </Link>
                                         </div>
@@ -140,7 +138,7 @@ const VistaGenegal = ({ datos=[] }) => {
                                                     color={color.fondo.exito}
                                                 />
                                                 <span className="m-0">
-                                                    &nbsp;ISSA Soft
+                                                    &nbsp;{d.nombre_empresa}
                                                 </span>
                                             </Link>
                                         </div>
@@ -169,7 +167,7 @@ const VistaGenegal = ({ datos=[] }) => {
                                                     color={color.fondo.exito}
                                                 />
                                                 <span className="m-0">
-                                                    &nbsp;ISSA Soft
+                                                    &nbsp;{d.nombre_empresa}
                                                 </span>
                                             </Link>
                                         </div>
@@ -188,7 +186,7 @@ const VistaGenegal = ({ datos=[] }) => {
                                                     color={color.fondo.exito}
                                                 />
                                                 <span className="m-0">
-                                                    &nbsp;ISSA Soft
+                                                    &nbsp;{d.nombre_empresa}
                                                 </span>
                                             </Link>
                                         </div>
