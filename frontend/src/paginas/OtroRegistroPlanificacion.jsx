@@ -44,7 +44,7 @@ const titulosIguales = (plan=[]) => {
             titulos[t] = true;
         }
     });
-    
+
     return repetidos.length ? repetidos[0] : -1;
 }
 
@@ -272,7 +272,7 @@ const OtroRegistroPlanificacion = () => {
                 }
 
                 if (!p.tarea.length) {
-                    AbrirModalInf(`Debe haber al menos X objetivos. En la fila con titulo: ${p.titulo}`);
+                    AbrirModalInf(`Debe haber al menos 1 objetivo por fila. En la fila con titulo: ${p.titulo}`);
                     return false;
                 }
                 
@@ -290,7 +290,7 @@ const OtroRegistroPlanificacion = () => {
             }
             return true;
         } else {
-            AbrirModalInf("Debe llenar al menos X datos.");
+            AbrirModalInf("Debe llenar al menos una fila con datos.");
             return false;
         }
     };
@@ -299,7 +299,7 @@ const OtroRegistroPlanificacion = () => {
         const datos = {};
         if ( controlDatos() ) {
             setDeshabilitarEnvio(true);
-            datos["id_proyecto_empresa"] = "1"; //<=== Debe cambiar con usuario/empresa
+            datos["id_proyecto_empresa"] = "2"; //<=== Debe cambiar con usuario/empresa
             datos["dia_revision"] = revision.dia_rev;
             datos["hora_revision"] = revision.hora_rev;
             datos["planificacion"] = quitarEspaciosFinales(planificacion);

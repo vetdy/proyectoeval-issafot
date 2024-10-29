@@ -40,8 +40,8 @@ const filtrarDatos = (datos=[], semana) => {
 const VistaGenegal = ({ datos=[] }) => {
     const semana = obtenerSemanaActual();
     const datosDia = filtrarDatos(datos,semana);
-
-    console.log(datosDia);
+    //console.log(datos);
+    //console.log(datosDia);
 
     return (
         <div className="container-fluid">
@@ -58,7 +58,7 @@ const VistaGenegal = ({ datos=[] }) => {
                     Semana:{" "}
                     <span className="fw-normal">
                         {obtenerFechaCadena(semana.primerDia)}
-                        {" "}-{" "}
+                        {" "}a{" "}
                         {obtenerFechaCadena(semana.ultimoDia)}
                     </span>
                 </h4>
@@ -212,7 +212,7 @@ const PlanillasDocente = () => {
         const cargarDatos = async () => {
             const respuesta = await obtenerPlanillasDocenteSeguimiento(1);
             if(respuesta.status === 200){
-                setDatos(respuesta.message.planilla_seguimiento);
+                setDatos(respuesta.message.planillas_seguimientos);
                 setCargando(false);
             }
         }
