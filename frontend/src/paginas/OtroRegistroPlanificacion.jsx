@@ -44,9 +44,19 @@ const titulosIguales = (plan=[]) => {
             titulos[t] = true;
         }
     });
+    
     return repetidos.length ? repetidos[0] : -1;
 }
 
+const quitarEspaciosFinales = (plan=[]) => {
+    const nuevoPlan = []
+    for(const p of plan){
+        p.titulo = p.titulo.trim();
+        p.tarea = p.tarea.map(v => v.trim());
+        nuevoPlan.push(p);
+    }
+    return nuevoPlan;
+}
 
 const OtroRegistroPlanificacion = () => {
     const titulos = ["Titulo", "Objetivo", "Fecha Inicio", "Fecha Fin"];
@@ -292,7 +302,7 @@ const OtroRegistroPlanificacion = () => {
             datos["id_proyecto_empresa"] = "1"; //<=== Debe cambiar con usuario/empresa
             datos["dia_revision"] = revision.dia_rev;
             datos["hora_revision"] = revision.hora_rev;
-            datos["planificacion"] = planificacion;
+            datos["planificacion"] = quitarEspaciosFinales(planificacion);
             const res = await registrarPlanificacionEmpresa(datos);
             if (res.status === 200){
                 AbrirModalInf("Se ha registrado la planificación", "normal");
