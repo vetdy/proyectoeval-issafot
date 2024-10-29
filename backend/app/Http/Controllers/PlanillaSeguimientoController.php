@@ -277,7 +277,9 @@ class PlanillaSeguimientoController extends Controller
     {
         $planilla_seguimiento=Planilla_seguimiento::where('id_proyecto_empresa', $id)->get();;
         if(!$planilla_seguimiento->isEmpty()){
-            return response()->json(['contenido'=>compact('planilla_seguimiento')],200);
+            $idEmpresa=Proyecto_empresa::find($id);
+            $nombre_empresa= Empresa::find($idEmpresa->id_empresa);
+            return response()->json(['contenido'=>compact('planilla_seguimiento','nombre_empresa')],200);
         }else{
             return response()->json(['contenido'=>'id empresa no existe'],404);
         }
