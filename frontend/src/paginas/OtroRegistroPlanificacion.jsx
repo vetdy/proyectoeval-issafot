@@ -29,6 +29,25 @@ const limpiarTexto = (texto) => {
     return nuevoTexto;
 };
 
+const titulosIguales = (plan=[]) => {
+    const titulos = {}
+    const repetidos = []
+
+    plan.forEach( (p, idx) => {
+        const t = p.titulo.trim();
+        
+        if( titulos[t] ){
+            repetidos.push(idx);
+            return;
+        }
+        else{
+            titulos[t] = true;
+        }
+    });
+    return repetidos.length ? repetidos[0] : -1;
+}
+
+
 const OtroRegistroPlanificacion = () => {
     const titulos = ["Titulo", "Objetivo", "Fecha Inicio", "Fecha Fin"];
     const fecha = new Date().toISOString().slice(0, 10);
@@ -228,7 +247,14 @@ const OtroRegistroPlanificacion = () => {
     };
 
     const controlDatos = () => {
-        if (planificacion.length) {
+        if ( planificacion.length ) {
+            const duplicados = titulosIguales(planificacion);
+            
+            if( duplicados !== -1 ){
+                AbrirModalInf(`Existen titulos duplicados: ${planificacion[duplicados].titulo}`);
+                return false;
+            }
+
             for (const p of planificacion) {
                 if (p.titulo === "") {
                     AbrirModalInf("Ningun titulo puede estar vacio");
