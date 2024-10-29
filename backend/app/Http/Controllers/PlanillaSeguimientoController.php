@@ -317,7 +317,9 @@ class PlanillaSeguimientoController extends Controller
         if(!$proyectos->isEmpty()){
             $planillas_seguimientos=[];
             foreach ($proyectos as $proyecto){
-                $protectoEmpresa= Proyecto_empresa::where('id_empresa',$proyecto->id)->get();
+                
+                
+                $protectoEmpresa= Proyecto_empresa::where('id_proyecto',$proyecto->id)->get();
                 foreach($protectoEmpresa as $proyect){
                     $usuario=Planilla_seguimiento::where('id_proyecto_empresa',$proyect->id)->get();
                     foreach ($usuario as $usua){
@@ -328,6 +330,9 @@ class PlanillaSeguimientoController extends Controller
                         $finDeSemana = $fechaActual->copy()->endOfWeek();
                         $fecha_a_verificar = Carbon::parse($usua->fecha_revision);
                         if($fecha_a_verificar->between($inicioDeSemana, $finDeSemana)){
+                            
+                            $nombre_empresa= Empresa::find($proyect->id_empresa)->nombre_corto;
+                            $usua->nombre_empresa=$nombre_empresa;
                             $planillas_seguimientos[]=$usua;
                         }
                     }
@@ -335,7 +340,7 @@ class PlanillaSeguimientoController extends Controller
             }
             return response()->json(['contenido'=>compact('planillas_seguimientos')],200); 
         }else{
-            return response()->json(['contenido'=>'el suario no tiene Proyectos activos'],404);
+            return response()->json(['contenido'=>'el usuario no tiene Proyectos activos'],404);
         }
         
     }
