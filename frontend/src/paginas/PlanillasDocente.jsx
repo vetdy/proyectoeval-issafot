@@ -1,13 +1,47 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Tabla } from "../componentes/tablas";
 import { IconoCargando, IconoCirculo } from "../componentes/iconos";
+import { obtenerPlanillasDocenteSeguimiento } from "../servicios/api";
+import { obtenerSemanaActual, obtenerDia, obtenerFechaCadena } from "../utils/tiempo";
 import color from "../estilos/color";
 
-const VistaGenegal = ({ datos }) => {
-    const paso = { a: 2, b: 3 };
+const fechaDentroRango = (fecha, ini, fin) => {
+    if( fecha >= ini && fecha <= fin ){
+        return true;
+    }
+    return false;
+}
 
-    console.log(paso);
+const filtrarDatos = (datos=[], semana) => {
+    const nuevosDatos = {
+        "1": [],        //lunes
+        "2": [],        //martes
+        "3": [],        //miercoles
+        "4": [],        //jueves
+        "5": [],        //viernes
+    };
+
+    
+
+    for( const d of datos ){
+        if( fechaDentroRango(new Date(d.fecha_revision), semana.primerDia, semana.ultimoDia) ){
+            const dia = obtenerDia(d.fecha_revision);
+            
+            if( nuevosDatos[dia] ){
+                nuevosDatos[dia].push(d);
+            }
+        }
+    }
+
+    return nuevosDatos;
+}
+
+const VistaGenegal = ({ datos=[] }) => {
+    const semana = obtenerSemanaActual();
+    const datosDia = filtrarDatos(datos,semana);
+
+    console.log(datosDia);
 
     return (
         <div className="container-fluid">
@@ -22,7 +56,11 @@ const VistaGenegal = ({ datos }) => {
             <div className="row pb-2">
                 <h4 className="fw-bold">
                     Semana:{" "}
-                    <span className="fw-normal">21-10-24 - 25-10-24</span>
+                    <span className="fw-normal">
+                        {obtenerFechaCadena(semana.primerDia)}
+                        {" "}-{" "}
+                        {obtenerFechaCadena(semana.ultimoDia)}
+                    </span>
                 </h4>
                 <div className="col d-flex align-items-center">
                     <IconoCirculo color={color.fondo.exito} />
@@ -52,23 +90,62 @@ const VistaGenegal = ({ datos }) => {
                         ]}
                     >
                         <tr>
-                            <td></td>
-                            <td></td>
                             <td>
-                                <div className="d-flex gap-2">
-                                    <Link
-                                        className="btn d-flex align-items-center"
-                                        to={"/planillas/revision"}
-                                        state={paso}
-                                    >
-                                        <IconoCirculo
-                                            color={color.fondo.exito}
-                                        />
-                                        <span className="m-0">
-                                            &nbsp;ISSA Soft
-                                        </span>
-                                    </Link>
-                                </div>
+                                {datosDia[1].map(d => {
+                                    return(
+                                        <div className="d-flex gap-2">
+                                            <Link
+                                                className="btn d-flex align-items-center"
+                                                to={"/planillas/revision"}
+                                            >
+                                                <IconoCirculo
+                                                    color={color.fondo.exito}
+                                                />
+                                                <span className="m-0">
+                                                    &nbsp;ISSA Soft
+                                                </span>
+                                            </Link>
+                                        </div>
+                                    );
+                                })}
+                            </td>
+                            <td>
+                                {datosDia[2].map(d => {
+                                    return(
+                                        <div className="d-flex gap-2">
+                                            <Link
+                                                className="btn d-flex align-items-center"
+                                                to={"/planillas/revision"}
+                                            >
+                                                <IconoCirculo
+                                                    color={color.fondo.exito}
+                                                />
+                                                <span className="m-0">
+                                                    &nbsp;ISSA Soft
+                                                </span>
+                                            </Link>
+                                        </div>
+                                    );
+                                })}
+                            </td>
+                            <td>
+                                {datosDia[3].map(d => {
+                                    return(
+                                        <div className="d-flex gap-2">
+                                            <Link
+                                                className="btn d-flex align-items-center"
+                                                to={"/planillas/revision"}
+                                            >
+                                                <IconoCirculo
+                                                    color={color.fondo.exito}
+                                                />
+                                                <span className="m-0">
+                                                    &nbsp;ISSA Soft
+                                                </span>
+                                            </Link>
+                                        </div>
+                                    );
+                                })}
                                 <div className="d-flex gap-2">
                                     <button className="btn d-flex align-items-center">
                                         <IconoCirculo
@@ -80,8 +157,44 @@ const VistaGenegal = ({ datos }) => {
                                     </button>
                                 </div>
                             </td>
-                            <td></td>
-                            <td></td>
+                            <td>
+                                {datosDia[4].map(d => {
+                                    return(
+                                        <div className="d-flex gap-2">
+                                            <Link
+                                                className="btn d-flex align-items-center"
+                                                to={"/planillas/revision"}
+                                            >
+                                                <IconoCirculo
+                                                    color={color.fondo.exito}
+                                                />
+                                                <span className="m-0">
+                                                    &nbsp;ISSA Soft
+                                                </span>
+                                            </Link>
+                                        </div>
+                                    );
+                                })}
+                            </td>
+                            <td>
+                                {datosDia[5].map(d => {
+                                    return(
+                                        <div className="d-flex gap-2">
+                                            <Link
+                                                className="btn d-flex align-items-center"
+                                                to={"/planillas/revision"}
+                                            >
+                                                <IconoCirculo
+                                                    color={color.fondo.exito}
+                                                />
+                                                <span className="m-0">
+                                                    &nbsp;ISSA Soft
+                                                </span>
+                                            </Link>
+                                        </div>
+                                    );
+                                })}
+                            </td>
                         </tr>
                     </Tabla>
                 </div>
@@ -91,12 +204,23 @@ const VistaGenegal = ({ datos }) => {
 };
 
 const PlanillasDocente = () => {
-    const [datos, setDatos] = useState({});
-    const [cargando, setCargando] = useState(false);
+    const [datos, setDatos] = useState([]);
+    const [cargando, setCargando] = useState(true);
+    const consulta = useRef(false);
 
-    /* useEffect(() => {
-
-    }, []); */
+    useEffect(()=>{
+        const cargarDatos = async () => {
+            const respuesta = await obtenerPlanillasDocenteSeguimiento(1);
+            if(respuesta.status === 200){
+                setDatos(respuesta.message.planilla_seguimiento);
+                setCargando(false);
+            }
+        }
+        if( !consulta.current ){
+            consulta.current = true;
+            cargarDatos();
+        }
+    },[]);
 
     if (cargando) {
         return (
@@ -106,7 +230,7 @@ const PlanillasDocente = () => {
         );
     }
 
-    return <VistaGenegal />;
+    return <VistaGenegal datos={datos}/>;
 };
 
 export default PlanillasDocente;

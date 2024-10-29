@@ -94,6 +94,11 @@ export const obtenerItemsPlanilla = async (plantilla=1) => {
     return respuesta;
 }
 
+export const obtenerPlanillasDocenteSeguimiento = async (docenteID = 1) => {
+    const respuesta = await solicitud(`${rutas.PLANILLAS_DOCENTE_SEGUIMIENTO}/${docenteID}`);
+    return respuesta;
+}
+
 export const registrarPlanificacionEmpresa = async (datos={}) => {
     const respuesta = await solicitud(`${rutas.PLANIFICACION_EMPRESA}`,"POST", datos);
     return respuesta;
