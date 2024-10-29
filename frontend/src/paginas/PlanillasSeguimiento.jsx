@@ -12,7 +12,6 @@ const PlanillasSeguimiento = () => {
     useEffect( () =>{
         const planilla = async () =>{
             const p = await obtenerPlanillasEmpresa(1);
-            console.log(p.status, p.message);
             if(p.status !== 200){
                 setError(true);
             }
@@ -58,7 +57,7 @@ const PlanillasSeguimiento = () => {
     };
 
     return (
-        <div>
+        <div className="pb-4">
             <h2 className="my-2 text-center fw-bold">
                 Planillas de Seguimiento
             </h2>

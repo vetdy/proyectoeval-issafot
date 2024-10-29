@@ -132,7 +132,6 @@ function RegistroEmpresa(){
 
         setContenidoModal( mensajeModal );
         setVerModal(true);
-        //console.log(respuesta);
     }
 
     return(
