@@ -181,9 +181,6 @@ class TareaController extends Controller
         }else{
             return response()->json(['contenido'=>'el id no existe'],404);
         }
- 
-            
-        
     }
 
     /**
@@ -226,5 +223,56 @@ class TareaController extends Controller
         }else{
             return response()->json(['contenido'=>'no existe la tarea'],404);
         }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+      /**
+     * @OA\Put(
+     *     path="/api/tarea/lista",
+     *     summary="Actualizar un Tarea",
+     *     tags={"Tareas"},
+     *     
+     *     @OA\RequestBody(
+     *      required=true,
+     *         @OA\JsonContent(
+     *            @OA\Property(property="terminado", type="boolean", example="true"),
+     *             @OA\Property(property="descripcion", type="string", example="Presentar la base de datos"),
+     *             @OA\Property(property="observacion", type="string", example="no llega a cumplir los criterios de la hu")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Tareas agregadas con éxito",
+     *     ),
+     
+     *     @OA\Response(
+     *         response=422,
+     *         description="Problemas con los datos ingresados"
+     *     )
+     * )
+     */
+    public function store_list(Request $request)
+    {
+        try{
+            $request->validate(['tareas.*'=>'required|max:32',
+                                'id_evaluacion'=>'required|exists:evaluacions,id']);
+            foreach($request['tareas'] as $tarea ){
+                $ta =new Tarea();
+                $ta->titulo=$tarea;
+                $ta->id_evaluacion=$request['id_evaluacion'];
+                $ta->save();
+            }
+            }catch (\Illuminate\Validation\ValidationException $e){
+                return response()->json(['contenido'=>$e->errors()], 422);
+            }
+            return response()->json(['contenido'=>'se creo a la tarea con exito'],200);
+    
+        
     }
 }
