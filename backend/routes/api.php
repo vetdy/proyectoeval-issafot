@@ -73,6 +73,8 @@ Route::controller(TareaController::class)->group(function () {
     Route::get('/tarea/{id}', 'show');
     Route::put('/tarea/{id}', 'update');
     Route::delete('/tarea/{id}', 'destroy');
+
+    Route::post('/tarea/lista', 'store_list<.,');
 });
 
 
