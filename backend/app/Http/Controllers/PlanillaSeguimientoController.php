@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Asistencia_planilla_seguimiento;
+use App\Models\Empresa;
 use Illuminate\Http\Request;
 use App\Models\Planilla_seguimiento;
 use App\Models\Proyecto;
 use App\Models\Proyecto_empresa;
+use App\Models\Usuario;
 use Carbon\Carbon;
 use Exception;
 
@@ -274,7 +277,9 @@ class PlanillaSeguimientoController extends Controller
     {
         $planilla_seguimiento=Planilla_seguimiento::where('id_proyecto_empresa', $id)->get();;
         if(!$planilla_seguimiento->isEmpty()){
-            return response()->json(['contenido'=>compact('planilla_seguimiento')],200);
+            $idEmpresa=Proyecto_empresa::find($id);
+            $nombre_empresa= Empresa::find($idEmpresa->id_empresa)->nombre_corto;
+            return response()->json(['contenido'=>compact('planilla_seguimiento','nombre_empresa')],200);
         }else{
             return response()->json(['contenido'=>'id empresa no existe'],404);
         }
@@ -333,5 +338,46 @@ class PlanillaSeguimientoController extends Controller
             return response()->json(['contenido'=>'el suario no tiene Proyectos activos'],404);
         }
         
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/planilla_seguimiento/asistencia/",
+     *     summary="Mostar planillas Seguimientos con asistencia",
+     *     tags={"planillas Seguimientos"},
+     *     @OA\Parameter(
+     *         name="idUsuario",
+     *         in="path",
+     *         description="ID de la plantilla",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *      ),
+     *     
+     *     @OA\Response(
+     *         response=200,
+     *         description="Datos del planilla Seguimiento con asistencia"
+     *     ),
+     *      @OA\Response(
+     *         response=404,
+     *         description='planilla no encontrada"
+     *     )
+     * 
+     * )
+     */
+
+    public function show_asistencia($id){
+        
+        $planilla_seguimiento=Planilla_seguimiento::find($id);
+        if($planilla_seguimiento){
+            $usuarios= Asistencia_planilla_seguimiento::where('id_planilla_seguimiento',$id)->get();
+            $proyecto_empresa= Proyecto_empresa::find($planilla_seguimiento->id_proyecto_empresa);
+            $logo=Empresa::find($proyecto_empresa->id)->url_logo;
+            return response()->json(['contenido'=>compact('usuarios','proyecto_empresa','logo')]);
+        }else{
+            return response()->json(['contenido'=>'id de la planilla seguimiento no encontrado'],404);
+        }
+            
     }
 }

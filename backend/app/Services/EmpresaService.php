@@ -39,7 +39,7 @@ class EmpresaService
         $imageData = base64_decode($base64Image); // Decodificar la cadena Base64
         $imageName = $name . $extension; // usar la extensión correcta
         
-        $ruta='public/imagenes_empresa/'.$imageName;
+        $ruta='/storage/imagenes_empresa/'.$imageName;
         
         $rutaPublica=Storage::put($ruta,$imageData);
         return $ruta;
