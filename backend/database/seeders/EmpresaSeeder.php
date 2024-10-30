@@ -125,11 +125,12 @@ class EmpresaSeeder extends Seeder
         foreach ($empresas as $empresa) {
             $ids2[] = DB::table('empresas')->insertGetId($empresa);
         }
+        #dd($ids,$usuarios);
         
-        $socio_empresas=[['id_usuario'=>$ids[0],'id_empresa'=>$ids2[0]],
+        $socio_empresas=[['id_usuario'=>$ids[3],'id_empresa'=>$ids2[0]],
         ['id_usuario'=>$ids[4],'id_empresa'=>$ids2[1]],['id_usuario'=>$ids[5],'id_empresa'=>$ids2[1]]
-    ,['id_usuario'=>$ids[6],'id_empresa'=>$ids2[1]],['id_usuario'=>$ids[7],'id_empresa'=>$ids2[1]],
-    ['id_usuario'=>$ids[8],'id_empresa'=>$ids2[1]]];
+        ,['id_usuario'=>$ids[6],'id_empresa'=>$ids2[1]],['id_usuario'=>$ids[7],'id_empresa'=>$ids2[1]],
+        ['id_usuario'=>$ids[8],'id_empresa'=>$ids2[1]]];
         foreach ($socio_empresas as $socio_empresa) {
             $ids3[] = DB::table('socio_empresas')->insertGetId($socio_empresa);
         }
