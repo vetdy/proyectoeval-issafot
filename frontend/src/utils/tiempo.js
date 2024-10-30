@@ -21,12 +21,12 @@ export const obtenerFechaCadena = (fecha) =>{
 }
 
 export const obtenerSemanaActual = () => {
-    const actual = new Date();
+    const actual = new Date(obtenerFechaActual());
     const fecha = actual.getDate();
     const dia = actual.getDay();
 
-    const primerDia = new Date(actual.setDate(fecha - dia ));
-    const ultimoDia = new Date(actual.setDate(primerDia.getDate() + 5));
+    const primerDia = new Date( actual.setDate(fecha - dia ) );
+    const ultimoDia = new Date( actual.setDate(primerDia.getDate() + 4) );
     /* const primerDia = new Date(actual.setDate(fecha - dia + (dia === 0 ? -6: 1)));
     const ultimoDia = new Date(actual.setDate(fecha - dia + 7)); */
 
