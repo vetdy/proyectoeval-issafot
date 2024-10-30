@@ -22,8 +22,6 @@ const filtrarDatos = (datos=[], semana) => {
         "5": [],        //viernes
     };
 
-    
-
     for( const d of datos ){
         if( fechaDentroRango(new Date(d.fecha_revision), semana.primerDia, semana.ultimoDia) ){
             const dia = obtenerDia(d.fecha_revision);
@@ -42,9 +40,9 @@ const itemPlanilla = (dato) => {
     const tipo = "seguimiento";
     const revisado = dato.concluido;
     const titulo = dato.titulo;
-    const fecha = dato.fecha_revision;
-    const hora = dato.hora_revision;
-    const idSeguimiento = dato.id_proyecto_empresa;
+    const fecha = dato.fecha_revision.split("-").reverse().join("-");
+    const hora = dato.hora_revision.slice(0,5);
+    const idSeguimiento = dato.id;
     const icono = {
         seguimiento: color.fondo.exito,
         evaluacion: color.fondo.peligro,
@@ -114,7 +112,7 @@ const VistaGenegal = ({ datos=[] }) => {
                         datos={[
                             "Lunes",
                             "Martes",
-                            "Miercoles",
+                            "Miércoles",
                             "Jueves",
                             "Viernes",
                         ]}

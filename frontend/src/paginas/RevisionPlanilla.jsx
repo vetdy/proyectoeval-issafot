@@ -3,52 +3,40 @@ import { useEffect } from "react";
 import { Tabla } from "../componentes/tablas";
 import logo from "/logo.png"
 
-const RevisionPlanilla = ({
-    empresa = "ISSA Soft",
-    empresaID = 1,
-    tipoPlanilla = "seguimiento",
-    fecha = "20-10-24",
-}) => {
-    const location = useLocation();
-    const datos = location.state;
-    
-    useEffect(() =>{
-        console.log(location, datos);
-    },[]);
-
+const Planilla = ({datos}) => {
     return (
         <div className="container-fluid">
             <div className="row">
                 <div className="col-md-12 d-flex flex-column justify-content-center align-items-center">
-                    <h2 className="fw-bold">{`${tipoPlanilla === "evaluacion" ? "Evaluación" : "Seguimiento Semanal"}`}</h2>
+                    <h2 className="fw-bold">{`${datos.tipo === "evaluacion" ? "Evaluación" : "Seguimiento Semanal"}`}</h2>
                     <div className="d-flex justify-content-center align-items-center">
                         <h3 className="fw-bold m-0">
-                            Empresa: 
+                            Empresa: <span className="fw-normal">{datos.nombre}</span>
                         </h3>
-                        <img style={{width:"40px",height:"100%", margin:"auto",padding:"4px"}} src={logo} alt="logo Empresa" />
-                        <span className="fw-normal">{empresa}</span>
-
+                        {/* <img style={{width:"40px",height:"100%", margin:"auto",padding:"4px"}} src={logo} alt="logo Empresa" /> */}
                     </div>
                 </div>
             </div>
 
             <div className="row mt-2">
-                <div className="col-md-6 ">
+                <div className="col-sm-6 ">
                     <div className="container">
                         <div className="row">
                             <h3>Datos de la Planificación</h3>
                         </div>
                         <div className="row">
                             <div className="col">
-                                <h4 className="fw-bold">Titulo: <span className="fw-normal">Sprint 2</span></h4>
-                                <h5 className="fw-bold">Fecha:  <span className="fw-normal">{fecha}</span></h5>
-                                <h5 className="fw-bold">Hora:   <span className="fw-normal">{"08:15"}</span></h5>
+                                <h4 className="fw-bold">Titulo: <span className="fw-normal">{datos.titulo}</span></h4>
+                                <h5 className="fw-bold">Fecha:  <span className="fw-normal">{datos.fecha}</span></h5>
+                                <h5 className="fw-bold">Hora:   <span className="fw-normal">{datos.hora}</span></h5>
                             </div>
                     </div>
                 </div>
                 </div>
-                <div className="col-md-6">
-                    <h3>Control de Asistencia</h3>
+                <div className="col-sm-6">
+                    <div className="container">
+                        <h3>Control de Asistencia</h3>
+                    </div>
                     <div className="container">
                         <div className="row align-items-center">
                             <div className="col border-bottom border-eva-dark">
@@ -58,41 +46,41 @@ const RevisionPlanilla = ({
                                 </div>
                             </div>
                         </div>
-                        <div className="row align-items-center">
+                        <div className="row">
                             <div className="col border-bottom border-eva-info">
-                                <div className="d-flex justify-content-between">
+                                <div className="d-flex justify-content-between align-items-center">
                                     Ariel Valencia
                                     <input type="checkbox" name="" id="" />
                                 </div>
                             </div>
                         </div>
-                        <div className="row align-items-center">
+                        <div className="row">
                             <div className="col border-bottom border-eva-info">
-                                <div className="d-flex justify-content-between">
+                                <div className="d-flex justify-content-between align-items-center">
                                     Ever Coca
                                     <input type="checkbox" name="" id="" />
                                 </div>
                             </div>
                         </div>
-                        <div className="row align-items-center">
+                        <div className="row">
                             <div className="col border-bottom border-eva-info">
-                                <div className="d-flex justify-content-between">
+                                <div className="d-flex justify-content-between align-items-center">
                                     Erlinda
                                     <input type="checkbox" name="" id="" />
                                 </div>
                             </div>
                         </div>
-                        <div className="row align-items-center">
+                        <div className="row">
                             <div className="col border-bottom border-eva-info">
-                                <div className="d-flex justify-content-between">
+                                <div className="d-flex justify-content-between align-items-center">
                                     Jose
                                     <input type="checkbox" name="" id="" />
                                 </div>
                             </div>
                         </div>
-                        <div className="row align-items-center">
+                        <div className="row">
                             <div className="col border-bottom border-eva-info">
-                                <div className="d-flex justify-content-between">
+                                <div className="d-flex justify-content-between align-items-center">
                                     Samuel
                                     <input type="checkbox" name="" id="" />
                                 </div>
@@ -160,6 +148,20 @@ const RevisionPlanilla = ({
             </div>
         </div>
     );
+}
+
+const RevisionPlanilla = () => {
+    const location = useLocation();
+    const datos = location.state;
+    
+    useEffect(() =>{
+        
+    },[]);
+
+    if( datos ){
+        return <Planilla datos={datos} />
+    }
+    return <div>Invalido...</div>
 };
 
 export default RevisionPlanilla
