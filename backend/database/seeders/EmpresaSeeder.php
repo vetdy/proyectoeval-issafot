@@ -127,7 +127,7 @@ class EmpresaSeeder extends Seeder
         }
         #dd($ids,$usuarios);
         
-        $socio_empresas=[['id_usuario'=>$ids[3],'id_empresa'=>$ids2[0]],
+        $socio_empresas=[['id_usuario'=>$ids[1],'id_empresa'=>$ids2[0]],
         ['id_usuario'=>$ids[4],'id_empresa'=>$ids2[1]],['id_usuario'=>$ids[5],'id_empresa'=>$ids2[1]]
         ,['id_usuario'=>$ids[6],'id_empresa'=>$ids2[1]],['id_usuario'=>$ids[7],'id_empresa'=>$ids2[1]],
         ['id_usuario'=>$ids[8],'id_empresa'=>$ids2[1]]];

@@ -49,7 +49,7 @@ class DocenteTest extends TestCase
      }
      public function test_mostar_docente_exitoso():void
      {
-         $response = $this->get('/api/docente/5');
+         $response = $this->get('/api/docente/10');
          $response->assertStatus(200);
      }
  
@@ -61,7 +61,7 @@ class DocenteTest extends TestCase
  
      public function test_modificar_docente_exitoso():void
      {
-         $response = $this->putJson('/api/docente/5'
+         $response = $this->putJson('/api/docente/10'
          ,[
          "correo"=>"email2709@gmail.com"]);
          $response->assertStatus(200);
@@ -69,7 +69,7 @@ class DocenteTest extends TestCase
  
      public function test_modificar_docente_fallido_id():void
      {
-         $response = $this->putJson('/api/docente/14'
+         $response = $this->putJson('/api/docente/1'
          ,[
          "correo"=>"email2709@gmail.com"]);
          $response->assertStatus(404);
@@ -77,7 +77,7 @@ class DocenteTest extends TestCase
  
      public function test_modificar_docente_fallido_dato():void
      {
-         $response = $this->putJson('/api/docente/5'
+         $response = $this->putJson('/api/docente/10'
          ,[
          "correo"=>"yoemail@gmail.com",
          "codigo_sis"=>"962746789",
@@ -88,13 +88,13 @@ class DocenteTest extends TestCase
  
      public function test_eliminar_docente_exito():void
      {
-         $response = $this->delete('/api/docente/5');
+         $response = $this->delete('/api/docente/10');
          $response->assertStatus(200);
      }
  
      public function test_eliminar_docente_fallido():void
      {
-         $response = $this->delete('/api/docente/11');
+         $response = $this->delete('/api/docente/1');
          $response->assertStatus(404);
      }
     
