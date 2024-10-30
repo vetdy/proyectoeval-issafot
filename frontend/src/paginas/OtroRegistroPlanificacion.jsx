@@ -547,6 +547,7 @@ const OtroRegistroPlanificacion = () => {
                                     value={revision.hora_rev}
                                     onChange={editarRevision}
                                 >
+                                    <option value="06:45">06:45</option>
                                     <option value="08:15">08:15</option>
                                     <option value="09:45">09:45</option>
                                     <option value="11:15">11:15</option>

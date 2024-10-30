@@ -66,10 +66,10 @@ function AgregarTareas() {
                     value= {empresa}
                     onChange={(e) => setEmpresa(e.target.value)}
                 >
-                    <option value="">Seleccione una empresa</option>
-                    <option value="Empresa 1">Empresa 1</option>
+                    <option value="">Issa soft</option>
+                    {/* <option value="Empresa 1">Empresa 1</option>
                     <option value="Empresa 2">Empresa 2</option>
-                    <option value="Empresa 3">Empresa 3</option>
+                    <option value="Empresa 3">Empresa 3</option> */}
                 </select>
             </div>
 

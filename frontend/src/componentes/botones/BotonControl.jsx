@@ -16,7 +16,7 @@ const BotonControl = ({ tipo = "<detalle>", pkey = "", handle, ...props}) => {
             return <img src={pencilSVG} alt="<_" />;
         },
         "<eliminar>": () => {
-            return <img src={dashSVG} alt="-" />;
+            return <img src={trashSVG} alt="-" />;
         },
     };
 
