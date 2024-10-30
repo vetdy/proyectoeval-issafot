@@ -1,11 +1,17 @@
 import { useLocation } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { Tabla } from "../componentes/tablas";
-import { obtenerItemsPlanillaSeguimiento } from "../servicios/api";
+import {
+    obtenerItemsPlanillaSeguimiento,
+    obtenerAsistenciaPlanillaSeguimiento,
+    obtenerItemsPlanillaEvaluacion,
+
+} from "../servicios/api";
 import { IconoCargando } from "../componentes/iconos";
+import { useNavigate } from "react-router-dom";
 import logo from "/logo.png"
 
-const Planilla = ({datos, planilla}) => {
+const Planilla = ({datos, planilla, asistencia}) => {
     return (
         <div className="container-fluid">
             <div className="row">
@@ -31,7 +37,7 @@ const Planilla = ({datos, planilla}) => {
                                 <h4 className="fw-bold">Titulo: <span className="fw-normal">{datos.titulo}</span></h4>
                                 <h5 className="fw-bold">Fecha:  <span className="fw-normal">{datos.fecha}</span></h5>
                                 <h5 className="fw-bold">Hora:   <span className="fw-normal">{datos.hora}</span></h5>
-                            </div>
+                            </div>  
                     </div>
                 </div>
                 </div>
@@ -48,46 +54,18 @@ const Planilla = ({datos, planilla}) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="row">
-                            <div className="col border-bottom border-eva-info">
-                                <div className="d-flex justify-content-between align-items-center">
-                                    Ariel Valencia
-                                    <input type="checkbox" name="" id="" />
+                        {asistencia.map( a => {
+                            return(
+                                <div className="col border-bottom border-eva-info"
+                                    key={`list-${a.id_usuario}`}
+                                >
+                                    <div className="d-flex justify-content-between align-items-center text-capitalize">
+                                        {a.nombre_usuario}
+                                        <input type="checkbox" name="" id="" />
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col border-bottom border-eva-info">
-                                <div className="d-flex justify-content-between align-items-center">
-                                    Ever Coca
-                                    <input type="checkbox" name="" id="" />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col border-bottom border-eva-info">
-                                <div className="d-flex justify-content-between align-items-center">
-                                    Erlinda
-                                    <input type="checkbox" name="" id="" />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col border-bottom border-eva-info">
-                                <div className="d-flex justify-content-between align-items-center">
-                                    Jose
-                                    <input type="checkbox" name="" id="" />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col border-bottom border-eva-info">
-                                <div className="d-flex justify-content-between align-items-center">
-                                    Samuel
-                                    <input type="checkbox" name="" id="" />
-                                </div>
-                            </div>
-                        </div>
+                            );
+                        })}
                     </div>
                 </div>
                 
@@ -146,33 +124,49 @@ const Planilla = ({datos, planilla}) => {
 
 const RevisionPlanilla = () => {
     const location = useLocation();
+    const history = useNavigate();
     const datos = location.state;
-
+    
     const [planilla, setPlanilla] = useState([]);
+    const [asistencia, setAsistencia] = useState([]);
     const [error, setError] = useState(false);
     const [cargando, setCargando] = useState(true);
     const consulta = useRef(true);
     
     useEffect(() =>{
+        const irAPlanillas = () => { history("/planillas") };
+
         console.log(datos);
         const solicitud = async () => {
-            let respuesta;
+            let res1;
 
             if( datos.tipo === "seguimiento" ){
-                respuesta = await obtenerItemsPlanillaSeguimiento(datos.idSeguimiento);
+                res1 = await obtenerItemsPlanillaSeguimiento(datos.idSeguimiento);
             }
             else{
-                respuesta = {status:404, message:"No implementado"};
-                console.log("No implementado");
+                //respuesta = await obtenerItemsPlanillaEvaluacion(datos.idSeguimiento);
+                res1 = {status:200, message:{item_planilla:[{}]}};
             }
 
-            if( respuesta.status === 200 ){
-                setPlanilla(respuesta.message.item_planilla);
-                console.log(respuesta.message.item_planilla);
+            if( res1.status === 200 ){
+                setPlanilla(res1.message.item_planilla);
             }
             else{
                 setError(true);
             }
+
+            if( !error ){
+                let res2;
+                if( datos.tipo === "seguimiento" ){
+                    res2 = await obtenerAsistenciaPlanillaSeguimiento(datos.idSeguimiento);
+                    
+                    if( res2.status === 200 ){
+                        setAsistencia(res2.message.usuarios);
+                        console.log(res2);
+                    }
+                }
+            }
+
             setCargando(false);
         }
 
@@ -182,8 +176,7 @@ const RevisionPlanilla = () => {
         }
 
         if ( !datos ){
-            setCargando(false);
-            setError(true);
+            irAPlanillas();
         }
 
     },[]);
@@ -204,7 +197,7 @@ const RevisionPlanilla = () => {
         );
     }
 
-    return <Planilla datos={datos} planilla={planilla}/>
+    return <Planilla datos={datos} planilla={planilla} asistencia={asistencia}/>
 };
 
 export default RevisionPlanilla

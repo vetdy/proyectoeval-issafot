@@ -2,7 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Tabla } from "../componentes/tablas";
 import { IconoCargando, IconoCirculo } from "../componentes/iconos";
-import { obtenerPlanillasDocenteSeguimiento } from "../servicios/api";
+import {
+    obtenerPlanillasDocenteSeguimiento,
+    obtenerPlanillasDocenteEvaluacion,
+} from "../servicios/api";
 import { obtenerSemanaActual, obtenerDia, obtenerFechaCadena } from "../utils/tiempo";
 import color from "../estilos/color";
 
@@ -35,9 +38,8 @@ const filtrarDatos = (datos=[], semana) => {
     return nuevosDatos;
 }
 
-const itemPlanilla = (dato) => {
+const itemPlanilla = (dato, tipo="seguimiento") => {
     const nombre = dato.nombre_empresa;
-    const tipo = "seguimiento";
     const revisado = dato.concluido;
     const titulo = dato.titulo;
     const fecha = dato.fecha_revision.split("-").reverse().join("-");
@@ -67,9 +69,10 @@ const itemPlanilla = (dato) => {
     );
 }
 
-const VistaGenegal = ({ datos=[] }) => {
+const VistaGenegal = ({ seguimiento=[], evaluacion=[] }) => {
     const semana = obtenerSemanaActual();
-    const datosDia = filtrarDatos(datos,semana);
+    const datosSeguimiento = filtrarDatos(seguimiento,semana);
+    const datosEvaluacion = filtrarDatos(evaluacion,semana);
 
     return (
         <div className="container-fluid">
@@ -119,28 +122,43 @@ const VistaGenegal = ({ datos=[] }) => {
                     >
                         <tr>
                             <td>
-                                {datosDia[1].map(d => {
-                                    return itemPlanilla(d);
+                                {datosSeguimiento[1].map(d => {
+                                    return itemPlanilla(d, "seguimiento");
+                                })}
+                                {datosEvaluacion[1].map(d => {
+                                    return itemPlanilla(d,"evaluacion");
                                 })}
                             </td>
                             <td>
-                                {datosDia[2].map(d => {
-                                    return itemPlanilla(d);
+                                {datosSeguimiento[2].map(d => {
+                                    return itemPlanilla(d, "seguimiento");
+                                })}
+                                {datosEvaluacion[2].map(d => {
+                                    return itemPlanilla(d,"evaluacion");
                                 })}
                             </td>
                             <td>
-                                {datosDia[3].map(d => {
-                                    return itemPlanilla(d);
+                                {datosSeguimiento[3].map(d => {
+                                    return itemPlanilla(d, "seguimiento");
+                                })}
+                                {datosEvaluacion[3].map(d => {
+                                    return itemPlanilla(d,"evaluacion");
                                 })}
                             </td>
                             <td>
-                                {datosDia[4].map(d => {
-                                    return itemPlanilla(d);
+                                {datosSeguimiento[4].map(d => {
+                                    return itemPlanilla(d, "seguimiento");
+                                })}
+                                {datosEvaluacion[4].map(d => {
+                                    return itemPlanilla(d,"evaluacion");
                                 })}
                             </td>
                             <td>
-                                {datosDia[5].map(d => {
-                                    return itemPlanilla(d);
+                                {datosSeguimiento[5].map(d => {
+                                    return itemPlanilla(d, "seguimiento");
+                                })}
+                                {datosEvaluacion[5].map(d => {
+                                    return itemPlanilla(d,"evaluacion");
                                 })}
                             </td>
                         </tr>
@@ -152,20 +170,33 @@ const VistaGenegal = ({ datos=[] }) => {
 };
 
 const PlanillasDocente = () => {
-    const [datos, setDatos] = useState([]);
+    const [seguimiento, setSeguimiento] = useState([]);
+    const [evaluacion, setEvaluacion] = useState([]);
+
     const [cargando, setCargando] = useState(true);
     const [error, setError] = useState(false);
     const consulta = useRef(false);
 
     useEffect(()=>{
         const cargarDatos = async () => {
-            const respuesta = await obtenerPlanillasDocenteSeguimiento(1);
-            if(respuesta.status === 200){
-                setDatos(respuesta.message.planillas_seguimientos);
+            const res1 = await obtenerPlanillasDocenteSeguimiento(1);
+            if(res1.status === 200){
+                setSeguimiento(res1.message.planillas_seguimientos);
             }
             else{
                 setError(true);
             }
+
+            if( !error ){
+                const res2 = await obtenerPlanillasDocenteEvaluacion(1);
+                if(res2.status === 200){
+                    setEvaluacion(res2.message.evaluacions);
+                }
+                else{
+                    setError(true);
+                }
+            }
+
             setCargando(false);
         }
         if( !consulta.current ){
@@ -190,7 +221,7 @@ const PlanillasDocente = () => {
         );
     }
 
-    return <VistaGenegal datos={datos}/>;
+    return <VistaGenegal seguimiento={seguimiento} evaluacion={evaluacion}/>;
 };
 
 export default PlanillasDocente;
