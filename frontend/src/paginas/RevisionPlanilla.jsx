@@ -136,7 +136,7 @@ const RevisionPlanilla = () => {
     useEffect(() =>{
         const irAPlanillas = () => { history("/planillas") };
 
-        console.log(datos);
+        //console.log(datos);
         const solicitud = async () => {
             let res1;
 
@@ -162,7 +162,7 @@ const RevisionPlanilla = () => {
                     
                     if( res2.status === 200 ){
                         setAsistencia(res2.message.usuarios);
-                        console.log(res2);
+                        //console.log(res2);
                     }
                 }
             }
