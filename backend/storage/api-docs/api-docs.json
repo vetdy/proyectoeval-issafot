@@ -589,6 +589,34 @@
                 }
             }
         },
+        "/api/evaluacion/empresa/{id}": {
+            "delete": {
+                "tags": [
+                    "Evaluaciones"
+                ],
+                "summary": "Mostar una evaluaciones por empresa",
+                "operationId": "392328bc1513e1d0fc998815ae24f3b7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la empresa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "muestra evaluacion "
+                    },
+                    "404": {
+                        "description": "evaluacion no encontrada"
+                    }
+                }
+            }
+        },
         "/api/item_planificacion": {
             "get": {
                 "tags": [
@@ -704,7 +732,7 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "titulo": {
+                                    "nombre": {
                                         "type": "string",
                                         "example": "Diseño de base de datos"
                                     },
@@ -1323,6 +1351,62 @@
                 }
             }
         },
+        "/api/planilla_seguimiento/semanal/{idUsuario}": {
+            "get": {
+                "tags": [
+                    "planillas Seguimientos"
+                ],
+                "summary": "Mostar planillas Seguimientos por docente",
+                "operationId": "bfe745f507e29ceee65e862596bc018e",
+                "parameters": [
+                    {
+                        "name": "idUsuario",
+                        "in": "path",
+                        "description": "ID de el docente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos del planilla Seguimiento por docente"
+                    },
+                    "404": {
+                        "description": "docente no encontrada"
+                    }
+                }
+            }
+        },
+        "/api/planilla_seguimiento/asistencia/": {
+            "get": {
+                "tags": [
+                    "planillas Seguimientos"
+                ],
+                "summary": "Mostar planillas Seguimientos con asistencia",
+                "operationId": "23e058374ad6ad8d8c669b99567612db",
+                "parameters": [
+                    {
+                        "name": "idUsuario",
+                        "in": "path",
+                        "description": "ID de la plantilla",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos del planilla Seguimiento con asistencia"
+                    },
+                    "404": {
+                        "description": "planilla no encontrada"
+                    }
+                }
+            }
+        },
         "/api/tarea": {
             "get": {
                 "tags": [
@@ -1484,6 +1568,47 @@
                     },
                     "404": {
                         "description": "Tarea no encontrada"
+                    }
+                }
+            }
+        },
+        "/api/tarea/lista": {
+            "put": {
+                "tags": [
+                    "Tareas"
+                ],
+                "summary": "Actualizar un Tarea",
+                "operationId": "ba1bc1fba08c6aa3da7a1c6677c3fb71",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "terminado": {
+                                        "type": "boolean",
+                                        "example": "true"
+                                    },
+                                    "descripcion": {
+                                        "type": "string",
+                                        "example": "Presentar la base de datos"
+                                    },
+                                    "observacion": {
+                                        "type": "string",
+                                        "example": "no llega a cumplir los criterios de la hu"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Tareas agregadas con éxito"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
                     }
                 }
             }

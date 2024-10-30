@@ -286,8 +286,8 @@ class PlanillaSeguimientoController extends Controller
         
     }
     /**
-     * @OA\Get(
-     *     path="/api/planilla_seguimiento/semanal/",
+     * @OA\Get( 
+     *     path="/api/planilla_seguimiento/semanal/{idUsuario}",
      *     summary="Mostar planillas Seguimientos por docente",
      *     tags={"planillas Seguimientos"},
      *     @OA\Parameter(
@@ -306,7 +306,7 @@ class PlanillaSeguimientoController extends Controller
      *     ),
      *      @OA\Response(
      *         response=404,
-     *         description='docente no encontrada"
+     *         description="docente no encontrada"
      *     )
      * 
      * )
@@ -366,7 +366,7 @@ class PlanillaSeguimientoController extends Controller
      *     ),
      *      @OA\Response(
      *         response=404,
-     *         description='planilla no encontrada"
+     *         description="planilla no encontrada"
      *     )
      * 
      * )
