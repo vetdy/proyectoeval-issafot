@@ -20,11 +20,23 @@ class PlanificacionService
         }
         return $fecha->next($diaDeLaSemana)->toDateString();
     }
+    public function getAnteriorFecha($fecha,$diaDeLaSemana){
+        $fecha = Carbon::parse($fecha);
+
+        // Si la fecha es el día de la semana deseado, devuélvela tal cual
+        if ($fecha->dayOfWeek === $diaDeLaSemana) {
+            return $fecha->toDateString();
+        }
+    
+        // Si no, retrocede al último día de la semana antes de la fecha
+        return $fecha->previous($diaDeLaSemana)->toDateString();
+    }
+    
 
     public function registarPlanillaSeguimiento($registar){
         $dia=(int)$registar['dia_revision'];
         $fecha_inicio=Carbon::createFromDate($registar['fecha_inicio']);
-        $fecha_fin=Carbon::createFromDate($registar['fecha_fin']);
+        $fecha_fin=Carbon::createFromDate($this->getAnteriorFecha($registar['fecha_fin'],$dia));
         $fecha_inicio=Carbon::createFromDate($this->getProximoDiaRevision($fecha_inicio,$dia));
         
         while($fecha_inicio->lt($fecha_fin)){
@@ -58,7 +70,7 @@ class PlanificacionService
         
         $dia=(int)$d;
         $fecha_inicio=Carbon::createFromDate($registar['fecha_inicio']);
-        $fecha_fin=Carbon::createFromDate($registar['fecha_fin']);
+            $fecha_fin=Carbon::createFromDate($this->getAnteriorFecha($registar['fecha_fin'],$dia));
         $fecha_inicio=Carbon::createFromDate($this->getProximoDiaRevision($fecha_inicio,$dia));
         while($fecha_inicio->lt($fecha_fin)){
             
