@@ -89,8 +89,8 @@ export const obtenerPlanillasEmpresa = async (empresa=1) => {
     return respuesta;
 }
 
-export const obtenerItemsPlanilla = async (plantilla=1) => {
-    const respuesta = await solicitud(`${rutas.ITEMS_PLANTILLA}/${plantilla}`);
+export const obtenerItemsPlanillaSeguimiento = async (plantilla=1) => {
+    const respuesta = await solicitud(`${rutas.ITEMS_PLANTILLA_SEGUIMIENTO}/${plantilla}`);
     return respuesta;
 }
 

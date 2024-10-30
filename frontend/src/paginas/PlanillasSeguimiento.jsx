@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, Fragment } from "react";
 import { Tabla } from "../componentes/tablas";
-import { obtenerPlanillasEmpresa, obtenerItemsPlanilla } from "../servicios/api";
+import { obtenerPlanillasEmpresa, obtenerItemsPlanillaSeguimiento } from "../servicios/api";
 
 const PlanillasSeguimiento = () => {
     const [datos, setDatos] = useState(null);
@@ -34,7 +34,7 @@ const PlanillasSeguimiento = () => {
 
     const actualizarItems = async (index) =>{
         const id_planilla = datos[index].id;
-        const itemsJson = await obtenerItemsPlanilla(id_planilla);
+        const itemsJson = await obtenerItemsPlanillaSeguimiento(id_planilla);
         if(itemsJson.status === 200){
             const nuevoItems = [...items];
             nuevoItems[index] = [];
