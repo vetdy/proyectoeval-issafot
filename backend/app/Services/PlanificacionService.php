@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 
+use App\Models\Asistencia_evaluacion;
 use App\Models\Asistencia_planilla_seguimiento;
 use App\Models\Evaluacion;
 use App\Models\Item_planilla;
@@ -61,16 +62,30 @@ class PlanificacionService
             $fecha_inicio->addDay();
             $fecha_inicio=Carbon::createFromDate($this->getProximoDiaRevision($fecha_inicio,$dia));
             
-            foreach(Socio_empresa::where('id_empresa',$pg->id_empresa)->get() as $id_usuario ){
+            foreach(Socio_empresa::where('id_empresa',$pg->id_proyecto_empresa)->get() as $id_usuario ){
                 $aps=new Asistencia_planilla_seguimiento();
                 $aps->id_usuario=$id_usuario->id;
                 $aps->id_planilla_seguimiento=$pg->id;
                 $aps->save();
                 
-            }
-            
-            
+            } 
         }
+
+        $e=new Evaluacion();
+        $e->titulo=$registar['titulo'];
+        $e->fecha_revision=$fecha_inicio->toDateString();
+        $e->hora_revision=$h;
+        $e->id_empresa=$pe;
+        $e->id_tipo_evaluacion='1';
+        
+        $e->save();
+        
+        foreach(Socio_empresa::where('id_empresa',$e->id_empresa)->get() as $id_usuario ){
+            $ae=new Asistencia_evaluacion();
+            $ae->id_usuario=$id_usuario->id;
+            $ae->id_evaluacion=$e->id;
+            $ae->save();
+        } 
         
     }
 

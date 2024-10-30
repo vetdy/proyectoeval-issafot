@@ -15,9 +15,9 @@ class CreateAsistenciaEvaluacionTable extends Migration
     {
         Schema::create('asistencia_evaluacion', function (Blueprint $table) {
             $table->id();
-            $table->boolean('presente'); 
+            $table->boolean('presente')->default(true); 
             $table->timestamps();
-            $table->string('observacion'); 
+            $table->string('observacion')->default(''); 
             $table->foreignId('id_evaluacion')->constrained('evaluacions')->onDelete('cascade');
             $table->foreignId('id_usuario')->constrained('usuarios')->onDelete('cascade');
             

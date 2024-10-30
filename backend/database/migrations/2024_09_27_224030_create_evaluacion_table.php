@@ -18,8 +18,8 @@ class CreateEvaluacionTable extends Migration
             $table->string('titulo');
             $table->date('fecha_revision');
             $table->time('hora_revision');
-            $table->boolean('concluido');
-            $table->integer('nota');
+            $table->boolean('concluido')->default(false);
+            $table->integer('nota')->default(0);
             $table->foreignId('id_empresa')->constrained('empresas');
             $table->foreignId('id_tipo_evaluacion')->constrained('tipo_evaluacions');
             $table->timestamps();

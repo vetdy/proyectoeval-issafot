@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\Empresa;
 use Illuminate\Http\Request;
 use App\Models\Evaluacion;
+use App\Models\Proyecto;
+use App\Models\Proyecto_empresa;
+use Carbon\Carbon;
 
 class EvaluacionController extends Controller
 {
@@ -278,6 +281,64 @@ class EvaluacionController extends Controller
             return response()->json(['contenido'=>compact('evaluacion')],200);
         }else{
             return response()->json(['contenido'=>'no existe la evaluacion'],404);
+        }
+        
+    }
+
+    /**
+     * @OA\Get( 
+     *     path="/api/planilla_seguimiento/semanal/{idUsuario}",
+     *     summary="Mostar planillas Seguimientos por docente",
+     *     tags={"planillas Seguimientos"},
+     *     @OA\Parameter(
+     *         name="idUsuario",
+     *         in="path",
+     *         description="ID de el docente",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *      ),
+     *     
+     *     @OA\Response(
+     *         response=200,
+     *         description="Datos del planilla Seguimiento por docente"
+     *     ),
+     *      @OA\Response(
+     *         response=404,
+     *         description="docente no encontrada"
+     *     )
+     * 
+     * )
+     */
+    public function show_semanal($idUsuario){
+        
+        $proyectos=Proyecto::where('id_creado_por',$idUsuario)->get();
+        if(!$proyectos->isEmpty()){
+            $evaluacions=[];
+            foreach ($proyectos as $proyecto){
+                $protectoEmpresa= Proyecto_empresa::where('id_proyecto',$proyecto->id)->get();
+                foreach($protectoEmpresa as $proyect){
+                    $usuario=Evaluacion::where('id_empresa',$proyect->id_empresa)->get();
+                    foreach ($usuario as $usua){
+                        
+                        $fechaActual = Carbon::now();
+                        // Calcula el inicio de la semana (lunes) y el fin de la semana (domingo)
+                        $inicioDeSemana = $fechaActual->copy()->startOfWeek();
+                        $finDeSemana = $fechaActual->copy()->endOfWeek();
+                        $fecha_a_verificar = Carbon::parse($usua->fecha_revision);
+                        if($fecha_a_verificar->between($inicioDeSemana, $finDeSemana)){
+                            
+                            $nombre_empresa= Empresa::find($proyect->id_empresa)->nombre_corto;
+                            $usua->nombre_empresa=$nombre_empresa;
+                            $evaluacions[]=$usua;
+                        }
+                    }
+                }
+            }
+            return response()->json(['contenido'=>compact('evaluacions')],200); 
+        }else{
+            return response()->json(['contenido'=>'el usuario no tiene Proyectos activos'],404);
         }
         
     }
