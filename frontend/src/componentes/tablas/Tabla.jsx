@@ -63,12 +63,12 @@ const genBoton = ({cadena = "", index = 0, llave = "",  pkey="", botones, handle
  * @param {(Object<string,*>[]|[])} datos Los datos
  * @returns El componente Tabla con los datos
  */
-const Tabla = ({ datos = [], children, handle }) => {
+const Tabla = ({ datos = [], children, px0 = false, hover = true, handle }) => {
     const titulos = leerTitulos(datos);
     const botones = /(<detalle>|<agregar>|<editar>|<eliminar>)/;
     return (
-        <div className="container-fluid ">
-            <table className="table table-hover">
+        <div className={`container-fluid table-responsive ${px0 ? "px-0" : ""}`}>
+            <table className={`table table-sm my-0 ${hover ? "table-hover" : ""}`}>
                 <thead>
                     <tr>
                         {titulos.map((t) => {

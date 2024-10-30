@@ -62,6 +62,11 @@ class TareaController extends Controller
      *     )
      * )
      */
+
+
+
+     
+
     public function store(Request $request)
     {
         try{
@@ -271,7 +276,7 @@ class TareaController extends Controller
             }catch (\Illuminate\Validation\ValidationException $e){
                 return response()->json(['contenido'=>$e->errors()], 422);
             }
-            return response()->json(['contenido'=>'se creo a la tarea con exito'],200);
+            return response()->json(['contenido'=>'Se creo a la tarea con exito'],200);
     
         
     }

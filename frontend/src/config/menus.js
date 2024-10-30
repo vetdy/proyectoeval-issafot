@@ -11,6 +11,7 @@ const docente = {
     },
     "Evaluaciones":{
         "Crear Evaluación Final": rutas.DOC_EVALUACIONES_CREAR_FINAL,
+        "Planillas de Seguimiento": rutas.DOC_PLANILLAS_SEGUIMIENTO,
         "Recuperar Evaluaciones": rutas.DOC_EVALUACIONES_RECUPERAR,
     },
     "Reportes":{

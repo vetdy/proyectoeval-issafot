@@ -384,8 +384,14 @@ class PlanillaSeguimientoController extends Controller
 
             }
             $proyecto_empresa= Proyecto_empresa::find($planilla_seguimiento->id_proyecto_empresa);
+
             $logo=Empresa::find($proyecto_empresa->id_empresa)->url_logo;
             return response()->json(['contenido'=>compact('usuarios','proyecto_empresa','logo')]);
+
+            $logo=Empresa::find($proyecto_empresa->id_empresa)->url_logo;
+            $nombre_corto=Empresa::find($proyecto_empresa->id)->nombre_corto;
+            return response()->json(['contenido'=>compact('usuarios','proyecto_empresa','logo','nombre_corto')]);
+
         }else{
             return response()->json(['contenido'=>'id de la planilla seguimiento no encontrado'],404);
         }

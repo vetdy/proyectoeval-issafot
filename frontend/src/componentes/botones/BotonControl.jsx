@@ -4,7 +4,7 @@ import dashSVG from "../../assets/dash.svg";
 import trashSVG from "../../assets/trash.svg";
 import crossSVG from "../../assets/x.svg";
 
-const BotonControl = ({ tipo = "<detalle>", pkey = "", handle, ...props }) => {
+const BotonControl = ({ tipo = "<detalle>", pkey = "", handle, ...props}) => {
     const contenido = {
         "<detalle>": () => {
             return "detalle";
@@ -16,11 +16,11 @@ const BotonControl = ({ tipo = "<detalle>", pkey = "", handle, ...props }) => {
             return <img src={pencilSVG} alt="<_" />;
         },
         "<eliminar>": () => {
-            return <img src={dashSVG} alt="-" />;
+            return <img src={trashSVG} alt="-" />;
         },
     };
 
-    const estiloBotonIcono = "border btn-light";
+    const estiloBotonIcono = "py-1 px-2 btn-eva-info border-0 ";
 
     const estilo = {
         "<detalle>": "btn-eva-info",
@@ -31,7 +31,7 @@ const BotonControl = ({ tipo = "<detalle>", pkey = "", handle, ...props }) => {
 
     return (
         <button
-            className={`btn ${estilo[tipo]}`}
+            className={`btn mx-1 ${estilo[tipo]}`}
             key={`${pkey}-${tipo}`}
             onClick={handle}
             {...props}

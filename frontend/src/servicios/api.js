@@ -89,8 +89,33 @@ export const obtenerPlanillasEmpresa = async (empresa=1) => {
     return respuesta;
 }
 
-export const obtenerItemsPlanilla = async (plantilla=1) => {
-    const respuesta = await solicitud(`${rutas.ITEMS_PLANTILLA}/${plantilla}`);
+export const obtenerPlanillasDocenteSeguimiento = async (docenteID = 1) => {
+    const respuesta = await solicitud(`${rutas.PLANILLAS_DOCENTE_SEGUIMIENTO}/${docenteID}`);
+    return respuesta;
+}
+
+export const obtenerItemsPlanillaSeguimiento = async (planilla=1) => {
+    const respuesta = await solicitud(`${rutas.ITEMS_PLANTILLA_SEGUIMIENTO}/${planilla}`);
+    return respuesta;
+}
+
+export const obtenerAsistenciaPlanillaSeguimiento = async (planilla=1) =>{
+    const respuesta = await solicitud(`${rutas.ASISTENCIA_PLANILLA_SEGUIMIENTO}/${planilla}`);
+    return respuesta;
+}
+
+export const obtenerPlanillasDocenteEvaluacion = async (docenteID = 1) => {
+    const respuesta = await solicitud(`${rutas.PLANILLAS_DOCENTE_EVALUACION}/${docenteID}`);
+    return respuesta;
+}
+
+export const obtenerItemsPlanillaEvaluacion = async (planilla=1) => {
+    const respuesta = await solicitud(`${rutas.ITEMS_PLANTILLA_EVALUACION}/${planilla}`);
+    return respuesta;
+}
+
+export const registrarPlanificacionEmpresa = async (datos={}) => {
+    const respuesta = await solicitud(`${rutas.PLANIFICACION_EMPRESA}`,"POST", datos);
     return respuesta;
 }
 
