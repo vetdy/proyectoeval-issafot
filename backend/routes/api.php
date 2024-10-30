@@ -105,6 +105,7 @@ Route::controller(EvaluacionController::class)->group(function () {
     Route::delete('/evaluacion/{id}', 'destroy');
 
     Route::get('/evaluacion/empresa/{id}', 'indexEmpresa');
+    Route::get('/evaluacion/semana/{idUsuario}','show_semanal');
 });
 
 Route::controller(TipoEvaluacionController::class)->group(function () {
