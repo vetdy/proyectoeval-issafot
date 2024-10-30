@@ -74,6 +74,7 @@ Route::controller(TareaController::class)->group(function () {
     Route::put('/tarea/{id}', 'update');
     Route::delete('/tarea/{id}', 'destroy');
 
+    //Route::post('/tarea/lista', [TareaController::class, 'store_list']);
     Route::post('/tarea/lista', 'store_list');
 });
 

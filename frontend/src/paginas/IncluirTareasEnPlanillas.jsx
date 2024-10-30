@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import '../estilos/AgregarTareas.css';
 
 function AgregarTareas() {
-    const [tareas, setTareas] = useState([{ id: 1, nombre: '', descripcion: '' }]);
+    const [tareas, setTareas] = useState([{ nombre: '', descripcion: '' }]);
     const [empresa, setEmpresa] = useState('');
+    const [idEvaluacion, setIdEvaluacion] = useState(''); // Agrega el estado para id_evaluacion
     const [mensajeConfirmacion, setMensajeConfirmacion] = useState('');
 
     const handleInputChange = (index, event) => {
@@ -14,7 +15,7 @@ function AgregarTareas() {
     };
 
     const agregarTarea = () => {
-        const nuevaTarea = { id: tareas.length + 1, nombre: '', descripcion: '' };
+        const nuevaTarea = { nombre: '', descripcion: '' };
         setTareas([...tareas, nuevaTarea]);
     };
 
@@ -25,20 +26,20 @@ function AgregarTareas() {
 
     const agregarTareas = async () => {
         try {
-            const response = await fetch('http://localhost:8000/api/tareas', {
+            const response = await fetch('http://localhost:8000/api/tarea/lista', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    empresa,
-                    tareas,
+                    id_evaluacion: idEvaluacion,
+                    tareas: tareas.map(tarea => tarea.nombre) // 
                 }),
             });
 
             if (response.ok) {
                 const data = await response.json();
-                setMensajeConfirmacion(data.mensaje);
+                setMensajeConfirmacion(data.contenido);
             } else {
                 setMensajeConfirmacion('Ocurrió un error al intentar guardar las tareas');
                 console.error('Error al guardar las tareas:', response.statusText);
@@ -51,25 +52,43 @@ function AgregarTareas() {
 
     return (
         <div className="container-agregar-tareas">
-            <div className="row mb-2"> </div>
+            <div className="row mb-2"></div>
             
-            <div className="col-md-8 banda-titulos "> 
+            <div className="col-md-8 banda-titulos"> 
                 <h2 className="text-center text-white"> AÑADIR TAREAS </h2>
             </div>
-            
+
             <div className="d-flex align-items-center mb-3">
                 <label htmlFor="empresa" className="me-2">Empresa:</label>
                 <select
                     id="empresa"
                     className="form-select"
-                    value={empresa}
+                    value= {empresa}
                     onChange={(e) => setEmpresa(e.target.value)}
                 >
                     <option value="">Seleccione una empresa</option>
                     <option value="Empresa 1">Empresa 1</option>
                     <option value="Empresa 2">Empresa 2</option>
-                    <option value="Empresa 3">Issa soft</option>
+                    <option value="Empresa 3">Empresa 3</option>
                 </select>
+            </div>
+
+            <div className="d-flex align-items-center mb-3">
+                <label htmlFor="idEvaluacion" className="me-3">ID </label>
+                
+            
+                    
+                    
+                
+
+                <input
+                    type="text"
+                    id="idEvaluacion"
+                    className="form-control"
+                    value={idEvaluacion}
+                    onChange={(e) => setIdEvaluacion(e.target.value)}
+                    placeholder="Ingrese ID de Evaluación"
+                />
             </div>
 
             <div className="container">
@@ -78,15 +97,13 @@ function AgregarTareas() {
                         <table className="table text-center">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
                                     <th>Nombre</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {tareas.map((tarea, index) => (
-                                    <tr key={tarea.id}>
-                                        <td>{tarea.id}</td>
+                                    <tr key={index}>
                                         <td>
                                             <input
                                                 type="text"
