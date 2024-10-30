@@ -6,13 +6,22 @@ import { validador } from "../utils";
 import { ModalConfirmar, ModalSimple } from "../componentes/modales";
 import { registrarPlanificacionEmpresa } from "../servicios/api"
 import { cadenaValoresJSON } from "../utils/conversor";
+import { tiempo } from "../utils";
 
-const compararFecha = (f1, f2) => {
-    const fecha1 = new Date(f1);
-    const fecha2 = new Date(f2);
+const compararFecha = (f1, f2 = undefined) => {
+    const fecha1 = typeof f1 === "string" ? new Date(f1) : f1;
+    const fecha2 =
+        typeof f2 === "undefined"
+            ? new Date(tiempo.obtenerFechaActual())
+            : typeof f2 === "string"
+            ? new Date(f2)
+            : f2;
 
-    if (fecha2 > fecha1) {
+    if ( fecha1.getTime() > fecha2.getTime() ) {
         return 1;
+    }
+    if ( fecha1.getTime() < fecha2.getTime() ){
+        return -1;
     }
     return 0;
 };
@@ -60,7 +69,7 @@ const quitarEspaciosFinales = (plan=[]) => {
 
 const OtroRegistroPlanificacion = () => {
     const titulos = ["Titulo", "Objetivo", "Fecha Inicio", "Fecha Fin"];
-    const fecha = new Date().toISOString().slice(0, 10);
+    const fecha = tiempo.obtenerFechaActual();
     const ref = useRef(null);
     const [fechasValidadProyecto, setFechasValidasProyecto] = useState({
         fecha_inicio: "",
@@ -257,6 +266,8 @@ const OtroRegistroPlanificacion = () => {
     };
 
     const controlDatos = () => {
+        const fechaFinProyecto = "2024-12-02"
+
         if ( planificacion.length ) {
             const duplicados = titulosIguales(planificacion);
             
@@ -271,20 +282,35 @@ const OtroRegistroPlanificacion = () => {
                     return false;
                 }
 
-                if (!p.tarea.length) {
+                if ( !p.tarea.length ) {
                     AbrirModalInf(`Debe haber al menos 1 objetivo por fila. En la fila con titulo: ${p.titulo}`);
                     return false;
                 }
                 
-                for (const t of p.tarea) {
+                for ( const t of p.tarea ) {
                     if (t === "") {
                         AbrirModalInf(`Ningun objetivo puede ser vacio. En la fila con titulo: ${p.titulo}`);
                         return false;
                     }
                 }
+
+                if ( compararFecha(p.fecha_inicio) === -1 ){
+                    AbrirModalInf(`La fecha inicio debe ser mayor o igual a la fecha actual. En la fila con titulo: ${p.titulo}`);
+                    return false;
+                }
                 
-                if (!compararFecha(p.fecha_inicio, p.fecha_fin)) {
-                    AbrirModalInf(`La fecha Fin debe ser mayor a la Fecha Inicio. En la fila con titulo: ${p.titulo}`);
+                if ( compararFecha(p.fecha_inicio, p.fecha_fin) !== -1) {
+                    AbrirModalInf(`La fecha fin debe ser mayor a la Fecha Inicio. En la fila con titulo: ${p.titulo}`);
+                    return false;
+                }
+
+                if (compararFecha(p.fecha_inicio, fechaFinProyecto) === 1){
+                    AbrirModalInf(`La fecha inicio no puede ser mayor a la Fecha establecida de duración del proyecto (${fechaFinProyecto}). En la fila con titulo: ${p.titulo}`);
+                    return false;
+                }
+
+                if (compararFecha(p.fecha_fin, fechaFinProyecto) === 1){
+                    AbrirModalInf(`La fecha fin no puede ser mayor a la Fecha establecida de duración del proyecto (${fechaFinProyecto}). En la fila con titulo: ${p.titulo}`);
                     return false;
                 }
             }

@@ -1,9 +1,3 @@
-/* Date.prototype.GetFirstDayOfWeek = function() {
-    return (new Date(this.setDate(this.getDate() - this.getDay()+ (this.getDay() == 0 ? -6:1) )));
-}
-Date.prototype.GetLastDayOfWeek = function() {
-    return (new Date(this.setDate(this.getDate() - this.getDay() +7)));
-} */
 
 export const obtenerDia = (fecha="") => {
     return new Date(fecha).getUTCDay();
@@ -26,9 +20,11 @@ export const obtenerSemanaActual = () => {
 
     return { primerDia: primerDia, ultimoDia: ultimoDia }
 }
-/* 
-var today = new Date();
 
-alert(today.GetFirstDayOfWeek());
-
-alert(today.GetLastDayOfWeek()); */
+export const obtenerFechaActual = () => {
+    const actual = new Date();
+    const dia = String(actual.getDate()).padStart(2,0);
+    const mes = String(actual.getMonth() + 1).padStart(2,0);
+    const anio = actual.getFullYear();
+    return `${anio}-${mes}-${dia}`;
+}
