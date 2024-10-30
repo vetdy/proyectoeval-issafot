@@ -325,7 +325,7 @@ const OtroRegistroPlanificacion = () => {
         const datos = {};
         if ( controlDatos() ) {
             setDeshabilitarEnvio(true);
-            datos["id_proyecto_empresa"] = "2"; //<=== Debe cambiar con usuario/empresa
+            datos["id_proyecto_empresa"] = "1"; //<=== Debe cambiar con usuario/empresa
             datos["dia_revision"] = revision.dia_rev;
             datos["hora_revision"] = revision.hora_rev;
             datos["planificacion"] = quitarEspaciosFinales(planificacion);
