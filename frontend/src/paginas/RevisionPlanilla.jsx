@@ -1,9 +1,11 @@
 import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Tabla } from "../componentes/tablas";
+import { obtenerItemsPlanillaSeguimiento } from "../servicios/api";
+import { IconoCargando } from "../componentes/iconos";
 import logo from "/logo.png"
 
-const Planilla = ({datos}) => {
+const Planilla = ({datos, planilla}) => {
     return (
         <div className="container-fluid">
             <div className="row">
@@ -97,35 +99,27 @@ const Planilla = ({datos}) => {
             </div>
             <div className="row px-2">
                 <Tabla datos={["#", "Tarea", "Observación"]}>
-                    <tr>
-                        <td>1</td>
-                        <td>Registrar Docente</td>
-                        <td>
-                            <input
-                                className="form-control"
-                                type="text"
-                                name=""
-                                id=""
-                            />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Registrar Empresa</td>
-                        <td>
-                            <input
-                                className="form-control"
-                                type="text"
-                                name=""
-                                id=""
-                            />
-                        </td>
-                    </tr>
+                    {planilla.map((p, index) => {
+                        return(
+                            <tr key={`planilla-item-${index}`}>
+                                <td>{index + 1}</td>
+                                <td>{p.titulo}</td>
+                                <td>
+                                    <input
+                                        className="form-control"
+                                        type="text"
+                                        name=""
+                                        id=""
+                                    />
+                                </td>
+                            </tr>
+                        );
+                    })}
                 </Tabla>
             </div>
 
             <div className="row my-2 g-0">
-                <div className="col container">
+                <div className="col">
                     <div className="row g-1">
                         <div className="col-md-2">
                             <button className="btn btn-eva-info w-100">
@@ -153,15 +147,64 @@ const Planilla = ({datos}) => {
 const RevisionPlanilla = () => {
     const location = useLocation();
     const datos = location.state;
+
+    const [planilla, setPlanilla] = useState([]);
+    const [error, setError] = useState(false);
+    const [cargando, setCargando] = useState(true);
+    const consulta = useRef(true);
     
     useEffect(() =>{
-        
+        console.log(datos);
+        const solicitud = async () => {
+            let respuesta;
+
+            if( datos.tipo === "seguimiento" ){
+                respuesta = await obtenerItemsPlanillaSeguimiento(datos.idSeguimiento);
+            }
+            else{
+                respuesta = {status:404, message:"No implementado"};
+                console.log("No implementado");
+            }
+
+            if( respuesta.status === 200 ){
+                setPlanilla(respuesta.message.item_planilla);
+                console.log(respuesta.message.item_planilla);
+            }
+            else{
+                setError(true);
+            }
+            setCargando(false);
+        }
+
+        if ( datos && consulta.current){
+            solicitud();
+            consulta.current = false;
+        }
+
+        if ( !datos ){
+            setCargando(false);
+            setError(true);
+        }
+
     },[]);
 
-    if( datos ){
-        return <Planilla datos={datos} />
+    if ( cargando ){
+        return(
+            <div className="container-fluid">
+                <div className="row">
+                    <IconoCargando />
+                </div>
+            </div>
+        );
     }
-    return <div>Invalido...</div>
+
+    if( error ){
+        return(
+            <div>Ocurrio un error...</div>
+        );
+    }
+
+    return <Planilla datos={datos} planilla={planilla}/>
 };
 
 export default RevisionPlanilla
