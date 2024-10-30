@@ -377,6 +377,11 @@ class PlanillaSeguimientoController extends Controller
         $planilla_seguimiento=Planilla_seguimiento::find($id);
         if($planilla_seguimiento){
             $usuarios= Asistencia_planilla_seguimiento::where('id_planilla_seguimiento',$id)->get();
+            foreach($usuarios as $us){
+                $aux=Usuario::find($us->id_usuario);
+                $us->nombre_usuario=$aux->nombre.' '.$aux->apellido;
+
+            }
             $proyecto_empresa= Proyecto_empresa::find($planilla_seguimiento->id_proyecto_empresa);
             $logo=Empresa::find($proyecto_empresa->id)->url_logo;
             $nombre_corto=Empresa::find($proyecto_empresa->id)->nombre_corto;
