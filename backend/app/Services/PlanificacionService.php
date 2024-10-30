@@ -27,7 +27,7 @@ class PlanificacionService
         $fecha_fin=Carbon::createFromDate($registar['fecha_fin']);
         $fecha_inicio=Carbon::createFromDate($this->getProximoDiaRevision($fecha_inicio,$dia));
         
-        while($fecha_inicio->lte($fecha_fin)){
+        while($fecha_inicio->lt($fecha_fin)){
             $pg=new Planilla_seguimiento();
             $pg->titulo=$registar['titulo'];
             $pg->fecha_revision=$fecha_inicio->toDateString();
@@ -36,6 +36,21 @@ class PlanificacionService
             $pg->save();
             $fecha_inicio->addDay();
             $fecha_inicio=Carbon::createFromDate($this->getProximoDiaRevision($fecha_inicio,$dia));
+        }
+        $e=new Evaluacion();
+        $e->titulo=$registar['titulo'];
+        $e->fecha_revision=$fecha_inicio->toDateString();
+        $e->hora_revision=$registar['hora_revision'];
+        $e->id_empresa=$registar['id_proyecto_empresa'];// modificar
+        $e->id_tipo_evaluacion='1';
+        
+        $e->save();
+        
+        foreach(Socio_empresa::where('id_empresa',$e->id_empresa)->get() as $id_usuario ){
+            $ae=new Asistencia_evaluacion();
+            $ae->id_usuario=$id_usuario->id;
+            $ae->id_evaluacion=$e->id;
+            $ae->save();
         }
     }
 
@@ -75,7 +90,7 @@ class PlanificacionService
         $e->titulo=$registar['titulo'];
         $e->fecha_revision=$fecha_inicio->toDateString();
         $e->hora_revision=$h;
-        $e->id_empresa=$pe;
+        $e->id_empresa=$pe;//modificar
         $e->id_tipo_evaluacion='1';
         
         $e->save();
