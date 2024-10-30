@@ -92,6 +92,10 @@ const OtroRegistroPlanificacion = () => {
     });
     const [deshabilitarEnvio, setDeshabilitarEnvio] = useState(false);
 
+
+    const [idEmpr, setIdEmpr] = useState("1");
+
+
     useEffect(() => {
         if (ref?.current) {
             ref.current.focus();
@@ -325,7 +329,7 @@ const OtroRegistroPlanificacion = () => {
         const datos = {};
         if ( controlDatos() ) {
             setDeshabilitarEnvio(true);
-            datos["id_proyecto_empresa"] = "1"; //<=== Debe cambiar con usuario/empresa
+            datos["id_proyecto_empresa"] = idEmpr; //<=== Debe cambiar con usuario/empresa
             datos["dia_revision"] = revision.dia_rev;
             datos["hora_revision"] = revision.hora_rev;
             datos["planificacion"] = quitarEspaciosFinales(planificacion);
@@ -577,6 +581,18 @@ const OtroRegistroPlanificacion = () => {
                     >
                         Registrar
                     </button>
+                </div>
+            </div>
+            <div className="row">
+                <div className="col">
+                    <label htmlFor="idemp" className="px-2">Empresa</label>
+                    <select name="idemp" id="idemp"
+                        value={idEmpr}
+                        onChange={(ev) =>{setIdEmpr(ev.target.value)}}
+                    >
+                        <option value="1">techoSol</option>
+                        <option value="2">ISSA Soft</option>
+                    </select>
                 </div>
             </div>
         </div>
