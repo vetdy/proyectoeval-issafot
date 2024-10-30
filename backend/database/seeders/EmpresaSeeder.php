@@ -48,7 +48,56 @@ class EmpresaSeeder extends Seeder
             'telefono'=>'4519542',
             'contrasena'=>'password212',
             'id_rol'=>'2'
+        ],
+        [
+            'nombre'=>'ariel',
+            'apellido'=>'valencia',
+            'codigo_sis'=>'124146001',
+            'correo'=>'valencia@gmail.com',
+            'telefono'=>'4000001',
+            'contrasena'=>'password212',
+            'id_rol'=>'2'
         ]
+        ,
+        [
+            'nombre'=>'ever',
+            'apellido'=>'coca',
+            'codigo_sis'=>'124146002',
+            'correo'=>'coca@gmail.com',
+            'telefono'=>'4000002',
+            'contrasena'=>'password212',
+            'id_rol'=>'2'
+        ]
+        ,
+        [
+            'nombre'=>'erlinda',
+            'apellido'=>'lopez',
+            'codigo_sis'=>'124146003',
+            'correo'=>'lopez@gmail.com',
+            'telefono'=>'4000003',
+            'contrasena'=>'password212',
+            'id_rol'=>'2'
+        ],
+        [
+            'nombre'=>'jose',
+            'apellido'=>'castro',
+            'codigo_sis'=>'124146004',
+            'correo'=>'castro@gmail.com',
+            'telefono'=>'4000004',
+            'contrasena'=>'password212',
+            'id_rol'=>'2'
+        ]
+        ,
+        [
+            'nombre'=>'samuel',
+            'apellido'=>'navia',
+            'codigo_sis'=>'124146005',
+            'correo'=>'navia@gmail.com',
+            'telefono'=>'4000005',
+            'contrasena'=>'password212',
+            'id_rol'=>'2'
+        ]
+
     ];
         foreach ($usuarios as $usuario) {
             $ids[] = DB::table('usuarios')->insertGetId($usuario);
@@ -77,7 +126,10 @@ class EmpresaSeeder extends Seeder
             $ids2[] = DB::table('empresas')->insertGetId($empresa);
         }
         
-        $socio_empresas=[['id_usuario'=>$ids[0],'id_empresa'=>$ids2[0]],['id_usuario'=>$ids[1],'id_empresa'=>$ids2[1]]];
+        $socio_empresas=[['id_usuario'=>$ids[0],'id_empresa'=>$ids2[0]],
+        ['id_usuario'=>$ids[4],'id_empresa'=>$ids2[1]],['id_usuario'=>$ids[5],'id_empresa'=>$ids2[1]]
+    ,['id_usuario'=>$ids[6],'id_empresa'=>$ids2[1]],['id_usuario'=>$ids[7],'id_empresa'=>$ids2[1]],
+    ['id_usuario'=>$ids[8],'id_empresa'=>$ids2[1]]];
         foreach ($socio_empresas as $socio_empresa) {
             $ids3[] = DB::table('socio_empresas')->insertGetId($socio_empresa);
         }
