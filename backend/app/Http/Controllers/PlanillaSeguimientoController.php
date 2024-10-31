@@ -33,9 +33,9 @@ class PlanillaSeguimientoController extends Controller
      */
     public function index()
     {
-        $planilla_seguimiento=Planilla_seguimiento::all();
-        
-        return response()->json(['contenido'=>compact('planilla_seguimiento')],200);
+        $planilla_seguimiento = Planilla_seguimiento::all();
+
+        return response()->json(['contenido' => compact('planilla_seguimiento')], 200);
     }
 
     /**
@@ -72,19 +72,18 @@ class PlanillaSeguimientoController extends Controller
      */
     public function store(Request $request)
     {
-        try{
+        try {
             $request->validate([
-                'titulo'=>'required|max:64',
-                'fecha_revision'=>'required|date',
-                'hora_revision'=>'required|date_format:H:i',
-                'id_proyecto_empresa'=>'required|exists:empresas,id'
+                'titulo' => 'required|max:64',
+                'fecha_revision' => 'required|date',
+                'hora_revision' => 'required|date_format:H:i',
+                'id_proyecto_empresa' => 'required|exists:empresas,id'
             ]);
             $planilla_seguimiento = Planilla_seguimiento::create($request->all());
         } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(["contenido"=>$e->errors()], 422);
+            return response()->json(["contenido" => $e->errors()], 422);
         }
-        return response()->json(['contenido'=>'se registro exitosamente a la planilla seguimiento'],200);
-        
+        return response()->json(['contenido' => 'se registro exitosamente a la planilla seguimiento'], 200);
     }
 
     /**
@@ -121,13 +120,12 @@ class PlanillaSeguimientoController extends Controller
      */
     public function show($id)
     {
-        $planilla_seguimiento=Planilla_seguimiento::find($id);
-        if($planilla_seguimiento){
-            return response()->json(['contenido'=>compact('planilla_seguimiento')],200);
-        }else{
-            return response()->json(['contenido'=>'id planilla seguimiento no existe'],404);
+        $planilla_seguimiento = Planilla_seguimiento::find($id);
+        if ($planilla_seguimiento) {
+            return response()->json(['contenido' => compact('planilla_seguimiento')], 200);
+        } else {
+            return response()->json(['contenido' => 'id planilla seguimiento no existe'], 404);
         }
-        
     }
 
     /**
@@ -137,7 +135,7 @@ class PlanillaSeguimientoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-     /**
+    /**
      * @OA\Put(
      *     path="/api/planilla_seguimiento/{id}",
      *     summary="Actualizar un planilla Seguimiento",
@@ -176,25 +174,25 @@ class PlanillaSeguimientoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
-        try{
+
+        try {
             $request->validate([
-                'titulo'=>'nullable|max:64',
-                'fecha_revision'=>'nullable|date',
-                'hora_revision'=>'nullable|date_format:H:i',
+                'titulo' => 'nullable|max:64',
+                'fecha_revision' => 'nullable|date',
+                'hora_revision' => 'nullable|date_format:H:i',
             ]);
-            $data=$request->only(['titulo','fecha_revision','hora_revision']);
+            $data = $request->only(['titulo', 'fecha_revision', 'hora_revision']);
         } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(["contenido"=>$e->errors()], 422);
+            return response()->json(["contenido" => $e->errors()], 422);
         }
-        $planilla_seguimiento=Planilla_seguimiento::find($id);
-        
-            
-        if($planilla_seguimiento){
+        $planilla_seguimiento = Planilla_seguimiento::find($id);
+
+
+        if ($planilla_seguimiento) {
             $planilla_seguimiento->update($data);
-            return response()->json(['contenido'=>'se actualizo a la planilla_seguimiento con exito'],200);
-        }else{
-            return response()->json(['contenido'=>'el id no existe'],404);
+            return response()->json(['contenido' => 'se actualizo a la planilla_seguimiento con exito'], 200);
+        } else {
+            return response()->json(['contenido' => 'el id no existe'], 404);
         }
     }
 
@@ -231,13 +229,13 @@ class PlanillaSeguimientoController extends Controller
      */
     public function destroy($id)
     {
-        $planilla_seguimiento=Planilla_seguimiento::find($id);
-       
-        if ($planilla_seguimiento){
+        $planilla_seguimiento = Planilla_seguimiento::find($id);
+
+        if ($planilla_seguimiento) {
             $planilla_seguimiento->delete();
-            return response()->json(['contenido'=>'eliminado con exito'],200);
-        }else{
-            return response()->json(['contenido'=>'no existe la planilla seguimiento'],404);
+            return response()->json(['contenido' => 'eliminado con exito'], 200);
+        } else {
+            return response()->json(['contenido' => 'no existe la planilla seguimiento'], 404);
         }
     }
 
@@ -275,15 +273,14 @@ class PlanillaSeguimientoController extends Controller
      */
     public function show_empresa($id)
     {
-        $planilla_seguimiento=Planilla_seguimiento::where('id_proyecto_empresa', $id)->get();;
-        if(!$planilla_seguimiento->isEmpty()){
-            $idEmpresa=Proyecto_empresa::find($id);
-            $nombre_empresa= Empresa::find($idEmpresa->id_empresa)->nombre_corto;
-            return response()->json(['contenido'=>compact('planilla_seguimiento','nombre_empresa')],200);
-        }else{
-            return response()->json(['contenido'=>'id empresa no existe'],404);
+        $planilla_seguimiento = Planilla_seguimiento::where('id_proyecto_empresa', $id)->get();;
+        if (!$planilla_seguimiento->isEmpty()) {
+            $idEmpresa = Proyecto_empresa::find($id);
+            $nombre_empresa = Empresa::find($idEmpresa->id_empresa)->nombre_corto;
+            return response()->json(['contenido' => compact('planilla_seguimiento', 'nombre_empresa')], 200);
+        } else {
+            return response()->json(['contenido' => 'id empresa no existe'], 404);
         }
-        
     }
     /**
      * @OA\Get( 
@@ -311,38 +308,38 @@ class PlanillaSeguimientoController extends Controller
      * 
      * )
      */
-    public function show_semanal($idUsuario){
-        
-        $proyectos=Proyecto::where('id_creado_por',$idUsuario)->get();
-        if(!$proyectos->isEmpty()){
-            $planillas_seguimientos=[];
-            foreach ($proyectos as $proyecto){
-                
-                
-                $protectoEmpresa= Proyecto_empresa::where('id_proyecto',$proyecto->id)->get();
-                foreach($protectoEmpresa as $proyect){
-                    $usuario=Planilla_seguimiento::where('id_proyecto_empresa',$proyect->id)->get();
-                    foreach ($usuario as $usua){
-                        
+    public function show_semanal($idUsuario)
+    {
+
+        $proyectos = Proyecto::where('id_creado_por', $idUsuario)->get();
+        if (!$proyectos->isEmpty()) {
+            $planillas_seguimientos = [];
+            foreach ($proyectos as $proyecto) {
+
+
+                $protectoEmpresa = Proyecto_empresa::where('id_proyecto', $proyecto->id)->get();
+                foreach ($protectoEmpresa as $proyect) {
+                    $usuario = Planilla_seguimiento::where('id_proyecto_empresa', $proyect->id)->get();
+                    foreach ($usuario as $usua) {
+
                         $fechaActual = Carbon::now();
                         // Calcula el inicio de la semana (lunes) y el fin de la semana (domingo)
                         $inicioDeSemana = $fechaActual->copy()->startOfWeek();
                         $finDeSemana = $fechaActual->copy()->endOfWeek();
                         $fecha_a_verificar = Carbon::parse($usua->fecha_revision);
-                        if($fecha_a_verificar->between($inicioDeSemana, $finDeSemana)){
-                            
-                            $nombre_empresa= Empresa::find($proyect->id_empresa)->nombre_corto;
-                            $usua->nombre_empresa=$nombre_empresa;
-                            $planillas_seguimientos[]=$usua;
+                        if ($fecha_a_verificar->between($inicioDeSemana, $finDeSemana)) {
+
+                            $nombre_empresa = Empresa::find($proyect->id_empresa)->nombre_corto;
+                            $usua->nombre_empresa = $nombre_empresa;
+                            $planillas_seguimientos[] = $usua;
                         }
                     }
                 }
             }
-            return response()->json(['contenido'=>compact('planillas_seguimientos')],200); 
-        }else{
-            return response()->json(['contenido'=>'el usuario no tiene Proyectos activos'],404);
+            return response()->json(['contenido' => compact('planillas_seguimientos')], 200);
+        } else {
+            return response()->json(['contenido' => 'el usuario no tiene Proyectos activos'], 404);
         }
-        
     }
 
     /**
@@ -372,30 +369,25 @@ class PlanillaSeguimientoController extends Controller
      * )
      */
 
-    public function show_asistencia($id){
-        
-        $planilla_seguimiento=Planilla_seguimiento::find($id);
-        if($planilla_seguimiento){
-            $usuarios= Asistencia_planilla_seguimiento::where('id_planilla_seguimiento',$id)->get();
-            
-            foreach($usuarios as $us){
-                $aux=Usuario::find($us->id_usuario);
-                $us->nombre_usuario=$aux->nombre.' '.$aux->apellido;
+    public function show_asistencia($id)
+    {
 
+        $planilla_seguimiento = Planilla_seguimiento::find($id);
+        if ($planilla_seguimiento) {
+            $usuarios = Asistencia_planilla_seguimiento::where('id_planilla_seguimiento', $id)->get();
+
+            foreach ($usuarios as $us) {
+                $aux = Usuario::find($us->id_usuario);
+                $us->nombre_usuario = $aux->nombre . ' ' . $aux->apellido;
             }
-            $proyecto_empresa= Proyecto_empresa::find($planilla_seguimiento->id_proyecto_empresa);
+            $proyecto_empresa = Proyecto_empresa::find($planilla_seguimiento->id_proyecto_empresa);
 
 
-            $logo=Empresa::find($proyecto_empresa->id_empresa)->url_logo;
-            $nombre_corto=Empresa::find($proyecto_empresa->id)->nombre_corto;
-            return response()->json(['contenido'=>compact('usuarios','proyecto_empresa','logo','nombre_corto')]);
-
-
-
-
-        }else{
-            return response()->json(['contenido'=>'id de la planilla seguimiento no encontrado'],404);
+            $logo = Empresa::find($proyecto_empresa->id_empresa)->url_logo;
+            $nombre_corto = Empresa::find($proyecto_empresa->id)->nombre_corto;
+            return response()->json(['contenido' => compact('usuarios', 'proyecto_empresa', 'logo', 'nombre_corto')]);
+        } else {
+            return response()->json(['contenido' => 'id de la planilla seguimiento no encontrado'], 404);
         }
-            
     }
 }
