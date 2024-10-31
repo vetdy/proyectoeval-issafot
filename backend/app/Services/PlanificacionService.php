@@ -3,6 +3,7 @@ namespace App\Services;
 
 use App\Models\Asistencia_evaluacion;
 use App\Models\Asistencia_planilla_seguimiento;
+use App\Models\Empresa;
 use App\Models\Evaluacion;
 use App\Models\Item_planilla;
 use App\Models\Planilla_seguimiento;
@@ -70,8 +71,9 @@ class PlanificacionService
         
         $dia=(int)$d;
         $fecha_inicio=Carbon::createFromDate($registar['fecha_inicio']);
-            $fecha_fin=Carbon::createFromDate($this->getAnteriorFecha($registar['fecha_fin'],$dia));
+        $fecha_fin=Carbon::createFromDate($this->getAnteriorFecha($registar['fecha_fin'],$dia));
         $fecha_inicio=Carbon::createFromDate($this->getProximoDiaRevision($fecha_inicio,$dia));
+        $id_empresa_ax=Proyecto_empresa::find($pe)->id_empresa;
         while($fecha_inicio->lt($fecha_fin)){
             
             $pg=new Planilla_seguimiento();
@@ -89,9 +91,9 @@ class PlanificacionService
             $fecha_inicio->addDay();
             $fecha_inicio=Carbon::createFromDate($this->getProximoDiaRevision($fecha_inicio,$dia));
             
-            foreach(Socio_empresa::where('id_empresa',$pg->id_proyecto_empresa)->get() as $id_usuario ){
+            foreach(Socio_empresa::where('id_empresa',$id_empresa_ax)->get() as $id_usuario ){
                 $aps=new Asistencia_planilla_seguimiento();
-                $aps->id_usuario=$id_usuario->id;
+                $aps->id_usuario=$id_usuario->id_usuario;
                 $aps->id_planilla_seguimiento=$pg->id;
                 $aps->save();
                 
@@ -102,14 +104,14 @@ class PlanificacionService
         $e->titulo=$registar['titulo'];
         $e->fecha_revision=$fecha_inicio->toDateString();
         $e->hora_revision=$h;
-        $e->id_empresa=$pe;//modificar
+        $e->id_empresa=$id_empresa_ax;//modificar
         $e->id_tipo_evaluacion='1';
         
         $e->save();
         
         foreach(Socio_empresa::where('id_empresa',$e->id_empresa)->get() as $id_usuario ){
             $ae=new Asistencia_evaluacion();
-            $ae->id_usuario=$id_usuario->id;
+            $ae->id_usuario=$id_usuario->id_usuario;
             $ae->id_evaluacion=$e->id;
             $ae->save();
         } 
