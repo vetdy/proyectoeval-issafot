@@ -25,8 +25,8 @@ class TipoEvaluacionController extends Controller
      */
     public function index()
     {
-        $tipo_evaluacion=Tipo_evaluacion::all();
-        return response()->json(['contenido'=>compact('tipo_evaluacion')],200);
+        $tipo_evaluacion = Tipo_evaluacion::all();
+        return response()->json(['contenido' => compact('tipo_evaluacion')], 200);
     }
 
 
@@ -62,16 +62,16 @@ class TipoEvaluacionController extends Controller
      */
     public function store(Request $request)
     {
-        try{
+        try {
             $request->validate([
-                'nombre'=>'required|max:32',
-                'descripcion'=>'required|max:252'
+                'nombre' => 'required|max:32',
+                'descripcion' => 'required|max:252'
             ]);
-            $tipo_evaluacion=Tipo_evaluacion::create($request->all());
+            $tipo_evaluacion = Tipo_evaluacion::create($request->all());
         } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(['contenido'=>$e->errors()], 422);
+            return response()->json(['contenido' => $e->errors()], 422);
         }
-        return response()->json(['contenido'=>compact('tipo_evaluacion')],200);
+        return response()->json(['contenido' => compact('tipo_evaluacion')], 200);
     }
 
     /**
@@ -86,7 +86,7 @@ class TipoEvaluacionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-     /**
+    /**
      * @OA\Get(
      *     path="/api/tipo_evaluacion/{id}",
      *     summary="Mostar un tipo evaluacion",
@@ -114,11 +114,11 @@ class TipoEvaluacionController extends Controller
      */
     public function show($id)
     {
-        $tipo_evaluacion=Tipo_evaluacion::find($id);
-        if($tipo_evaluacion){
-            return response()->json(['contenido'=>compact('tipo_evaluacion')],200);
-        }else{
-            return response()->json(['contenido'=>'id tipo evaluacion no existe'],404);
+        $tipo_evaluacion = Tipo_evaluacion::find($id);
+        if ($tipo_evaluacion) {
+            return response()->json(['contenido' => compact('tipo_evaluacion')], 200);
+        } else {
+            return response()->json(['contenido' => 'id tipo evaluacion no existe'], 404);
         }
     }
     /**
@@ -164,22 +164,22 @@ class TipoEvaluacionController extends Controller
      * )
      */
     public function update(Request $request, $id)
-    { 
-        try{
+    {
+        try {
             $request->validate([
-                'nombre'=>'required|max:32',
-                'descripcion'=>'required|max:252'
+                'nombre' => 'required|max:32',
+                'descripcion' => 'required|max:252'
             ]);
-            $data=$request->only(['nombre','descripcion']);
-        }catch (\Illuminate\Validation\ValidationException $e){
-            return response()->json(['contenido'=>$e->errors()], 422);
+            $data = $request->only(['nombre', 'descripcion']);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['contenido' => $e->errors()], 422);
         }
-        $tipo_evaluacion=Tipo_evaluacion::find($id);
-        if($tipo_evaluacion){
+        $tipo_evaluacion = Tipo_evaluacion::find($id);
+        if ($tipo_evaluacion) {
             $tipo_evaluacion->update($data);
-            return response()->json(['contenido'=>'se actualizo el tipo evaluacion'],200);
-        }else{
-            return response()->json(['contenido'=>'id no encontrado'],404);
+            return response()->json(['contenido' => 'se actualizo el tipo evaluacion'], 200);
+        } else {
+            return response()->json(['contenido' => 'id no encontrado'], 404);
         }
     }
 
@@ -216,12 +216,12 @@ class TipoEvaluacionController extends Controller
      */
     public function destroy($id)
     {
-        $tipo_evaluacion=tipo_evaluacion::find($id);
-        if($tipo_evaluacion){
+        $tipo_evaluacion = tipo_evaluacion::find($id);
+        if ($tipo_evaluacion) {
             $tipo_evaluacion->delete();
-            return response()->json(['contenido'=>'eliminado con exito'],200);
-        }else{
-            return response()->json(['contenido'=>'no existe el tipo evaluacion'],404);
+            return response()->json(['contenido' => 'eliminado con exito'], 200);
+        } else {
+            return response()->json(['contenido' => 'no existe el tipo evaluacion'], 404);
         }
     }
 }

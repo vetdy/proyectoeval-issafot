@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Item_planificacion;
+
 class ItemPlanificacionController extends Controller
 {
     /**
@@ -24,8 +25,8 @@ class ItemPlanificacionController extends Controller
      */
     public function index()
     {
-        $item_planificacion=Item_planificacion::all();
-        return response()->json(['contenido'=>compact('item_planificacion')],200);
+        $item_planificacion = Item_planificacion::all();
+        return response()->json(['contenido' => compact('item_planificacion')], 200);
     }
 
     /**
@@ -62,25 +63,25 @@ class ItemPlanificacionController extends Controller
      */
     public function store(Request $request)
     {
-        try{
+        try {
             $request->validate([
-                'nombre'=>'required|max:32',
+                'nombre' => 'required|max:32',
             ]);
-            $item_planificacion=Item_planificacion::create($request->all());
+            $item_planificacion = Item_planificacion::create($request->all());
         } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(['contenido'=>$e->errors()], 422);
+            return response()->json(['contenido' => $e->errors()], 422);
         }
-        return response()->json(['contenido'=>compact('item_planificacion')],200);
+        return response()->json(['contenido' => compact('item_planificacion')], 200);
     }
 
-    
+
     /**
      * Display the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-     /**
+    /**
      * @OA\Get(
      *     path="/api/item_planificacion/{id}",
      *     summary="Mostar un item planificacion",
@@ -108,11 +109,11 @@ class ItemPlanificacionController extends Controller
      */
     public function show($id)
     {
-        $item_planificacion=Item_planificacion::find($id);
-        if($item_planificacion){
-            return response()->json(['contenido'=>compact('item_planificacion')],200);
-        }else{
-            return response()->json(['contenido'=>'id item planificacion no existe'],404);
+        $item_planificacion = Item_planificacion::find($id);
+        if ($item_planificacion) {
+            return response()->json(['contenido' => compact('item_planificacion')], 200);
+        } else {
+            return response()->json(['contenido' => 'id item planificacion no existe'], 404);
         }
     }
 
@@ -159,21 +160,21 @@ class ItemPlanificacionController extends Controller
      * )
      */
     public function update(Request $request, $id)
-    { 
-        try{
+    {
+        try {
             $request->validate([
-                'nombre'=>'nullable|max:32',
+                'nombre' => 'nullable|max:32',
             ]);
-            $data=$request->only(['nombre']);
-        }catch (\Illuminate\Validation\ValidationException $e){
-            return response()->json(['contenido'=>$e->errors()], 422);
+            $data = $request->only(['nombre']);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['contenido' => $e->errors()], 422);
         }
-        $item_planificacion=Item_planificacion::find($id);
-        if($item_planificacion){
+        $item_planificacion = Item_planificacion::find($id);
+        if ($item_planificacion) {
             $item_planificacion->update($data);
-            return response()->json(['contenido'=>'se actualizo la item planificacion'],200);
-        }else{
-            return response()->json(['contenido'=>'id no encontrado'],404);
+            return response()->json(['contenido' => 'se actualizo la item planificacion'], 200);
+        } else {
+            return response()->json(['contenido' => 'id no encontrado'], 404);
         }
     }
 
@@ -211,12 +212,12 @@ class ItemPlanificacionController extends Controller
      */
     public function destroy($id)
     {
-        $item_planificacion=Item_planificacion::find($id);
-        if($item_planificacion){
+        $item_planificacion = Item_planificacion::find($id);
+        if ($item_planificacion) {
             $item_planificacion->delete();
-            return response()->json(['contenido'=>'eliminado con exito'],200);
-        }else{
-            return response()->json(['contenido'=>'no existe el item planificacion'],404);
+            return response()->json(['contenido' => 'eliminado con exito'], 200);
+        } else {
+            return response()->json(['contenido' => 'no existe el item planificacion'], 404);
         }
     }
 }

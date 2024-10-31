@@ -29,9 +29,9 @@ class PlanificacionController extends Controller
      */
     public function index()
     {
-        $planificacion=Planificacion::all();
-        
-        return response()->json(['contenido'=>compact('planificacion')],200);
+        $planificacion = Planificacion::all();
+
+        return response()->json(['contenido' => compact('planificacion')], 200);
     }
 
     /**
@@ -68,22 +68,22 @@ class PlanificacionController extends Controller
      */
     public function store(Request $request)
     {
-        try{
-            $request->validate(['titulo'=>'required|max:64',
-                'dia_revision'=>'required|integer',
-                'hora_revision'=>'required|date_format:H:i',
-                'fecha_inicio'=>'required|date',
-                'fecha_fin'=>'required|date',
-                'id_proyecto_empresa'=>'required|exists:proyecto_empresas,id',
-                ]);
+        try {
+            $request->validate([
+                'titulo' => 'required|max:64',
+                'dia_revision' => 'required|integer',
+                'hora_revision' => 'required|date_format:H:i',
+                'fecha_inicio' => 'required|date',
+                'fecha_fin' => 'required|date',
+                'id_proyecto_empresa' => 'required|exists:proyecto_empresas,id',
+            ]);
             $planificacion = Planificacion::create($request->all());
         } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(['contenido'=>$e->errors()], 422);
+            return response()->json(['contenido' => $e->errors()], 422);
         }
-        $ps=new PlanificacionService();
+        $ps = new PlanificacionService();
         $ps->registarPlanillaSeguimiento($request->all());
-        return response()->json(['contenido'=>'se registro exitosamente la planificacion'],200);
-   
+        return response()->json(['contenido' => 'se registro exitosamente la planificacion'], 200);
     }
 
     /**
@@ -120,12 +120,12 @@ class PlanificacionController extends Controller
      */
     public function show($id)
     {
-        $planificacion=Planificacion::find($id);
-        if($planificacion){
-            return response()->json(['contenido'=>compact('planificacion')],200);
-        }else{
-            return response()->json(['contenido'=>'id Planificacion no existe'],404);}
-        
+        $planificacion = Planificacion::find($id);
+        if ($planificacion) {
+            return response()->json(['contenido' => compact('planificacion')], 200);
+        } else {
+            return response()->json(['contenido' => 'id Planificacion no existe'], 404);
+        }
     }
     /**
      * Update the specified resource in storage.
@@ -173,29 +173,25 @@ class PlanificacionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        try{
-            $request->validate(['titulo'=>'nullable|max:64',
-                'dia_revision'=>'nullable|integer',
-                'hora_revision'=>'nullable|date_format:H:i',
-                'fecha_inicio'=>'nullable|date',
-                'fecha_fin'=>'nullable|date',
-                ]);
+        try {
+            $request->validate([
+                'titulo' => 'nullable|max:64',
+                'dia_revision' => 'nullable|integer',
+                'hora_revision' => 'nullable|date_format:H:i',
+                'fecha_inicio' => 'nullable|date',
+                'fecha_fin' => 'nullable|date',
+            ]);
             $validData = $request->only(['titulo', 'dia_revision', 'hora_revision', 'fecha_inicio', 'fecha_fin']);
-
-            }catch (\Illuminate\Validation\ValidationException $e){
-                return response()->json(['contenido'=>$e->errors()], 422);
-            }
-        $Planificacion=Planificacion::find($id);
-        if($Planificacion){
-            $Planificacion->update($validData);
-            return response()->json(['contenido'=>'se actualizo a la Planificacion con exito'],200);
-    
-        }else{
-            return response()->json(['contenido'=>'el id no existe'],404);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['contenido' => $e->errors()], 422);
         }
- 
-            
-        
+        $Planificacion = Planificacion::find($id);
+        if ($Planificacion) {
+            $Planificacion->update($validData);
+            return response()->json(['contenido' => 'se actualizo a la Planificacion con exito'], 200);
+        } else {
+            return response()->json(['contenido' => 'el id no existe'], 404);
+        }
     }
 
     /**
@@ -231,58 +227,52 @@ class PlanificacionController extends Controller
      */
     public function destroy($id)
     {
-        $planificacion=Planificacion::find($id);
-        if ($planificacion){
+        $planificacion = Planificacion::find($id);
+        if ($planificacion) {
             $planificacion->delete();
-            return response()->json(['contenido'=>'eliminado con exito'],200);
-        }else{
-            return response()->json(['contenido'=>'no existe la Planificacion'],404);
+            return response()->json(['contenido' => 'eliminado con exito'], 200);
+        } else {
+            return response()->json(['contenido' => 'no existe la Planificacion'], 404);
         }
     }
 
     public function storePlanificacionTareas(Request $request)
     {
-        $planifiacionService= new PlanificacionService();
-        try{
-            $request -> validate(
-                ['planificacion.*.titulo'=>'required|max:64',
-                'planificacion.*.tarea.*'=>'required|max:64',
-                'planificacion.*.fecha_inicio'=>'required|date',
-                'planificacion.*.fecha_fin'=>'required|date',
-                'dia_revision'=>'required|integer',
-                'hora_revision'=>'required|date_format:H:i',
-                'id_proyecto_empresa'=>'required|exists:proyecto_empresas,id',]
+        $planifiacionService = new PlanificacionService();
+        try {
+            $request->validate(
+                [
+                    'planificacion.*.titulo' => 'required|max:64',
+                    'planificacion.*.tarea.*' => 'required|max:64',
+                    'planificacion.*.fecha_inicio' => 'required|date',
+                    'planificacion.*.fecha_fin' => 'required|date',
+                    'dia_revision' => 'required|integer',
+                    'hora_revision' => 'required|date_format:H:i',
+                    'id_proyecto_empresa' => 'required|exists:proyecto_empresas,id',
+                ]
             );
-
-        }catch(\Illuminate\Validation\ValidationException $e){
-            return response()->json(['contenido'=>$e->errors()], 422);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['contenido' => $e->errors()], 422);
         }
-        foreach ($request->planificacion as $itemPlanificacion ){
-            
+        foreach ($request->planificacion as $itemPlanificacion) {
+
             $planificacion = new Planificacion();
-            $planificacion->hora_revision=$request['hora_revision'];
-            $planificacion->dia_revision=$request['dia_revision'];
-            $planificacion->titulo=$itemPlanificacion['titulo'];
-            $planificacion->fecha_inicio=$itemPlanificacion['fecha_inicio'];
-            $planificacion->fecha_fin=$itemPlanificacion['fecha_fin'];
-            $planificacion->id_proyecto_empresa=$request['id_proyecto_empresa'];
-            $ps=new PlanificacionService();
-            $ps->registarPlanillaSeguimientoItems($itemPlanificacion,$itemPlanificacion['tarea'],$planificacion->hora_revision,$planificacion->dia_revision,$planificacion->id_proyecto_empresa);
+            $planificacion->hora_revision = $request['hora_revision'];
+            $planificacion->dia_revision = $request['dia_revision'];
+            $planificacion->titulo = $itemPlanificacion['titulo'];
+            $planificacion->fecha_inicio = $itemPlanificacion['fecha_inicio'];
+            $planificacion->fecha_fin = $itemPlanificacion['fecha_fin'];
+            $planificacion->id_proyecto_empresa = $request['id_proyecto_empresa'];
+            $ps = new PlanificacionService();
+            $ps->registarPlanillaSeguimientoItems($itemPlanificacion, $itemPlanificacion['tarea'], $planificacion->hora_revision, $planificacion->dia_revision, $planificacion->id_proyecto_empresa);
             $planificacion->save();
             foreach ($itemPlanificacion['tarea'] as $tareaData) {
-                $tarea=new Item_planificacion();
-                $tarea['nombre']=$tareaData;
-                $tarea['id_planificacion']=$planificacion->id;
-                $tarea ->save();
+                $tarea = new Item_planificacion();
+                $tarea['nombre'] = $tareaData;
+                $tarea['id_planificacion'] = $planificacion->id;
+                $tarea->save();
             }
         }
-        return response()->json(['contenido'=>'se registro exitosamente la planificacion con tareas'],200);
+        return response()->json(['contenido' => 'se registro exitosamente la planificacion con tareas'], 200);
     }
-
-
-
 }
-
-
-
-

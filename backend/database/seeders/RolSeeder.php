@@ -16,16 +16,16 @@ class RolSeeder extends Seeder
     {
         DB::table('rols')->insert([
             [
-                'nombre'=>'docente',
-                'descripcion'=>'persona que se encarga de Tis'
+                'nombre' => 'docente',
+                'descripcion' => 'persona que se encarga de Tis'
             ],
             [
-                'nombre'=>'usuario',
-                'descripcion'=>'persona comun'
+                'nombre' => 'usuario',
+                'descripcion' => 'persona comun'
             ],
             [
-                'nombre'=>'administrador',
-                'descripcion'=>'persona que se encarga de administrar'
+                'nombre' => 'administrador',
+                'descripcion' => 'persona que se encarga de administrar'
             ]
         ]);
     }

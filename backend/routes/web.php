@@ -17,6 +17,3 @@ use App\Http\Controllers\DocenteController;
 Route::get('/', function () {
     return view('welcome');
 });
-
-
-

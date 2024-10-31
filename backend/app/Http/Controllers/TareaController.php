@@ -26,8 +26,8 @@ class TareaController extends Controller
      */
     public function index()
     {
-        $tarea=Tarea::all();
-        return response()->json(['contenido'=>compact('tarea'),200]);
+        $tarea = Tarea::all();
+        return response()->json(['contenido' => compact('tarea'), 200]);
     }
 
     /**
@@ -36,7 +36,7 @@ class TareaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    
+
     /**
      * @OA\Post(
      *     path="/api/tarea",
@@ -65,21 +65,20 @@ class TareaController extends Controller
 
 
 
-     
+
 
     public function store(Request $request)
     {
-        try{
+        try {
             $request->validate([
-                'titulo'=>'required|max:64',
-                'id_evaluacion'=>'required|exists:evaluacions,id'
-                ]);
+                'titulo' => 'required|max:64',
+                'id_evaluacion' => 'required|exists:evaluacions,id'
+            ]);
             $tarea = Tarea::create($request->all());
         } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(['contenido'=>$e->errors()], 422);
+            return response()->json(['contenido' => $e->errors()], 422);
         }
-        return response()->json(['contenido'=>'se registro exitosamente la tarea'],200);
-   
+        return response()->json(['contenido' => 'se registro exitosamente la tarea'], 200);
     }
 
     /**
@@ -116,12 +115,12 @@ class TareaController extends Controller
      */
     public function show($id)
     {
-        $tarea=Tarea::find($id);
-        if($tarea){
-            return response()->json(['contenido'=>compact('tarea')],200);
-        }else{
-            return response()->json(['contenido'=>'id tarea no existe'],404);}
-        
+        $tarea = Tarea::find($id);
+        if ($tarea) {
+            return response()->json(['contenido' => compact('tarea')], 200);
+        } else {
+            return response()->json(['contenido' => 'id tarea no existe'], 404);
+        }
     }
 
     /**
@@ -131,7 +130,7 @@ class TareaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-      /**
+    /**
      * @OA\Put(
      *     path="/api/tarea/{id}",
      *     summary="Actualizar un Tarea",
@@ -169,22 +168,22 @@ class TareaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        try{
-            $request->validate(['terminado'=>'nullable|boolean',
-                'titulo'=>'nullable|max:64',
-                'observacion'=>'nullable|max:255',
-                ]);
-                $data=$request->only(['titulo','observacion']);
-            }catch (\Illuminate\Validation\ValidationException $e){
-                return response()->json(['contenido'=>$e->errors()], 422);
-            }
-        $tarea=Tarea::find($id);
-        if($tarea){
+        try {
+            $request->validate([
+                'terminado' => 'nullable|boolean',
+                'titulo' => 'nullable|max:64',
+                'observacion' => 'nullable|max:255',
+            ]);
+            $data = $request->only(['titulo', 'observacion']);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['contenido' => $e->errors()], 422);
+        }
+        $tarea = Tarea::find($id);
+        if ($tarea) {
             $tarea->update($data);
-            return response()->json(['contenido'=>'se actualizo a la tarea con exito'],200);
-    
-        }else{
-            return response()->json(['contenido'=>'el id no existe'],404);
+            return response()->json(['contenido' => 'se actualizo a la tarea con exito'], 200);
+        } else {
+            return response()->json(['contenido' => 'el id no existe'], 404);
         }
     }
 
@@ -221,12 +220,12 @@ class TareaController extends Controller
      */
     public function destroy($id)
     {
-        $tarea=Tarea::find($id);
-        if ($tarea){
+        $tarea = Tarea::find($id);
+        if ($tarea) {
             $tarea->delete();
-            return response()->json(['contenido'=>'eliminado con exito'],200);
-        }else{
-            return response()->json(['contenido'=>'no existe la tarea'],404);
+            return response()->json(['contenido' => 'eliminado con exito'], 200);
+        } else {
+            return response()->json(['contenido' => 'no existe la tarea'], 404);
         }
     }
 
@@ -237,7 +236,7 @@ class TareaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-      /**
+    /**
      * @OA\Put(
      *     path="/api/tarea/lista",
      *     summary="Actualizar un Tarea",
@@ -264,20 +263,20 @@ class TareaController extends Controller
      */
     public function store_list(Request $request)
     {
-        try{
-            $request->validate(['tareas.*'=>'required|max:32',
-                                'id_evaluacion'=>'required|exists:evaluacions,id']);
-            foreach($request['tareas'] as $tarea ){
-                $ta =new Tarea();
-                $ta->titulo=$tarea;
-                $ta->id_evaluacion=$request['id_evaluacion'];
+        try {
+            $request->validate([
+                'tareas.*' => 'required|max:32',
+                'id_evaluacion' => 'required|exists:evaluacions,id'
+            ]);
+            foreach ($request['tareas'] as $tarea) {
+                $ta = new Tarea();
+                $ta->titulo = $tarea;
+                $ta->id_evaluacion = $request['id_evaluacion'];
                 $ta->save();
             }
-            }catch (\Illuminate\Validation\ValidationException $e){
-                return response()->json(['contenido'=>$e->errors()], 422);
-            }
-            return response()->json(['contenido'=>'Se creo a la tarea con exito'],200);
-    
-        
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['contenido' => $e->errors()], 422);
+        }
+        return response()->json(['contenido' => 'Se creo a la tarea con exito'], 200);
     }
 }

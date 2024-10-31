@@ -26,8 +26,8 @@ class ItemPlanillaController extends Controller
      */
     public function index()
     {
-        $item_planilla=Item_planilla::all();
-        return response()->json(['contenido'=>compact('item_planilla')],200);
+        $item_planilla = Item_planilla::all();
+        return response()->json(['contenido' => compact('item_planilla')], 200);
     }
 
     /**
@@ -62,17 +62,17 @@ class ItemPlanillaController extends Controller
      */
     public function store(Request $request)
     {
-        try{
+        try {
             $request->validate([
-                'titulo'=>'required|max:32',
-                'observacion'=>'required|max:255',
-                'id_planilla_seguimiento'=>'required|exists:planilla_seguimientos,id'
+                'titulo' => 'required|max:32',
+                'observacion' => 'required|max:255',
+                'id_planilla_seguimiento' => 'required|exists:planilla_seguimientos,id'
             ]);
-            $item_planilla=Item_planilla::create($request->all());
+            $item_planilla = Item_planilla::create($request->all());
         } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(['contenido'=>$e->errors()], 422);
+            return response()->json(['contenido' => $e->errors()], 422);
         }
-        return response()->json(['contenido'=>compact('item_planilla')],200);
+        return response()->json(['contenido' => compact('item_planilla')], 200);
     }
 
     /**
@@ -87,7 +87,7 @@ class ItemPlanillaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-     /**
+    /**
      * @OA\Get(
      *     path="/api/item_planilla/{id}",
      *     summary="Mostar un item planilla",
@@ -115,11 +115,11 @@ class ItemPlanillaController extends Controller
      */
     public function show($id)
     {
-        $item_planilla=Item_planilla::find($id);
-        if($item_planilla){
-            return response()->json(['contenido'=>compact('item_planilla')],200);
-        }else{
-            return response()->json(['contenido'=>'id item planilla no existe'],404);
+        $item_planilla = Item_planilla::find($id);
+        if ($item_planilla) {
+            return response()->json(['contenido' => compact('item_planilla')], 200);
+        } else {
+            return response()->json(['contenido' => 'id item planilla no existe'], 404);
         }
     }
 
@@ -130,7 +130,7 @@ class ItemPlanillaController extends Controller
      * @param  \App\Models\item_planilla  $item_planilla
      * @return \Illuminate\Http\Response
      */
-     /**
+    /**
      * @OA\Put(
      *     path="/api/item_planilla/{id}",
      *     summary="Actualizar un item planilla",
@@ -166,23 +166,23 @@ class ItemPlanillaController extends Controller
      * )
      */
     public function update(Request $request, $id)
-    { 
-        try{
+    {
+        try {
             $request->validate([
-                'titulo'=>'nullable|max:32',
-                'observacion'=>'nulltable|max:255',
-            
+                'titulo' => 'nullable|max:32',
+                'observacion' => 'nulltable|max:255',
+
             ]);
-            $data=$request->only(['titulo','observacion',]);
-        }catch (\Illuminate\Validation\ValidationException $e){
-            return response()->json(['contenido'=>$e->errors()], 422);
+            $data = $request->only(['titulo', 'observacion',]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['contenido' => $e->errors()], 422);
         }
-        $item_planilla=Item_planilla::find($id);
-        if($item_planilla){
+        $item_planilla = Item_planilla::find($id);
+        if ($item_planilla) {
             $item_planilla->update($data);
-            return response()->json(['contenido'=>'se actualizo la item planilla'],200);
-        }else{
-            return response()->json(['contenido'=>'id no encontrado'],404);
+            return response()->json(['contenido' => 'se actualizo la item planilla'], 200);
+        } else {
+            return response()->json(['contenido' => 'id no encontrado'], 404);
         }
     }
 
@@ -219,12 +219,12 @@ class ItemPlanillaController extends Controller
      */
     public function destroy($id)
     {
-        $item_planilla=Item_planilla::find($id);
-        if($item_planilla){
+        $item_planilla = Item_planilla::find($id);
+        if ($item_planilla) {
             $item_planilla->delete();
-            return response()->json(['contenido'=>'eliminado con exito'],200);
-        }else{
-            return response()->json(['contenido'=>'no existe el item planilla'],404);
+            return response()->json(['contenido' => 'eliminado con exito'], 200);
+        } else {
+            return response()->json(['contenido' => 'no existe el item planilla'], 404);
         }
     }
 
@@ -262,12 +262,11 @@ class ItemPlanillaController extends Controller
      */
     public function show_planilla_seguimiento($id)
     {
-        $item_planilla=Item_planilla::where('id_planilla_seguimiento', $id)->get();
-        if(!$item_planilla->isEmpty()){
-            return response()->json(['contenido'=>compact('item_planilla')],200);
-        }else{
-            return response()->json(['contenido'=>'id planilla seguimiento no existe'],404);
+        $item_planilla = Item_planilla::where('id_planilla_seguimiento', $id)->get();
+        if (!$item_planilla->isEmpty()) {
+            return response()->json(['contenido' => compact('item_planilla')], 200);
+        } else {
+            return response()->json(['contenido' => 'id planilla seguimiento no existe'], 404);
         }
-        
     }
 }

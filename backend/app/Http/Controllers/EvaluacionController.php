@@ -30,9 +30,9 @@ class EvaluacionController extends Controller
      */
     public function index()
     {
-        
-        $evaluacion=Evaluacion::all();
-        return response()->json(['contenido'=>compact('evaluacion')],200);
+
+        $evaluacion = Evaluacion::all();
+        return response()->json(['contenido' => compact('evaluacion')], 200);
     }
 
     /**
@@ -71,21 +71,21 @@ class EvaluacionController extends Controller
      */
     public function store(Request $request)
     {
-        try{
-            $request->validate(['titulo'=>'required|max:64',
-                'fecha_revision'=>'required|date',
-                'hora_revision'=>'required|date_format:H:i',
-                'concluido'=>'required|boolean',
-                'nota'=>'required|integer',
-                'id_empresa'=>'required|exists:empresas,id',
-                'id_tipo_evaluacion'=>'required|exists:tipo_evaluacions,id',
-                ]);
+        try {
+            $request->validate([
+                'titulo' => 'required|max:64',
+                'fecha_revision' => 'required|date',
+                'hora_revision' => 'required|date_format:H:i',
+                'concluido' => 'required|boolean',
+                'nota' => 'required|integer',
+                'id_empresa' => 'required|exists:empresas,id',
+                'id_tipo_evaluacion' => 'required|exists:tipo_evaluacions,id',
+            ]);
             $evaluacion = Evaluacion::create($request->all());
         } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(['contenido'=>$e->errors()], 422);
+            return response()->json(['contenido' => $e->errors()], 422);
         }
-        return response()->json(['contenido'=>'se registro exitosamente la evaluacion'],200);
-   
+        return response()->json(['contenido' => 'se registro exitosamente la evaluacion'], 200);
     }
     /**
      * Display the specified resource.
@@ -127,12 +127,12 @@ class EvaluacionController extends Controller
      */
     public function show($id)
     {
-        $evaluacion=Evaluacion::find($id);
-        if($evaluacion){
-            return response()->json(['contenido'=>compact('evaluacion')],200);
-        }else{
-            return response()->json(['contenido'=>'id evaluacion no existe'],404);}
-        
+        $evaluacion = Evaluacion::find($id);
+        if ($evaluacion) {
+            return response()->json(['contenido' => compact('evaluacion')], 200);
+        } else {
+            return response()->json(['contenido' => 'id evaluacion no existe'], 404);
+        }
     }
     /**
      * Update the specified resource in storage.
@@ -182,28 +182,25 @@ class EvaluacionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        try{
-            $request->validate(['titulo'=>'nullable|max:64',
-                'fecha_revision'=>'nullable|date',
-                'hora_revision'=>'nullable|date_format:H:i',
-                'concluido'=>'nullable|boolean',
-                'nota'=>'nullable|integer',
-                'id_tipo_evaluacion'=>'nullable|exists:tipo_evaluacions,id',
-                ]);
-            }catch (\Illuminate\Validation\ValidationException $e){
-                return response()->json(['contenido'=>$e->errors()], 422);
-            }
-        $evaluacion=evaluacion::find($id);
-        if($evaluacion){
-            $evaluacion->update($request->all());
-            return response()->json(['contenido'=>'se actualizo a la evaluacion con exito'],200);
-    
-        }else{
-            return response()->json(['contenido'=>'el id no existe'],404);
+        try {
+            $request->validate([
+                'titulo' => 'nullable|max:64',
+                'fecha_revision' => 'nullable|date',
+                'hora_revision' => 'nullable|date_format:H:i',
+                'concluido' => 'nullable|boolean',
+                'nota' => 'nullable|integer',
+                'id_tipo_evaluacion' => 'nullable|exists:tipo_evaluacions,id',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['contenido' => $e->errors()], 422);
         }
- 
-            
-        
+        $evaluacion = evaluacion::find($id);
+        if ($evaluacion) {
+            $evaluacion->update($request->all());
+            return response()->json(['contenido' => 'se actualizo a la evaluacion con exito'], 200);
+        } else {
+            return response()->json(['contenido' => 'el id no existe'], 404);
+        }
     }
 
     /**
@@ -239,12 +236,12 @@ class EvaluacionController extends Controller
      */
     public function destroy($id)
     {
-        $evaluacion=Evaluacion::find($id);
-        if ($evaluacion){
+        $evaluacion = Evaluacion::find($id);
+        if ($evaluacion) {
             $evaluacion->delete();
-            return response()->json(['contenido'=>'eliminado con exito'],200);
-        }else{
-            return response()->json(['contenido'=>'no existe la evaluacion'],404);
+            return response()->json(['contenido' => 'eliminado con exito'], 200);
+        } else {
+            return response()->json(['contenido' => 'no existe la evaluacion'], 404);
         }
     }
     /**
@@ -276,13 +273,12 @@ class EvaluacionController extends Controller
 
     public function indexEmpresa($id)
     {
-        $evaluacion=Evaluacion::where('id_empresa', $id)->get();
-        if(!$evaluacion->isEmpty()){ 
-            return response()->json(['contenido'=>compact('evaluacion')],200);
-        }else{
-            return response()->json(['contenido'=>'no existe la evaluacion'],404);
+        $evaluacion = Evaluacion::where('id_empresa', $id)->get();
+        if (!$evaluacion->isEmpty()) {
+            return response()->json(['contenido' => compact('evaluacion')], 200);
+        } else {
+            return response()->json(['contenido' => 'no existe la evaluacion'], 404);
         }
-        
     }
 
     /**
@@ -311,35 +307,35 @@ class EvaluacionController extends Controller
      * 
      * )
      */
-    public function show_semanal($idUsuario){
-        
-        $proyectos=Proyecto::where('id_creado_por',$idUsuario)->get();
-        if(!$proyectos->isEmpty()){
-            $evaluacions=[];
-            foreach ($proyectos as $proyecto){
-                $protectoEmpresa= Proyecto_empresa::where('id_proyecto',$proyecto->id)->get();
-                foreach($protectoEmpresa as $proyect){
-                    $usuario=Evaluacion::where('id_empresa',$proyect->id_empresa)->get();
-                    foreach ($usuario as $usua){
-                        
+    public function show_semanal($idUsuario)
+    {
+
+        $proyectos = Proyecto::where('id_creado_por', $idUsuario)->get();
+        if (!$proyectos->isEmpty()) {
+            $evaluacions = [];
+            foreach ($proyectos as $proyecto) {
+                $protectoEmpresa = Proyecto_empresa::where('id_proyecto', $proyecto->id)->get();
+                foreach ($protectoEmpresa as $proyect) {
+                    $usuario = Evaluacion::where('id_empresa', $proyect->id_empresa)->get();
+                    foreach ($usuario as $usua) {
+
                         $fechaActual = Carbon::now();
                         // Calcula el inicio de la semana (lunes) y el fin de la semana (domingo)
                         $inicioDeSemana = $fechaActual->copy()->startOfWeek();
                         $finDeSemana = $fechaActual->copy()->endOfWeek();
                         $fecha_a_verificar = Carbon::parse($usua->fecha_revision);
-                        if($fecha_a_verificar->between($inicioDeSemana, $finDeSemana)){
-                            
-                            $nombre_empresa= Empresa::find($proyect->id_empresa)->nombre_corto;
-                            $usua->nombre_empresa=$nombre_empresa;
-                            $evaluacions[]=$usua;
+                        if ($fecha_a_verificar->between($inicioDeSemana, $finDeSemana)) {
+
+                            $nombre_empresa = Empresa::find($proyect->id_empresa)->nombre_corto;
+                            $usua->nombre_empresa = $nombre_empresa;
+                            $evaluacions[] = $usua;
                         }
                     }
                 }
             }
-            return response()->json(['contenido'=>compact('evaluacions')],200); 
-        }else{
-            return response()->json(['contenido'=>'el usuario no tiene Proyectos activos'],404);
+            return response()->json(['contenido' => compact('evaluacions')], 200);
+        } else {
+            return response()->json(['contenido' => 'el usuario no tiene Proyectos activos'], 404);
         }
-        
     }
 }
