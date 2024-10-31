@@ -52,9 +52,9 @@ Route::controller(PlanillaSeguimientoController::class)->group(function () {
     Route::put('/planilla_seguimiento/{id}', 'update');
     Route::delete('/planilla_seguimiento/{id}', 'destroy');
 
-    Route::get('/planilla_seguimiento/empresa/{id}','show_empresa');
-    Route::get('/planilla_seguimiento/semana/{idUsuario}','show_semanal');
-    Route::get('/planilla_seguimiento/asistencia/{id}','show_asistencia');
+    Route::get('/planilla_seguimiento/empresa/{id}', 'show_empresa');
+    Route::get('/planilla_seguimiento/semana/{idUsuario}', 'show_semanal');
+    Route::get('/planilla_seguimiento/asistencia/{id}', 'show_asistencia');
 });
 
 Route::controller(ItemPlanillaController::class)->group(function () {
@@ -64,7 +64,7 @@ Route::controller(ItemPlanillaController::class)->group(function () {
     Route::put('/item_planilla/{id}', 'update');
     Route::delete('/item_planilla/{id}', 'destroy');
 
-    Route::get('/item_planilla/planilla_seguimiento/{id}','show_planilla_seguimiento');
+    Route::get('/item_planilla/planilla_seguimiento/{id}', 'show_planilla_seguimiento');
 });
 
 Route::controller(TareaController::class)->group(function () {
@@ -105,7 +105,7 @@ Route::controller(EvaluacionController::class)->group(function () {
     Route::delete('/evaluacion/{id}', 'destroy');
 
     Route::get('/evaluacion/empresa/{id}', 'indexEmpresa');
-    Route::get('/evaluacion/semana/{idUsuario}','show_semanal');
+    Route::get('/evaluacion/semana/{idUsuario}', 'show_semanal');
 });
 
 Route::controller(TipoEvaluacionController::class)->group(function () {

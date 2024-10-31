@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use App\Models\Empresa;
 use App\Models\Socio_empresa;
@@ -28,8 +29,8 @@ class EmpresaController extends Controller
      */
     public function index()
     {
-        $empresa=Empresa::all();
-        return response()->json(['contenido'=>compact('empresa')],200);
+        $empresa = Empresa::all();
+        return response()->json(['contenido' => compact('empresa')], 200);
     }
 
     /**
@@ -67,57 +68,58 @@ class EmpresaController extends Controller
      */
     public function store(Request $request)
     {
-        
 
-        try{
+
+        try {
             $request->validate([
-                'nombre_corto'=>'required|max:64|unique:empresas',
-                'nombre_largo'=>'required|max:128|unique:empresas',
-                'telefono'=>'required|max:64',
-                'correo'=>'required|max:64',
+                'nombre_corto' => 'required|max:64|unique:empresas',
+                'nombre_largo' => 'required|max:128|unique:empresas',
+                'telefono' => 'required|max:64',
+                'correo' => 'required|max:64',
                 'id_usuario' => [
-                'required',
-                'integer',
-                Rule::unique('socio_empresas', 'id_usuario')->where(function ($query) {
-                    $query->where('activo', true);
-                }),
-                Rule::exists('usuarios', 'id')->where(function ($query) {
-                $query->where('id_rol', 2);})],
+                    'required',
+                    'integer',
+                    Rule::unique('socio_empresas', 'id_usuario')->where(function ($query) {
+                        $query->where('activo', true);
+                    }),
+                    Rule::exists('usuarios', 'id')->where(function ($query) {
+                        $query->where('id_rol', 2);
+                    })
+                ],
                 'imagen' => 'required|string',
             ]);
-            
-          
-// Crear Empresa
+
+
+            // Crear Empresa
             $empresa = new Empresa();
-            $empresaService=new EmpresaService();
-            $archivo=$request->input('imagen');
-            $rutaPublica=$empresaService->storeImage($archivo,$request->input('nombre_corto'),null);
-            if ($rutaPublica){
+            $empresaService = new EmpresaService();
+            $archivo = $request->input('imagen');
+            $rutaPublica = $empresaService->storeImage($archivo, $request->input('nombre_corto'), null);
+            if ($rutaPublica) {
                 $empresa->url_logo = $rutaPublica;
-            }else{
-                return response()->json(['contenido'=>'no se pudo guardar la imagen'],422);
+            } else {
+                return response()->json(['contenido' => 'no se pudo guardar la imagen'], 422);
             }
-        
-            
+
+
             $empresa->nombre_corto = $request->input('nombre_corto');
             $empresa->nombre_largo = $request->input('nombre_largo');
             $empresa->telefono = $request->input('telefono');
-            $empresa->correo= $request->input('correo');
-            $empresa->id_representante_legal = $request->input('id_usuario'); 
+            $empresa->correo = $request->input('correo');
+            $empresa->id_representante_legal = $request->input('id_usuario');
             $empresa->save();
 
 
-            
+
             $socio_empresa = new Socio_empresa();
             $socio_empresa->id_usuario = $request->input('id_usuario');
             $socio_empresa->id_empresa = $empresa->id;
             $socio_empresa->save();
         } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(['contenido'=>$e->errors()],422);
+            return response()->json(['contenido' => $e->errors()], 422);
         }
-        
-        return response()->json(['contenido'=>'se registro la empresa con exito'],200);
-        
+
+        return response()->json(['contenido' => 'se registro la empresa con exito'], 200);
     }
 
     /**
@@ -154,13 +156,12 @@ class EmpresaController extends Controller
      */
     public function show($id)
     {
-        $empresa=Empresa::find($id);
-        if ($empresa){
-            return response()->json(['contendido'=>compact('empresa')],200);
-        }else{
-            return response()->json(['contenido'=>'no se encontro el id'],404);
-        }  
-        
+        $empresa = Empresa::find($id);
+        if ($empresa) {
+            return response()->json(['contendido' => compact('empresa')], 200);
+        } else {
+            return response()->json(['contenido' => 'no se encontro el id'], 404);
+        }
     }
 
     /**
@@ -171,7 +172,7 @@ class EmpresaController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     /**
+    /**
      * @OA\Put(
      *     path="/api/empresa/{id}",
      *     summary="Actualizar una empresa",
@@ -213,25 +214,25 @@ class EmpresaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        try{
+        try {
             $request->validate([
-                'nombre_corto'=>'nullable|max:64|unique:empresas,nombre_corto',
-                'nombre_largo'=>'nullable|max:64|unique:empresas,nombre_largo',
-                'telefono'=>'nullable|max:64',
-                'correo'=>'nullable|max:64',
-                'url_logo'=>'nullable|max:64',
+                'nombre_corto' => 'nullable|max:64|unique:empresas,nombre_corto',
+                'nombre_largo' => 'nullable|max:64|unique:empresas,nombre_largo',
+                'telefono' => 'nullable|max:64',
+                'correo' => 'nullable|max:64',
+                'url_logo' => 'nullable|max:64',
             ]);
-            $data=$request->only(['nombre_corto','nombre_largo','telefono','correo','url_logo']);
-        }catch (\Illuminate\Validation\ValidationException $e){
-            return response()->json(['contenido'=>$e->errors()], 422);
+            $data = $request->only(['nombre_corto', 'nombre_largo', 'telefono', 'correo', 'url_logo']);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['contenido' => $e->errors()], 422);
         }
-        $empresa=Empresa::find($id);
-        if ($empresa){
+        $empresa = Empresa::find($id);
+        if ($empresa) {
             $empresa->update($data);
-            return response()->json(['contenido'=>'se actualizo a la empresa con exito'],200);
-        }else{
-            return response()->json(['contenido'=>'no se encontro el id'],404);
-        }   
+            return response()->json(['contenido' => 'se actualizo a la empresa con exito'], 200);
+        } else {
+            return response()->json(['contenido' => 'no se encontro el id'], 404);
+        }
     }
 
     /**
@@ -267,15 +268,12 @@ class EmpresaController extends Controller
      */
     public function destroy($id)
     {
-        $empresa=Empresa::find($id);
-        if ($empresa){
+        $empresa = Empresa::find($id);
+        if ($empresa) {
             $empresa->delete();
-            return response()->json(['contenido'=>'se elimino con exito'],200);
-        }else{
-            return response()->json(['contenido'=>'no existe la empresa'],404);
+            return response()->json(['contenido' => 'se elimino con exito'], 200);
+        } else {
+            return response()->json(['contenido' => 'no existe la empresa'], 404);
         }
     }
-
 }
-
-

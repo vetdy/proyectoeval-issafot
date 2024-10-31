@@ -9,10 +9,11 @@ use Illuminate\Database\Eloquent\Builder;
 class Docente extends Model
 {
     use HasFactory;
-    protected $table='usuarios';
+    protected $table = 'usuarios';
     protected $primaryKey = 'id';
-    protected $fillable = ['nombre','apellido','codigo_sis','email','telefono','contrasena'];
-    public function id_rol(){
+    protected $fillable = ['nombre', 'apellido', 'codigo_sis', 'email', 'telefono', 'contrasena'];
+    public function id_rol()
+    {
         return $this->hasOne(Socio_empresa::class);
     }
     protected static function booted()

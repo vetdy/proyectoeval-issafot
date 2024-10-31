@@ -14,84 +14,84 @@ class PlanillaSeeder extends Seeder
      */
     public function run()
     {
-        
+
         DB::table('planilla_seguimientos')->insert([
             [
-                'titulo'=>'presencial',
-                'fecha_revision'=>'2019/10/28',
-                'hora_revision'=>'18:00',
-                'id_proyecto_empresa'=>'1'
+                'titulo' => 'presencial',
+                'fecha_revision' => '2019/10/28',
+                'hora_revision' => '18:00',
+                'id_proyecto_empresa' => '1'
             ],
             [
-                'titulo'=>'revision 1',
-                'fecha_revision'=>'2019/10/28',
-                'hora_revision'=>'18:00',
-                'id_proyecto_empresa'=>'1'
+                'titulo' => 'revision 1',
+                'fecha_revision' => '2019/10/28',
+                'hora_revision' => '18:00',
+                'id_proyecto_empresa' => '1'
             ],
             [
-                'titulo'=>'revision 2',
-                'fecha_revision'=>'2019/10/28',
-                'hora_revision'=>'18:00',
-                'id_proyecto_empresa'=>'1'
+                'titulo' => 'revision 2',
+                'fecha_revision' => '2019/10/28',
+                'hora_revision' => '18:00',
+                'id_proyecto_empresa' => '1'
             ],
             [
-                'titulo'=>'presencial',
-                'fecha_revision'=>'2019/10/28',
-                'hora_revision'=>'18:00',
-                'id_proyecto_empresa'=>'2'
+                'titulo' => 'presencial',
+                'fecha_revision' => '2019/10/28',
+                'hora_revision' => '18:00',
+                'id_proyecto_empresa' => '2'
             ],
             [
-                'titulo'=>'revision 1',
-                'fecha_revision'=>'2019/10/28',
-                'hora_revision'=>'18:00',
-                'id_proyecto_empresa'=>'2'
+                'titulo' => 'revision 1',
+                'fecha_revision' => '2019/10/28',
+                'hora_revision' => '18:00',
+                'id_proyecto_empresa' => '2'
             ],
             [
-                'titulo'=>'revision 2',
-                'fecha_revision'=>'2019/10/28',
-                'hora_revision'=>'18:00',
-                'id_proyecto_empresa'=>'2'
+                'titulo' => 'revision 2',
+                'fecha_revision' => '2019/10/28',
+                'hora_revision' => '18:00',
+                'id_proyecto_empresa' => '2'
             ],
 
         ]);
         DB::table('item_planillas')->insert([
             [
-                'titulo'=>'product backlog',
-                'id_planilla_seguimiento'=>'1',
+                'titulo' => 'product backlog',
+                'id_planilla_seguimiento' => '1',
             ],
             [
-                'titulo'=>'historias de usuario revisadas',
-                'id_planilla_seguimiento'=>'1'
+                'titulo' => 'historias de usuario revisadas',
+                'id_planilla_seguimiento' => '1'
             ],
             [
-                'titulo'=>'Sprint backlog',
-                'id_planilla_seguimiento'=>'1'
+                'titulo' => 'Sprint backlog',
+                'id_planilla_seguimiento' => '1'
             ],
             [
-                'titulo'=>'product backlog',
-                'id_planilla_seguimiento'=>'2'
+                'titulo' => 'product backlog',
+                'id_planilla_seguimiento' => '2'
             ],
             [
-                'titulo'=>'historias de usuario revisadas',
-                'id_planilla_seguimiento'=>'2'
+                'titulo' => 'historias de usuario revisadas',
+                'id_planilla_seguimiento' => '2'
             ],
             [
-                'titulo'=>'Sprint backlog',
-                'id_planilla_seguimiento'=>'2'
+                'titulo' => 'Sprint backlog',
+                'id_planilla_seguimiento' => '2'
             ],
             [
-                'titulo'=>'product backlog',
-                'id_planilla_seguimiento'=>'3'
+                'titulo' => 'product backlog',
+                'id_planilla_seguimiento' => '3'
             ],
             [
-                'titulo'=>'historias de usuario revisadas',
-                'id_planilla_seguimiento'=>'3'
+                'titulo' => 'historias de usuario revisadas',
+                'id_planilla_seguimiento' => '3'
             ],
             [
-                'titulo'=>'Sprint backlog',
-                'id_planilla_seguimiento'=>'3'
+                'titulo' => 'Sprint backlog',
+                'id_planilla_seguimiento' => '3'
             ],
-            
+
         ]);
     }
 }

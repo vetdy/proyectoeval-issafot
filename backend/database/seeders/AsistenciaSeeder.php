@@ -16,43 +16,43 @@ class AsistenciaSeeder extends Seeder
     {
         DB::table('asistencia_planilla_seguimiento')->insert([
             [
-                'presente'=>true,
-                'observacion'=>'en la presencia de cara cara',
-                'id_planilla_seguimiento'=>2,
-                'id_usuario'=>1
+                'presente' => true,
+                'observacion' => 'en la presencia de cara cara',
+                'id_planilla_seguimiento' => 2,
+                'id_usuario' => 1
             ],
             [
-                'presente'=>false,
-                'observacion'=>'en la presencia de cara cara',
-                'id_planilla_seguimiento'=>2,
-                'id_usuario'=>2
+                'presente' => false,
+                'observacion' => 'en la presencia de cara cara',
+                'id_planilla_seguimiento' => 2,
+                'id_usuario' => 2
             ],
             [
-                'presente'=>false,
-                'observacion'=>'en la presencia de cara cara',
-                'id_planilla_seguimiento'=>2,
-                'id_usuario'=>3
+                'presente' => false,
+                'observacion' => 'en la presencia de cara cara',
+                'id_planilla_seguimiento' => 2,
+                'id_usuario' => 3
             ],
         ]);
 
         DB::table('asistencia_evaluacion')->insert([
             [
-                'presente'=>true,
-                'observacion'=>'en la presencia de cara cara',
-                'id_evaluacion'=>2,
-                'id_usuario'=>1
+                'presente' => true,
+                'observacion' => 'en la presencia de cara cara',
+                'id_evaluacion' => 2,
+                'id_usuario' => 1
             ],
             [
-                'presente'=>false,
-                'observacion'=>'en la presencia de cara cara',
-                'id_evaluacion'=>2,
-                'id_usuario'=>2
+                'presente' => false,
+                'observacion' => 'en la presencia de cara cara',
+                'id_evaluacion' => 2,
+                'id_usuario' => 2
             ],
             [
-                'presente'=>false,
-                'observacion'=>'en la presencia de cara cara',
-                'id_evaluacion'=>2,
-                'id_usuario'=>3
+                'presente' => false,
+                'observacion' => 'en la presencia de cara cara',
+                'id_evaluacion' => 2,
+                'id_usuario' => 3
             ],
         ]);
     }

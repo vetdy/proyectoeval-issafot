@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Docente;
 use Illuminate\Support\Facades\Log;
+
 /**
-* @OA\Info(title="API proyecto EVA", version="1.0")
-*
-* @OA\Server(url="http://127.0.0.1:8000")
-*/
+ * @OA\Info(title="API proyecto EVA", version="1.0")
+ *
+ * @OA\Server(url="http://127.0.0.1:8000")
+ */
 class DocenteController extends Controller
 {
     /**
@@ -31,9 +32,9 @@ class DocenteController extends Controller
      */
     public function index()
     {
-        
-        $docentes=Docente::all();
-        return response()->json(['contenido'=>compact('docentes')],200);
+
+        $docentes = Docente::all();
+        return response()->json(['contenido' => compact('docentes')], 200);
     }
 
     /**
@@ -65,53 +66,52 @@ class DocenteController extends Controller
      * )
      */
     public function store(Request $request)
-{
-    Log::info('Datos recibidos:', $request->all());
+    {
+        Log::info('Datos recibidos:', $request->all());
 
 
-    try {
-        // Validación de los campos
-        $validator = $request->validate([
-            'nombre' => 'required|max:32',
-            'apellido' => 'required|max:32',
-            'codigo_sis' => 'required|digits:9|unique:usuarios,codigo_sis', 
-            'correo' => 'required|email|max:32|unique:usuarios,correo', 
-            'telefono' => 'required|max:32',
-            'contrasena' => 'required|max:225',
-        ]);
-    } catch (\Illuminate\Validation\ValidationException $e) {
-        // Devuelve los errores de validación, incluyendo duplicados
-        return response()->json([
-            'contenido' => $e->errors(),
-        ], 422);
+        try {
+            // Validación de los campos
+            $validator = $request->validate([
+                'nombre' => 'required|max:32',
+                'apellido' => 'required|max:32',
+                'codigo_sis' => 'required|digits:9|unique:usuarios,codigo_sis',
+                'correo' => 'required|email|max:32|unique:usuarios,correo',
+                'telefono' => 'required|max:32',
+                'contrasena' => 'required|max:225',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Devuelve los errores de validación, incluyendo duplicados
+            return response()->json([
+                'contenido' => $e->errors(),
+            ], 422);
+        }
+
+        try {
+            // Crear el nuevo registro de docente
+
+            $docente = new Docente();
+            $docente->nombre = $request['nombre'];
+            $docente->apellido = $request['apellido'];
+            $docente->codigo_sis = $request['codigo_sis'];
+            $docente->correo = $request['correo'];
+            $docente->telefono = $request['telefono'];
+            $docente->id_rol = 1; // El usuario docente tiene id 1
+            $docente->contrasena = bcrypt($request['contrasena']);
+            $docente->save();
+
+            // Respuesta de éxito
+            return response()->json([
+                'contenido' => 'Se registró exitosamente el docente',
+            ], 200);
+        } catch (\Exception $e) {
+            // Captura errores inesperados y devuelve una respuesta genérica
+            Log::error('Error al registrar docente: ' . $e->getMessage());
+            return response()->json([
+                'contenido' => 'Ocurrió un error al registrar el docente. Inténtelo de nuevo más tarde.',
+            ], 500);
+        }
     }
-
-    try {
-        // Crear el nuevo registro de docente
-
-        $docente = new Docente();
-        $docente->nombre = $request['nombre'];
-        $docente->apellido = $request['apellido'];
-        $docente->codigo_sis = $request['codigo_sis'];
-        $docente->correo = $request['correo'];
-        $docente->telefono = $request['telefono'];
-        $docente->id_rol = 1; // El usuario docente tiene id 1
-        $docente->contrasena = bcrypt($request['contrasena']);
-        $docente->save();
-
-        // Respuesta de éxito
-        return response()->json([
-            'contenido' => 'Se registró exitosamente el docente',
-        ], 200);
-
-    } catch (\Exception $e) {
-        // Captura errores inesperados y devuelve una respuesta genérica
-        Log::error('Error al registrar docente: ' . $e->getMessage());
-        return response()->json([
-            'contenido' => 'Ocurrió un error al registrar el docente. Inténtelo de nuevo más tarde.',
-        ], 500);
-    }
-}
 
 
     /**
@@ -120,7 +120,7 @@ class DocenteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-     /**
+    /**
      * @OA\Get(
      *     path="/api/docente/{id}",
      *     summary="Mostar un docente",
@@ -149,11 +149,10 @@ class DocenteController extends Controller
     public function show($id)
     {
         $docente = Docente::find($id);
-        if ($docente){
-            return response()->json(['contenido'=>compact('docente')],200);
-        }
-        else{
-            return response()->json(['contenido'=>'id docente no existe'],404);
+        if ($docente) {
+            return response()->json(['contenido' => compact('docente')], 200);
+        } else {
+            return response()->json(['contenido' => 'id docente no existe'], 404);
         }
     }
 
@@ -165,7 +164,7 @@ class DocenteController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-      /**
+    /**
      * @OA\Put(
      *     path="/api/docente/{id}",
      *     summary="Actualizar un docente",
@@ -207,27 +206,26 @@ class DocenteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        try{
+        try {
             $request->validate([
                 'nombre' => 'nullable|max:64',
                 'apellido' => 'nullable|max:64',
-                'codigo_sis' => 'nullable|digits:9|unique:usuarios,codigo_sis', 
+                'codigo_sis' => 'nullable|digits:9|unique:usuarios,codigo_sis',
                 'correo' => 'nullable|email|max:32|unique:usuarios,correo',
-                'telefono'=>'nullable|max:32',
+                'telefono' => 'nullable|max:32',
                 'contrasena' => 'nullable|max:225',
             ]);
-            $data=$request->only(['nombre','apellido','codigo_sis','correo','telefono','contrasena']);
-        }catch (\Illuminate\Validation\ValidationException $e){
-            return response()->json(['contenido'=>$e->errors()], 422);
-        }        
-            $docente = Docente::find($id);
-            if (!$docente){
-                return response()->json(['contenido'=>'no se encontro el id'],404);
-            }else{
-                $docente->update($data);
-                return response()->json(['contenido'=>'se actualizo con exito'],200);
-            }
-        
+            $data = $request->only(['nombre', 'apellido', 'codigo_sis', 'correo', 'telefono', 'contrasena']);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['contenido' => $e->errors()], 422);
+        }
+        $docente = Docente::find($id);
+        if (!$docente) {
+            return response()->json(['contenido' => 'no se encontro el id'], 404);
+        } else {
+            $docente->update($data);
+            return response()->json(['contenido' => 'se actualizo con exito'], 200);
+        }
     }
 
     /**
@@ -264,11 +262,11 @@ class DocenteController extends Controller
     public function destroy($id)
     {
         $docente = Docente::find($id);
-        if (!$docente){
-            return response()->json(['contenido'=>'no se encontro el id'],404);
-        }else{
+        if (!$docente) {
+            return response()->json(['contenido' => 'no se encontro el id'], 404);
+        } else {
             $docente->delete();
-            return response()->json(['contenido'=>'se elimino con exito'],200);
+            return response()->json(['contenido' => 'se elimino con exito'], 200);
         }
     }
 }
