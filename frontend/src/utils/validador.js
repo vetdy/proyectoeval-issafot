@@ -1,3 +1,8 @@
+export const regexAlfaNum = /^[\p{L}\d]+( [\p{L}\d]+)*\s?$/u;
+export const regexAlfabet = /^[\p{L}]+( [\p{L}]+)*\s?$/u;
+export const regexNum = /^\d+$/;
+export const regexCorreo = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
 export const longitud = (cadena="", n=0, m=0) =>{
     if (n < 1 || m < 1){
         return false;
@@ -12,19 +17,19 @@ export const longitud = (cadena="", n=0, m=0) =>{
 }
 
 export const alfanumerico = (cadena="") =>{
-    return /^[\p{L}\d]+( [\p{L}\d]+)*$/u.test(cadena);
+    return regexAlfaNum.test(cadena);
 }
 
 export const alfabetico = (cadena="") => {
-    return /^[\p{L}]+( [\p{L}]+)*$/u.test(cadena);
+    return regexAlfabet.test(cadena);
 }
 
 export const numerico = (cadena="") => {
-    return /^\d+$/.test(cadena);
+    return regexNum.test(cadena);
 }
 
 export const correo = (correo="") =>{
-    return /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(correo);
+    return regexCorreo.test(correo);
 }
 
 export const archivo = (archivo) => {

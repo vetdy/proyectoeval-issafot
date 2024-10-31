@@ -92,3 +92,6 @@ input[type=number] {
     user-select: none;
     font-size: small;
 }
+.bg-inherit {
+    background-color: inherit !important;
+}

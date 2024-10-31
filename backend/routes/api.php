@@ -10,7 +10,7 @@ use App\Http\Controllers\ItemPlanillaController;
 use App\Http\Controllers\PlanificacionController;
 use App\Http\Controllers\PlanillaSeguimientoController;
 use App\Http\Controllers\PlanillaController;
-use App\Http\Controllers\TareaController;
+use App\Http\Controllers\TareaController; //vetdy ultima coneccion octubre
 use App\Http\Controllers\TipoEvaluacionController;
 use App\Models\Planificacion;
 use Monolog\Handler\RotatingFileHandler;
@@ -74,6 +74,7 @@ Route::controller(TareaController::class)->group(function () {
     Route::put('/tarea/{id}', 'update');
     Route::delete('/tarea/{id}', 'destroy');
 
+    //Route::post('/tarea/lista', [TareaController::class, 'store_list']);
     Route::post('/tarea/lista', 'store_list');
 });
 
