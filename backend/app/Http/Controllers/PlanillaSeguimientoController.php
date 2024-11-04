@@ -434,4 +434,6 @@ class PlanillaSeguimientoController extends Controller
             return response()->json(['contenido' => 'id del grupo empresa no encontrado'], 404);
         }
     } 
+
+    
 }

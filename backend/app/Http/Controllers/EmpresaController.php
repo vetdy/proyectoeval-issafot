@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Empresa;
+use App\Models\Proyecto;
+use App\Models\Proyecto_empresa;
 use App\Models\Socio_empresa;
 use Illuminate\Validation\Rule;
 use App\Services\EmpresaService;
@@ -274,6 +276,48 @@ class EmpresaController extends Controller
             return response()->json(['contenido' => 'se elimino con exito'], 200);
         } else {
             return response()->json(['contenido' => 'no existe la empresa'], 404);
+        }
+    }
+    /**
+     * @OA\Get(
+     *     path="/api/empresa/docente/{id}",
+     *     summary="Mostar una empresa por docente",
+     *     tags={"Empresas"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID del docente",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *      ),
+     *     
+     *     @OA\Response(
+     *         response=200,
+     *         description="Datos de una empresa"
+     *     ),
+     *      @OA\Response(
+     *         response=404,
+     *         description="Empresa no encontrada"
+     *     )
+     * 
+     * )
+     */
+
+    public function show_docente($id){
+        $empresas=[];
+        $ids=[];
+        $lists=Proyecto::where('id_creado_por',$id)->get();
+        if(!$lists->isEmpty()){
+            foreach($lists as $proyecto){
+                foreach(Proyecto_empresa::where('id_proyecto',$proyecto->id)->get() as $proyectoEmpresa){
+                    $empresas[]=Empresa::find($proyectoEmpresa->id_empresa);
+                }
+            }
+            return response()->json(['contenido' => compact('empresas')], 200);
+        }else {
+            return response()->json(['contenido' => 'no existe el docente'], 404);
         }
     }
 }
