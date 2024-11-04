@@ -10,6 +10,7 @@ class Socio_empresa extends Model
 {
     use HasFactory;
     protected $primaryKey = 'id';
+    protected $fillable=['id_empresa','id_usuario'];
     public function empresa()
     {
         return $this->hasOne(Empresa::class);

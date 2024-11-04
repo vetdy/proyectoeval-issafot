@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Asistencia_planilla_seguimiento;
 use App\Models\Empresa;
+use App\Models\Planificacion;
 use Illuminate\Http\Request;
 use App\Models\Planilla_seguimiento;
 use App\Models\Proyecto;
 use App\Models\Proyecto_empresa;
 use App\Models\Usuario;
+use App\Services\PlanillaSeguimientoService;
 use Carbon\Carbon;
 use Exception;
 
@@ -390,4 +392,46 @@ class PlanillaSeguimientoController extends Controller
             return response()->json(['contenido' => 'id de la planilla seguimiento no encontrado'], 404);
         }
     }
+    /**
+     * @OA\Pacth( 
+     *     path="/api/planilla_seguimiento/general/{idEmpresa}",
+     *     summary="Generar planillas Seguimientos con la empresa",
+     *     tags={"planillas Seguimientos"},
+     *     @OA\Parameter(
+     *         name="idGrupoEmpresa",
+     *         in="path",
+     *         description="ID de la empresa",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *      ),
+     *     
+     *     @OA\Response(
+     *         response=200,
+     *         description="planillas Seguimiento creados"
+     *     ),
+     *      @OA\Response(
+     *         response=404,
+     *         description="grupo empresa no encontrado"
+     *     )
+     * 
+     * )
+     */
+    public function create_planilla($id)
+    {
+        $planillaSeguimientoService=new PlanillaSeguimientoService;
+        $proyecto_empresas =Proyecto_empresa::where('id_empresa',$id)->get();
+        if (!$proyecto_empresas->isEmpty()) {    
+            foreach ($proyecto_empresas as $proyecto_empresa){
+                foreach (Planificacion::where('id_proyecto_empresa',$proyecto_empresa->id)->get() as $planificacion){
+                    $planillaSeguimientoService->registarPlanillaSeguimiento($planificacion);
+                }
+
+            }
+            return response()->json(['contenido' => "planillas de seguimientos creadas"]);
+        } else {
+            return response()->json(['contenido' => 'id del grupo empresa no encontrado'], 404);
+        }
+    } 
 }
