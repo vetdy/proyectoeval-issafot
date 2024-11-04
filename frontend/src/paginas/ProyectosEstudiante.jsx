@@ -99,13 +99,29 @@ const ProyectosEstudiante = () => {
 
     useEffect(()=>{
         const cargarDatos = async () => {
-            
+
         }
         if(consulta.current){
             consulta.current=false;
             cargarDatos();
         }
     },[]);
+
+    if( cargando ){
+        return (
+            <div className="container-fluid">
+                <div className="row">
+                    <div className="col d-flex align-items-center justify-content-center">
+                        <IconoCargando></IconoCargando>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if( error ){
+        return <h6>Ocurrio un error...</h6>
+    }
 
     return(
         <div className="container-fluid">
@@ -114,20 +130,6 @@ const ProyectosEstudiante = () => {
                     <h2 className="text-center">Mis Proyectos</h2>
                 </div>
             </div>
-            {cargando && (
-                <div className="row">
-                    <div className="col d-flex align-items-center justify-content-center">
-                        <IconoCargando></IconoCargando>
-                    </div>
-                </div>
-            )}
-            {error && (
-                <div className="row">
-                    <div className="col">
-                        Ocurrio un error...
-                    </div>
-                </div>
-            )}
             <div className="row">
                 <div className="col">
                     <Encabezado/>
