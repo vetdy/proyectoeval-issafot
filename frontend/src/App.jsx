@@ -33,6 +33,9 @@ function App() {
                     element={<paginas.RegistroPlanificacion />}
                 ></Route>
                 <Route path="/mi-proyecto"
+                    element={<paginas.ProyectosEstudiante />}
+                ></Route>
+                <Route path="/mi-proyecto/planificacion"
                     element={<paginas.OtroRegistroPlanificacion />}
                 ></Route>
                 <Route path="/empresas"
