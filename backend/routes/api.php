@@ -55,6 +55,7 @@ Route::controller(PlanillaSeguimientoController::class)->group(function () {
     Route::get('/planilla_seguimiento/empresa/{id}', 'show_empresa');
     Route::get('/planilla_seguimiento/semana/{idUsuario}', 'show_semanal');
     Route::get('/planilla_seguimiento/asistencia/{id}', 'show_asistencia');
+    Route::patch('/planilla_seguimiento/crear/{id}','create_planilla');
 });
 
 Route::controller(ItemPlanillaController::class)->group(function () {

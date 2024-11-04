@@ -20,7 +20,7 @@ class PlanificacionSeeder extends Seeder
                 'titulo' => 'presencial',
                 'fecha_inicio' => '2024/10/28',
                 'fecha_fin' => '2019/11/6',
-                'dia_revision' => '2024/10/27',
+                'dia_revision' => 2,
                 'hora_revision' => '11:00',
                 'id_proyecto_empresa' => '2'
             ],
@@ -28,13 +28,13 @@ class PlanificacionSeeder extends Seeder
                 'titulo' => 'plan 1',
                 'fecha_inicio' => '2024/10/29',
                 'fecha_fin' => '2019/11/7',
-                'dia_revision' => '2024/10/28',
+                'dia_revision' => 2,
                 'hora_revision' => '11:30',
                 'id_proyecto_empresa' => '1'
             ],
             [
                 'titulo' => 'plan 2',
-                'dia_revision' => '2024/10/27',
+                'dia_revision' => '2',
                 'hora_revision' => '12:00',
                 'fecha_inicio' => '2024/11/1',
                 'fecha_fin' => '2019/11/8',

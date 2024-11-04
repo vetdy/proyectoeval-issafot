@@ -81,8 +81,6 @@ class PlanificacionController extends Controller
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json(['contenido' => $e->errors()], 422);
         }
-        $ps = new PlanificacionService();
-        $ps->registarPlanillaSeguimiento($request->all());
         return response()->json(['contenido' => 'se registro exitosamente la planificacion'], 200);
     }
 
@@ -263,8 +261,6 @@ class PlanificacionController extends Controller
             $planificacion->fecha_inicio = $itemPlanificacion['fecha_inicio'];
             $planificacion->fecha_fin = $itemPlanificacion['fecha_fin'];
             $planificacion->id_proyecto_empresa = $request['id_proyecto_empresa'];
-            $ps = new PlanificacionService();
-            $ps->registarPlanillaSeguimientoItems($itemPlanificacion, $itemPlanificacion['tarea'], $planificacion->hora_revision, $planificacion->dia_revision, $planificacion->id_proyecto_empresa);
             $planificacion->save();
             foreach ($itemPlanificacion['tarea'] as $tareaData) {
                 $tarea = new Item_planificacion();

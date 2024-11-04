@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class PlanillaSeguimientoTest extends TestCase
@@ -128,6 +129,34 @@ class PlanillaSeguimientoTest extends TestCase
     public function test_mostar_por_semana_fallido(): void
     {
         $response = $this->get('/api/planilla_seguimiento/semana/99');
+        $response->assertStatus(404);
+    }
+    public function test_crear_planilla_exitoso(): void
+    {
+        $p = DB::table('planificaciones')->insertGetId([
+            'titulo' => 'sprint 1',
+            "dia_revision" => 3,
+            'hora_revision' => '12:00',
+            'id_proyecto_empresa' => 1,
+            'fecha_inicio' => '2024-11-3',
+            'fecha_fin' => '2024-12-30'
+        ]);
+        $e = DB::table('proyecto_empresas')->where('id', 1)->first();
+        $response = $this->patch("/api/planilla_seguimiento/crear/{$e->id_empresa}");
+        $response->assertStatus(200);
+    }
+    public function test_crear_planilla_fallido(): void
+    {
+        $p = DB::table('planificaciones')->insertGetId([
+            'titulo' => 'sprint 1',
+            "dia_revision" => 3,
+            'hora_revision' => '12:00',
+            'id_proyecto_empresa' => 1,
+            'fecha_inicio' => '2024-11-3',
+            'fecha_fin' => '2024-12-30'
+        ]);
+        $e = DB::table('proyecto_empresas')->where('id', 1)->first();
+        $response = $this->patch("/api/planilla_seguimiento/crear/99");
         $response->assertStatus(404);
     }
 }
