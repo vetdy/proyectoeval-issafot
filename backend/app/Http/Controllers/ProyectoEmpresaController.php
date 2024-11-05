@@ -21,8 +21,9 @@ class ProyectoEmpresaController extends Controller
                 $proyect->nombre_proyecto=$proyecto->nombre;
                 $proyect->creado_por_usuario=$proyecto->id_creado_por;
                 $proyect->habilitado=$proyectoEmpresa->habilitado;
+                $proyecto_por_empresa[]=$proyect;
             }
-            return response()->json(['contenido' => compact('proyect')], 200);
+            return response()->json(['contenido' => compact('proyecto_por_empresa')], 200);
         }else{
             return response()->json(['contenido' => 'no se encuentra la empresa'],404 );
         }
