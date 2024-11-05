@@ -7,6 +7,7 @@ import { ModalConfirmar, ModalSimple } from "../componentes/modales";
 import { registrarPlanificacionEmpresa } from "../servicios/api"
 import { cadenaValoresJSON } from "../utils/conversor";
 import { tiempo } from "../utils";
+import { useLocation } from "react-router-dom";
 
 const compararFecha = (f1, f2 = undefined) => {
     const fecha1 = typeof f1 === "string" ? new Date(f1) : f1;
@@ -91,7 +92,7 @@ const OtroRegistroPlanificacion = () => {
         texto: ""
     });
     const [deshabilitarEnvio, setDeshabilitarEnvio] = useState(false);
-
+    const [estadoPlanif, setEstadoPlanif] = useState(null);
 
     const [idEmpr, setIdEmpr] = useState("1");
 
@@ -368,6 +369,12 @@ const OtroRegistroPlanificacion = () => {
             )}
             <TituloRegistros titulo="Registro de Planificacion de Empresa" />
             <div className="row">
+                <div className="col d-flex align-items-center">
+                    <h6 className="m-0">Estado:</h6>
+                    <p className="m-0 px-2">No iniciado</p>
+                </div>
+            </div>
+            <div className="row">
                 <div className="col">
                     <Tabla datos={titulos} px0={true} hover={false}>
                         {planificacion.map((p, idx) => {
@@ -433,7 +440,10 @@ const OtroRegistroPlanificacion = () => {
                                                                 maxLength={64}
                                                                 className="form-control"
                                                                 ref={
-                                                                    p.tarea.length - 1 === i
+                                                                    p.tarea
+                                                                        .length -
+                                                                        1 ===
+                                                                    i
                                                                         ? ref
                                                                         : undefined
                                                                 }
@@ -585,10 +595,27 @@ const OtroRegistroPlanificacion = () => {
             </div>
             <div className="row">
                 <div className="col">
-                    <label htmlFor="idemp" className="px-2">Empresa</label>
-                    <select name="idemp" id="idemp"
+                    <h6>Observaciones</h6>
+                    <textarea
+                        name=""
+                        id=""
+                        className="w-100 user-select-none"
+                        disabled={true}
+                    ></textarea>
+                </div>
+            </div>
+            <div className="row">
+                <div className="col">
+                    <label htmlFor="idemp" className="px-2">
+                        Empresa
+                    </label>
+                    <select
+                        name="idemp"
+                        id="idemp"
                         value={idEmpr}
-                        onChange={(ev) =>{setIdEmpr(ev.target.value)}}
+                        onChange={(ev) => {
+                            setIdEmpr(ev.target.value);
+                        }}
                     >
                         <option value="1">techoSol</option>
                         <option value="2">ISSA Soft</option>

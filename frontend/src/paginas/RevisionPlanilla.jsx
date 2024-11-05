@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import logo from "/logo.png"
 
 const Planilla = ({datos, planilla, asistencia}) => {
+    const titulos = datos.tipo === "seguimiento" ? ["#", "Tarea", "Observacion"] : ["#", "Tarea", "Observacion", "Nota"]
     return (
         <div className="container-fluid">
             <div className="row">
@@ -76,7 +77,10 @@ const Planilla = ({datos, planilla, asistencia}) => {
                 <h3>Planilla</h3>
             </div>
             <div className="row px-2">
-                <Tabla datos={["#", "Tarea", "Observación"]}>
+                <Tabla 
+                    datos={titulos} 
+                    hover={false}
+                >
                     {planilla.map((p, index) => {
                         return(
                             <tr key={`planilla-item-${index}`}>
@@ -90,6 +94,15 @@ const Planilla = ({datos, planilla, asistencia}) => {
                                         id=""
                                     />
                                 </td>
+                                {datos.tipo === "evaluacion" && 
+                                (
+                                    <td style={{maxWidth:"50px"}}>
+                                        <input 
+                                            className="form-control" 
+                                            type="number"
+                                        />
+                                    </td>
+                                )}
                             </tr>
                         );
                     })}

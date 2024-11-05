@@ -2,9 +2,10 @@ import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { IconoCargando } from "../componentes/iconos";
 
+
 const Encabezado = () =>{
     return (
-        <div className={`container-fluid d-none py-2 d-sm-block border-bottompy-2 border-eva-info text-light`}
+        <div className={`container-fluid d-none py-2 d-sm-block border-bottom border-eva-info text-light`}
             style={{backgroundColor:"#506278"}}
         >
             <div className="row">

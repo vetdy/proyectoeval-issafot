@@ -53,6 +53,9 @@ function App() {
                 <Route path="/recuperar/resultados"
                     element={<paginas.RecuperarResultadosEvaluacion />}
                 ></Route>
+                <Route path="/gestion-empresas"
+                    element={<paginas.AdminEmpresasDocente />}
+                ></Route>
             </Routes>
             <Control inicial={"estudiante"} menus={menus} clickHandle={setUsrMenu}></Control>
         </>
