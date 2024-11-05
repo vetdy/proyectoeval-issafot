@@ -15,6 +15,24 @@ class PlanificacionSeeder extends Seeder
     public function run()
     {
 
+        DB::table('estado_planificacion')->insert([
+            [
+                'estado' => 'no existe',
+                'descripcion' => 'la planificacion no existe'
+            ],
+            [
+                'estado' => 'en revision',
+                'descripcion' => 'la planificacion esta en revision'
+            ],
+            [
+                'estado' => 'aceptado',
+                'descripcion' => 'la planificacion fue aceptado'
+            ],
+            [
+                'estado' => 'rechazado',
+                'descripcion' => 'la planificacion fue rechazada'
+            ]
+        ]);
         DB::table('planificaciones')->insert([
             [
                 'titulo' => 'presencial',
@@ -22,7 +40,8 @@ class PlanificacionSeeder extends Seeder
                 'fecha_fin' => '2019/11/6',
                 'dia_revision' => 2,
                 'hora_revision' => '11:00',
-                'id_proyecto_empresa' => '2'
+                'id_proyecto_empresa' => '2',
+                'id_estado_planificacion'=>1
             ],
             [
                 'titulo' => 'plan 1',
@@ -30,7 +49,8 @@ class PlanificacionSeeder extends Seeder
                 'fecha_fin' => '2019/11/7',
                 'dia_revision' => 2,
                 'hora_revision' => '11:30',
-                'id_proyecto_empresa' => '1'
+                'id_proyecto_empresa' => '1',
+                'id_estado_planificacion'=>1
             ],
             [
                 'titulo' => 'plan 2',
@@ -38,7 +58,8 @@ class PlanificacionSeeder extends Seeder
                 'hora_revision' => '12:00',
                 'fecha_inicio' => '2024/11/1',
                 'fecha_fin' => '2019/11/8',
-                'id_proyecto_empresa' => '1'
+                'id_proyecto_empresa' => '1',
+                'id_estado_planificacion'=>1    
             ],
 
         ]);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EstadoPlanificacion;
 use App\Models\Item_planificacion;
 use Illuminate\Http\Request;
 use App\Models\Planificacion;
@@ -76,6 +77,7 @@ class PlanificacionController extends Controller
                 'fecha_inicio' => 'required|date',
                 'fecha_fin' => 'required|date',
                 'id_proyecto_empresa' => 'required|exists:proyecto_empresas,id',
+                'id_estado_planificacion'=>'required|exists:estado_planificacion,id'
             ]);
             $planificacion = Planificacion::create($request->all());
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -178,6 +180,7 @@ class PlanificacionController extends Controller
                 'hora_revision' => 'nullable|date_format:H:i',
                 'fecha_inicio' => 'nullable|date',
                 'fecha_fin' => 'nullable|date',
+                'id_estado_planificacion'=>'nullable|exists:estado_planificacion,id'
             ]);
             $validData = $request->only(['titulo', 'dia_revision', 'hora_revision', 'fecha_inicio', 'fecha_fin']);
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -270,5 +273,35 @@ class PlanificacionController extends Controller
             }
         }
         return response()->json(['contenido' => 'se registro exitosamente la planificacion con tareas'], 200);
+    }
+
+    public function show_observacion($id){
+        $planifiaciones_ob=[];
+        $planificaciones=Planificacion::where('id_proyecto_empresa',$id)->get();
+        if(!$planificaciones->isEmpty()){
+            foreach($planificaciones as $planificacion){
+                $estado_planifiacion = EstadoPlanificacion::find($planificacion->id_estado_planificacion);
+                $planificacion->estado_planificacion=$estado_planifiacion->estado;
+                $planifiaciones_ob[]=$planificacion;
+            }
+            return response()->json(['contenido' => compact('planifiaciones_ob')], 200);
+        }else{
+            return response()->json(['contenido' => 'no se encontro el proyecto empresa'], 404);
+        }
+    }
+
+    public function show_items($id){
+        $planifiaciones_ob=[];
+        $planificaciones=Planificacion::where('id_proyecto_empresa',$id)->get();
+        if(!$planificaciones->isEmpty()){
+            foreach($planificaciones as $planificacion){
+                $items=Item_planificacion::where('id_planificacion',$planificacion->id)->get();
+                $planificacion->items=$items;
+                $planifiaciones_ob[]=$planificacion;
+            }
+            return response()->json(['contenido' => compact('planifiaciones_ob')], 200);
+        }else{
+            return response()->json(['contenido' => 'no se encontro el proyecto empresa'], 404);
+        }
     }
 }

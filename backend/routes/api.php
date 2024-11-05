@@ -10,6 +10,7 @@ use App\Http\Controllers\ItemPlanillaController;
 use App\Http\Controllers\PlanificacionController;
 use App\Http\Controllers\PlanillaSeguimientoController;
 use App\Http\Controllers\PlanillaController;
+use App\Http\Controllers\ProyectoEmpresaController;
 use App\Http\Controllers\TareaController; //vetdy ultima coneccion octubre
 use App\Http\Controllers\TipoEvaluacionController;
 use App\Models\Planificacion;
@@ -43,6 +44,8 @@ Route::controller(EmpresaController::class)->group(function () {
     Route::get('/empresa/{id}', 'show');
     Route::put('/empresa/{id}', 'update');
     Route::delete('/empresa/{id}', 'destroy');
+
+    Route::get('/empresa/docente/{id}','show_docente');
 });
 
 Route::controller(PlanillaSeguimientoController::class)->group(function () {
@@ -88,6 +91,8 @@ Route::controller(PlanificacionController::class)->group(function () {
     Route::delete('/planificacion/{id}', 'destroy');
 
     Route::post('/planificacion_tareas', 'storePlanificacionTareas');
+    Route::get('/planificacion/proyecto_empresa/{id}','show_observacion');
+    Route::get('/planificacion/proyecto_empresa/item/{id}','show_items');
 });
 
 Route::controller(ItemPlanificacionController::class)->group(function () {
@@ -115,4 +120,9 @@ Route::controller(TipoEvaluacionController::class)->group(function () {
     Route::get('/tipo_evaluacion/{id}', 'show');
     Route::put('/tipo_evaluacion/{id}', 'update');
     Route::delete('/tipo_evaluacion/{id}', 'destroy');
+});
+
+Route::controller(ProyectoEmpresaController::class)->group(function () {
+    //Route::get('/tipo_evaluacion', 'index');
+    Route::get('/proyecto_empresa/empresa/{id}', 'show_empresa');;
 });

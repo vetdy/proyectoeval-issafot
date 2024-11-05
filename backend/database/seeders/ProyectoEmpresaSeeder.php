@@ -46,12 +46,6 @@ class ProyectoEmpresaSeeder extends Seeder
                 'id_empresa'=>'2',
                 'id_estado_contrato'=>'1'
             ],
-            [
-                'habilitado'=>true,
-                'id_proyecto'=>'1',
-                'id_empresa'=>'2',
-                'id_estado_contrato'=>'2'
-            ],
 
         ]);
     }
