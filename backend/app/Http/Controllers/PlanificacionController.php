@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EstadoPlanificacion;
 use App\Models\Item_planificacion;
 use Illuminate\Http\Request;
 use App\Models\Planificacion;
@@ -270,5 +271,20 @@ class PlanificacionController extends Controller
             }
         }
         return response()->json(['contenido' => 'se registro exitosamente la planificacion con tareas'], 200);
+    }
+
+    public function show_observacion($id){
+        $planifiaciones_ob=[];
+        $planificaciones=Planificacion::where('id_proyecto_empresa',$id)->get();
+        if(!$planificaciones->isEmpty()){
+            foreach($planificaciones as $planificacion){
+                $estado_planifiacion = EstadoPlanificacion::find($planificacion->id_estado_planificacion);
+                $planificacion->estado_planificacion=$estado_planifiacion->estado;
+                $planifiaciones_ob[]=$planificacion;
+            }
+            return response()->json(['contenido' => compact('planifiaciones_ob')], 200);
+        }else{
+            return response()->json(['contenido' => 'no se encontro el proyecto empresa'], 404);
+        }
     }
 }

@@ -91,6 +91,7 @@ Route::controller(PlanificacionController::class)->group(function () {
     Route::delete('/planificacion/{id}', 'destroy');
 
     Route::post('/planificacion_tareas', 'storePlanificacionTareas');
+    Route::get('/planificacion/proyecto_empresa/{id}','show_observacion');
 });
 
 Route::controller(ItemPlanificacionController::class)->group(function () {

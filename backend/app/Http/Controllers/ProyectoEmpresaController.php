@@ -27,4 +27,6 @@ class ProyectoEmpresaController extends Controller
             return response()->json(['contenido' => 'no se encuentra la empresa'],404 );
         }
     }
+
+   
 }
