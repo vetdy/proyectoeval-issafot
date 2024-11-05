@@ -92,6 +92,7 @@ Route::controller(PlanificacionController::class)->group(function () {
 
     Route::post('/planificacion_tareas', 'storePlanificacionTareas');
     Route::get('/planificacion/proyecto_empresa/{id}','show_observacion');
+    Route::get('/planificacion/proyecto_empresa/item/{id}','show_items');
 });
 
 Route::controller(ItemPlanificacionController::class)->group(function () {

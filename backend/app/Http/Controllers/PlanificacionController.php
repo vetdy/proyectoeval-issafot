@@ -287,4 +287,19 @@ class PlanificacionController extends Controller
             return response()->json(['contenido' => 'no se encontro el proyecto empresa'], 404);
         }
     }
+
+    public function show_items($id){
+        $planifiaciones_ob=[];
+        $planificaciones=Planificacion::where('id_proyecto_empresa',$id)->get();
+        if(!$planificaciones->isEmpty()){
+            foreach($planificaciones as $planificacion){
+                $items=Item_planificacion::where('id_planificacion',$planificacion->id)->get();
+                $planificacion->items=$items;
+                $planifiaciones_ob[]=$planificacion;
+            }
+            return response()->json(['contenido' => compact('planifiaciones_ob')], 200);
+        }else{
+            return response()->json(['contenido' => 'no se encontro el proyecto empresa'], 404);
+        }
+    }
 }
