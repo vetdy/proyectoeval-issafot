@@ -124,6 +124,7 @@ const OtroRegistroPlanificacion = () => {
             if( consulta.status === 200){
                 const previo = consulta.message.planifiaciones_ob;
                 setPlanificacion( reconstruirPlanificacion( previo ) );
+                console.log(previo);
                 const estado = previo[0].id_estado_planificacion;
                 if( estado === 2 || estado === 3 ){
                     setModificable(false);
@@ -137,6 +138,13 @@ const OtroRegistroPlanificacion = () => {
                 if( estado === 4 ){
                     setEstadoPlanif("Requiere Mejorar");
                 }
+                setRevision({
+                    dia_rev: previo[0].dia_revision,
+                    hora_rev: previo[0].hora_revision
+                        .split(":")
+                        .map((h) => h.padStart(2, "0"))
+                        .join(":"),
+                });
             }
             setCargando(false);
         };
