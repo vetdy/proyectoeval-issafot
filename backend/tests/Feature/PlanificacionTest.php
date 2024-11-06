@@ -56,7 +56,7 @@ class PlanificacionTest extends TestCase
     }
     public function test_mostar_planificacion_exitoso(): void
     {
-        $response = $this->get('/api/planificacion/2');
+        $response = $this->get('/api/planificacion/4');
         $response->assertStatus(200);
     }
 
@@ -69,7 +69,7 @@ class PlanificacionTest extends TestCase
     public function test_modificar_planificacion_exitoso(): void
     {
         $response = $this->putJson(
-            '/api/planificacion/2',
+            '/api/planificacion/4',
             [
                 "titulo" => "Mejora sprint1",
             ]
@@ -91,7 +91,7 @@ class PlanificacionTest extends TestCase
     public function test_modificar_planificacion_fallido_dato(): void
     {
         $response = $this->putJson(
-            '/api/planificacion/2',
+            '/api/planificacion/4',
             [
                 "titulo" => "Mejora sprint1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
             ]
@@ -102,7 +102,7 @@ class PlanificacionTest extends TestCase
 
     public function test_eliminar_planificacion_exito(): void
     {
-        $response = $this->delete('/api/planificacion/2');
+        $response = $this->delete('/api/planificacion/4');
         $response->assertStatus(200);
     }
 

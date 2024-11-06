@@ -56,7 +56,7 @@ class PlanillaSeguimientoService
         $e->titulo = $registar['titulo'];
         $e->fecha_revision = $fecha_inicio->toDateString();
         $e->hora_revision = $registar['hora_revision'];
-        $e->id_empresa = $registar['id_proyecto_empresa']; // modificar
+        $e->id_proyecto_empresa = $registar['id_proyecto_empresa']; // modificar
         $e->id_tipo_evaluacion = '1';
 
         $e->save();
