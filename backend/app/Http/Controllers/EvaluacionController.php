@@ -320,7 +320,7 @@ class EvaluacionController extends Controller
             foreach ($proyectos as $proyecto) {
                 $protectoEmpresa = Proyecto_empresa::where('id_proyecto', $proyecto->id)->get();
                 foreach ($protectoEmpresa as $proyect) {
-                    $usuario = Evaluacion::where('id_empresa', $proyect->id_empresa)->get();
+                    $usuario = Evaluacion::where('id_proyecto_empresa', $proyect->id)->get();
                     foreach ($usuario as $usua) {
 
                         $fechaActual = Carbon::now();
