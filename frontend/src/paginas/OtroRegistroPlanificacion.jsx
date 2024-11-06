@@ -7,7 +7,7 @@ import { ModalConfirmar, ModalSimple } from "../componentes/modales";
 import { registrarPlanificacionEmpresa, obtenerPlanificacionEmpresa } from "../servicios/api"
 import { cadenaValoresJSON } from "../utils/conversor";
 import { tiempo } from "../utils";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { IconoCargando } from "../componentes/iconos";
 
 const reconstruirPlanificacion = (datos=[]) => {
@@ -114,6 +114,7 @@ const OtroRegistroPlanificacion = () => {
     const refCarga = useRef(true);
 
     const datosPlanificacion = useLocation();
+    const history = useNavigate();
     const idEmpr = useRef(null);
 
     useEffect(()=>{
@@ -385,6 +386,9 @@ const OtroRegistroPlanificacion = () => {
 
     const enviarDatos = async (ev) => {
         const datos = {};
+
+        const irProyectos = () => { history("/mi-proyecto") };
+
         if ( controlDatos() ) {
             setDeshabilitarEnvio(true);
             datos["id_proyecto_empresa"] = idEmpr.current; //<=== Debe cambiar con usuario/empresa
@@ -394,6 +398,8 @@ const OtroRegistroPlanificacion = () => {
             const res = await registrarPlanificacionEmpresa(datos);
             if (res.status === 200){
                 AbrirModalInf("Se ha registrado la planificación", "normal");
+                alert("Se ha registrado la planificación");
+                irProyectos();
             }
             else if ( res.status === 422 ){
                 AbrirModalInf( cadenaValoresJSON(res.message) );
