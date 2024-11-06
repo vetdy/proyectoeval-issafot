@@ -36,30 +36,30 @@ class PlanificacionSeeder extends Seeder
         DB::table('planificaciones')->insert([
             [
                 'titulo' => 'sprint 1',
-                'fecha_inicio' => '2024/10/28',
-                'fecha_fin' => '2019/11/6',
+                'fecha_inicio' => '2024/9/8',
+                'fecha_fin' => '2024/9/28',
                 'dia_revision' => 2,
                 'hora_revision' => '8:15',
                 'id_proyecto_empresa' => '2',
-                'id_estado_planificacion'=>1
+                'id_estado_planificacion'=>3
             ],
             [
                 'titulo' => 'sprint 2',
-                'fecha_inicio' => '2024/10/29',
-                'fecha_fin' => '2019/11/7',
+                'fecha_inicio' => '2024/9/29',
+                'fecha_fin' => '2024/11/20',
                 'dia_revision' => 2,
                 'hora_revision' => '8:15',
                 'id_proyecto_empresa' => '2',
-                'id_estado_planificacion'=>1
+                'id_estado_planificacion'=>3
             ],
             [
                 'titulo' => 'sprint 3',
                 'dia_revision' => '2',
                 'hora_revision' => '8:15',
-                'fecha_inicio' => '2024/11/1',
-                'fecha_fin' => '2019/11/8',
+                'fecha_inicio' => '2024/11/21',
+                'fecha_fin' => '2024/12/8',
                 'id_proyecto_empresa' => '2',
-                'id_estado_planificacion'=>1    
+                'id_estado_planificacion'=>3    
             ],
 
         ]);
