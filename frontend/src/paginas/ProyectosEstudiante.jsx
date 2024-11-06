@@ -1,7 +1,21 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { IconoCargando } from "../componentes/iconos";
+import { obtenerProyectosEmpresa } from "../servicios/api";
 
+const filtrarDatos = (datos = [], idEmpr) => {
+    const nuevosDatos = datos.map(d => {
+        return {
+            nombre: d.nombre_proyecto,
+            consultor: "Mateo Corina",
+            habilitado: d.habilitado,
+            link: "/mi-proyecto/planificacion",
+            state: {id_empresa: idEmpr},
+        }
+    });
+    console.log(datos);
+    return nuevosDatos;
+}
 
 const Encabezado = () =>{
     return (
@@ -27,13 +41,13 @@ const Encabezado = () =>{
 }
 
 const Fila = ({
-    datos = [
-        "Sistema de Planificación y Seguimiento",
-        "Maria Leticia Blanco Coca",
-        "Activo",
-    ],
-    to = "/mi-proyecto/planificacion",
-    state = { id: 1 },
+    datos = {
+        nombre: "Sistema de Planificación y Seguimiento",
+        consultor: "Maria Leticia Blanco Coca",
+        habilitado: true,
+        link: "/mi-proyecto/planificacion",
+        state: {id_proyecto: 1},
+    }
 }) => {
     return (
         <div className="container-fluid border-bottom bg-white border-eva-info">
@@ -44,7 +58,7 @@ const Fila = ({
                             <div className="col d-flex d-sm-none align-items-center">
                                 <h6 className="m-0">Nombre</h6>
                             </div>
-                            <div className="col py-1">{datos[0]}</div>
+                            <div className="col py-1">{datos.nombre}</div>
                         </div>
                     </div>
                 </div>
@@ -54,7 +68,7 @@ const Fila = ({
                             <div className="col d-flex d-sm-none align-items-center">
                                 <h6 className="m-0">Consultor</h6>
                             </div>
-                            <div className="col py-1">{datos[1]}</div>
+                            <div className="col py-1">{datos.consultor}</div>
                         </div>
                     </div>
                 </div>
@@ -64,7 +78,7 @@ const Fila = ({
                             <div className="col d-flex d-sm-none align-items-center">
                                 <h6 className="m-0">Estado</h6>
                             </div>
-                            <div className="col py-1">{datos[2]}</div>
+                            <div className="col py-1">{datos.habilitado ? "Activo" : "Inactivo" }</div>
                         </div>
                     </div>
                 </div>
@@ -77,8 +91,8 @@ const Fila = ({
                             <div className="col py-1">
                                 <Link
                                     className="btn btn-eva-info"
-                                    to={to}
-                                    state={state}
+                                    to={datos.link}
+                                    state={datos.state}
                                 >
                                     Ir
                                 </Link>
@@ -93,20 +107,38 @@ const Fila = ({
 
 
 const ProyectosEstudiante = () => {
-    const [cargando, setCargando] = useState(false);
+    const [cargando, setCargando] = useState(true);
     const [datos, setDatos] = useState([]);
     const [error, setError] = useState(false);
     const consulta = useRef(true);
+    const [idEmpr, setIdEmpr] = useState("1");
 
     useEffect(()=>{
         const cargarDatos = async () => {
-
+            const nuevosDatos = await obtenerProyectosEmpresa(idEmpr);
+            if( nuevosDatos.status !== 404 ){
+                const lista = filtrarDatos(nuevosDatos.message.proyecto_por_empresa, idEmpr);
+                setDatos(lista);
+            }
+            setCargando(false);
         }
         if(consulta.current){
             consulta.current=false;
             cargarDatos();
         }
     },[]);
+
+    useEffect(()=>{
+        const cargarDatos = async () => {
+            const nuevosDatos = await obtenerProyectosEmpresa(idEmpr);
+            if( nuevosDatos.status !== 404 ){
+                const lista = filtrarDatos(nuevosDatos.message.proyecto_por_empresa, idEmpr);
+                setDatos(lista);
+            }
+            setCargando(false);
+        }
+        cargarDatos();
+    },[idEmpr]);
 
     if( cargando ){
         return (
@@ -134,7 +166,30 @@ const ProyectosEstudiante = () => {
             <div className="row">
                 <div className="col">
                     <Encabezado/>
-                    <Fila></Fila>
+                    {datos.map( (d, idx) =>{
+                        return(
+                            <Fila key={`proy-${idx}`} datos={d}></Fila>
+                        );
+                    })}
+                </div>
+            </div>
+            <div className="row">
+                <div className="col">
+                    <label htmlFor="idemp" className="px-2">
+                        Empresa
+                    </label>
+                    <select
+                        name="idemp"
+                        id="idemp"
+                        value={idEmpr}
+                        onChange={(ev) => {
+                            setCargando(true);
+                            setIdEmpr(ev.target.value);
+                        }}
+                    >
+                        <option value="1">techoSol</option>
+                        <option value="2">ISSA Soft</option>
+                    </select>
                 </div>
             </div>
         </div>

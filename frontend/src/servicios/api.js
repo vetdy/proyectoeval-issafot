@@ -33,14 +33,14 @@ export const solicitud = async (url = URL_BACKEND, metodo = "get", datos={}) => 
         
         const contenido = await respuesta.json();
 
-        if(! respuesta.ok && respuesta.status !== 422){
+        /* if(! respuesta.ok && respuesta.status !== 422){
             console.error(`Error en backend: ${respuesta.status}: ${respuesta.statusText}`);
             return {
                 status: respuesta.status,
                 message: respuesta.statusText,
             };
-        }
-        
+        } */
+
         if(! contenido.hasOwnProperty("contenido") ){
             console.error(`Error en backend: Se devolvio una respuesta sin contenido`);
             return {
@@ -84,8 +84,23 @@ export const registrarEmpresa = async (datos={}) => {
     return respuesta;
 }
 
+export const obtenerProyectosEmpresa = async (empresaID=1) => {
+    const respuesta = await solicitud(`${rutas.PROYECTOS_EMPRESA}/${empresaID}`);
+    return respuesta;
+}
+
 export const obtenerPlanillasEmpresa = async (empresa=1) => {
     const respuesta = await solicitud(`${rutas.PLANTILLA_EMPRESA}/${empresa}`);
+    return respuesta;
+}
+
+export const obtenerPlanificacionEmpresa = async (empresaID=1) => {
+    const respuesta = await solicitud(`${rutas.PLANIFICACION_PROYECTO_EMPRESA}/${empresaID}`);
+    return respuesta;
+}
+
+export const registrarPlanificacionEmpresa = async (datos={}) => {
+    const respuesta = await solicitud(`${rutas.REGISTRAR_PLANIFICACION_EMPRESA}`,"POST", datos);
     return respuesta;
 }
 
@@ -111,11 +126,6 @@ export const obtenerPlanillasDocenteEvaluacion = async (docenteID = 1) => {
 
 export const obtenerItemsPlanillaEvaluacion = async (planilla=1) => {
     const respuesta = await solicitud(`${rutas.ITEMS_PLANTILLA_EVALUACION}/${planilla}`);
-    return respuesta;
-}
-
-export const registrarPlanificacionEmpresa = async (datos={}) => {
-    const respuesta = await solicitud(`${rutas.PLANIFICACION_EMPRESA}`,"POST", datos);
     return respuesta;
 }
 

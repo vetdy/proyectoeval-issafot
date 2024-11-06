@@ -9,6 +9,23 @@ const padding = (fecha) => {
     return cadena.padStart(2, "0");
 }
 
+export const normalizarFecha = (fecha) => {
+    const r1 = /^\d{4}-(\d{1,2})-(\d{1,2})$/;
+    const r2 = /^\d{4}[/](\d{1,2})[/](\d{1,2})$/;
+    let f;
+    
+    if( r1.test(fecha) ){
+        f = fecha.split("-");
+    }
+    if( r2.test(fecha) ){
+        f = fecha.split("/");
+    }
+    if( f ){
+        return `${f[0]}-${padding(f[1])}-${padding(f[2])}`;
+    }
+    return obtenerFechaActual();
+}
+
 export const obtenerDia = (fecha="") => {
     return new Date(fecha).getUTCDay();
 }

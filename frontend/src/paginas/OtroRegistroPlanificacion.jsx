@@ -4,10 +4,26 @@ import { useState, useRef, useEffect } from "react";
 import { TituloRegistros } from "../componentes/titulos";
 import { validador } from "../utils";
 import { ModalConfirmar, ModalSimple } from "../componentes/modales";
-import { registrarPlanificacionEmpresa } from "../servicios/api"
+import { registrarPlanificacionEmpresa, obtenerPlanificacionEmpresa } from "../servicios/api"
 import { cadenaValoresJSON } from "../utils/conversor";
 import { tiempo } from "../utils";
 import { useLocation } from "react-router-dom";
+import { IconoCargando } from "../componentes/iconos";
+
+const reconstruirPlanificacion = (datos=[]) => {
+    console.log(datos);
+    const nuevosDatos = datos.map(d =>{
+        return(
+            {
+                titulo: d.titulo,
+                tarea: d.items.map(i => {return i.nombre}),
+                fecha_inicio: tiempo.normalizarFecha(d.fecha_inicio),
+                fecha_fin: tiempo.normalizarFecha(d.fecha_fin),
+            }
+        );
+    });
+    return nuevosDatos;
+}
 
 const compararFecha = (f1, f2 = undefined) => {
     const fecha1 = typeof f1 === "string" ? new Date(f1) : f1;
@@ -69,7 +85,7 @@ const quitarEspaciosFinales = (plan=[]) => {
 }
 
 const OtroRegistroPlanificacion = () => {
-    const titulos = ["Titulo", "Objetivo", "Fecha Inicio", "Fecha Fin"];
+    const titulos = ["Hito", "Objetivo", "Fecha Inicio", "Fecha Fin"];
     const fecha = tiempo.obtenerFechaActual();
     const ref = useRef(null);
     const [fechasValidadProyecto, setFechasValidasProyecto] = useState({
@@ -92,10 +108,45 @@ const OtroRegistroPlanificacion = () => {
         texto: ""
     });
     const [deshabilitarEnvio, setDeshabilitarEnvio] = useState(false);
-    const [estadoPlanif, setEstadoPlanif] = useState(null);
+    const [estadoPlanif, setEstadoPlanif] = useState("No Iniciado");
+    const [modificable, setModificable] = useState(true);
 
-    const [idEmpr, setIdEmpr] = useState("1");
+    const [cargando, setCargando] = useState(true);
+    const refCarga = useRef(true);
 
+    const datosPlanificacion = useLocation();
+    const idEmpr = useRef(null);
+    //console.log(datosPlanificacion);
+
+    useEffect(()=>{
+        const cargarDatos = async () => {
+            const id_empresa = datosPlanificacion.state.id_empresa;
+            idEmpr.current = id_empresa;
+            const consulta = await obtenerPlanificacionEmpresa(id_empresa);
+            if( consulta.status === 200){
+                const previo = consulta.message.planifiaciones_ob;
+                setPlanificacion( reconstruirPlanificacion( previo ) );
+                const estado = previo.id_estado_planificacion;
+                if( estado === 2 || estado === 3 ){
+                    setModificable(false);
+                }
+                if( estado === 2 ){
+                    setEstadoPlanif("En Revisión");
+                }
+                if( estado === 3 ){
+                    setEstadoPlanif("Aceptado");
+                }
+                if( estado === 4 ){
+                    setEstadoPlanif("Requiere Mejorar");
+                }
+            }
+            setCargando(false);
+        };
+        if(refCarga.current){
+            refCarga.current = false;
+            cargarDatos();
+        }
+    },[]);
 
     useEffect(() => {
         if (ref?.current) {
@@ -299,10 +350,10 @@ const OtroRegistroPlanificacion = () => {
                     }
                 }
 
-                if ( compararFecha(p.fecha_inicio) === -1 ){
+                /* if ( compararFecha(p.fecha_inicio) === -1 ){
                     AbrirModalInf(`La fecha inicio debe ser mayor o igual a la fecha actual. En la fila con titulo: ${p.titulo}`);
                     return false;
-                }
+                } */
                 
                 if ( compararFecha(p.fecha_inicio, p.fecha_fin) !== -1) {
                     AbrirModalInf(`La fecha fin debe ser mayor a la Fecha Inicio. En la fila con titulo: ${p.titulo}`);
@@ -330,7 +381,7 @@ const OtroRegistroPlanificacion = () => {
         const datos = {};
         if ( controlDatos() ) {
             setDeshabilitarEnvio(true);
-            datos["id_proyecto_empresa"] = idEmpr; //<=== Debe cambiar con usuario/empresa
+            datos["id_proyecto_empresa"] = idEmpr.current; //<=== Debe cambiar con usuario/empresa
             datos["dia_revision"] = revision.dia_rev;
             datos["hora_revision"] = revision.hora_rev;
             datos["planificacion"] = quitarEspaciosFinales(planificacion);
@@ -347,6 +398,18 @@ const OtroRegistroPlanificacion = () => {
             setDeshabilitarEnvio(false);
         }
     };
+
+    if ( cargando ){
+        return(
+            <div className="container-fluid">
+                <div className="row">
+                    <div className="col d-flex justify-content-center">
+                        <IconoCargando></IconoCargando>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="container-fluid">
@@ -367,11 +430,11 @@ const OtroRegistroPlanificacion = () => {
                     cerrar={cerrarModalInf}
                 />
             )}
-            <TituloRegistros titulo="Registro de Planificacion de Empresa" />
+            <TituloRegistros titulo="Planificación de Empresa" />
             <div className="row">
                 <div className="col d-flex align-items-center">
                     <h6 className="m-0">Estado:</h6>
-                    <p className="m-0 px-2">No iniciado</p>
+                    <p className="m-0 px-2">{estadoPlanif}</p>
                 </div>
             </div>
             <div className="row">
@@ -411,13 +474,16 @@ const OtroRegistroPlanificacion = () => {
                                                         idx
                                                     );
                                                 }}
+                                                disabled={!modificable}
                                             />
-                                            <BotonControl
-                                                tipo="<eliminar>"
-                                                handle={() => {
-                                                    eliminarFila(idx);
-                                                }}
-                                            />
+                                            {modificable && (
+                                                <BotonControl
+                                                    tipo="<eliminar>"
+                                                    handle={() => {
+                                                        eliminarFila(idx);
+                                                    }}
+                                                />
+                                            )}
                                         </div>
                                     </td>
                                     <td style={{ minWidth: "200px" }}>
@@ -474,28 +540,33 @@ const OtroRegistroPlanificacion = () => {
                                                                         i
                                                                     );
                                                                 }}
+                                                                disabled={!modificable}
                                                             />
-                                                            <BotonControl
-                                                                tipo="<eliminar>"
-                                                                handle={() => {
-                                                                    eliminarTarea(
-                                                                        idx,
-                                                                        i
-                                                                    );
-                                                                }}
-                                                            />
+                                                            {modificable && (
+                                                                <BotonControl
+                                                                    tipo="<eliminar>"
+                                                                    handle={() => {
+                                                                        eliminarTarea(
+                                                                            idx,
+                                                                            i
+                                                                        );
+                                                                    }}
+                                                                />
+                                                            )}
                                                         </div>
                                                     </li>
                                                 );
                                             })}
-                                            <li className="list-group">
-                                                <BotonControl
-                                                    tipo="<agregar>"
-                                                    handle={() => {
-                                                        agregarTarea(idx);
-                                                    }}
-                                                />
-                                            </li>
+                                            {modificable && (
+                                                <li className="list-group">
+                                                    <BotonControl
+                                                        tipo="<agregar>"
+                                                        handle={() => {
+                                                            agregarTarea(idx);
+                                                        }}
+                                                    />
+                                                </li>
+                                            )}
                                         </ul>
                                     </td>
                                     <td key={`${key}-f_i`}>
@@ -508,6 +579,7 @@ const OtroRegistroPlanificacion = () => {
                                             onChange={(ev) => {
                                                 actualizarFecha(ev, idx);
                                             }}
+                                            disabled={!modificable}
                                         />
                                     </td>
                                     <td key={`${key}-f_f`}>
@@ -520,6 +592,7 @@ const OtroRegistroPlanificacion = () => {
                                             onChange={(ev) => {
                                                 actualizarFecha(ev, idx);
                                             }}
+                                            disabled={!modificable}
                                         />
                                     </td>
                                 </tr>
@@ -544,6 +617,7 @@ const OtroRegistroPlanificacion = () => {
                                     className="form-select"
                                     value={revision.dia_rev}
                                     onChange={editarRevision}
+                                    disabled={!modificable}
                                 >
                                     <option value="1">Lunes</option>
                                     <option value="2">Martes</option>
@@ -560,6 +634,7 @@ const OtroRegistroPlanificacion = () => {
                                     className="form-select"
                                     value={revision.hora_rev}
                                     onChange={editarRevision}
+                                    disabled={!modificable}
                                 >
                                     <option value="06:45">06:45</option>
                                     <option value="08:15">08:15</option>
@@ -576,23 +651,25 @@ const OtroRegistroPlanificacion = () => {
                     </div>
                 </div>
             </div>
-            <div className="row g-0 bg-white pb-3 rounded-bottom-3">
-                <div className="col d-flex justify-content-center gap-2">
-                    <button
-                        className="btn btn-eva-secondary"
-                        onClick={agregarFila}
-                    >
-                        Agregar Fila
-                    </button>
-                    <button
-                        className="btn btn-eva-secondary"
-                        onClick={enviarDatos}
-                        disabled={deshabilitarEnvio}
-                    >
-                        Registrar
-                    </button>
+            {modificable && (
+                <div className="row g-0 bg-white pb-3 rounded-bottom-3">
+                    <div className="col d-flex justify-content-center gap-2">
+                        <button
+                            className="btn btn-eva-secondary"
+                            onClick={agregarFila}
+                        >
+                            Agregar Hito
+                        </button>
+                        <button
+                            className="btn btn-eva-secondary"
+                            onClick={enviarDatos}
+                            disabled={deshabilitarEnvio}
+                        >
+                            Registrar
+                        </button>
+                    </div>
                 </div>
-            </div>
+            )}
             <div className="row">
                 <div className="col">
                     <h6>Observaciones</h6>
@@ -602,24 +679,6 @@ const OtroRegistroPlanificacion = () => {
                         className="w-100 user-select-none"
                         disabled={true}
                     ></textarea>
-                </div>
-            </div>
-            <div className="row">
-                <div className="col">
-                    <label htmlFor="idemp" className="px-2">
-                        Empresa
-                    </label>
-                    <select
-                        name="idemp"
-                        id="idemp"
-                        value={idEmpr}
-                        onChange={(ev) => {
-                            setIdEmpr(ev.target.value);
-                        }}
-                    >
-                        <option value="1">techoSol</option>
-                        <option value="2">ISSA Soft</option>
-                    </select>
                 </div>
             </div>
         </div>
