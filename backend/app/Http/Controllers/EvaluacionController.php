@@ -78,7 +78,7 @@ class EvaluacionController extends Controller
                 'hora_revision' => 'required|date_format:H:i',
                 'concluido' => 'required|boolean',
                 'nota' => 'required|integer',
-                'id_empresa' => 'required|exists:empresas,id',
+                'id_proyecto_empresa' => 'required|exists:proyecto_empresas,id',
                 'id_tipo_evaluacion' => 'required|exists:tipo_evaluacions,id',
             ]);
             $evaluacion = Evaluacion::create($request->all());
@@ -273,9 +273,13 @@ class EvaluacionController extends Controller
 
     public function indexEmpresa($id)
     {
-        $evaluacion = Evaluacion::where('id_empresa', $id)->get();
-        if (!$evaluacion->isEmpty()) {
-            return response()->json(['contenido' => compact('evaluacion')], 200);
+        $evaluacion_empresa=[];
+        $proyectoEmpresas = Proyecto_empresa::where('id_empresa', $id)->get();
+        if (!$proyectoEmpresas->isEmpty()) {
+            foreach ($proyectoEmpresas as $proyectoEmpresa){
+                $evaluacion_empresa[]=Evaluacion::where('id_proyecto_empresa',$proyectoEmpresa->id)->get();
+            }
+            return response()->json(['contenido' => compact('evaluacion_empresa')], 200);
         } else {
             return response()->json(['contenido' => 'no existe la evaluacion'], 404);
         }
