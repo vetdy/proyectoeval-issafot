@@ -11,7 +11,6 @@ import { useLocation } from "react-router-dom";
 import { IconoCargando } from "../componentes/iconos";
 
 const reconstruirPlanificacion = (datos=[]) => {
-    console.log(datos);
     const nuevosDatos = datos.map(d =>{
         return(
             {
@@ -116,7 +115,6 @@ const OtroRegistroPlanificacion = () => {
 
     const datosPlanificacion = useLocation();
     const idEmpr = useRef(null);
-    //console.log(datosPlanificacion);
 
     useEffect(()=>{
         const cargarDatos = async () => {
@@ -126,7 +124,7 @@ const OtroRegistroPlanificacion = () => {
             if( consulta.status === 200){
                 const previo = consulta.message.planifiaciones_ob;
                 setPlanificacion( reconstruirPlanificacion( previo ) );
-                const estado = previo.id_estado_planificacion;
+                const estado = previo[0].id_estado_planificacion;
                 if( estado === 2 || estado === 3 ){
                     setModificable(false);
                 }
