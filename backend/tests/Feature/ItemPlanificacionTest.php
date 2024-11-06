@@ -57,7 +57,7 @@ class ItemPlanificacionTest extends TestCase
 
     public function test_mostar_item_planificacion_fallido(): void
     {
-        $response = $this->get('/api/item_planificacion/10');
+        $response = $this->get('/api/item_planificacion/99');
         $response->assertStatus(404);
     }
 
@@ -75,9 +75,9 @@ class ItemPlanificacionTest extends TestCase
     public function test_modificar_item_planificacion_fallido_id(): void
     {
         $response = $this->putJson(
-            '/api/item_planificacion/10',
+            '/api/item_planificacion/99',
             [
-                "id_planificacion" => 2,
+                "id_planificacion" => 99,
             ]
         );
         $response->assertStatus(404);
@@ -103,7 +103,7 @@ class ItemPlanificacionTest extends TestCase
 
     public function test_eliminar_item_planificacion_fallido(): void
     {
-        $response = $this->delete('/api/item_planificacion/10');
+        $response = $this->delete('/api/item_planificacion/99');
         $response->assertStatus(404);
     }
 }

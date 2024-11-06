@@ -35,7 +35,7 @@ class EvaluacionSeeder extends Seeder
                 'hora_revision' => '18:00',
                 'concluido' => false,
                 'nota' => 20,
-                'id_empresa' => '1',
+                'id_proyecto_empresa' => '1',
                 'id_tipo_evaluacion' => '2'
             ],
             [
@@ -44,7 +44,7 @@ class EvaluacionSeeder extends Seeder
                 'hora_revision' => '15:00',
                 'concluido' => false,
                 'nota' => 20,
-                'id_empresa' => '1',
+                'id_proyecto_empresa' => '1',
                 'id_tipo_evaluacion' => '2'
             ],
             [
@@ -53,7 +53,7 @@ class EvaluacionSeeder extends Seeder
                 'hora_revision' => '20:00',
                 'concluido' => false,
                 'nota' => 20,
-                'id_empresa' => '1',
+                'id_proyecto_empresa' => '1',
                 'id_tipo_evaluacion' => '2'
             ],
         ]);

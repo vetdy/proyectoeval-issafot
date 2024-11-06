@@ -20,7 +20,7 @@ class CreateEvaluacionTable extends Migration
             $table->time('hora_revision');
             $table->boolean('concluido')->default(false);
             $table->integer('nota')->default(0);
-            $table->foreignId('id_empresa')->constrained('empresas');
+            $table->foreignId('id_proyecto_empresa')->constrained('proyecto_empresas');
             $table->foreignId('id_tipo_evaluacion')->constrained('tipo_evaluacions');
             $table->timestamps();
         });
