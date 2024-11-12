@@ -170,7 +170,7 @@ class ItemPlanillaController extends Controller
         try {
             $request->validate([
                 'titulo' => 'nullable|max:32',
-                'observacion' => 'nulltable|max:255',
+                'observacion' => 'nullable|max:255',
 
             ]);
             $data = $request->only(['titulo', 'observacion',]);
