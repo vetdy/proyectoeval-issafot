@@ -171,7 +171,6 @@ class ItemPlanillaController extends Controller
             $request->validate([
                 'titulo' => 'nullable|max:32',
                 'observacion' => 'nullable|max:255',
-
             ]);
             $data = $request->only(['titulo', 'observacion',]);
         } catch (\Illuminate\Validation\ValidationException $e) {

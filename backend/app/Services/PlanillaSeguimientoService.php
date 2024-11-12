@@ -26,9 +26,10 @@ class PlanillaSeguimientoService
         $fecha_inicio = Carbon::createFromDate($registar['fecha_inicio']);
         $fecha_fin = Carbon::createFromDate($planillaService->getAnteriorFecha($registar['fecha_fin'], $dia));
         $fecha_inicio = Carbon::createFromDate($planillaService->getProximoDiaRevision($fecha_inicio, $dia));
-
+        #($fecha_fin,$fecha_fin);
         while ($fecha_inicio->lt($fecha_fin)) {
             $pg = new Planilla_seguimiento();
+            
             $pg->titulo = $registar['titulo'];
             $pg->fecha_revision = $fecha_inicio->toDateString();
             $pg->hora_revision = $registar['hora_revision'];
@@ -37,7 +38,7 @@ class PlanillaSeguimientoService
             $tareas=Item_planificacion::where('id_planificacion',$registar['id'])->get();
             foreach ($tareas as $tarea) {
                 $ta = new Item_planilla();
-                $ta->titulo = $tarea;
+                $ta->titulo = $tarea->nombre;
                 $ta->id_planilla_seguimiento = $pg->id;
                 $ta->save();
             }
