@@ -181,6 +181,7 @@ class PlanillaSeguimientoController extends Controller
             $request->validate([
                 'titulo' => 'nullable|max:64',
                 'fecha_revision' => 'nullable|date',
+                'concluido' => 'nullable|boolean',
                 'hora_revision' => 'nullable|date_format:H:i',
             ]);
             $data = $request->only(['titulo', 'fecha_revision', 'hora_revision']);
@@ -422,6 +423,7 @@ class PlanillaSeguimientoController extends Controller
     {
         $planillaSeguimientoService=new PlanillaSeguimientoService;
         $proyecto_empresas =Proyecto_empresa::where('id_empresa',$id)->get();
+        
         if (!$proyecto_empresas->isEmpty()) {    
             foreach ($proyecto_empresas as $proyecto_empresa){
                 foreach (Planificacion::where('id_proyecto_empresa',$proyecto_empresa->id)->get() as $planificacion){
