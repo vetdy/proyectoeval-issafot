@@ -2,7 +2,7 @@
 export const EMPRESAS_TODAS_REGISTRADAS = "/empresas";
 
 // ========== Rutas para usuario Docente ==========
-export const DOC_EMPRESAS_ADMINISTRACION = "/empresas/admin";
+export const DOC_EMPRESAS_ADMINISTRACION = "/gestion-empresas";
 
 export const DOC_PROYECTOS_LISTA = "/proyectos";
 export const DOC_PROYECTOS_CREAR = "/proyectos/nuevo";
