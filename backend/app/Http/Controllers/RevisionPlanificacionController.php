@@ -212,4 +212,46 @@ class RevisionPlanificacionController extends Controller
             return response()->json(['contenido' => 'no existe la revision planificacion'], 404);
         }
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    /**
+     * @OA\Get(
+     *     path="/api/revision_planificacion/{id}",
+     *     summary="Mostar revision planificacion con el id proyecto empresa",
+     *     tags={"Revision Planificacion"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID de la proyecto empresa",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Detalle Revision Planificacion "
+     *     ),
+     *      @OA\Response(
+     *         response=404,
+     *         description="proyecto empresa no encontrada"
+     *     )
+     * 
+     * )
+     */
+    public function show_proyecto_empresa($id)
+    {
+        $revision_planificacion = Revision_planificacion::where('id_proyecto_empresa',$id)->first();
+        if ($revision_planificacion) {
+            $revision_planificacion->delete();
+            return response()->json(['contenido' => compact('revision_planificacion')], 200);
+        } else {
+            return response()->json(['contenido' => 'no existe la revision planificacion'], 404);
+        }
+    }
 }
