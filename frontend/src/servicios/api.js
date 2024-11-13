@@ -107,6 +107,11 @@ export const obtenerPlanificacionEmpresa = async (empresaID=1) => {
     return respuesta;
 }
 
+export const obtenerEstadoPlanificacionProyectoEmpresa = async (proy_emprID = 1) => {
+    const respuesta = await solicitud(`${rutas.ESTADO_PLANIFICACION_PROYECTO_EMPRESA}/${proy_emprID}`);
+    return respuesta;
+}
+
 export const registrarPlanificacionEmpresa = async (datos={}) => {
     const respuesta = await solicitud(`${rutas.REGISTRAR_PLANIFICACION_EMPRESA}`,"POST", datos);
     return respuesta;

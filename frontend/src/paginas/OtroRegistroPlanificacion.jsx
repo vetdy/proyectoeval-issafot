@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { TituloRegistros } from "../componentes/titulos";
 import { validador } from "../utils";
 import { ModalConfirmar, ModalSimple } from "../componentes/modales";
-import { registrarPlanificacionEmpresa, obtenerPlanificacionEmpresa } from "../servicios/api"
+import { registrarPlanificacionEmpresa, obtenerPlanificacionEmpresa, obtenerEstadoPlanificacionProyectoEmpresa } from "../servicios/api"
 import { cadenaValoresJSON } from "../utils/conversor";
 import { tiempo } from "../utils";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -87,10 +87,7 @@ const OtroRegistroPlanificacion = () => {
     const titulos = ["Hito", "Objetivo", "Fecha Inicio", "Fecha Fin"];
     const fecha = tiempo.obtenerFechaActual();
     const ref = useRef(null);
-    const [fechasValidadProyecto, setFechasValidasProyecto] = useState({
-        fecha_inicio: "",
-        fecha_fin: ""
-    });
+
     const [planificacion, setPlanificacion] = useState([]);
     const [revision, setRevision] = useState({
         dia_rev: "1",
@@ -122,6 +119,7 @@ const OtroRegistroPlanificacion = () => {
             const id_empresa = datosPlanificacion.state.id_empresa;
             idEmpr.current = id_empresa;
             const consulta = await obtenerPlanificacionEmpresa(id_empresa);
+            //const consultaEstado = await obtenerEstadoPlanificacionProyectoEmpresa();
             if( consulta.status === 200){
                 const previo = consulta.message.planifiaciones_ob;
                 setPlanificacion( reconstruirPlanificacion( previo ) );

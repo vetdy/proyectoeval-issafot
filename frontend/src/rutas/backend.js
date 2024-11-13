@@ -6,6 +6,7 @@ export const PLANTILLA_EMPRESA = `${URL_BACKEND}/api/planilla_seguimiento/proyec
 export const REGISTRAR_PLANIFICACION_EMPRESA = `${URL_BACKEND}/api/planificacion_tareas`;
 export const PROYECTOS_EMPRESA = `${URL_BACKEND}/api/proyecto_empresa/empresa`;
 export const PLANIFICACION_PROYECTO_EMPRESA = `${URL_BACKEND}/api/planificacion/proyecto_empresa/item`;
+export const ESTADO_PLANIFICACION_PROYECTO_EMPRESA = `${URL_BACKEND}/api/revision_planificacion/proyecto_empresa`;
 
 export const PLANILLAS_DOCENTE_SEGUIMIENTO = `${URL_BACKEND}/api/planilla_seguimiento/semana`;
 export const ITEMS_PLANTILLA_SEGUIMIENTO = `${URL_BACKEND}/api/item_planilla/planilla_seguimiento`;
