@@ -5,7 +5,7 @@ function GenerarPlanillas() {
         { nombre: "Issa Soft", estado: "Aceptado" },
         { nombre: "TechSoft", estado: "En revision" },
         { nombre: "SoftJav", estado: "Rechazado" },
-        { nombre: "Emp XX", estado: "No existe" },
+        { nombre: "Emp XX", estado: "No existee" },
     ]);
 
     // Función para generar planilla individual
