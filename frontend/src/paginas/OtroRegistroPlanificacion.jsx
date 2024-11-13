@@ -395,7 +395,7 @@ const OtroRegistroPlanificacion = () => {
             datos["dia_revision"] = revision.dia_rev;
             datos["hora_revision"] = revision.hora_rev;
             datos["planificacion"] = quitarEspaciosFinales(planificacion);
-            const res = await registrarPlanificacionEmpresa(datos);
+            /* const res = await registrarPlanificacionEmpresa(datos);
             if (res.status === 200){
                 AbrirModalInf("Se ha registrado la planificación", "normal");
                 alert("Se ha registrado la planificación");
@@ -406,7 +406,8 @@ const OtroRegistroPlanificacion = () => {
             }
             else{
                 AbrirModalInf( res.message );
-            }
+            } */
+           console.log(datos);
             setDeshabilitarEnvio(false);
         }
     };

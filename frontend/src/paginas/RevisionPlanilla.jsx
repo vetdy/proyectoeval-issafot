@@ -5,6 +5,7 @@ import {
     obtenerItemsPlanillaSeguimiento,
     obtenerAsistenciaPlanillaSeguimiento,
     obtenerItemsPlanillaEvaluacion,
+    actualizarItemPlanillaSeguimiento
 
 } from "../servicios/api";
 import { IconoCargando } from "../componentes/iconos";
@@ -13,8 +14,50 @@ import logo from "/logo.png"
 
 const Planilla = ({datos, planilla, asistencia}) => {
     const titulos = datos.tipo === "seguimiento" ? ["#", "Tarea", "Observacion"] : ["#", "Tarea", "Observacion", "Nota"]
+    const [obs, setObs] = useState(planilla.map( p => p.observacion ));
+    const [enviando, setEnviando] = useState(false);
+
+    const actualizarObs = (ev, idx) => {
+        const nuevaObs = [...obs];
+        nuevaObs[idx] = ev.target.value;
+        setObs(nuevaObs);
+    }
+
+    const agregarTarea = async () => {
+        
+    }
+
+    const terminarSeguimiento = async () => {
+        setEnviando(true);
+        const consultas = [];
+
+        planilla.forEach((p, index) => {
+            const observacion = p.observacion;
+
+            if( observacion !== obs[index] ){
+                consultas.push( actualizarItemPlanillaSeguimiento(p.id, {observacion:obs[index]}) );
+            }
+
+        });
+        const res = await Promise.all(consultas);
+
+        res.forEach( r => {
+            if(r.status !== 200){
+                console.error(r.message);
+            }
+        });
+
+        console.log(res);
+        setEnviando(false);
+    }
+
     return (
         <div className="container-fluid">
+            {enviando && (
+                <div className="row">
+                    <IconoCargando tipo={"linea"}></IconoCargando>
+                </div>
+            )}
             <div className="row">
                 <div className="col-md-12 d-flex flex-column justify-content-center align-items-center">
                     <h2 className="fw-bold">{`${datos.tipo === "evaluacion" ? "Evaluación" : "Seguimiento Semanal"}`}</h2>
@@ -80,6 +123,7 @@ const Planilla = ({datos, planilla, asistencia}) => {
                 <Tabla 
                     datos={titulos} 
                     hover={false}
+                    px0={true}
                 >
                     {planilla.map((p, index) => {
                         return(
@@ -92,6 +136,8 @@ const Planilla = ({datos, planilla, asistencia}) => {
                                         type="text"
                                         name=""
                                         id=""
+                                        value={obs[index]}
+                                        onChange={(ev) => { actualizarObs(ev, index) }}
                                     />
                                 </td>
                                 {datos.tipo === "evaluacion" && 
@@ -124,7 +170,9 @@ const Planilla = ({datos, planilla, asistencia}) => {
                         </div>
                         <div className="col-md-6"></div>
                         <div className="col-md-2">
-                            <button className="btn btn-eva-secondary w-100">
+                            <button className="btn btn-eva-secondary w-100"
+                                onClick={terminarSeguimiento}
+                            >
                                 Terminar
                             </button>
                         </div>
@@ -209,6 +257,8 @@ const RevisionPlanilla = () => {
             <div>Ocurrio un error...</div>
         );
     }
+
+    console.log(planilla);
 
     return <Planilla datos={datos} planilla={planilla} asistencia={asistencia}/>
 };

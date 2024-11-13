@@ -1,3 +1,5 @@
+import { normalizarFecha } from "./tiempo";
+
 export const base64 = (archivo) => {
     const promise = new Promise ( (resolve, reject) => {
         const reader = new FileReader();
@@ -45,3 +47,17 @@ export const actualizarNombreLlave = (obj, viejaLlave, nuevaLlave) => {
 
     return nuevoObjeto;
 };
+
+export const recuperarPlanEmpresa = (datos=[]) => {
+    const nuevosDatos = datos.map(d =>{
+        return(
+            {
+                titulo: d.titulo,
+                tarea: d.items.map(i => {return i.nombre}),
+                fecha_inicio: normalizarFecha(d.fecha_inicio),
+                fecha_fin: normalizarFecha(d.fecha_fin),
+            }
+        );
+    });
+    return nuevosDatos;
+}

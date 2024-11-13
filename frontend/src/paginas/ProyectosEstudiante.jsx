@@ -189,6 +189,7 @@ const ProyectosEstudiante = () => {
                     >
                         <option value="1">techoSol</option>
                         <option value="2">ISSA Soft</option>
+                        <option value="3">Robo Soft</option>
                     </select>
                 </div>
             </div>

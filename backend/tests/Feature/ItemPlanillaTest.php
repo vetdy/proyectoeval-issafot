@@ -151,7 +151,7 @@ class ItemPlanillaTest extends TestCase
 
     public function test_mostar_planilla_seguimiento_fallido(): void
     {
-        $response = $this->get('/api/item_planilla/planilla_seguimiento/5');
+        $response = $this->get('/api/item_planilla/planilla_seguimiento/99');
         $response->assertStatus(404);
     }
 }

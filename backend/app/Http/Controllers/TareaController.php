@@ -279,4 +279,46 @@ class TareaController extends Controller
         }
         return response()->json(['contenido' => 'Se creo a la tarea con exito'], 200);
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    /**
+     * @OA\Get(
+     *     path="/api/tarea/evaluacion/{id}",
+     *     summary="Mostar una lista tareas por evaluacion",
+     *     tags={"Tarea"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID del empresa",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *      ),
+     *     
+     *     @OA\Response(
+     *         response=200,
+     *         description="Datos del tarea por evaluacion"
+     *     ),
+     *      @OA\Response(
+     *         response=404,
+     *         description="evaluacion no encontrada"
+     *     )
+     * 
+     * )
+     */
+    public function show_evaluacion($id)
+    {
+        $tarea = Tarea::where('id_evaluacion', $id)->get();
+        if (!$tarea->isEmpty()) {
+            return response()->json(['contenido' => compact('tarea')], 200);
+        } else {
+            return response()->json(['contenido' => 'id planilla seguimiento no existe'], 404);
+        }
+    }
 }

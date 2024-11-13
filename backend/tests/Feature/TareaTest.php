@@ -101,7 +101,7 @@ class TareaTest extends TestCase
 
     public function test_eliminar_tarea_fallido(): void
     {
-        $response = $this->delete('/api/tarea/11');
+        $response = $this->delete('/api/tarea/99');
         $response->assertStatus(404);
     }
 }

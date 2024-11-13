@@ -122,15 +122,15 @@ class EvaluacionTest extends TestCase
         $response->assertStatus(404);
     }
 
-    public function test_mostar_evaluacion_empresa_correcto(): void
+    public function test_mostar_evaluacion_proyecto_empresa_correcto(): void
     {
-        $response = $this->get('/api/evaluacion/empresa/1');
+        $response = $this->get('/api/evaluacion/proyecto_empresa/3');
         $response->assertStatus(200);
     }
 
-    public function test_mostar_evaluacion_empresa_fallido(): void
+    public function test_mostar_evaluacion_proyecto_empresa_fallido(): void
     {
-        $response = $this->get('/api/evaluacion/empresa/5');
+        $response = $this->get('/api/evaluacion/proyecto_empresa/5');
         $response->assertStatus(404);
     }
 }

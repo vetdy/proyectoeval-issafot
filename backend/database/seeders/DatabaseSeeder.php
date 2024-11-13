@@ -20,9 +20,11 @@ class DatabaseSeeder extends Seeder
         $this->call(EmpresaSeeder::class);
         $this->call(UsuarioSeeder::class);
         $this->call(ProyectoEmpresaSeeder::class);
-        $this->call(PlanillaSeeder::class);
-        $this->call(EvaluacionSeeder::class);
         $this->call(PlanificacionSeeder::class);
+        $this->call(EvaluacionSeeder::class);
+        $this->call(PlanillaSeeder::class);
+        
+        
         $this->call(AsistenciaSeeder::class);
     }
 }
