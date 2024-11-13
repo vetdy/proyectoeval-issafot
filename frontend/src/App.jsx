@@ -56,6 +56,9 @@ function App() {
                 <Route path="/gestion-empresas"
                     element={<paginas.AdminEmpresasDocente />}
                 ></Route>
+                <Route path="/generarPLanillasDeSeguimientoYEvaSemanal"
+                    element={<paginas.generarPLanillasDeSeguimientoYEvaSemanal/>}
+                ></Route>
             </Routes>
             <Control inicial={"estudiante"} menus={menus} clickHandle={setUsrMenu}></Control>
         </>
