@@ -5,7 +5,8 @@ import {
     obtenerItemsPlanillaSeguimiento,
     obtenerAsistenciaPlanillaSeguimiento,
     obtenerItemsPlanillaEvaluacion,
-    actualizarItemPlanillaSeguimiento
+    agregarItemPlanillaSeguimiento,
+    actualizarItemPlanillaSeguimiento,
 
 } from "../servicios/api";
 import { IconoCargando } from "../componentes/iconos";
@@ -16,6 +17,7 @@ const Planilla = ({datos, planilla, asistencia}) => {
     const titulos = datos.tipo === "seguimiento" ? ["#", "Tarea", "Observacion"] : ["#", "Tarea", "Observacion", "Nota"]
     const [obs, setObs] = useState(planilla.map( p => p.observacion ));
     const [enviando, setEnviando] = useState(false);
+    console.log(datos);
 
     const actualizarObs = (ev, idx) => {
         const nuevaObs = [...obs];
@@ -24,7 +26,19 @@ const Planilla = ({datos, planilla, asistencia}) => {
     }
 
     const agregarTarea = async () => {
-        
+        const fn = {
+            "seguimiento": agregarItemPlanillaSeguimiento,
+            
+        }
+        const nuevo = {titulo:"Hola"};
+        if(datos.tipo === "seguimiento"){
+            nuevo["id_planilla_seguimiento"] = datos.idSeguimiento;
+        }
+        console.log(nuevo)
+        const res = await fn[datos.tipo](nuevo);
+        if(res.status === 200){
+            alert("se creo la tarea");
+        }
     }
 
     const terminarSeguimiento = async () => {
@@ -159,7 +173,9 @@ const Planilla = ({datos, planilla, asistencia}) => {
                 <div className="col">
                     <div className="row g-1">
                         <div className="col-md-2">
-                            <button className="btn btn-eva-info w-100">
+                            <button className="btn btn-eva-info w-100"
+                                onClick={agregarTarea}
+                            >
                                 Agregar Tarea
                             </button>
                         </div>

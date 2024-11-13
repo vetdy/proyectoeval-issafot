@@ -122,6 +122,11 @@ export const obtenerItemsPlanillaSeguimiento = async (planilla=1) => {
     return respuesta;
 }
 
+export const agregarItemPlanillaSeguimiento = async (datos={}) => {
+    const respuesta = await solicitud(`${rutas.ITEM_PLANILLA_SEGUIMIENTO}`, "POST", datos);
+    return respuesta;
+}
+
 export const actualizarItemPlanillaSeguimiento = async (itemID=1, datos={}) => {
     const respuesta = await solicitud(`${rutas.ITEM_PLANILLA_SEGUIMIENTO}/${itemID}`, "PUT", datos);
     return respuesta;
