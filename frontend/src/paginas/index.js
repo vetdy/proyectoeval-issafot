@@ -12,8 +12,6 @@ import IncluirTareasEnPlanillas from "./IncluirTareasEnPlanillas";
 import RecuperarResultadosEvaluacion from "./RecuperarResultadosEvaluacion";
 import ProyectosEstudiante from "./ProyectosEstudiante"
 import AdminEmpresasDocente from "./AdminEmpresasDocente"
-import RevisionPlanificacionDocente from "./RevisionPlanificacionDocente"
-import RevisionPlanificacionesDocente from "./RevisionPlanificacionesDocente"
 
 export {
     EmpresasRegistradas,
@@ -30,6 +28,4 @@ export {
     RecuperarResultadosEvaluacion,
     ProyectosEstudiante,
     AdminEmpresasDocente,
-    RevisionPlanificacionesDocente,
-    RevisionPlanificacionDocente,
 };

@@ -56,12 +56,6 @@ function App() {
                 <Route path="/gestion-empresas"
                     element={<paginas.AdminEmpresasDocente />}
                 ></Route>
-                <Route path="/evaluaciones/planes-empresa"
-                    element={<paginas.RevisionPlanificacionesDocente />}
-                ></Route>
-                <Route path="evaluaciones/planes-empresa/revision"
-                    element={<paginas.RevisionPlanificacionDocente />}
-                ></Route>
             </Routes>
             <Control inicial={"estudiante"} menus={menus} clickHandle={setUsrMenu}></Control>
         </>
