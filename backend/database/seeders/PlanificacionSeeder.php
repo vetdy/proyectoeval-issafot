@@ -45,11 +45,29 @@ class PlanificacionSeeder extends Seeder
                     
             ],
             [
+                'titulo' => 'sprint 1',
+                'dia_revision' => '2',
+                'hora_revision' => '8:15',
+                'fecha_inicio' => '2024/11/10',
+                'fecha_fin' => '2024/11/19',
+                'id_proyecto_empresa' => '3',
+                    
+            ],
+            [
+                'titulo' => 'sprint 2',
+                'dia_revision' => '2',
+                'hora_revision' => '8:15',
+                'fecha_inicio' => '2024/11/20',
+                'fecha_fin' => '2024/12/10',
+                'id_proyecto_empresa' => '3',
+                    
+            ],
+            [
                 'titulo' => 'sprint 3',
                 'dia_revision' => '2',
                 'hora_revision' => '8:15',
-                'fecha_inicio' => '2024/11/21',
-                'fecha_fin' => '2024/12/8',
+                'fecha_inicio' => '2024/12/10',
+                'fecha_fin' => '2024/12/30',
                 'id_proyecto_empresa' => '3',
                     
             ],
@@ -89,6 +107,19 @@ class PlanificacionSeeder extends Seeder
             [
                 'nombre' => 'poblar la base de datos',
                 'id_planificacion' => '3'
+            ],
+
+            [
+                'nombre' => 'poblar la base de datos',
+                'id_planificacion' => '4'
+            ],
+            [
+                'nombre' => 'diseños de ux',
+                'id_planificacion' => '4'
+            ],
+            [
+                'nombre' => 'diseños backend',
+                'id_planificacion' => '4'
             ],
         ]);
     }
