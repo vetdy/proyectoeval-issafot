@@ -12,6 +12,8 @@ import IncluirTareasEnPlanillas from "./IncluirTareasEnPlanillas";
 import RecuperarResultadosEvaluacion from "./RecuperarResultadosEvaluacion";
 import ProyectosEstudiante from "./ProyectosEstudiante"
 import AdminEmpresasDocente from "./AdminEmpresasDocente"
+import RevisionPlanificacionDocente from "./RevisionPlanificacionDocente"
+import RevisionPlanificacionesDocente from "./RevisionPlanificacionesDocente"
 import generarPLanillasDeSeguimientoYEvaSemanal from "./generarPLanillasDeSeguimientoYEvaSemanal"
 export {
     EmpresasRegistradas,
@@ -27,5 +29,7 @@ export {
     RevisionPlanilla,
     RecuperarResultadosEvaluacion,
     ProyectosEstudiante,
+    RevisionPlanificacionesDocente,
+    RevisionPlanificacionDocente,
     AdminEmpresasDocente,generarPLanillasDeSeguimientoYEvaSemanal,
 };
