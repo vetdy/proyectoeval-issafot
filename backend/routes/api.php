@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\AsistenciaEvaluacion;
+use App\Http\Controllers\AsistenciaEvaluacionController;
+use App\Http\Controllers\AsistenciaPlanillaSeguimiento;
+use App\Http\Controllers\AsistenciaPlanillaSeguimientoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DocenteController;
@@ -55,7 +59,7 @@ Route::controller(PlanillaSeguimientoController::class)->group(function () {
     Route::put('/planilla_seguimiento/{id}', 'update');
     Route::delete('/planilla_seguimiento/{id}', 'destroy');
 
-    Route::get('/planilla_seguimiento/empresa/{id}', 'show_empresa');
+    Route::get('/planilla_seguimiento/proyecto_empresa/{id}', 'show_proyecto_empresa');
     Route::get('/planilla_seguimiento/semana/{idUsuario}', 'show_semanal');
     Route::get('/planilla_seguimiento/asistencia/{id}', 'show_asistencia');
     Route::patch('/planilla_seguimiento/crear/{id}','create_planilla');
@@ -110,7 +114,7 @@ Route::controller(EvaluacionController::class)->group(function () {
     Route::put('/evaluacion/{id}', 'update');
     Route::delete('/evaluacion/{id}', 'destroy');
 
-    Route::get('/evaluacion/empresa/{id}', 'indexEmpresa');
+    Route::get('/evaluacion/proyecto_empresa/{id}', 'index_proyecto_empresa');
     Route::get('/evaluacion/semana/{idUsuario}', 'show_semanal');
 });
 
@@ -123,6 +127,16 @@ Route::controller(TipoEvaluacionController::class)->group(function () {
 });
 
 Route::controller(ProyectoEmpresaController::class)->group(function () {
-    //Route::get('/tipo_evaluacion', 'index');
-    Route::get('/proyecto_empresa/empresa/{id}', 'show_empresa');;
+    Route::get('/proyecto_empresa/empresa/{id}', 'show_empresa');
+    Route::get('/proyecto_empresa/docente/{id}', 'show_docente');
+});
+
+Route::controller(AsistenciaEvaluacionController::class)->group(function () {
+    
+    Route::put('asistencia_evaluacion/{id}', 'update');;
+});
+
+Route::controller(AsistenciaPlanillaSeguimientoController::class)->group(function () {
+    
+    Route::put('/asistencia_planilla_seguimiento/{id}', 'update');;
 });

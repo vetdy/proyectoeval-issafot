@@ -20,9 +20,7 @@ class CreatePlanificacionTable extends Migration
             $table->string('fecha_fin');
             $table->string('dia_revision');
             $table->string('hora_revision');
-            $table->string('observacion')->default('');
             $table->timestamps();
-            $table->foreignId('id_estado_planificacion')->default('2')->constrained('estado_planificacion');
             $table->foreignId('id_proyecto_empresa')->constrained('proyecto_empresas')->onDelete('cascade');
         });
     }

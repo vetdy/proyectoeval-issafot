@@ -76,8 +76,7 @@ class PlanificacionController extends Controller
                 'hora_revision' => 'required|date_format:H:i',
                 'fecha_inicio' => 'required|date',
                 'fecha_fin' => 'required|date',
-                'id_proyecto_empresa' => 'required|exists:proyecto_empresas,id',
-                'id_estado_planificacion'=>'required|exists:estado_planificacion,id'
+                'id_proyecto_empresa' => 'required|exists:proyecto_empresas,id'
             ]);
             $planificacion = Planificacion::create($request->all());
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -182,7 +181,7 @@ class PlanificacionController extends Controller
                 'fecha_fin' => 'nullable|date',
                 'id_estado_planificacion'=>'nullable|exists:estado_planificacion,id'
             ]);
-            $validData = $request->only(['titulo', 'dia_revision', 'hora_revision', 'fecha_inicio', 'fecha_fin']);
+            $validData = $request->only(['titulo', 'dia_revision', 'hora_revision', 'fecha_inicio', 'fecha_fin','id_estado_planificacion']);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json(['contenido' => $e->errors()], 422);
         }
@@ -239,7 +238,6 @@ class PlanificacionController extends Controller
 
     public function storePlanificacionTareas(Request $request)
     {
-        $planifiacionService = new PlanificacionService();
         try {
             $request->validate(
                 [
