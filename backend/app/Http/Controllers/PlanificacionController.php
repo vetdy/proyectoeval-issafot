@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Estado_planificacion;
 use App\Models\EstadoPlanificacion;
 use App\Models\Item_planificacion;
 use Illuminate\Http\Request;
 use App\Models\Planificacion;
+use App\Models\Revision_planificacion;
 use Illuminate\Support\Carbon;
 use App\Services\PlanificacionService;
 
@@ -179,7 +181,6 @@ class PlanificacionController extends Controller
                 'hora_revision' => 'nullable|date_format:H:i',
                 'fecha_inicio' => 'nullable|date',
                 'fecha_fin' => 'nullable|date',
-                'id_estado_planificacion'=>'nullable|exists:estado_planificacion,id'
             ]);
             $validData = $request->only(['titulo', 'dia_revision', 'hora_revision', 'fecha_inicio', 'fecha_fin','id_estado_planificacion']);
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -278,7 +279,8 @@ class PlanificacionController extends Controller
         $planificaciones=Planificacion::where('id_proyecto_empresa',$id)->get();
         if(!$planificaciones->isEmpty()){
             foreach($planificaciones as $planificacion){
-                $estado_planifiacion = EstadoPlanificacion::find($planificacion->id_estado_planificacion);
+                $rp=Revision_planificacion::where('id_proyecto_empresa',$id)->first();
+                $estado_planifiacion = Estado_planificacion::find($rp->id_estado_planificacion);
                 $planificacion->estado_planificacion=$estado_planifiacion->estado;
                 $planifiaciones_ob[]=$planificacion;
             }

@@ -35,6 +35,15 @@ class EmpresaSeeder extends Seeder
             ],
             [
                 'nombre' => 'marcos',
+                'apellido' => 'Valencia',
+                'codigo_sis' => '124096429',
+                'correo' => 'email15@gmail.com',
+                'telefono' => '4561592',
+                'contrasena' => 'passwords21',
+                'id_rol' => '2'
+            ],
+            [
+                'nombre' => 'marcos',
                 'apellido' => 'millanes',
                 'codigo_sis' => '414146429',
                 'correo' => 'e123ail12@gmail.com',
@@ -117,7 +126,15 @@ class EmpresaSeeder extends Seeder
                 'correo' => 'e12il1@gmail.com',
                 'telefono' => '43091542',
                 'url_logo' => 'url/dos',
-                'id_representante_legal' => $ids[1]
+                'id_representante_legal' => $ids[8]
+            ],
+            [
+                'nombre_corto' => 'RobotSoft',
+                'nombre_largo' => 'robot de inteligencia software',
+                'correo' => 'roboy@gmail.com',
+                'telefono' => '43491542',
+                'url_logo' => 'url/tres',
+                'id_representante_legal' => $ids[2]
             ],
 
         ];

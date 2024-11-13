@@ -436,9 +436,6 @@ class PlanillaSeguimientoController extends Controller
             }else{      
                 return response()->json(['contenido' => "planillas fue creada con anterioridad o no ha sido aprobada"],409);
             }
-
-            
-            
         }
         return response()->json(['contenido' => 'id del grupo empresa no encontrado'], 404);
         
