@@ -125,4 +125,17 @@ class RevisionPlanificacionTest extends TestCase
         $response = $this->delete('/api/revision_planificacion/99');
         $response->assertStatus(404);
     }
+
+
+    public function test_mostar_revision_planificacion_por_proyecto_empresa_exito(): void
+    {
+        $response = $this->get('/api/revision_planificacion/proyecto_empresa/2');
+        $response->assertStatus(200);
+    }
+
+    public function test_mostar_revision_planificacion_por_proyecto_empresa_fallido(): void
+    {
+        $response = $this->get('/api/revision_planificacion/proyecto_empresa/99');
+        $response->assertStatus(404);
+    }
 }

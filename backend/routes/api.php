@@ -149,4 +149,6 @@ Route::controller(RevisionPlanificacionController::class)->group(function () {
     Route::get('/revision_planificacion/{id}', 'show');
     Route::put('/revision_planificacion/{id}', 'update');
     Route::delete('/revision_planificacion/{id}', 'destroy');
+
+    Route::get('/revision_planificacion/proyecto_empresa/{id}','show_proyecto_empresa');
 });
