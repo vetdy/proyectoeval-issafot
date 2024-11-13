@@ -271,7 +271,7 @@ class EvaluacionController extends Controller
      */
 
 
-    public function indexEmpresa($id)
+    public function index_proyecto_empresa($id)
     {
         $evaluacion_empresa=[];
         $proyectoEmpresas = Proyecto_empresa::where('id_empresa', $id)->get();

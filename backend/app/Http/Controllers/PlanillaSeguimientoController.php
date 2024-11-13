@@ -275,7 +275,7 @@ class PlanillaSeguimientoController extends Controller
      * 
      * )
      */
-    public function show_empresa($id)
+    public function show_proyecto_empresa($id)
     {
         $planilla_seguimiento = Planilla_seguimiento::where('id_proyecto_empresa', $id)->get();;
         if (!$planilla_seguimiento->isEmpty()) {
@@ -434,7 +434,7 @@ class PlanillaSeguimientoController extends Controller
                 }
                 return response()->json(['contenido' => 'planillas de seguimiento creadas'], 200);
             }else{      
-                return response()->json(['contenido' => "planillas fue creada con anteriodida o no ha sido aprobada"],409);
+                return response()->json(['contenido' => "planillas fue creada con anterioridad o no ha sido aprobada"],409);
             }
 
             

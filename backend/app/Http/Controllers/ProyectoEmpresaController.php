@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Empresa;
+use App\Models\Estado_planificacion;
 use App\Models\Proyecto;
 use App\Models\Proyecto_empresa;
+use App\Models\Revision_planificacion;
 use App\Services\ProyectoEmpresaService;
+use GuzzleHttp\Handler\Proxy;
 use Illuminate\Http\Request;
 
 class ProyectoEmpresaController extends Controller
@@ -27,6 +30,31 @@ class ProyectoEmpresaController extends Controller
             return response()->json(['contenido' => compact('proyecto_por_empresa')], 200);
         }else{
             return response()->json(['contenido' => 'no se encuentra la empresa'],404 );
+        }
+    }
+
+    public function show_docente($id){
+        $proyecto_por_docente=[];
+        $proyecto_docente=Proyecto::where('id_creado_por',$id)->get();
+        
+        if(!$proyecto_docente->isEmpty()){
+            foreach($proyecto_docente as $proyecto){
+                $proyectoEmpresas=Proyecto_empresa::where('id_proyecto',$proyecto->id)->get();
+                foreach($proyectoEmpresas as $proyectoEmpresa){
+                    if ($proyectoEmpresa->habilitado){
+                        $proyect = new \stdClass();
+                        $proyect->id_proyecto_empresa=$proyectoEmpresa->id;
+                        $proyect->nombre_empresa=Empresa::find($proyectoEmpresa->id_empresa)->nombre_corto;
+                        $rp=Revision_planificacion::where('id_proyecto_empresa',$proyect->id_proyecto_empresa)->first();
+                        $proyect->estado=Estado_planificacion::find($rp->id_estado_planificacion)->estado;
+                        $proyecto_por_docente[]=$proyect;
+                    }
+                     
+                }
+            }
+            return response()->json(['contenido' => compact('proyecto_por_docente')], 200);
+        }else{
+            return response()->json(['contenido' => 'no se encuentra la docente'],404 );
         }
     }
 

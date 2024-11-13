@@ -31,10 +31,10 @@ class PlanillaSeeder extends Seeder
                 'id_proyecto_empresa' => '2'
             ],
             [
-                'titulo' => 'revision 2',
+                'titulo' => 'revision borrar',
                 'fecha_revision' => '2019/10/28',
                 'hora_revision' => '18:00',
-                'id_proyecto_empresa' => '1'
+                'id_proyecto_empresa' => '2'
             ],
             [
                 'titulo' => 'revision 2',
