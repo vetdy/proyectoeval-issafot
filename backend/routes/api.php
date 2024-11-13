@@ -84,6 +84,7 @@ Route::controller(TareaController::class)->group(function () {
 
     //Route::post('/tarea/lista', [TareaController::class, 'store_list']);
     Route::post('/tarea/lista', 'store_list');
+    Route::get('/tarea/evaluacion/{id}', 'show_evaluacion');
 });
 
 

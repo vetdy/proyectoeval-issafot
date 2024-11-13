@@ -28,6 +28,9 @@ class EvaluacionSeeder extends Seeder
                 'descripcion' => 'se cambia entre los pares'
             ]
         ]);
+        
+
+
         DB::table('evaluacions')->insert([
             [
                 'titulo' => 'evaluacion uno',
@@ -55,6 +58,21 @@ class EvaluacionSeeder extends Seeder
                 'nota' => 20,
                 'id_proyecto_empresa' => '1',
                 'id_tipo_evaluacion' => '2'
+            ],
+        ]);
+
+        DB::table('tareas')->insert([
+            [
+                'titulo' => 'tarea evaluacion dos 1',
+                'id_evaluacion' => '2'
+            ],
+            [
+                'titulo' => 'tarea evaluacion dos 3',
+                'id_evaluacion' => '2'
+            ],
+            [
+                'titulo' => 'tarea evaluacion dos 2',
+                'id_evaluacion' => '2'
             ],
         ]);
     }
