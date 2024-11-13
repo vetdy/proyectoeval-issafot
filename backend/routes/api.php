@@ -15,6 +15,7 @@ use App\Http\Controllers\PlanificacionController;
 use App\Http\Controllers\PlanillaSeguimientoController;
 use App\Http\Controllers\PlanillaController;
 use App\Http\Controllers\ProyectoEmpresaController;
+use App\Http\Controllers\RevisionPlanificacionController;
 use App\Http\Controllers\TareaController; //vetdy ultima coneccion octubre
 use App\Http\Controllers\TipoEvaluacionController;
 use App\Models\Planificacion;
@@ -140,4 +141,12 @@ Route::controller(AsistenciaEvaluacionController::class)->group(function () {
 Route::controller(AsistenciaPlanillaSeguimientoController::class)->group(function () {
     
     Route::put('/asistencia_planilla_seguimiento/{id}', 'update');;
+});
+
+Route::controller(RevisionPlanificacionController::class)->group(function () {
+    Route::get('/revision_planificacion', 'index');
+    Route::post('/revision_planificacion', 'store');
+    Route::get('/revision_planificacion/{id}', 'show');
+    Route::put('/revision_planificacion/{id}', 'update');
+    Route::delete('/revision_planificacion/{id}', 'destroy');
 });

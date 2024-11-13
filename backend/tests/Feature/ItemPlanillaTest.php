@@ -137,7 +137,7 @@ class ItemPlanillaTest extends TestCase
 
     public function test_eliminar_item_planilla_fallido(): void
     {
-        $response = $this->delete('/api/item_planilla/11');
+        $response = $this->delete('/api/item_planilla/10');
         $response->assertStatus(404);
     }
 
