@@ -16,9 +16,9 @@ class CreateRevisionPlanificacionTable extends Migration
         Schema::create('revision_planificacion', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->date('fecha_revision'); 
+            $table->text('observacion')->default('');
             $table->foreignId('id_proyecto_empresa')->constrained('proyecto_empresas')->onDelete('cascade');            
-            $table->foreignId('id_estado_planificacion')->constrained('estado_planificacion')->onDelete('cascade');
+            $table->foreignId('id_estado_planificacion')->default('2')->constrained('estado_planificacion');
         });
     }
 

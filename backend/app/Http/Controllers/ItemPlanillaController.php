@@ -65,7 +65,6 @@ class ItemPlanillaController extends Controller
         try {
             $request->validate([
                 'titulo' => 'required|max:32',
-                'observacion' => 'required|max:255',
                 'id_planilla_seguimiento' => 'required|exists:planilla_seguimientos,id'
             ]);
             $item_planilla = Item_planilla::create($request->all());

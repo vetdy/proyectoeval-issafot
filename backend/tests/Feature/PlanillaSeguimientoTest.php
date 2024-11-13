@@ -32,10 +32,9 @@ class PlanillaSeguimientoTest extends TestCase
                 'titulo' => 'revision sprint1',
                 'fecha_revision' => '23-10-2024',
                 'hora_revision' => '13:00',
-                'id_proyecto_empresa' => '1'
+                'id_proyecto_empresa' => '3'
             ]
         );
-        #dd($response->json());
         $response->assertStatus(200);
     }
 
@@ -46,7 +45,7 @@ class PlanillaSeguimientoTest extends TestCase
             [
                 'titulo' => 'revision sprint1',
                 'fecha_revision' => '23-10-2024',
-                'id_empresa' => '1'
+                'id_empresa' => '3'
             ]
         );
 
@@ -112,13 +111,13 @@ class PlanillaSeguimientoTest extends TestCase
 
     public function test_mostar_por_empresa_exitoso(): void
     {
-        $response = $this->get('/api/planilla_seguimiento/empresa/1');
+        $response = $this->get('/api/planilla_seguimiento/empresa/3');
         $response->assertStatus(200);
     }
 
     public function test_mostar_por_empresa_fallido(): void
     {
-        $response = $this->get('/api/planilla_seguimiento/empresa/2');
+        $response = $this->get('/api/planilla_seguimiento/empresa/99');
         $response->assertStatus(404);
     }
     public function test_mostar_por_semana_exitoso(): void
@@ -141,8 +140,8 @@ class PlanillaSeguimientoTest extends TestCase
             'fecha_inicio' => '2024-11-3',
             'fecha_fin' => '2024-12-30'
         ]);
-        $e = DB::table('proyecto_empresas')->where('id', 1)->first();
-        $response = $this->patch("/api/planilla_seguimiento/crear/{$e->id_empresa}");
+        
+        $response = $this->patch("/api/planilla_seguimiento/crear/1");
         $response->assertStatus(200);
     }
     public function test_crear_planilla_fallido(): void

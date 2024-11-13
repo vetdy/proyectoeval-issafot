@@ -34,7 +34,6 @@ class PlanificacionTest extends TestCase
                 'fecha_inicio' => '2024-10-20',
                 'fecha_fin' => '2024-10-27',
                 'id_proyecto_empresa' => '1',
-                'id_estado_planificacion' => '1',
             ]
         );
         $response->assertStatus(200);

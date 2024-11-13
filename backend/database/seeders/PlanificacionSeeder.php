@@ -15,24 +15,7 @@ class PlanificacionSeeder extends Seeder
     public function run()
     {
 
-        DB::table('estado_planificacion')->insert([
-            [
-                'estado' => 'no existe',
-                'descripcion' => 'la planificacion no existe'
-            ],
-            [
-                'estado' => 'en revision',
-                'descripcion' => 'la planificacion esta en revision'
-            ],
-            [
-                'estado' => 'aceptado',
-                'descripcion' => 'la planificacion fue aceptado'
-            ],
-            [
-                'estado' => 'rechazado',
-                'descripcion' => 'la planificacion fue rechazada'
-            ]
-        ]);
+        
         DB::table('planificaciones')->insert([
             [
                 'titulo' => 'sprint 1',
@@ -41,7 +24,7 @@ class PlanificacionSeeder extends Seeder
                 'dia_revision' => 2,
                 'hora_revision' => '8:15',
                 'id_proyecto_empresa' => '2',
-                'id_estado_planificacion'=>3
+                
             ],
             [
                 'titulo' => 'sprint 2',
@@ -50,7 +33,7 @@ class PlanificacionSeeder extends Seeder
                 'dia_revision' => 2,
                 'hora_revision' => '8:15',
                 'id_proyecto_empresa' => '2',
-                'id_estado_planificacion'=>3
+                
             ],
             [
                 'titulo' => 'sprint 3',
@@ -59,9 +42,26 @@ class PlanificacionSeeder extends Seeder
                 'fecha_inicio' => '2024/11/21',
                 'fecha_fin' => '2024/12/8',
                 'id_proyecto_empresa' => '2',
-                'id_estado_planificacion'=>3    
+                    
             ],
-
+            [
+                'titulo' => 'sprint 1',
+                'fecha_inicio' => '2024/9/29',
+                'fecha_fin' => '2024/11/20',
+                'dia_revision' => 2,
+                'hora_revision' => '8:15',
+                'id_proyecto_empresa' => '1',
+                
+            ],
+            [
+                'titulo' => 'sprint 2',
+                'dia_revision' => '2',
+                'hora_revision' => '8:15',
+                'fecha_inicio' => '2024/11/21',
+                'fecha_fin' => '2024/12/8',
+                'id_proyecto_empresa' => '1',
+                    
+            ],
         ]);
         DB::table('item_planificacion')->insert([
             [
