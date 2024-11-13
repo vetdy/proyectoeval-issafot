@@ -7,10 +7,10 @@ export const DOC_EMPRESAS_ADMINISTRACION = "/gestion-empresas";
 export const DOC_PROYECTOS_LISTA = "/proyectos";
 export const DOC_PROYECTOS_CREAR = "/proyectos/nuevo";
 
-export const DOC_EVALUACIONES_CREAR_FINAL = "/evaluaciones/nuevo";
+export const DOC_EVALUACIONES_REVISAR_PLANIFICACION = "/evaluaciones/planes-empresa";
 export const DOC_EVALUACIONES_RECUPERAR = "/evaluaciones";
 
-export const DOC_PLANILLAS_SEGUIMIENTO = "/planillas"
+export const DOC_EVALUACIONES_PLANILLAS_SEGUIMIENTO = "/planillas"
 
 export const DOC_REPORTES_EMPRESAS = "/reportes/desempeno";
 export const DOC_REPORTES_EVAL_REALIZADAS = "/reportes/evaluaciones";

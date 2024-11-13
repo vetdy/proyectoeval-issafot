@@ -40,9 +40,12 @@ export const solicitud = async (url = URL_BACKEND, metodo = "get", datos={}) => 
                 message: respuesta.statusText,
             };
         } */
-
+       
         if(! contenido.hasOwnProperty("contenido") ){
-            console.error(`Error en backend: Se devolvio una respuesta sin contenido`);
+            const cad = Object.entries(contenido).map(([k, v]) => {return `${k}: ${v}`}).join(" ");
+            console.error(
+                `La respuesta no tiene contenido: ${cad}`
+            );
             return {
                 status: 404,
                 message: "No se encuentra el contenido.",
@@ -89,6 +92,11 @@ export const obtenerProyectosEmpresa = async (empresaID=1) => {
     return respuesta;
 }
 
+export const obtenerProyectosEmpresaDocente = async (docenteID) => {
+    const respuesta = await solicitud(`${rutas.PROYECTOS_EMPRESA_DOCENTE}/${docenteID}`);
+    return respuesta
+}
+
 export const obtenerPlanillasEmpresa = async (empresa=1) => {
     const respuesta = await solicitud(`${rutas.PLANTILLA_EMPRESA}/${empresa}`);
     return respuesta;
@@ -111,6 +119,11 @@ export const obtenerPlanillasDocenteSeguimiento = async (docenteID = 1) => {
 
 export const obtenerItemsPlanillaSeguimiento = async (planilla=1) => {
     const respuesta = await solicitud(`${rutas.ITEMS_PLANTILLA_SEGUIMIENTO}/${planilla}`);
+    return respuesta;
+}
+
+export const actualizarItemPlanillaSeguimiento = async (itemID=1, datos={}) => {
+    const respuesta = await solicitud(`${rutas.ITEM_PLANILLA_SEGUIMIENTO}/${itemID}`, "PUT", datos);
     return respuesta;
 }
 
