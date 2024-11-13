@@ -45,21 +45,12 @@ class PlanificacionSeeder extends Seeder
                     
             ],
             [
-                'titulo' => 'sprint 1',
-                'fecha_inicio' => '2024/9/29',
-                'fecha_fin' => '2024/11/20',
-                'dia_revision' => 2,
-                'hora_revision' => '8:15',
-                'id_proyecto_empresa' => '1',
-                
-            ],
-            [
-                'titulo' => 'sprint 2',
+                'titulo' => 'sprint 3',
                 'dia_revision' => '2',
                 'hora_revision' => '8:15',
                 'fecha_inicio' => '2024/11/21',
                 'fecha_fin' => '2024/12/8',
-                'id_proyecto_empresa' => '1',
+                'id_proyecto_empresa' => '3',
                     
             ],
         ]);

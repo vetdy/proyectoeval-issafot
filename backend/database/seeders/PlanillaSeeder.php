@@ -22,25 +22,25 @@ class PlanillaSeeder extends Seeder
                 'titulo' => 'presencial',
                 'fecha_revision' => '2019/10/28',
                 'hora_revision' => '18:00',
-                'id_proyecto_empresa' => '2'
+                'id_proyecto_empresa' => '3'
             ],
             [
                 'titulo' => 'revision 1',
                 'fecha_revision' => '2019/10/28',
                 'hora_revision' => '18:00',
-                'id_proyecto_empresa' => '2'
+                'id_proyecto_empresa' => '3'
             ],
             [
                 'titulo' => 'revision borrar',
                 'fecha_revision' => '2019/10/28',
                 'hora_revision' => '18:00',
-                'id_proyecto_empresa' => '2'
+                'id_proyecto_empresa' => '3'
             ],
             [
                 'titulo' => 'revision 2',
                 'fecha_revision' => '2019/10/28',
                 'hora_revision' => '18:00',
-                'id_proyecto_empresa' => '2'
+                'id_proyecto_empresa' => '3'
             ],
 
         ]);

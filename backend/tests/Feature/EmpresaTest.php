@@ -102,7 +102,7 @@ class EmpresaTest extends TestCase
 
     public function test_eliminar_empresa_exito(): void
     {
-        $response = $this->delete('/api/empresa/2');
+        $response = $this->delete('/api/empresa/4');
         $response->assertStatus(200);
     }
 

@@ -64,16 +64,25 @@ class ProyectoEmpresaSeeder extends Seeder
                 'id_empresa' => '2',
                 'id_estado_contrato' => '1'
             ],
-
+            [
+                'habilitado' => true,
+                'id_proyecto' => '1',
+                'id_empresa' => '3',
+                'id_estado_contrato' => '1'
+            ],
         ]);
         DB::table('revision_planificacion')->insert([
             [
-                'id_estado_planificacion' => 3,
+                'id_estado_planificacion' => 2,
                 'id_proyecto_empresa' => 1
             ],
             [
                 'id_estado_planificacion' => 3,
                 'id_proyecto_empresa' => 2
+            ],
+            [
+                'id_estado_planificacion' => 3,
+                'id_proyecto_empresa' => 3
             ]
         ]);
     }
