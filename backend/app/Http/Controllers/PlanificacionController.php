@@ -80,7 +80,9 @@ class PlanificacionController extends Controller
                 'fecha_fin' => 'required|date',
                 'id_proyecto_empresa' => 'required|exists:proyecto_empresas,id'
             ]);
+            
             $planificacion = Planificacion::create($request->all());
+            $this->actualizacionEstado($planificacion->id_proyecto_empresa);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json(['contenido' => $e->errors()], 422);
         }
@@ -189,6 +191,7 @@ class PlanificacionController extends Controller
         $Planificacion = Planificacion::find($id);
         if ($Planificacion) {
             $Planificacion->update($validData);
+            $this->actualizacionEstado($Planificacion->id_proyecto_empresa);
             return response()->json(['contenido' => 'se actualizo a la Planificacion con exito'], 200);
         } else {
             return response()->json(['contenido' => 'el id no existe'], 404);
@@ -271,6 +274,8 @@ class PlanificacionController extends Controller
                 $tarea->save();
             }
         }
+
+        $this->actualizacionEstado($planificacion->id_proyecto_empresa);
         return response()->json(['contenido' => 'se registro exitosamente la planificacion con tareas'], 200);
     }
 
@@ -303,5 +308,10 @@ class PlanificacionController extends Controller
         }else{
             return response()->json(['contenido' => 'no se encontro el proyecto empresa'], 404);
         }
+    }
+
+    private function actualizacionEstado($id){
+        $Revision = new RevisionPlanificacionController();
+        $Revision->cambioEnRevision($id);
     }
 }

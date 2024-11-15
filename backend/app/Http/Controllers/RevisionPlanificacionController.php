@@ -253,4 +253,11 @@ class RevisionPlanificacionController extends Controller
             return response()->json(['contenido' => 'no existe la revision planificacion'], 404);
         }
     }
+
+    public function cambioEnRevision($id){
+        $revision_planificacion=Revision_planificacion::find($id);
+        $estado=['estado'=>2];
+        #dd($estado);
+        $revision_planificacion->update($estado);
+    }
 }
