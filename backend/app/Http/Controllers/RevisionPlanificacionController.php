@@ -248,7 +248,6 @@ class RevisionPlanificacionController extends Controller
     {
         $revision_planificacion = Revision_planificacion::where('id_proyecto_empresa',$id)->first();
         if ($revision_planificacion) {
-            $revision_planificacion->delete();
             return response()->json(['contenido' => compact('revision_planificacion')], 200);
         } else {
             return response()->json(['contenido' => 'no existe la revision planificacion'], 404);
