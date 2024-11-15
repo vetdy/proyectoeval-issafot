@@ -191,7 +191,7 @@ const OtroRegistroPlanificacion = () => {
             nuevoModal.aceptar = funcion;
         }
         if( tipo === "confirmar" ){
-            nuevoModal.estilo = "alerta";
+            nuevoModal.estilo = "eliminar";
             nuevoModal.aceptar = funcion;
             nuevoModal.cancelar = cerrarModal;
         }
@@ -268,7 +268,7 @@ const OtroRegistroPlanificacion = () => {
             }
         } else {
             abrirModal(
-                `Eliminar fila: ${planificacion[indexFila].titulo}?`,
+                `Eliminar Hito: ${planificacion[indexFila].titulo}?`,
                 () => {
                     setPlanificacion(
                         planificacion.filter((v, i) => i !== indexFila)
