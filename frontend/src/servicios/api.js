@@ -107,8 +107,8 @@ export const obtenerPlanificacionEmpresa = async (empresaID=1) => {
     return respuesta;
 }
 
-export const obtenerEstadoPlanificacionProyectoEmpresa = async (proy_emprID = 1) => {
-    const respuesta = await solicitud(`${rutas.ESTADO_PLANIFICACION_PROYECTO_EMPRESA}/${proy_emprID}`);
+export const obtenerEstadoPlanificacionProyectoEmpresa = async (proyEmprID = 1) => {
+    const respuesta = await solicitud(`${rutas.ESTADO_PLANIFICACION_PROYECTO_EMPRESA}/${proyEmprID}`);
     return respuesta;
 }
 
