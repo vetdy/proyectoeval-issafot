@@ -73,7 +73,7 @@ class ProyectoEmpresaSeeder extends Seeder
         ]);
         DB::table('revision_planificacion')->insert([
             [
-                'id_estado_planificacion' => 2,
+                'id_estado_planificacion' => 1,
                 'id_proyecto_empresa' => 1
             ],
             [
