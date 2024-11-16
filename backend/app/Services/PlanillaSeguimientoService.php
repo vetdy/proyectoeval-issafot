@@ -39,6 +39,7 @@ class PlanillaSeguimientoService
             foreach ($tareas as $tarea) {
                 $ta = new Item_planilla();
                 $ta->titulo = $tarea->nombre;
+                $ta->creada = false;
                 $ta->id_planilla_seguimiento = $pg->id;
                 $ta->save();
             }
@@ -65,6 +66,7 @@ class PlanillaSeguimientoService
         foreach (Socio_empresa::where('id_empresa', $e->id_empresa)->get() as $id_usuario) {
             $ae = new Asistencia_evaluacion();
             $ae->id_usuario = $id_usuario->id;
+            $ae->creada = false;
             $ae->id_evaluacion = $e->id;
             $ae->save();
         }
