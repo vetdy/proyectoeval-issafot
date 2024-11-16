@@ -104,6 +104,33 @@ class EmpresaSeeder extends Seeder
                 'telefono' => '4000005',
                 'contrasena' => 'password212',
                 'id_rol' => '2'
+            ],
+            [
+                'nombre' => 'usuario1',
+                'apellido' => 'fantasma',
+                'codigo_sis' => '124146008',
+                'correo' => 'fantasma1@gmail.com',
+                'telefono' => '42709001',
+                'contrasena' => 'fantasma272',
+                'id_rol' => '2'
+            ],
+            [
+                'nombre' => 'usuario2',
+                'apellido' => 'fantasma',
+                'codigo_sis' => '124146006',
+                'correo' => 'fantasma2@gmail.com',
+                'telefono' => '42709003',
+                'contrasena' => 'fantasma273',
+                'id_rol' => '2'
+            ],
+            [
+                'nombre' => 'usuario3',
+                'apellido' => 'fantasma',
+                'codigo_sis' => '124146007',
+                'correo' => 'fantasma3@gmail.com',
+                'telefono' => '42709003',
+                'contrasena' => 'fantasma273',
+                'id_rol' => '2'
             ]
 
         ];
@@ -136,6 +163,14 @@ class EmpresaSeeder extends Seeder
                 'url_logo' => 'url/tres',
                 'id_representante_legal' => $ids[2]
             ],
+            [
+                'nombre_corto' => 'HeyMoney',
+                'nombre_largo' => 'Hey Soluciones simples para ganar Money',
+                'correo' => 'HeyMoneymail.com',
+                'telefono' => '43491543',
+                'url_logo' => 'url/cuatro',
+                'id_representante_legal' => $ids[9]
+            ],
 
         ];
         foreach ($empresas as $empresa) {
@@ -150,6 +185,7 @@ class EmpresaSeeder extends Seeder
             ['id_usuario' => $ids[6], 'id_empresa' => $ids2[1]],
             ['id_usuario' => $ids[7], 'id_empresa' => $ids2[1]],
             ['id_usuario' => $ids[8], 'id_empresa' => $ids2[1]]
+
         ];
         foreach ($socio_empresas as $socio_empresa) {
             $ids3[] = DB::table('socio_empresas')->insertGetId($socio_empresa);
@@ -163,6 +199,18 @@ class EmpresaSeeder extends Seeder
             [
                 'id_usuario' => $ids[3],
                 'id_empresa' => $ids2[0]
+            ],
+            [
+                'id_usuario' => $ids[9],
+                'id_empresa' => $ids2[3]
+            ],
+            [
+                'id_usuario' => $ids[10],
+                'id_empresa' => $ids2[3]
+            ],
+            [
+                'id_usuario' => $ids[11],
+                'id_empresa' => $ids2[3]
             ]
         ]);
     }
