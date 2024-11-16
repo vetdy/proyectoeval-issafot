@@ -281,7 +281,8 @@ class PlanillaSeguimientoController extends Controller
         if (!$planilla_seguimiento->isEmpty()) {
             $idEmpresa = Proyecto_empresa::find($id);
             $nombre_empresa = Empresa::find($idEmpresa->id_empresa)->nombre_corto;
-            return response()->json(['contenido' => compact('planilla_seguimiento', 'nombre_empresa')], 200);
+            $nombre_proyecto = Proyecto::find($idEmpresa->id_proyecto)->nombre;
+            return response()->json(['contenido' => compact('planilla_seguimiento', 'nombre_empresa', 'nombre_proyecto')], 200);
         } else {
             return response()->json(['contenido' => 'id empresa no existe'], 404);
         }
@@ -422,24 +423,21 @@ class PlanillaSeguimientoController extends Controller
      */
     public function create_planilla($id_proyecto_empresa)
     {
-        $planillaSeguimientoService=new PlanillaSeguimientoService();
-        $p=Planificacion::where('id_proyecto_empresa',$id_proyecto_empresa)->get();
+        $planillaSeguimientoService = new PlanillaSeguimientoService();
+        $p = Planificacion::where('id_proyecto_empresa', $id_proyecto_empresa)->get();
 
-        if (!$p->isEmpty()) {    
-            $ps=Planilla_seguimiento::where('id_proyecto_empresa',$id_proyecto_empresa)->get();
-            $pe=Revision_planificacion::where('id_proyecto_empresa',$id_proyecto_empresa)->first();
-            if($ps->isEmpty() && $pe->id_estado_planificacion=='3'){
-                foreach ($p as $planificacion){
+        if (!$p->isEmpty()) {
+            $ps = Planilla_seguimiento::where('id_proyecto_empresa', $id_proyecto_empresa)->get();
+            $pe = Revision_planificacion::where('id_proyecto_empresa', $id_proyecto_empresa)->first();
+            if ($ps->isEmpty() && $pe->id_estado_planificacion == '3') {
+                foreach ($p as $planificacion) {
                     $planillaSeguimientoService->registarPlanillaSeguimiento($planificacion);
                 }
                 return response()->json(['contenido' => 'planillas de seguimiento creadas'], 200);
-            }else{      
-                return response()->json(['contenido' => "planillas fue creada con anterioridad o no ha sido aprobada"],409);
+            } else {
+                return response()->json(['contenido' => "planillas fue creada con anterioridad o no ha sido aprobada"], 409);
             }
         }
         return response()->json(['contenido' => 'id del grupo empresa no encontrado'], 404);
-        
-    } 
-
-    
+    }
 }

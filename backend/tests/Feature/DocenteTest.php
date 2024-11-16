@@ -57,7 +57,7 @@ class DocenteTest extends TestCase
     }
     public function test_mostar_docente_exitoso(): void
     {
-        $response = $this->get('/api/docente/11');
+        $response = $this->get('/api/docente/14');
         $response->assertStatus(200);
     }
 
@@ -70,7 +70,7 @@ class DocenteTest extends TestCase
     public function test_modificar_docente_exitoso(): void
     {
         $response = $this->putJson(
-            '/api/docente/11',
+            '/api/docente/14',
             [
                 "correo" => "email2709@gmail.com"
             ]
@@ -104,7 +104,7 @@ class DocenteTest extends TestCase
 
     public function test_eliminar_docente_exito(): void
     {
-        $response = $this->delete('/api/docente/11');
+        $response = $this->delete('/api/docente/14');
         $response->assertStatus(200);
     }
 
