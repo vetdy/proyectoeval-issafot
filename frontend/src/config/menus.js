@@ -14,11 +14,11 @@ const docente = {
         "Planillas de Seguimiento": rutas.DOC_EVALUACIONES_PLANILLAS_SEGUIMIENTO,
         "Recuperar Evaluaciones": rutas.DOC_EVALUACIONES_RECUPERAR,
     },
-    "Reportes":{
+    /* "Reportes":{
         "Desempeño de Empresas": rutas.DOC_REPORTES_EMPRESAS,
         "Evaluaciones Realizadas": rutas.DOC_REPORTES_EVAL_REALIZADAS,
         "Estudiantes Asignados": rutas.DOC_REPORTES_EST_ASIGNADOS,
-    },
+    }, */
 }
 
 const estudiante = {

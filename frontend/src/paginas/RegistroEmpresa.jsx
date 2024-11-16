@@ -17,15 +17,29 @@ function RegistroEmpresa(){
     const [logoEmpresa, setLogoEmpresa] = useState(undefined);
     const [errores, setErrores] = useState({});
     const [enviando, setEnviando] = useState(false);
-    const [verModal, setVerModal] = useState(false);
-    const [contenidoModal, setContenidoModal] = useState("");
+    const [modal, setModal] = useState({
+        mostrar: false,
+        texto: "",
+        aceptar: null
+    });
 
     const formatosValidosImagen = ["image/png", "image/jpeg", "image/jpg"];
     const pesoMaximoImagen = 1048576;
 
+    function abrirModal(texto=""){
+        setModal({
+            mostrar: true,
+            texto: texto,
+            aceptar: cerrarModal
+        });
+    }
+
     function cerrarModal(){
-        setContenidoModal("");
-        setVerModal(false);
+        setModal({
+            mostrar: false,
+            texto: "",
+            aceptar: null
+        });
     }
 
     const actualizarCampo = (ev) =>{
@@ -110,12 +124,11 @@ function RegistroEmpresa(){
 
         if(! Object.values(nuevosErrores).every(e => e === "") ){
             setEnviando(false);
-            //setContenidoModal("Llena todos los campos.");
-            //setVerModal(true);
+            abrirModal("Llena todos los campos.");
             return;
         }
         
-        const id_rep = "8";   //<========= Debe cambiar cuando hayan usuarios
+        const id_rep = "10";   //<========= Debe cambiar cuando hayan usuarios
         const imagenBase64 = await base64(logoEmpresa);
         const datos = {
             nombre_corto: nuevosCampos.nombre_corto,
@@ -130,15 +143,13 @@ function RegistroEmpresa(){
 
         const mensajeModal = cadenaValoresJSON(respuesta.message);
 
-        setContenidoModal( mensajeModal );
-        setVerModal(true);
+        abrirModal( mensajeModal );
     }
 
     return(
         <>
-        {verModal &&
-            <Modal mostrar={verModal} cerrar={cerrarModal}>
-                {contenidoModal}
+        {modal.mostrar &&
+            <Modal mostrar={modal.mostrar} aceptar={modal.aceptar} texto={modal.texto}>
             </Modal>
         }
         <Formulario tituloFormulario="Registro de Empresa" nombreBoton="Registrar"

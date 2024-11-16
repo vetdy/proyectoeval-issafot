@@ -4,7 +4,7 @@ import color from "../../estilos/color";
 const Modal = ({
     mostrar = false,
     texto = "Texto a mostrar",
-    tipo = "confirmar",
+    tipo = "simple",
     estilo = "normal",
     aceptar,
     cancelar,
