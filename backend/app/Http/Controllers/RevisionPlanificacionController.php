@@ -256,8 +256,8 @@ class RevisionPlanificacionController extends Controller
 
     public function cambioEnRevision($id){
         $revision_planificacion=Revision_planificacion::find($id);
-        $estado=['estado'=>2];
-        #dd($estado);
+        $estado=['id_estado_planificacion'=>2];
+        info($revision_planificacion);
         $revision_planificacion->update($estado);
     }
 }

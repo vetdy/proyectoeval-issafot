@@ -274,7 +274,6 @@ class PlanificacionController extends Controller
                 $tarea->save();
             }
         }
-
         $this->actualizacionEstado($planificacion->id_proyecto_empresa);
         return response()->json(['contenido' => 'se registro exitosamente la planificacion con tareas'], 200);
     }
