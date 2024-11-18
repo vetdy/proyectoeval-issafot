@@ -3,6 +3,8 @@ import { useRef, useState, useEffect } from "react";
 import { IconoCargando } from "../componentes/iconos";
 import { conversor } from "../utils";
 import { Tabla } from "../componentes/tablas";
+import { obtenerPlanificacionEmpresa } from "../servicios/api"
+import { Error } from "../componentes/general";
 
 const RevisionPlanificacionDocente = () => {
     const loc = useLocation();
@@ -10,16 +12,22 @@ const RevisionPlanificacionDocente = () => {
     const consulta = useRef(true);
     const [datos, setDatos] = useState([]);
     const [cargando, setCargando] = useState(false);
-    const proyecto_empresa = loc.state;
+    const [error, setError] = useState(false);
+    const proyectoEmpresa = loc.state;
 
-    console.log(proyecto_empresa);
+    console.log(proyectoEmpresa);
 
     useEffect(() => {
         const atras = () => { hist("/evaluaciones/planes-empresa") }
 
         const solicitud = async () => {
-
+            const consultaPlan = await obtenerPlanificacionEmpresa(proyectoEmpresa.id_proyecto_empresa);
+            console.log(consultaPlan);
         }
+        if( !proyectoEmpresa ){
+            atras();
+        }
+
         if(consulta.current){
             consulta.current = false;
             solicitud();
@@ -36,21 +44,25 @@ const RevisionPlanificacionDocente = () => {
         );
     }
 
+    if( error ){
+        return <Error />
+    }
+
     return (
         <div className="container-fluid">
             <div className="row">
                 <div className="col-12">
-                    <h2 className="text-center">Revisión de Planificaciones</h2>
+                    <h2 className="text-center">Revisión de Planificación</h2>
                 </div>
                 <div className="col-12">
                     <h6 className="fw-bold">
-                        Nombre: <span className="fw-normal">{datos.empresa}</span>
+                        Nombre: <span className="fw-normal">{proyectoEmpresa.nombre_empresa}</span>
                     </h6>
                 </div>
                 <div className="col-12">
                     <h6 className="fw-bold">
                         Proyecto:{" "}
-                        <span className="fw-normal">{datos.proyecto}</span>
+                        <span className="fw-normal">{proyectoEmpresa.nombre_proyecto}</span>
                     </h6>
                 </div>
                 <div className="col-12">
@@ -59,10 +71,9 @@ const RevisionPlanificacionDocente = () => {
                         px0={true}
                         datos={[
                             "Hito",
-                            "Objetivos",
+                            "Entregables",
                             "Fecha Inicio",
                             "Fecha Fin",
-                            "% Cobro",
                         ]}
                     ></Tabla>
                 </div>

@@ -4,7 +4,12 @@ import { useState, useRef, useEffect } from "react";
 import { TituloRegistros } from "../componentes/titulos";
 import { validador } from "../utils";
 import { Modal } from "../componentes/modales";
-import { registrarPlanificacionEmpresa, obtenerPlanificacionEmpresa, obtenerEstadoPlanificacionProyectoEmpresa } from "../servicios/api"
+import {
+    registrarPlanificacionEmpresa,
+    obtenerPlanificacionEmpresa,
+    obtenerEstadoPlanificacionProyectoEmpresa,
+    borrarPlanificacionEmpresa,
+} from "../servicios/api";
 import { cadenaValoresJSON } from "../utils/conversor";
 import { tiempo } from "../utils";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -403,7 +408,7 @@ const OtroRegistroPlanificacion = () => {
         }
     };
 
-    const enviarDatos = async (ev) => {
+    const enviarPlanificacion = async (ev) => {
         const datos = {};
 
         const irProyectos = () => { history("/mi-proyecto") };
@@ -417,7 +422,7 @@ const OtroRegistroPlanificacion = () => {
                 datos["planificacion"] = quitarEspaciosFinales(planificacion);
                 const res = await registrarPlanificacionEmpresa(datos);
                 if (res.status === 200){
-                    abrirModal("Se ha registrado la planificación", 
+                    abrirModal("Se ha enviado la planificación", 
                         () =>{window.location.reload()}
                     );
                 }
@@ -431,6 +436,53 @@ const OtroRegistroPlanificacion = () => {
             setEnviando(false);
         }
     };
+
+    const modificarPlanificacion = async (ev) => {
+        const datos = {};
+
+        if ( controlDatos() ) {
+            setEnviando(true);
+            if( estadoPlanif === 4 ){
+                datos["id_proyecto_empresa"] = proyEmpID.current;
+                datos["dia_revision"] = revision.dia_rev;
+                datos["hora_revision"] = revision.hora_rev;
+                datos["planificacion"] = quitarEspaciosFinales(planificacion);
+
+                const listaBorrar = [];
+                refPlanPrevio.current.forEach( p =>{
+                    listaBorrar.push( borrarPlanificacionEmpresa(p.id) );
+                });
+
+                const resBorrar = await Promise.all(listaBorrar);
+                let cancelarOP = false;
+
+                resBorrar.forEach( (r, i) => {
+                    if( !(r.status === 200 || r.status === 404) ){
+                        console.error(`No se borro el itemID=${refPlanPrevio.current[i].id}`);
+                        cancelarOP = true;
+                    }
+                });
+                if(cancelarOP){
+                    abrirModal( "Ocurrio un error." );
+                }
+                else{
+                    const res = await registrarPlanificacionEmpresa(datos);
+                    if (res.status === 200){
+                        abrirModal("Se ha enviado la planificación.", 
+                            () =>{window.location.reload()}
+                        );
+                    }
+                    else if ( res.status === 422 ){
+                        abrirModal( cadenaValoresJSON(res.message) );
+                    }
+                    else{
+                        abrirModal( res.message );
+                    }
+                }
+            }
+            setEnviando(false);
+        }
+    }
 
     if ( cargando ){
         return(
@@ -710,13 +762,24 @@ const OtroRegistroPlanificacion = () => {
                         >
                             Agregar Hito
                         </button>
-                        <button
-                            className="btn btn-eva-secondary"
-                            onClick={enviarDatos}
-                            disabled={enviando}
-                        >
-                            Enviar
-                        </button>
+                        {estadoPlanif === 1 && (
+                            <button
+                                className="btn btn-eva-secondary"
+                                onClick={enviarPlanificacion}
+                                disabled={enviando}
+                            >
+                                Enviar
+                            </button>
+                        )}
+                        {estadoPlanif === 4 && (
+                            <button
+                                className="btn btn-eva-secondary"
+                                onClick={modificarPlanificacion}
+                                disabled={enviando}
+                            >
+                                Enviar
+                            </button>
+                        )}
                     </div>
                 </div>
             )}

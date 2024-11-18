@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef } from "react";
 import { Tabla } from "../componentes/tablas";
 import { Link } from "react-router-dom";
-import { conversor } from "../utils";
 import { IconoCargando } from "../componentes/iconos";
-import { obtenerProyectosEmpresaDocente } from "../servicios/api";
+import { Error } from "../componentes/general";
+import { obtenerProyectosEmpresaDocente, obtenerProyectosEmpresa } from "../servicios/api";
 
 const SelectorProyecto = ({opciones, selector}) => {
     return(
@@ -28,13 +28,29 @@ const SelectorProyecto = ({opciones, selector}) => {
 const RevisionPlanificacionesDocente = () => {
     const [proyectosEmpresas, setProyectosEmpresas] = useState([]);
     const [cargando, setCargando] = useState(true);
+    const [error, setError] = useState(false);
     const consulta = useRef(true);
 
     useEffect(()=>{
         const obtenerProyectos = async () =>{
-            const res = await obtenerProyectosEmpresaDocente(1);
-            if( res.status === 200){
-                setProyectosEmpresas(res.message.proyecto_por_docente);
+            const consultaEmpresas = await obtenerProyectosEmpresaDocente(1);
+            if( consultaEmpresas.status === 200){
+                const nuevoProyectosEmpresas = consultaEmpresas.message.proyecto_por_docente;
+                /* const listaConsultaProyectos = nuevoProyectosEmpresas.map( p => obtenerProyectosEmpresa(p.id_proyecto_empresa) );
+
+                const consultaProyectos = await Promise.all(listaConsultaProyectos);
+                consultaProyectos.forEach( (p, i) => {
+                    if( p.status === 200 ){
+                        //nuevoProyectosEmpresas[i][nombre] = p.message.proyecto_por_empresa.nombre_proyecto;
+                        console.log(p);
+                    }
+                }); */
+
+
+                setProyectosEmpresas(nuevoProyectosEmpresas);
+            }
+            else{
+                setError(true);
             }
             setCargando(false);
         }
@@ -54,6 +70,10 @@ const RevisionPlanificacionesDocente = () => {
         );
     }
 
+    if( error ){
+        return <Error />
+    }
+
     return(
         <div className="container-fluid">
             <div className="row">
@@ -66,7 +86,7 @@ const RevisionPlanificacionesDocente = () => {
                     <SelectorProyecto />
                 </div>
             </div> */}
-            <Tabla datos={["Empresa", "Estado", "Revisión"]} hover={false} px0={true}>
+            <Tabla datos={["Empresa", "Proyecto", "Estado", "Revisión"]} hover={false} px0={true}>
                 {proyectosEmpresas.map( (p, idx) => {
                     return(
                         <tr key={`proy-emp${idx}`}>
@@ -74,15 +94,21 @@ const RevisionPlanificacionesDocente = () => {
                                 {p.nombre_empresa}
                             </td>
                             <td>
+                                Proyecto de Creacion de Aulas
+                            </td>
+                            <td className="text-capitalize">
                                 {p.estado}
                             </td>
                             <td>
-                                <Link className="btn btn-eva-secondary"
-                                    to={"/evaluaciones/planes-empresa/revision"}
-                                    state={p}
-                                >
-                                    Ver
-                                </Link>
+                                {p.estado === "no existe" && "No disponible"}
+                                {p.estado !== "no existe" && (
+                                    <Link className="btn btn-eva-secondary"
+                                        to={"/evaluaciones/planes-empresa/revision"}
+                                        state={p}
+                                    >
+                                        Ver
+                                    </Link>
+                                )}
                             </td>
                         </tr>
                     );

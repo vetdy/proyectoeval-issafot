@@ -4,6 +4,7 @@ export const REGISTRO_EMPRESA = `${URL_BACKEND}/api/empresa`;
 
 export const PLANTILLA_EMPRESA = `${URL_BACKEND}/api/planilla_seguimiento/proyecto_empresa`;
 export const REGISTRAR_PLANIFICACION_EMPRESA = `${URL_BACKEND}/api/planificacion_tareas`;
+export const ELEMENTO_PLANIFICACION_PROYECTO_EMPRESA = `${URL_BACKEND}/api/planificacion`;
 export const PROYECTOS_EMPRESA = `${URL_BACKEND}/api/proyecto_empresa/empresa`;
 export const PLANIFICACION_PROYECTO_EMPRESA = `${URL_BACKEND}/api/planificacion/proyecto_empresa/item`;
 export const ESTADO_PLANIFICACION_PROYECTO_EMPRESA = `${URL_BACKEND}/api/revision_planificacion/proyecto_empresa`;

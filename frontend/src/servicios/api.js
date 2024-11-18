@@ -117,6 +117,11 @@ export const registrarPlanificacionEmpresa = async (datos={}) => {
     return respuesta;
 }
 
+export const borrarPlanificacionEmpresa = async ( planificacionID ) => {
+    const respuesta = await solicitud(`${rutas.ELEMENTO_PLANIFICACION_PROYECTO_EMPRESA}/${planificacionID}`, "DELETE");
+    return respuesta;
+}
+
 export const obtenerPlanillasDocenteSeguimiento = async (docenteID = 1) => {
     const respuesta = await solicitud(`${rutas.PLANILLAS_DOCENTE_SEGUIMIENTO}/${docenteID}`);
     return respuesta;
