@@ -97,8 +97,23 @@ export const obtenerProyectosEmpresaDocente = async (docenteID) => {
     return respuesta
 }
 
-export const obtenerPlanillasSeguimientoEmpresa = async (empresa=1) => {
-    const respuesta = await solicitud(`${rutas.PLANTILLA_SEGUIMIENTO_EMPRESA}/${empresa}`);
+export const obtenerPlanillasSeguimientoEmpresa = async (empresaID=1) => {
+    const respuesta = await solicitud(`${rutas.PLANILLA_SEGUIMIENTO_EMPRESA}/${empresaID}`);
+    return respuesta;
+}
+
+export const obtenerPlanillasEvaluacionEmpresa = async (empresaID = 1) => {
+    const respuesta = await solicitud(`${rutas.PLANILLA_EVALUACION_EMPRESA}/${empresaID}`);
+    return respuesta;
+}
+
+export const obtenerItemsPlanillaSeguimiento = async (planilla=1) => {
+    const respuesta = await solicitud(`${rutas.ITEMS_PLANILLA_SEGUIMIENTO}/${planilla}`);
+    return respuesta;
+}
+
+export const obtenerItemsPlanillaEvaluacion = async (planilla=1) => {
+    const respuesta = await solicitud(`${rutas.ITEMS_PLANILLA_EVALUACION}/${planilla}`);
     return respuesta;
 }
 
@@ -145,11 +160,6 @@ export const obtenerPlanillasDocenteSeguimiento = async (docenteID = 1) => {
     return respuesta;
 }
 
-export const obtenerItemsPlanillaSeguimiento = async (planilla=1) => {
-    const respuesta = await solicitud(`${rutas.ITEMS_PLANTILLA_SEGUIMIENTO}/${planilla}`);
-    return respuesta;
-}
-
 export const agregarItemPlanillaSeguimiento = async (datos={}) => {
     const respuesta = await solicitud(`${rutas.ITEM_PLANILLA_SEGUIMIENTO}`, "POST", datos);
     return respuesta;
@@ -167,11 +177,6 @@ export const obtenerAsistenciaPlanillaSeguimiento = async (planilla=1) =>{
 
 export const obtenerPlanillasDocenteEvaluacion = async (docenteID = 1) => {
     const respuesta = await solicitud(`${rutas.PLANILLAS_DOCENTE_EVALUACION}/${docenteID}`);
-    return respuesta;
-}
-
-export const obtenerItemsPlanillaEvaluacion = async (planilla=1) => {
-    const respuesta = await solicitud(`${rutas.ITEMS_PLANTILLA_EVALUACION}/${planilla}`);
     return respuesta;
 }
 

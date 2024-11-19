@@ -4,7 +4,9 @@ import { IconoCargando } from "../componentes/iconos";
 import { Error } from "../componentes/general";
 import {
     obtenerPlanillasSeguimientoEmpresa,
+    obtenerPlanillasEvaluacionEmpresa,
     obtenerItemsPlanillaSeguimiento,
+    obtenerItemsPlanillaEvaluacion
 } from "../servicios/api";
 import { tiempo } from "../utils";
 
@@ -15,7 +17,7 @@ const Planillas = ({ datos, tipo }) => {
 
     const endpoints = {
         seguimiento: obtenerItemsPlanillaSeguimiento,
-        evaluacion: obtenerItemsPlanillaSeguimiento,
+        evaluacion: obtenerItemsPlanillaEvaluacion,
     };
 
     const mostrarDetalle = (idx) => {
@@ -27,12 +29,21 @@ const Planillas = ({ datos, tipo }) => {
 
     const actualizarItem = async (fila) => {
         if (items[fila] === null) {
+            const nuevoItems = [...items];
+            console.log(datos[fila]);
             const consultaItems = await endpoints[tipo](datos[fila].id);
             if (consultaItems.status === 200) {
-                const nuevoItems = [...items];
-                nuevoItems[fila] = consultaItems.message.item_planilla;
-                setItems(nuevoItems);
+                if(tipo === "seguimiento"){
+                    nuevoItems[fila] = consultaItems.message.item_planilla;
+                }
+                if( tipo === "evaluacion" ){
+                    nuevoItems[fila] = consultaItems.message.tarea;
+                }
             }
+            if ( consultaItems.status === 404 ){
+                nuevoItems[fila] = [];
+            }
+            setItems(nuevoItems);
         }
     };
 
@@ -96,7 +107,8 @@ const Planillas = ({ datos, tipo }) => {
 };
 
 const PlanillasSeguimiento = () => {
-    const [datos, setDatos] = useState(null);
+    const [datosSeguimiento, setDatosSeguimiento] = useState(null);
+    const [datosEvaluacion, setDatosEvaluacion] = useState(null);
     const [error, setError] = useState(false);
     const [cargando, setCargando] = useState(true);
     const [hayPlanillas, setHayPlanillas] = useState(true);
@@ -105,7 +117,7 @@ const PlanillasSeguimiento = () => {
     const [empresa, setEmpresa] = useState(1);
 
     const reset = () => {
-        setDatos(null);
+        setDatosSeguimiento(null);
         setError(false);
         setCargando(true);
         setHayPlanillas(true);
@@ -116,18 +128,26 @@ const PlanillasSeguimiento = () => {
         reset();
 
         const planilla = async () => {
-            const p = await obtenerPlanillasSeguimientoEmpresa(empresa);
-            if (p.status === 404) {
+            const consultas = [
+                obtenerPlanillasSeguimientoEmpresa(empresa),
+                obtenerPlanillasEvaluacionEmpresa(empresa)
+            ];
+
+            const res = await Promise.all(consultas);
+
+            if( res.filter( r => r.status === 200 ).length === 2 ){
+                setDatosSeguimiento( res[0].message.planilla_seguimiento );
+                setDatosEvaluacion( res[1].message.evaluacion_empresa[0] );
+            }
+            /* console.log(res[0].message.planilla_seguimiento);
+            console.log(res[1].message.evaluacion_empresa[0]); */
+
+            if ( res.filter(r => r.status === 404).length ) {
                 setHayPlanillas(false);
             }
 
-            if (p.status !== 200 && p.status !== 404) {
+            if ( res.filter(r => r.status !== 200 && r.status !== 404).length ) {
                 setError(true);
-            }
-
-            if (p.status === 200) {
-                const nuevosDatos = p.message.planilla_seguimiento;
-                setDatos(nuevosDatos);
             }
             setCargando(false);
         };
@@ -192,12 +212,27 @@ const PlanillasSeguimiento = () => {
             <div className="row">
                 <div className="col-12">
                     {hayPlanillas && (
-                        <Planillas datos={datos} tipo={"seguimiento"} />
+                        <Planillas datos={datosSeguimiento} tipo={"seguimiento"} />
                     )}
                 </div>
             </div>
 
             <div className="row">
+                <div className="col-12">
+                    <h6>Evaluación</h6>
+                    {!hayPlanillas && <p>No existen Planillas</p>}
+                </div>
+            </div>
+
+            <div className="row">
+                <div className="col-12">
+                    {hayPlanillas && (
+                        <Planillas datos={datosEvaluacion} tipo={"evaluacion"} />
+                    )}
+                </div>
+            </div>
+
+            <div className="row mt-4">
                 <div className="col g-0">
                     <label htmlFor="idemp" className="px-2">
                         Empresa
