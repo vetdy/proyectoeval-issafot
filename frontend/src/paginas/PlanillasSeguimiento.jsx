@@ -1,155 +1,222 @@
 import { useEffect, useState, useRef, Fragment } from "react";
 import { Tabla } from "../componentes/tablas";
-import { obtenerPlanillasEmpresa, obtenerItemsPlanillaSeguimiento } from "../servicios/api";
+import { IconoCargando } from "../componentes/iconos";
+import { Error } from "../componentes/general";
+import {
+    obtenerPlanillasSeguimientoEmpresa,
+    obtenerItemsPlanillaSeguimiento,
+} from "../servicios/api";
+import { tiempo } from "../utils";
 
-const PlanillasSeguimiento = () => {
-    const [datos, setDatos] = useState(null);
-    const [items, setItems] = useState(null);
-    const [mostrar, setMostrar] = useState(null);
-    const [error, setError] = useState(false);
-    const consultar = useRef(true);
+const Planillas = ({ datos, tipo }) => {
+    const titulos = ["ID", "Fecha", "Hora", "Concluido", "Detalle"];
+    const [mostrar, setMostrar] = useState(datos.map((d) => false));
+    const [items, setItems] = useState(datos.map((d) => null));
 
-    useEffect( () =>{
-        const planilla = async () =>{
-            const p = await obtenerPlanillasEmpresa(1);
-            if(p.status !== 200){
-                setError(true);
-            }
-            else{
-                const nuevosDatos = p.message.planilla_seguimiento;
-                const nuevoMostrar = Array(nuevosDatos.length).fill(false);
-                const nuevoItems = Array(nuevosDatos.length).fill(null);
-                setDatos(nuevosDatos);
-                setMostrar(nuevoMostrar);
+    const endpoints = {
+        seguimiento: obtenerItemsPlanillaSeguimiento,
+        evaluacion: obtenerItemsPlanillaSeguimiento,
+    };
+
+    const mostrarDetalle = (idx) => {
+        const nuevoMostrar = [...mostrar];
+        nuevoMostrar[idx] = !nuevoMostrar[idx];
+        actualizarItem(idx);
+        setMostrar(nuevoMostrar);
+    };
+
+    const actualizarItem = async (fila) => {
+        if (items[fila] === null) {
+            const consultaItems = await endpoints[tipo](datos[fila].id);
+            if (consultaItems.status === 200) {
+                const nuevoItems = [...items];
+                nuevoItems[fila] = consultaItems.message.item_planilla;
                 setItems(nuevoItems);
             }
         }
-        if(consultar){
-            consultar.current = false;
-            planilla();
-        }
-    }, []);
-
-    const titulos = ["ID", "Fecha", "Hora", "Detalle"];
-
-    const actualizarItems = async (index) =>{
-        const id_planilla = datos[index].id;
-        const itemsJson = await obtenerItemsPlanillaSeguimiento(id_planilla);
-        if(itemsJson.status === 200){
-            const nuevoItems = [...items];
-            nuevoItems[index] = [];
-            itemsJson.message.item_planilla.forEach(i =>{
-                nuevoItems[index].push(i.titulo);
-            })
-            setItems(nuevoItems);
-        }
-    }
-
-    const showHide = (index) => {
-        const nuevoMostrar = mostrar.map((m, idx) => {
-            return idx === index ? ! m : m;
-        });
-        setMostrar(nuevoMostrar);
-
-        if(! items[index]){
-            actualizarItems(index);
-        }   
     };
 
     return (
-        <div className="pb-4">
-            <h2 className="my-2 text-center fw-bold">
-                Planillas de Seguimiento
-            </h2>
+        <Tabla key={`tabla-planilla-${tipo}`} datos={titulos}>
+            {datos.map((entrada, index) => {
+                return (
+                    <Fragment key={`fila-compuesta-${index}`}>
+                        <tr key={`fila-compuesta-${index}-1`}>
+                            <td>{entrada.titulo}</td>
 
-            <div className="mx-4 mt-4">
-                <div className="d-flex justify-content-between">
-                    <div>
-                        <h3>
-                            NOMBRE EMPRESA:{" "}
-                            <span className="fw-bold">ISSA SOFT</span>
-                        </h3>
-                    </div>
-                    <div>
-                        <h3>
-                            Docente:{" "}
-                            <span className="fw-bold">Consultor TIS</span>
-                        </h3>
-                    </div>
+                            <td>{tiempo.normalizarFecha(entrada.fecha_revision)}</td>
+
+                            <td>{tiempo.normalizarHora(entrada.hora_revision)}</td>
+
+                            <td>{entrada.concluido ? "Si" : "No"}</td>
+
+                            <td>
+                                <button
+                                    key={`mostrar-detalle-${tipo}-fila-${index}`}
+                                    className="btn btn-eva-info"
+                                    onClick={() => mostrarDetalle(index)}
+                                >
+                                    Detalles
+                                </button>
+                            </td>
+                        </tr>
+
+                        <tr
+                            key={`fila-compuesta-${index}-2`}
+                            className={`${mostrar[index] ? "" : "d-none"}`}
+                        >
+                            <td colSpan={"5"} style={{ boxShadow: "none" }}>
+                                <div
+                                    className="py-2 border-3 rounded-2"
+                                    style={{
+                                        backgroundColor: "lightgray",
+                                    }}
+                                >
+                                    {items[index] && items[index].length ? (
+                                        <ol className="m-0">
+                                            {items[index].map((i, idx) => {
+                                                return <li>{i.titulo}</li>;
+                                            })}
+                                        </ol>
+                                    ) : (
+                                        <p>
+                                            {!items[index]
+                                                ? "Cargando..."
+                                                : "No hay datos."}
+                                        </p>
+                                    )}
+                                </div>
+                            </td>
+                        </tr>
+                    </Fragment>
+                );
+            })}
+        </Tabla>
+    );
+};
+
+const PlanillasSeguimiento = () => {
+    const [datos, setDatos] = useState(null);
+    const [error, setError] = useState(false);
+    const [cargando, setCargando] = useState(true);
+    const [hayPlanillas, setHayPlanillas] = useState(true);
+    const consultar = useRef(true);
+
+    const [empresa, setEmpresa] = useState(1);
+
+    const reset = () => {
+        setDatos(null);
+        setError(false);
+        setCargando(true);
+        setHayPlanillas(true);
+        consultar.current = true;
+    };
+
+    useEffect(() => {
+        reset();
+
+        const planilla = async () => {
+            const p = await obtenerPlanillasSeguimientoEmpresa(empresa);
+            if (p.status === 404) {
+                setHayPlanillas(false);
+            }
+
+            if (p.status !== 200 && p.status !== 404) {
+                setError(true);
+            }
+
+            if (p.status === 200) {
+                const nuevosDatos = p.message.planilla_seguimiento;
+                setDatos(nuevosDatos);
+            }
+            setCargando(false);
+        };
+        if (consultar.current) {
+            consultar.current = false;
+            planilla();
+        }
+    }, [empresa]);
+
+    if (cargando) {
+        return (
+            <div className="container-fluid">
+                <div className="row align-items-center">
+                    <IconoCargando />
                 </div>
             </div>
-            <br></br>
-            {! error && datos ? (<Tabla key={`tabla-planilla-seg`} datos={titulos}>
-                {datos.map((entrada, index) => {
-                    const keyBase = `$f-${index}`;
-                    const keyFila1 = `${keyBase}-f1`;
-                    const keyFila2 = `${keyBase}-f2`;
-                    return (
-                        <Fragment key={`fila-compuesta-${index}`}>
-                            <tr key={keyFila1}>
-                                <td key={`${keyFila1}-titulo`}>
-                                    {entrada.titulo}
-                                </td>
+        );
+    }
 
-                                <td key={`${keyFila1}-fecha`}>
-                                    {entrada.fecha_revision}
-                                </td>
+    if (error) {
+        return <Error />;
+    }
 
-                                <td key={`${keyFila1}-hora`}>
-                                    {entrada.hora_revision}
-                                </td>
+    return (
+        <div className="container-fluid">
+            <div className="row">
+                <div className="col-12">
+                    <h2 className="my-2 text-center fw-bold">
+                        Planillas de Seguimiento y Evaluación
+                    </h2>
+                </div>
+            </div>
 
-                                <td key={`${keyFila1}-btn`}>
-                                    <button
-                                        key={`${keyFila1}-btn-b`}
-                                        className="btn btn-eva-info"
-                                        onClick={() => showHide(index)}
-                                    >
-                                        Detalles
-                                    </button>
-                                </td>
-                            </tr>
-                            
-                            <tr
-                                key={keyFila2}
-                                className={`${mostrar[index] ? "" : "d-none"}`}
-                            >
-                                <td
-                                    key={`${keyFila2}-data`}
-                                    colSpan={"4"}
-                                    style={{ boxShadow: "none" }}
-                                >
-                                    <div
-                                        key={`${keyFila2}-contenedor`}
-                                        className="py-2 border-3 rounded-2"
-                                        style={{ backgroundColor: "lightgray" }}
-                                    >
-                                        { items && items[index] ?
-                                            (<ol 
-                                                key={`${keyFila2}-lista`}
-                                                className="m-0" 
-                                            >
-                                                {items[index].map((cad, i) => {
-                                                    return (
-                                                        <li 
-                                                            key={`${keyFila2}-item-${i}`}
-                                                        >
-                                                            {cad}
-                                                        </li>
-                                                    );
-                                                })}
-                                            </ol>)
-                                            : <p key={`${keyFila2}-sin-datos`}>{items && ! items[index] ? "Cargando..." : "No hay datos."}</p>
-                                        }
-                                    </div>
-                                </td>
-                            </tr>
-                        </Fragment>
-                    );
-                })}
-            </Tabla>)
-            : <p>Cargando...</p>
-            }
+            <div className="row">
+                {hayPlanillas && (
+                    <div className="col-12 d-flex justify-content-between">
+                        <div>
+                            <h5>
+                                Proyecto:{" "}
+                                <span className="fw-bold">
+                                    Creación de Aulas
+                                </span>
+                            </h5>
+                        </div>
+                        <div>
+                            <h5>
+                                Consultor:{" "}
+                                <span className="fw-bold">Marco</span>
+                            </h5>
+                        </div>
+                    </div>
+                )}
+            </div>
+
+            <div className="row">
+                <div className="col-12">
+                    <h6>Seguimiento</h6>
+                    {!hayPlanillas && <p>No existen Planillas</p>}
+                </div>
+            </div>
+
+            <div className="row">
+                <div className="col-12">
+                    {hayPlanillas && (
+                        <Planillas datos={datos} tipo={"seguimiento"} />
+                    )}
+                </div>
+            </div>
+
+            <div className="row">
+                <div className="col g-0">
+                    <label htmlFor="idemp" className="px-2">
+                        Empresa
+                    </label>
+                    <select
+                        name="idemp"
+                        id="idemp"
+                        defaultValue={empresa}
+                        onChange={(ev) => {
+                            setEmpresa(ev.target.value);
+                        }}
+                    >
+                        <option value="1">techoSol</option>
+                        <option value="2">ISSA Soft</option>
+                        <option value="3">Robo Soft</option>
+                        <option value="4">HeyMoney</option>
+                    </select>
+                </div>
+            </div>
         </div>
     );
 };

@@ -97,8 +97,8 @@ export const obtenerProyectosEmpresaDocente = async (docenteID) => {
     return respuesta
 }
 
-export const obtenerPlanillasEmpresa = async (empresa=1) => {
-    const respuesta = await solicitud(`${rutas.PLANTILLA_EMPRESA}/${empresa}`);
+export const obtenerPlanillasSeguimientoEmpresa = async (empresa=1) => {
+    const respuesta = await solicitud(`${rutas.PLANTILLA_SEGUIMIENTO_EMPRESA}/${empresa}`);
     return respuesta;
 }
 

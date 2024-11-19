@@ -26,8 +26,12 @@ export const normalizarFecha = (fecha) => {
     return obtenerFechaActual();
 }
 
-export const normalizarHora = (hora="8:15") => {
-    return hora.split(":").map(h => h.padStart(2, "0")).join(":");
+export const normalizarHora = (hora="8:15:00") => {
+    let normalizado = hora.split(":");
+    if(normalizado.length === 3){
+        normalizado = normalizado.splice(0,2);
+    }
+    return normalizado.map(h => h.padStart(2, "0")).join(":");
 }
 
 export const numeroDia = (dia = 1) => {
