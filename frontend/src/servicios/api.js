@@ -112,6 +112,24 @@ export const obtenerEstadoPlanificacionProyectoEmpresa = async (proyEmprID = 1) 
     return respuesta;
 }
 
+export const actualizarRevisionPlanificacion = async (
+    revisionPlanifID = 1,
+    nuevoEstado = 1,
+    observasion = ""
+) => {
+    const datos = {id_estado_planificacion: nuevoEstado};
+    if(observasion){
+        datos["observacion"] = observasion;
+    }
+
+    const respuesta = await solicitud(
+        `${rutas.ESTADO_PLANIFICACION}/${revisionPlanifID}`,
+        "PUT",
+        datos
+    );
+    return respuesta;
+};
+
 export const registrarPlanificacionEmpresa = async (datos={}) => {
     const respuesta = await solicitud(`${rutas.REGISTRAR_PLANIFICACION_EMPRESA}`,"POST", datos);
     return respuesta;

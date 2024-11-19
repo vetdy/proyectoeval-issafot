@@ -8,6 +8,8 @@ export const ELEMENTO_PLANIFICACION_PROYECTO_EMPRESA = `${URL_BACKEND}/api/plani
 export const PROYECTOS_EMPRESA = `${URL_BACKEND}/api/proyecto_empresa/empresa`;
 export const PLANIFICACION_PROYECTO_EMPRESA = `${URL_BACKEND}/api/planificacion/proyecto_empresa/item`;
 export const ESTADO_PLANIFICACION_PROYECTO_EMPRESA = `${URL_BACKEND}/api/revision_planificacion/proyecto_empresa`;
+export const ESTADO_PLANIFICACION = `${URL_BACKEND}/api/revision_planificacion`;
+
 
 export const PLANILLAS_DOCENTE_SEGUIMIENTO = `${URL_BACKEND}/api/planilla_seguimiento/semana`;
 export const ITEMS_PLANTILLA_SEGUIMIENTO = `${URL_BACKEND}/api/item_planilla/planilla_seguimiento`;

@@ -36,17 +36,6 @@ const RevisionPlanificacionesDocente = () => {
             const consultaEmpresas = await obtenerProyectosEmpresaDocente(1);
             if( consultaEmpresas.status === 200){
                 const nuevoProyectosEmpresas = consultaEmpresas.message.proyecto_por_docente;
-                /* const listaConsultaProyectos = nuevoProyectosEmpresas.map( p => obtenerProyectosEmpresa(p.id_proyecto_empresa) );
-
-                const consultaProyectos = await Promise.all(listaConsultaProyectos);
-                consultaProyectos.forEach( (p, i) => {
-                    if( p.status === 200 ){
-                        //nuevoProyectosEmpresas[i][nombre] = p.message.proyecto_por_empresa.nombre_proyecto;
-                        console.log(p);
-                    }
-                }); */
-
-
                 setProyectosEmpresas(nuevoProyectosEmpresas);
             }
             else{

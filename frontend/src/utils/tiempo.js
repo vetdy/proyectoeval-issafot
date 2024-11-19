@@ -26,6 +26,23 @@ export const normalizarFecha = (fecha) => {
     return obtenerFechaActual();
 }
 
+export const normalizarHora = (hora="8:15") => {
+    return hora.split(":").map(h => h.padStart(2, "0")).join(":");
+}
+
+export const numeroDia = (dia = 1) => {
+    const dias = {
+        1: "Lunes",
+        2: "Martes",
+        3: "Miércoles",
+        4: "Jueves",
+        5: "Viernes",
+        6: "Sabado",
+        7: "Domingo"
+    }
+    return dias[dia];
+}
+
 export const obtenerDia = (fecha="") => {
     return new Date(fecha).getUTCDay();
 }

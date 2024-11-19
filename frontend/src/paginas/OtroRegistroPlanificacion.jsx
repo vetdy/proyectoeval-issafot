@@ -391,7 +391,7 @@ const OtroRegistroPlanificacion = () => {
                     return false;
                 }
 
-                if (compararFecha(p.fecha_inicio, fechaFinProyecto) === 1){
+                /* if (compararFecha(p.fecha_inicio, fechaFinProyecto) === 1){
                     abrirModal(`La fecha inicio no puede ser mayor a la Fecha establecida de duración del proyecto (${fechaFinProyecto}). En el hito: ${p.titulo}`);
                     return false;
                 }
@@ -399,7 +399,7 @@ const OtroRegistroPlanificacion = () => {
                 if (compararFecha(p.fecha_fin, fechaFinProyecto) === 1){
                     abrirModal(`La fecha fin no puede ser mayor a la Fecha establecida de duración del proyecto (${fechaFinProyecto}). En el hito: ${p.titulo}`);
                     return false;
-                }
+                } */
             }
             return true;
         } else {
