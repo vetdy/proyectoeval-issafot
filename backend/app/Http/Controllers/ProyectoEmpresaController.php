@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Empresa;
 use App\Models\Estado_planificacion;
+use App\Models\Planilla_seguimiento;
 use App\Models\Proyecto;
 use App\Models\Proyecto_empresa;
 use App\Models\Revision_planificacion;
@@ -47,6 +48,7 @@ class ProyectoEmpresaController extends Controller
                         $proyect->nombre_empresa=Empresa::find($proyectoEmpresa->id_empresa)->nombre_corto;
                         $rp=Revision_planificacion::where('id_proyecto_empresa',$proyect->id_proyecto_empresa)->first();
                         $proyect->estado=Estado_planificacion::find($rp->id_estado_planificacion)->estado;
+                        $proyect->habilitado_planilla=Planilla_seguimiento::where('id_proyecto_empresa', $proyect->id_proyecto_empresa)->get()->isEmpty();
                         $proyecto_por_docente[]=$proyect;
                     }
                      
