@@ -1,0 +1,72 @@
+.banda-titulos {
+    background-color: #2c3440; /* Color de fondo oscuro */
+    padding: 10px;
+    border-radius: 10px; 
+    margin-bottom: 20px; 
+    text-align: center;
+}
+
+.banda-titulos h2 {
+    margin: 0; 
+    color: white; 
+    font-weight: bold;
+}
+/* Botones de añadir y guardar */
+.btn-add-task, .btn-save {
+    background-color: #cad0d2; /* Color para añadir y guardar */
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-add-task:hover, .btn-save:hover {
+    background-color: #cad0d2; /* Color de hover para añadir y guardar */
+}
+
+/* Botón de eliminar */
+.btn-delete {
+    background-color: #526278; /* Color para eliminar */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-delete:hover {
+    background-color: #526278; /* Color de hover para eliminar */
+}
+
+/* Contenedor */
+.container-agregar-tareas {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* Formato de grupo en línea */
+.form-group-inline {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.form-group-inline label,
+.form-group-inline select,
+.form-group-inline input[type="checkbox"] {
+    margin: 0;
+    padding: 0;
+}
+
+/* Checkbox más pequeño */
+input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+}

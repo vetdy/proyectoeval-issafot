@@ -1,0 +1,97 @@
+.App {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .datos  {
+  
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+    margin-top: 5px;
+  }
+  .datos input {
+  
+    width: 300px;
+    align-items: center;
+    height: 30px;
+    font-size: 20px;
+    padding-left: 10px; 
+    border-radius: 10px;
+    margin: 5px;
+    
+  }
+  .btn-custom:hover {
+    background-color: #506278; 
+  }
+  .datos button {
+    background-color: #506278;
+    width: 320px;
+    height: 50px;
+    margin-top: 5px;
+    cursor: pointer;
+    border-color: #506278;
+    
+  }
+  .btn-custom {
+    background-color: #506278;
+    color: #ffffff; 
+    border-color: #506278; 
+  }
+  
+  
+  .alert {
+    font-size: 15px;
+    font-weight: bold;
+    
+  }
+
+
+.text-shadow{
+    text-shadow:  5px 5px 5px hsla(0, 0%, 0%, 0.25);
+}
+
+.modal-show{
+    display: block !important;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.e-control {
+    position: fixed;
+    width: 1.5rem;
+    height: 1.5rem;
+    bottom: 0;
+    background-color: rgb(60, 70, 100);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    place-content: center;
+    margin: auto;
+    user-select: none;
+}
+.e-text {
+    position: fixed;
+    bottom: 0.25rem;
+    left: 1.5rem;
+    font-weight: bold;
+    font-style: italic;
+    color: black;
+    user-select: none;
+    font-size: small;
+}
+.bg-inherit {
+    background-color: inherit !important;
+}

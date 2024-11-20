@@ -1,0 +1,56 @@
+@import "../../node_modules/bootstrap/scss/functions";
+
+//variable overrides
+
+@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/variables-dark";
+
+//default map overrides
+//Primario#BEC5D3
+//Secundario #506278
+//Fondo #E2E1DC
+
+$custom-colors: (
+    "eva-primary": rgb(4, 140, 220),
+    "eva-secondary": rgb(80, 98, 120),
+    "eva-success": rgb(42, 162, 66),
+    "eva-danger": rgb(200, 24, 30),
+    "eva-warning": rgb(240, 188, 54),
+    "eva-info": rgb(202, 208, 210),
+    "eva-light": rgb(238, 238, 232),
+    "eva-dark": rgb(42, 48, 62)
+);
+
+// Unir los mapas
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+@import "../../node_modules/bootstrap/scss/maps";
+@import "../../node_modules/bootstrap/scss/mixins";
+@import "../../node_modules/bootstrap/scss/utilities";
+
+$border-responsive:(
+    "border": map-merge(
+        map-get($utilities, "border"),
+        ( responsive: true ),
+    ),
+    "border-top": map-merge(
+        map-get($utilities, "border-top"),
+        ( responsive: true ),
+    ),
+    "border-end": map-merge(
+        map-get($utilities, "border-end"),
+        ( responsive: true ),
+    ),
+    "border-bottom": map-merge(
+        map-get($utilities, "border-bottom"),
+        ( responsive: true ),
+    ),
+    "border-start": map-merge(
+        map-get($utilities, "border-start"),
+        ( responsive: true ),
+    ),
+);
+
+$utilities: map-merge($utilities, $border-responsive);
+  
+@import "../../node_modules/bootstrap/scss/bootstrap";

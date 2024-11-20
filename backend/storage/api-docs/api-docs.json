@@ -1,0 +1,1811 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API proyecto EVA",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000"
+        }
+    ],
+    "paths": {
+        "/api/docente": {
+            "get": {
+                "tags": [
+                    "Docentes"
+                ],
+                "summary": "Obtiene una lista de los docentes",
+                "operationId": "333fee026ff9e6356de198172c1cbd2c",
+                "responses": {
+                    "200": {
+                        "description": "Lista de docentes"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Docentes"
+                ],
+                "summary": "Crear un nuevo docente",
+                "operationId": "6f96b78084ca67a74cdaf2f6463a5a06",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre",
+                                    "apellido",
+                                    "codigo_sis",
+                                    "correo",
+                                    "telefono",
+                                    "contrasena"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Juan"
+                                    },
+                                    "apellido": {
+                                        "type": "string",
+                                        "example": "Marcos"
+                                    },
+                                    "codigo_sis": {
+                                        "type": "string",
+                                        "example": "202503657"
+                                    },
+                                    "correo": {
+                                        "type": "string",
+                                        "example": "juan@correo.com"
+                                    },
+                                    "telefono": {
+                                        "type": "string",
+                                        "example": "4307845"
+                                    },
+                                    "contrasena": {
+                                        "type": "string",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Docente creado con éxito"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            }
+        },
+        "/api/docente/{id}": {
+            "get": {
+                "tags": [
+                    "Docentes"
+                ],
+                "summary": "Mostar un docente",
+                "operationId": "37831e907cc4854634b06b90428f97bd",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del docente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos del docente"
+                    },
+                    "404": {
+                        "description": "Docente no encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Docentes"
+                ],
+                "summary": "Actualizar un docente",
+                "operationId": "8f46da718f5a5078ca5d754deade6559",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del docente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Juan"
+                                    },
+                                    "apellido": {
+                                        "type": "string",
+                                        "example": "Marcos"
+                                    },
+                                    "codigo_sis": {
+                                        "type": "string",
+                                        "example": "202503657"
+                                    },
+                                    "correo": {
+                                        "type": "string",
+                                        "example": "juan@correo.com"
+                                    },
+                                    "telefono": {
+                                        "type": "string",
+                                        "example": "4307845"
+                                    },
+                                    "contrasena": {
+                                        "type": "string",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Docente actualizado con éxito"
+                    },
+                    "404": {
+                        "description": "Docente no encontrado"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Docentes"
+                ],
+                "summary": "Eliminar un docente",
+                "operationId": "bb047d7ca215ccf4f7c48cd3057f18b1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del docente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Docente eliminado"
+                    },
+                    "404": {
+                        "description": "Docente no encontrado"
+                    }
+                }
+            }
+        },
+        "/api/empresa": {
+            "get": {
+                "tags": [
+                    "Empresas"
+                ],
+                "summary": "Obtiene una lista de los docentes",
+                "operationId": "8845a5af5b88ec6983c929c36cae3c84",
+                "responses": {
+                    "200": {
+                        "description": "Lista de empresas"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Empresas"
+                ],
+                "summary": "Crear un nueva empresa",
+                "operationId": "d4a156853daa20dcfac51eb9b0d186a5",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre_corto",
+                                    "nombre_largo",
+                                    "id_usuario",
+                                    "correo",
+                                    "telefono",
+                                    "imagen"
+                                ],
+                                "properties": {
+                                    "nombre_corto": {
+                                        "type": "string",
+                                        "example": "ISSA"
+                                    },
+                                    "nombre_largo": {
+                                        "type": "string",
+                                        "example": "Inovasion de solucion software amigable"
+                                    },
+                                    "id_usuario": {
+                                        "type": "string",
+                                        "example": "8"
+                                    },
+                                    "correo": {
+                                        "type": "string",
+                                        "example": "ISSA@correo.com"
+                                    },
+                                    "telefono": {
+                                        "type": "string",
+                                        "example": "4305445"
+                                    },
+                                    "imagen": {
+                                        "type": "string",
+                                        "example": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAABmJLR0QABwAGAAamjb7oAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH6AoICzEL5B0y2gAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAOBSURBVHja7dxPSJt3HMfxd6PEhAiB9bIeViQXD9qDEEVQFi8KIsIiJiz4pxnr2VNHoqzYdEhguoIddhayCutJc1qX4Hr2tECzxGMEc1hYWTFbwWASY/LsMJSu2o5ko7rt84bf5eFLHp7fK+R5kkMutZjNBurCZNIWCEQJRCBKIAJRAhGIEohAlECUQASiBCIQJRCBKIEIRAlECUQgSiACUQIRiBKIQJRAlEAEogQiECUQgSiBCEQJRAlEIEogAlH/RZCV+/cplkqsPnjwp+OBYJAfUyl+ef6c/UKBn58944dEgtuh0KnXqGf2uK9WVymWSvz24gWd164J5E19cfcu8/PzmEwmFhYW6O/vJxwOYzKZCAQCfOB2NzT7cgMDAxQKBSwWCzMzM+d6vc0XHWR0dJRKpcL4+Dg7mQwA6VSKL+/dYyMapVqtNjR73PT167S1tbGxsUFfXx8ul0sgb8pqtVIsFk82+OW8Hk/Ds8f5fD7K5TLLy8uUy2Wmpqb4+MYNvo5E9JF1VtlsFrvdzjePHmGz2f6xWYB3r1zB6XSSTCZJPn3K4uIixWIRr9ere8jrCoVCZLNZPB4PP+VypNJpvovFCASDf2sWIBgI0Nrayvr6OgA7mQyJRAKn08l7V6+ey/U2NTc13b4omz8yMkJXVxfpdJpYLPbHu353l5WVFfL5PIeHh7S0tNDZ2cnw8DA+n49kMkkul6t7FuDzxUX29/f5yO8/OWYAY2NjWK1WNjc33/4mtJjNxkVZkUjEqNVqxtra2l/OxuNxo1arGVtbWw3NTkxMGNVq1ajVameunZ2dc9mDf+0Xw6nJSY6OjnA4HA3NTk9PUygUsFosp9bS0hIOh4MPfT7dQ17t+ydP6O3tPXX8fZeL5uZmSqVS3bM2m42enh4yZzyNAaw9fEilUmFyclKPva/W0dHBt48fE4/HiUaj7O3tMTg4iN/vxzCMk3tNPbOf3rqF3W4nlUqdec7d3V2y2Szd3d28c/kyv+bzAjlubm4Or9eLy+XC7XZjNps5ODggl8sRDof57M6dumeHhoYwDINoNPra825vb9Pe3s7s7Cyf3Lz51q73kv4mVj8uKoEIRAlEIEogAlECEYgSiBKIQJRABKIEIhAlEIEogSiBCEQJRCBKIAJRAhGIEogSiECUQASiBCIQJRCBKIEogQhECUQgSiACUQL5//U7xBcHwU6U9OAAAAAASUVORK5CYII="
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Empresa creada con éxito"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            }
+        },
+        "/api/empresa/{id}": {
+            "get": {
+                "tags": [
+                    "Empresas"
+                ],
+                "summary": "Mostar una empresa",
+                "operationId": "ee65f25e5fe4a898ac866a4e3d5e1cb6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del empresa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos de una empresa"
+                    },
+                    "404": {
+                        "description": "Empresa no encontrada"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Empresas"
+                ],
+                "summary": "Actualizar una empresa",
+                "operationId": "69e2a499316b74cd18d3577f00ceec70",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del empresa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre_corto": {
+                                        "type": "string",
+                                        "example": "ISSA"
+                                    },
+                                    "nombre_largo": {
+                                        "type": "string",
+                                        "example": "Inovasion de solucion software amigable"
+                                    },
+                                    "id_usuario": {
+                                        "type": "string",
+                                        "example": "8"
+                                    },
+                                    "correo": {
+                                        "type": "string",
+                                        "example": "ISSA@correo.com"
+                                    },
+                                    "telefono": {
+                                        "type": "string",
+                                        "example": "4305445"
+                                    },
+                                    "imagen": {
+                                        "type": "string",
+                                        "example": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAABmJLR0QABwAGAAamjb7oAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAB3RJTUUH6AoICzEL5B0y2gAAABl0RVh0Q29tbWVudABDcmVhdGVkIHdpdGggR0lNUFeBDhcAAAOBSURBVHja7dxPSJt3HMfxd6PEhAiB9bIeViQXD9qDEEVQFi8KIsIiJiz4pxnr2VNHoqzYdEhguoIddhayCutJc1qX4Hr2tECzxGMEc1hYWTFbwWASY/LsMJSu2o5ko7rt84bf5eFLHp7fK+R5kkMutZjNBurCZNIWCEQJRCBKIAJRAhGIEohAlECUQASiBCIQJRCBKIEIRAlECUQgSiACUQIRiBKIQJRAlEAEogQiECUQgSiBCEQJRAlEIEogAlH/RZCV+/cplkqsPnjwp+OBYJAfUyl+ef6c/UKBn58944dEgtuh0KnXqGf2uK9WVymWSvz24gWd164J5E19cfcu8/PzmEwmFhYW6O/vJxwOYzKZCAQCfOB2NzT7cgMDAxQKBSwWCzMzM+d6vc0XHWR0dJRKpcL4+Dg7mQwA6VSKL+/dYyMapVqtNjR73PT167S1tbGxsUFfXx8ul0sgb8pqtVIsFk82+OW8Hk/Ds8f5fD7K5TLLy8uUy2Wmpqb4+MYNvo5E9JF1VtlsFrvdzjePHmGz2f6xWYB3r1zB6XSSTCZJPn3K4uIixWIRr9ere8jrCoVCZLNZPB4PP+VypNJpvovFCASDf2sWIBgI0Nrayvr6OgA7mQyJRAKn08l7V6+ey/U2NTc13b4omz8yMkJXVxfpdJpYLPbHu353l5WVFfL5PIeHh7S0tNDZ2cnw8DA+n49kMkkul6t7FuDzxUX29/f5yO8/OWYAY2NjWK1WNjc33/4mtJjNxkVZkUjEqNVqxtra2l/OxuNxo1arGVtbWw3NTkxMGNVq1ajVameunZ2dc9mDf+0Xw6nJSY6OjnA4HA3NTk9PUygUsFosp9bS0hIOh4MPfT7dQ17t+ydP6O3tPXX8fZeL5uZmSqVS3bM2m42enh4yZzyNAaw9fEilUmFyclKPva/W0dHBt48fE4/HiUaj7O3tMTg4iN/vxzCMk3tNPbOf3rqF3W4nlUqdec7d3V2y2Szd3d28c/kyv+bzAjlubm4Or9eLy+XC7XZjNps5ODggl8sRDof57M6dumeHhoYwDINoNPra825vb9Pe3s7s7Cyf3Lz51q73kv4mVj8uKoEIRAlEIEogAlECEYgSiBKIQJRABKIEIhAlEIEogSiBCEQJRCBKIAJRAhGIEogSiECUQASiBCIQJRCBKIEogQhECUQgSiACUQL5//U7xBcHwU6U9OAAAAAASUVORK5CYII="
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Empresa creada con éxito"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    },
+                    "404": {
+                        "description": "Empresa no encontrada"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Empresas"
+                ],
+                "summary": "Eliminar un empresa",
+                "operationId": "be769ab5b92b9a5e1172124472930eda",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la empresa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Docente eliminado"
+                    },
+                    "404": {
+                        "description": "Docente no encontrado"
+                    }
+                }
+            }
+        },
+        "/api/evaluacion": {
+            "get": {
+                "tags": [
+                    "Evaluaciones"
+                ],
+                "summary": "Obtiene una lista de los evaluacions",
+                "operationId": "7881e5c31a0a53bb3eb148548da6f57d",
+                "responses": {
+                    "200": {
+                        "description": "Lista de evaluacions"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Evaluaciones"
+                ],
+                "summary": "Crear un nuevo evaluacion",
+                "operationId": "78d1e532f228132082d857405a938612",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "titulo",
+                                    "fecha_revision",
+                                    "hora_revision",
+                                    "concluido",
+                                    "nota",
+                                    "id_empresa",
+                                    "id_tipo_evaluacion"
+                                ],
+                                "properties": {
+                                    "titulo": {
+                                        "type": "string",
+                                        "example": "Item 1"
+                                    },
+                                    "fecha_revision": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024/10/21"
+                                    },
+                                    "hora_revision": {
+                                        "type": "time",
+                                        "example": "18:00"
+                                    },
+                                    "nota": {
+                                        "type": "integer",
+                                        "example": "50"
+                                    },
+                                    "id_empresa": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "id_tipo_evaluacion": {
+                                        "type": "integer",
+                                        "example": "2"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "evaluacion creada con éxito"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            }
+        },
+        "/api/evaluacion/{id}": {
+            "get": {
+                "tags": [
+                    "Evaluaciones"
+                ],
+                "summary": "Mostar un evaluacion",
+                "operationId": "1a06bbcda976cfa88c85b1ffda1e7b29",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la evaluacion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos de la evaluacion"
+                    },
+                    "404": {
+                        "description": "evaluacion no encontrada"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Evaluaciones"
+                ],
+                "summary": "Actualizar un evaluacion",
+                "operationId": "ab96158ade3c36b79cf6bcfb7769aa5c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la evaluacion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "titulo": {
+                                        "type": "string",
+                                        "example": "Item 1"
+                                    },
+                                    "fecha_revision": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024/10/21"
+                                    },
+                                    "hora_revision": {
+                                        "type": "time",
+                                        "example": "18:00"
+                                    },
+                                    "nota": {
+                                        "type": "integer",
+                                        "example": "50"
+                                    },
+                                    "id_empresa": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "id_tipo_evaluacion": {
+                                        "type": "integer",
+                                        "example": "2"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "evaluacion actualizada con éxito"
+                    },
+                    "404": {
+                        "description": "evaluacion no encontrada"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Evaluaciones"
+                ],
+                "summary": "Eliminar una evaluacion",
+                "operationId": "5ef3dd512fe70fb2572123ce749f15d5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la evaluacion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "evaluacion eliminada "
+                    },
+                    "404": {
+                        "description": "evaluacion no encontrada"
+                    }
+                }
+            }
+        },
+        "/api/evaluacion/empresa/{id}": {
+            "delete": {
+                "tags": [
+                    "Evaluaciones"
+                ],
+                "summary": "Mostar una evaluaciones por empresa",
+                "operationId": "392328bc1513e1d0fc998815ae24f3b7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la empresa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "muestra evaluacion "
+                    },
+                    "404": {
+                        "description": "evaluacion no encontrada"
+                    }
+                }
+            }
+        },
+        "/api/item_planificacion": {
+            "get": {
+                "tags": [
+                    "Item planificaciones"
+                ],
+                "summary": "Obtiene una lista de items planilla",
+                "operationId": "8a07954b1590e39aa1ef75e9c3b945aa",
+                "responses": {
+                    "200": {
+                        "description": "Lista de de items planilla"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Item planificaciones"
+                ],
+                "summary": "Crear un nuevo Item planificacion",
+                "operationId": "bccf22a04060e2b9ccb04b00ed4802b4",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre",
+                                    "id_planificacion",
+                                    "fecha_inicio",
+                                    "fecha_fin"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Diseño de base de datos"
+                                    },
+                                    "id_planificacion": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    },
+                                    "fecha_inicio": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "1"
+                                    },
+                                    "fecha_fin": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Item planificacion creado con éxito"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            }
+        },
+        "/api/item_planificacion/{id}": {
+            "get": {
+                "tags": [
+                    "Item planificaciones"
+                ],
+                "summary": "Mostar un item planificacion",
+                "operationId": "7835a07b6409312df723330ad825852e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del item planificacion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos del item planificacion"
+                    },
+                    "404": {
+                        "description": "item planificacion no encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Item planificaciones"
+                ],
+                "summary": "Actualizar un item planilla",
+                "operationId": "605d567fbb7b60782a1cc6ad55309afe",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del item planificacion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Diseño de base de datos"
+                                    },
+                                    "id_planificacion": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "item planificacion actualizado con éxito"
+                    },
+                    "404": {
+                        "description": "item planificacion no encontrado"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Item planificaciones"
+                ],
+                "summary": "Eliminar un item planificacion",
+                "operationId": "9037d814f8e1369ac2e9f8c3846d76c0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del item planificacion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "item planificacion eliminado"
+                    },
+                    "404": {
+                        "description": "item planificacion no encontrado"
+                    }
+                }
+            }
+        },
+        "/api/item_planilla": {
+            "get": {
+                "tags": [
+                    "Item planillas"
+                ],
+                "summary": "Obtiene una lista de items planilla",
+                "operationId": "2363fb7dd14e1f3dddf44b54d474a62a",
+                "responses": {
+                    "200": {
+                        "description": "Lista de de items planilla"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Item planillas"
+                ],
+                "summary": "Crear un nuevo Item planilla",
+                "operationId": "7c196d194942d8e71cafb81e959d0f86",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "titulo",
+                                    "id_planilla"
+                                ],
+                                "properties": {
+                                    "titulo": {
+                                        "type": "string",
+                                        "example": "Diseño de base de datos"
+                                    },
+                                    "id_planilla": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Item planilla creado con éxito"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            }
+        },
+        "/api/item_planilla/{id}": {
+            "get": {
+                "tags": [
+                    "Item planillas"
+                ],
+                "summary": "Mostar un item planilla",
+                "operationId": "5763b6ac1924c7733c8a936234c6fcb8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del item planilla",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos del item planilla"
+                    },
+                    "404": {
+                        "description": "item planilla no encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Item planillas"
+                ],
+                "summary": "Actualizar un item planilla",
+                "operationId": "f6dea6abd004b3802cfd33393faf1686",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del item planilla",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "titulo": {
+                                        "type": "string",
+                                        "example": "Diseño de base de datos"
+                                    },
+                                    "id_planilla": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "item planilla actualizado con éxito"
+                    },
+                    "404": {
+                        "description": "item planilla no encontrado"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Item planillas"
+                ],
+                "summary": "Eliminar un item planilla",
+                "operationId": "12f94a12466f5ef8b56f018225470f04",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del item planilla",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "item planilla eliminado"
+                    },
+                    "404": {
+                        "description": "item planilla no encontrado"
+                    }
+                }
+            }
+        },
+        "/api/item_planilla/planilla_seguimiento/{id}": {
+            "get": {
+                "tags": [
+                    "planillas Seguimientos"
+                ],
+                "summary": "Mostar una lista item planilla por planilla seguimiento",
+                "operationId": "d6b401fbc46517167c8466fda645f94c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del empresa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos del item planilla por planilla seguimiento"
+                    },
+                    "404": {
+                        "description": "planilla no encontrada"
+                    }
+                }
+            }
+        },
+        "/api/planificacion": {
+            "get": {
+                "tags": [
+                    "Planificaciones"
+                ],
+                "summary": "Obtiene una lista de los Plantillas seguimientos",
+                "operationId": "df342a1d92f6617b5d7675823cedab72",
+                "responses": {
+                    "200": {
+                        "description": "Lista de Planificaciones"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Planificaciones"
+                ],
+                "summary": "Crear un nuevo Planificacion",
+                "operationId": "0ac2b2b2af4ed0085f0a7a3550994053",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "titulo",
+                                    "fecha_inicio",
+                                    "fecha_fin",
+                                    "id_proyecto_empresa"
+                                ],
+                                "properties": {
+                                    "titulo": {
+                                        "type": "string",
+                                        "example": "Item 1"
+                                    },
+                                    "fecha_inicio": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024/10/1"
+                                    },
+                                    "fecha_fin": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024/10/29"
+                                    },
+                                    "id_proyecto_empresa": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Planificacion creada con éxito"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            }
+        },
+        "/api/planificacion/{id}": {
+            "get": {
+                "tags": [
+                    "Planificaciones"
+                ],
+                "summary": "Mostar un Planificacion",
+                "operationId": "d68d4ace74dc8a308be94982a1bfeed8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la Planificacion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos de la Planificacion"
+                    },
+                    "404": {
+                        "description": "Planificacion no encontrada"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Planificaciones"
+                ],
+                "summary": "Actualizar un Planificacion",
+                "operationId": "723e98e928b6f1667991215c6fe8b73b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la Planificacion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "titulo": {
+                                        "type": "string",
+                                        "example": "Item 1"
+                                    },
+                                    "fecha_inicio": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024/10/1"
+                                    },
+                                    "fecha_fin": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024/10/29"
+                                    },
+                                    "id_proyecto_empresa": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Planificacion actualizada con éxito"
+                    },
+                    "404": {
+                        "description": "Planificacion no encontrada"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Planificaciones"
+                ],
+                "summary": "Eliminar una Planificacion",
+                "operationId": "ff2c0e4d58a367b6809c3d43927c5569",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la Planificacion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Planificacion eliminada "
+                    },
+                    "404": {
+                        "description": "Planificacion no encontrada"
+                    }
+                }
+            }
+        },
+        "/api/planilla_seguimiento": {
+            "get": {
+                "tags": [
+                    "planillas Seguimientos"
+                ],
+                "summary": "Obtiene una lista de los planillas seguimientos",
+                "operationId": "4550bda1cc291d34ce63064f93079066",
+                "responses": {
+                    "200": {
+                        "description": "Lista de planillas seguimientos"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "planillas Seguimientos"
+                ],
+                "summary": "Crear un nuevo planilla Seguimiento",
+                "operationId": "7a89b3fd58954de6d679d4d7a169dd38",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "titulo",
+                                    "fecha_revision",
+                                    "hora_revision",
+                                    "id_empresa"
+                                ],
+                                "properties": {
+                                    "titulo": {
+                                        "type": "string",
+                                        "example": "Item 1"
+                                    },
+                                    "fecha_revision": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024/8/10)"
+                                    },
+                                    "hora_revision": {
+                                        "type": "time",
+                                        "example": "18:00"
+                                    },
+                                    "id_empresa": {
+                                        "type": "string",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "planilla Seguimiento creado con éxito"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            }
+        },
+        "/api/planilla_seguimiento/{id}": {
+            "get": {
+                "tags": [
+                    "planillas Seguimientos"
+                ],
+                "summary": "Mostar un planilla Seguimiento",
+                "operationId": "5dab0a2d77b7a18f873e5fd6b833a4b5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del planilla Seguimiento",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos del planilla Seguimiento"
+                    },
+                    "404": {
+                        "description": "planilla Seguimiento no encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "planillas Seguimientos"
+                ],
+                "summary": "Actualizar un planilla Seguimiento",
+                "operationId": "a65d68397f8a3641abbf3738f890361d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del planilla Seguimiento",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "titulo": {
+                                        "type": "string",
+                                        "example": "Item 1"
+                                    },
+                                    "fecha_revision": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024/8/10)"
+                                    },
+                                    "hora_revision": {
+                                        "type": "time",
+                                        "example": "18:00"
+                                    },
+                                    "id_empresa": {
+                                        "type": "string",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "planilla Seguimiento actualizado con éxito"
+                    },
+                    "404": {
+                        "description": "planilla Seguimiento no encontrado"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "planillas Seguimientos"
+                ],
+                "summary": "Eliminar un planilla Seguimiento",
+                "operationId": "87bb1f381bdaff418eae2ea131a99dc3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del planilla Seguimiento",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "planilla Seguimiento eliminado"
+                    },
+                    "404": {
+                        "description": "planilla Seguimiento no encontrado"
+                    }
+                }
+            }
+        },
+        "/api/planilla_seguimiento/empresa/{id}": {
+            "get": {
+                "tags": [
+                    "planillas Seguimientos"
+                ],
+                "summary": "Mostar un planilla Seguimiento",
+                "operationId": "16be7e8b9b1b461db43ba3d217cb0e3c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del empresa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos del planilla Seguimiento por empresa"
+                    },
+                    "404": {
+                        "description": "Empresa no encontrada"
+                    }
+                }
+            }
+        },
+        "/api/planilla_seguimiento/semanal/{idUsuario}": {
+            "get": {
+                "tags": [
+                    "planillas Seguimientos"
+                ],
+                "summary": "Mostar planillas Seguimientos por docente",
+                "operationId": "bfe745f507e29ceee65e862596bc018e",
+                "parameters": [
+                    {
+                        "name": "idUsuario",
+                        "in": "path",
+                        "description": "ID de el docente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos del planilla Seguimiento por docente"
+                    },
+                    "404": {
+                        "description": "docente no encontrada"
+                    }
+                }
+            }
+        },
+        "/api/planilla_seguimiento/asistencia/": {
+            "get": {
+                "tags": [
+                    "planillas Seguimientos"
+                ],
+                "summary": "Mostar planillas Seguimientos con asistencia",
+                "operationId": "23e058374ad6ad8d8c669b99567612db",
+                "parameters": [
+                    {
+                        "name": "idUsuario",
+                        "in": "path",
+                        "description": "ID de la plantilla",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos del planilla Seguimiento con asistencia"
+                    },
+                    "404": {
+                        "description": "planilla no encontrada"
+                    }
+                }
+            }
+        },
+        "/api/tarea": {
+            "get": {
+                "tags": [
+                    "Tareas"
+                ],
+                "summary": "Obtiene una lista de los Tareas",
+                "operationId": "8a9da67d21c6d81746b7c7bb874441f0",
+                "responses": {
+                    "200": {
+                        "description": "Lista de Tareas"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Tareas"
+                ],
+                "summary": "Crear un nuevo Tarea",
+                "operationId": "b8df42e76d2a339d50ff70a384181e2a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "terminado",
+                                    "descripcion",
+                                    "observacion"
+                                ],
+                                "properties": {
+                                    "terminado": {
+                                        "type": "boolean",
+                                        "example": "true"
+                                    },
+                                    "descripcion": {
+                                        "type": "string",
+                                        "example": "Presentar la base de datos"
+                                    },
+                                    "observacion": {
+                                        "type": "string",
+                                        "example": "no llega a cumplir los criterios de la hu"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Tarea creada con éxito"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            }
+        },
+        "/api/tarea/{id}": {
+            "get": {
+                "tags": [
+                    "Tareas"
+                ],
+                "summary": "Mostar un Tarea",
+                "operationId": "651e88b0ad36d4c0b9033da4ffd57fea",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la Tarea",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos de la Tarea"
+                    },
+                    "404": {
+                        "description": "Tarea no encontrada"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Tareas"
+                ],
+                "summary": "Actualizar un Tarea",
+                "operationId": "72ca2b434ff72c239bd44de32871068e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la Tarea",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "terminado": {
+                                        "type": "boolean",
+                                        "example": "true"
+                                    },
+                                    "descripcion": {
+                                        "type": "string",
+                                        "example": "Presentar la base de datos"
+                                    },
+                                    "observacion": {
+                                        "type": "string",
+                                        "example": "no llega a cumplir los criterios de la hu"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Tarea actualizada con éxito"
+                    },
+                    "404": {
+                        "description": "Tarea no encontrada"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Tareas"
+                ],
+                "summary": "Eliminar una Tarea",
+                "operationId": "c54d3bf73ccd5dabc96cee71726b9d7a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la Tarea",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tarea eliminada "
+                    },
+                    "404": {
+                        "description": "Tarea no encontrada"
+                    }
+                }
+            }
+        },
+        "/api/tarea/lista": {
+            "put": {
+                "tags": [
+                    "Tareas"
+                ],
+                "summary": "Actualizar un Tarea",
+                "operationId": "ba1bc1fba08c6aa3da7a1c6677c3fb71",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "terminado": {
+                                        "type": "boolean",
+                                        "example": "true"
+                                    },
+                                    "descripcion": {
+                                        "type": "string",
+                                        "example": "Presentar la base de datos"
+                                    },
+                                    "observacion": {
+                                        "type": "string",
+                                        "example": "no llega a cumplir los criterios de la hu"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Tareas agregadas con éxito"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            }
+        },
+        "/api/tipo_evaluacion": {
+            "get": {
+                "tags": [
+                    "Tipo Evaluaciones"
+                ],
+                "summary": "Obtiene una lista de items planilla",
+                "operationId": "d9f9cff7006b8c5d745ef63dd16d077a",
+                "responses": {
+                    "200": {
+                        "description": "Lista de de items planilla"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Tipo Evaluaciones"
+                ],
+                "summary": "Crear un nuevo tipo evaluacion",
+                "operationId": "f1b5eaf1736763eedcd9b5b24833a48e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre",
+                                    "descripcion"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Evaluacion grupal"
+                                    },
+                                    "descripcion": {
+                                        "type": "string",
+                                        "example": "evaluacion entre miembros del mismo equipo"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "tipo evaluacion creado con éxito"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            }
+        },
+        "/api/tipo_evaluacion/{id}": {
+            "get": {
+                "tags": [
+                    "Tipo Evaluaciones"
+                ],
+                "summary": "Mostar un tipo evaluacion",
+                "operationId": "f1ad8b536deb9b9fb72d3163bc553e06",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del tipo evaluacion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos del tipo evaluacion"
+                    },
+                    "404": {
+                        "description": "tipo evaluacion no encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Tipo Evaluaciones"
+                ],
+                "summary": "Actualizar un item planilla",
+                "operationId": "e8c0166cb74c4c27251dc1e61727d272",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del tipo evaluacion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Evaluacion grupal"
+                                    },
+                                    "descripcion": {
+                                        "type": "string",
+                                        "example": "evaluacion entre miembros del mismo equipo"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "tipo evaluacion actualizado con éxito"
+                    },
+                    "404": {
+                        "description": "tipo evaluacion no encontrado"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Tipo Evaluaciones"
+                ],
+                "summary": "Eliminar un tipo evaluacion",
+                "operationId": "083fed014903f06907d5baac1822b275",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del tipo evaluacion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "tipo evaluacion eliminado"
+                    },
+                    "404": {
+                        "description": "tipo evaluacion no encontrado"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Docentes",
+            "description": "Docentes"
+        },
+        {
+            "name": "Empresas",
+            "description": "Empresas"
+        },
+        {
+            "name": "Evaluaciones",
+            "description": "Evaluaciones"
+        },
+        {
+            "name": "Item planificaciones",
+            "description": "Item planificaciones"
+        },
+        {
+            "name": "Item planillas",
+            "description": "Item planillas"
+        },
+        {
+            "name": "planillas Seguimientos",
+            "description": "planillas Seguimientos"
+        },
+        {
+            "name": "Planificaciones",
+            "description": "Planificaciones"
+        },
+        {
+            "name": "Tareas",
+            "description": "Tareas"
+        },
+        {
+            "name": "Tipo Evaluaciones",
+            "description": "Tipo Evaluaciones"
+        }
+    ]
+}
