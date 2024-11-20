@@ -143,7 +143,7 @@ class RevisionPlanificacionController extends Controller
      *     @OA\Response(
      *         response=422,
      *         description="Problemas con los datos ingresados"
-     *     )
+     *     ),
      *     @OA\Response(
      *         response=404,
      *         description="Revision Planificacion no encontrada"

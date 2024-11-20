@@ -288,31 +288,39 @@ class PlanillaSeguimientoController extends Controller
         }
     }
     /**
-     * @OA\Get( 
-     *     path="/api/planilla_seguimiento/semanal/{idUsuario}",
-     *     summary="Mostar planillas Seguimientos por docente",
-     *     tags={"planillas Seguimientos"},
-     *     @OA\Parameter(
-     *         name="idUsuario",
-     *         in="path",
-     *         description="ID de el docente",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer"
-     *         )
-     *      ),
-     *     
-     *     @OA\Response(
-     *         response=200,
-     *         description="Datos del planilla Seguimiento por docente"
-     *     ),
-     *      @OA\Response(
-     *         response=404,
-     *         description="docente no encontrada"
-     *     )
-     * 
-     * )
-     */
+ * @OA\Get(
+ *     path="/api/planilla_seguimiento/semana/{idUsuario}",
+ *     summary="Mostrar planillas de seguimiento por docente",
+ *     tags={"Planillas Seguimientos"},
+ *     @OA\Parameter(
+ *         name="idUsuario",
+ *         in="path",
+ *         description="ID del docente",
+ *         required=true,
+ *         @OA\Schema(
+ *             type="integer"
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Datos del planilla de seguimiento por docente",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             example={
+ *                 "id": 1,
+ *                 "titulo": "Planilla semanal",
+ *                 "docente": "Juan Pérez",
+ *                 "fecha_inicio": "2024-10-01",
+ *                 "fecha_fin": "2024-10-07"
+ *             }
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Docente no encontrado"
+ *     )
+ * )
+ */
     public function show_semanal($idUsuario)
     {
 
