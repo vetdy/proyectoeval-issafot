@@ -114,12 +114,24 @@ class PlanificacionSeeder extends Seeder
                 'id_planificacion' => '4'
             ],
             [
-                'nombre' => 'diseños de ux',
+                'nombre' => 'la creacion de proyecyos',
                 'id_planificacion' => '4'
             ],
             [
-                'nombre' => 'diseños backend',
+                'nombre' => 'creacion de modelos en la base de datos',
                 'id_planificacion' => '4'
+            ],
+            [
+                'nombre' => 'crear diseno de base de datos',
+                'id_planificacion' => '5'
+            ],
+            [
+                'nombre' => 'diseños de ux implementado',
+                'id_planificacion' => '5'
+            ],
+            [
+                'nombre' => 'creacion endpoint backend',
+                'id_planificacion' => '5'
             ],
         ]);
     }
