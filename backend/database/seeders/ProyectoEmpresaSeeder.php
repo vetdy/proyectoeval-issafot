@@ -87,7 +87,7 @@ class ProyectoEmpresaSeeder extends Seeder
                 'id_proyecto_empresa' => 2
             ],
             [
-                'id_estado_planificacion' => 3,
+                'id_estado_planificacion' => 4,
                 'id_proyecto_empresa' => 3
             ],
             [
