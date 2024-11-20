@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Asistencia_evaluacion;
 use App\Models\Empresa;
 use Illuminate\Http\Request;
 use App\Models\Evaluacion;
 use App\Models\Proyecto;
 use App\Models\Proyecto_empresa;
+use App\Models\Usuario;
 use Carbon\Carbon;
 
 class EvaluacionController extends Controller
@@ -342,4 +344,53 @@ class EvaluacionController extends Controller
             return response()->json(['contenido' => 'el usuario no tiene Proyectos activos'], 404);
         }
     }
+
+    /**
+     * @OA\Get(
+     *     path="/api/evaluacion/asistencia/",
+     *     summary="Mostar planillas Seguimientos con asistencia",
+     *     tags={"Evaluacion"},
+     *     @OA\Parameter(
+     *         name="idUsuario",
+     *         in="path",
+     *         description="ID de la plantilla",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *      ),
+     *     
+     *     @OA\Response(
+     *         response=200,
+     *         description="Datos del planilla Seguimiento con asistencia"
+     *     ),
+     *      @OA\Response(
+     *         response=404,
+     *         description="planilla no encontrada"
+     *     )
+     * 
+     * )
+     */
+
+     public function show_asistencia($id)
+     {
+ 
+         $evaluacion = Evaluacion::find($id);
+         if ($evaluacion) {
+             $usuarios = Asistencia_evaluacion::where('id_evaluacion', $id)->get();
+ 
+             foreach ($usuarios as $us) {
+                 $aux = Usuario::find($us->id_usuario);
+                 $us->nombre_usuario = $aux->nombre . ' ' . $aux->apellido;
+             }
+             $proyecto_empresa = Proyecto_empresa::find($evaluacion->id_proyecto_empresa);
+ 
+ 
+             $logo = Empresa::find($proyecto_empresa->id_empresa)->url_logo;
+             $nombre_corto = Empresa::find($proyecto_empresa->id)->nombre_corto;
+             return response()->json(['contenido' => compact('usuarios', 'proyecto_empresa', 'logo', 'nombre_corto')]);
+         } else {
+             return response()->json(['contenido' => 'id de la planilla seguimiento no encontrado'], 404);
+         }
+     }
 }
