@@ -5,21 +5,22 @@ function GenerarPlanillas() {
     const [loading, setLoading] = useState(true);
 
     // Obtener empresas desde el endpoint específico
+   
     useEffect(() => {
         const fetchEmpresas = async () => {
             try {
                 const response = await fetch("http://127.0.0.1:8000/api/empresa/docente/1");
-
+    
                 // Verifica si la respuesta es exitosa
                 if (!response.ok) {
                     throw new Error(`Error al obtener las empresas: ${response.status}`);
                 }
-
+    
                 const data = await response.json();
-
-                // Verifica si existe contenido y proyecto_por_docente
-                if (data.contenido && data.contenido.proyecto_por_docente) {
-                    setEmpresas(data.contenido.proyecto_por_docente);
+    
+                // Actualiza para usar "data.contenido.empresas"
+                if (data.contenido && data.contenido.empresas) {
+                    setEmpresas(data.contenido.empresas);
                 } else {
                     console.error("Datos no encontrados en la respuesta:", data);
                     setEmpresas([]);
@@ -31,9 +32,10 @@ function GenerarPlanillas() {
                 setLoading(false);
             }
         };
-
+    
         fetchEmpresas();
     }, []);
+    
 
     // Función para generar planilla individual
     const generarPlanilla = (empresa) => {
@@ -54,12 +56,12 @@ function GenerarPlanillas() {
         }
     };
 
-    // Mensaje mientras se cargan los datos
+    // mensaje mientras se cargan los datos
     if (loading) {
         return <p>Cargando datos...</p>;
     }
 
-    // Mensaje si no hay empresas disponibles
+    // mensaje si no hay empresas disponibles
     if (empresas.length === 0) {
         return <p>No hay empresas disponibles.</p>;
     }
@@ -70,31 +72,34 @@ function GenerarPlanillas() {
             <table className="table table-striped ">
                 <thead className="table table-sm my-0 table-hover">
                     <tr>
-                        <th scope="col">Empresa</th>
-                        <th scope="col">Estado</th>
-                        <th scope="col">Generar</th>
+                        <th scope="col" class="bg-eva-secondary text-eva-light">Empresa</th>
+                        <th scope="col" class="bg-eva-secondary text-eva-light">Nombre Largo</th>
+                        <th scope="col" class="bg-eva-secondary text-eva-light">Estado</th>
+                        <th scope="col" class="bg-eva-secondary text-eva-light">Generar</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {empresas.map((empresa, index) => (
-                        <tr key={index}>
-                            <td>{empresa.nombre_empresa}</td>
-                            <td>{empresa.estado}</td>
-                            <td>
-                                <button
-                                    className="btn btn-primary"
-                                    onClick={() => generarPlanilla(empresa)}
-                                    disabled={empresa.estado !== "Aceptado"}
-                                >
-                                    Generar
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
+    {empresas.map((empresa, index) => (
+        <tr key={index}>
+            <td>{empresa.nombre_corto}</td>
+            <td>{empresa.nombre_largo}</td> 
+            <td>Activo</td>
+            <td>
+                <button
+                    className="btn fw-bold w-100 btn-eva-secondary"
+                    onClick={() => alert(`Generando planilla para: ${empresa.nombre_corto}`)}
+                >
+                    Generar
+                </button>
+            </td>
+        </tr>
+    ))}
+</tbody>
+
+
             </table>
             <div className="text-center">
-                <button className="btn btn-secondary" onClick={generarTodas}>
+                <button className="btn fw-bold   btn-eva-secondary" onClick={generarTodas}>
                     Generar todas
                 </button>
             </div>
