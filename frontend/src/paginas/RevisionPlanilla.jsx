@@ -199,14 +199,14 @@ const Planilla = ({ datos, planilla, asistencia, actualizar, retornar }) => {
 
                 if (datos.tipo === "evaluacion") {
                     datosEnviar["nota"] =
-                        notas.reduce((suma, n) => {
-                            return suma + n.nota;
-                        }) / notas.length;
+                        Math.round(notas.reduce((suma, n) => {
+                            return suma + n;
+                        }) / notas.length);
                 }
 
                 const consultaTerminar = await consultas[datos.tipo].actualizar(
                     datos.idSeguimiento,
-                    { concluido: true }
+                    datosEnviar
                 );
                 if (consultaTerminar.status === 200) {
                     retornar();
