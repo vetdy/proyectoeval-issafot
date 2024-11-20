@@ -13,7 +13,7 @@ class AsistenciaSeeder extends Seeder
      * @return void
      */
     public function run()
-    {
+    {/*
         DB::table('asistencia_planilla_seguimiento')->insert([
             [
                 'presente' => true,
@@ -33,7 +33,7 @@ class AsistenciaSeeder extends Seeder
                 'id_planilla_seguimiento' => 2,
                 'id_usuario' => 3
             ],
-        ]);
+        ]);*/
 
         DB::table('asistencia_evaluacion')->insert([
             [

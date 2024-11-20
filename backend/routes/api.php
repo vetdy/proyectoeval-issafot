@@ -86,6 +86,7 @@ Route::controller(TareaController::class)->group(function () {
     //Route::post('/tarea/lista', [TareaController::class, 'store_list']);
     Route::post('/tarea/lista', 'store_list');
     Route::get('/tarea/evaluacion/{id}', 'show_evaluacion');
+    
 });
 
 
@@ -118,6 +119,7 @@ Route::controller(EvaluacionController::class)->group(function () {
 
     Route::get('/evaluacion/proyecto_empresa/{id}', 'index_proyecto_empresa');
     Route::get('/evaluacion/semana/{idUsuario}', 'show_semanal');
+    Route::get('/evaluacion/asistencia/{id}', 'show_asistencia');
 });
 
 Route::controller(TipoEvaluacionController::class)->group(function () {
