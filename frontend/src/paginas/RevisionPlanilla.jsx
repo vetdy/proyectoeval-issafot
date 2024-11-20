@@ -28,11 +28,13 @@ const Planilla = ({ datos, planilla, asistencia, actualizar, retornar }) => {
             agregar: agregarItemPlanillaSeguimiento,
             actualizar: actualizarPlanillaSeguimiento,
             actualizarItem: actualizarItemPlanillaSeguimiento,
+            actualizarAsistencia: actualizarAsistenciaSeguimiento,
         },
         evaluacion: {
             agregar: agregarItemPlanillaEvaluacion,
             actualizar: actualizarPlanillaEvaluacion,
             actualizarItem: actualizarItemPlanillaEvaluacion,
+            actualizarAsistencia: actualizarAsistenciaEvaluacion,
         },
     };
 
@@ -49,17 +51,15 @@ const Planilla = ({ datos, planilla, asistencia, actualizar, retornar }) => {
         cancelar: null,
     });
     const [obs, setObs] = useState(planilla.map((p) => p.observacion));
+    const [asistencias, setAsistencias] = useState(
+        asistencia.map((a) => a.presente)
+    );
     const [notas, setNotas] = useState(
         datos.tipo === "evaluacion" ? planilla.map((p) => p.nota) : []
     );
     const [nombreNuevaTarea, setNombreNuevaTarea] = useState("");
     const [enviando, setEnviando] = useState(false);
     const [agregarTarea, setAgregarTarea] = useState(false);
-
-    const oldDatos = useRef({
-        obs: planilla.map((p) => p.observacion),
-        notas: datos.tipo === "evaluacion" ? planilla.map((p) => p.nota) : [],
-    });
 
     const cerrarModal = () => {
         setModal({
@@ -92,6 +92,12 @@ const Planilla = ({ datos, planilla, asistencia, actualizar, retornar }) => {
         const nuevaObs = [...obs];
         nuevaObs[idx] = ev.target.value;
         setObs(nuevaObs);
+    };
+
+    const actualizarAsistencia = async (ev, idx) => {
+        const nuevasAsistencias = [...asistencias];
+        nuevasAsistencias[idx] = !nuevasAsistencias[idx];
+        setAsistencias(nuevasAsistencias);
     };
 
     const actualizarNotas = (ev, idx) => {
@@ -163,9 +169,17 @@ const Planilla = ({ datos, planilla, asistencia, actualizar, retornar }) => {
             }
         });
 
-        const res = await Promise.all(consultasActualizacion);
+        asistencia.forEach((a, index) => {
+            if (a.presente !== asistencias[index]) {
+                consultasActualizacion.push(
+                    consultas[datos.tipo].actualizarAsistencia(a.id, {
+                        presente: asistencias[index],
+                    })
+                );
+            }
+        });
 
-        console.log(res);
+        const res = await Promise.all(consultasActualizacion);
 
         let errors = false;
 
@@ -178,13 +192,16 @@ const Planilla = ({ datos, planilla, asistencia, actualizar, retornar }) => {
 
         if (errors) {
             abrirModal("Ocurrio un error", "simple");
-            setEnviando(false);
         } else {
             abrirModal(`Terminar la ${datos.tipo}?`, "confirmar", async () => {
+                setEnviando(true);
                 const datosEnviar = { concluido: true };
 
-                if(datos.tipo === "evaluacion"){
-                    datosEnviar["nota"] = notas.reduce((suma, n) => {return suma + n.nota}) / notas.length;
+                if (datos.tipo === "evaluacion") {
+                    datosEnviar["nota"] =
+                        notas.reduce((suma, n) => {
+                            return suma + n.nota;
+                        }) / notas.length;
                 }
 
                 const consultaTerminar = await consultas[datos.tipo].actualizar(
@@ -195,10 +212,11 @@ const Planilla = ({ datos, planilla, asistencia, actualizar, retornar }) => {
                     retornar();
                 } else {
                     abrirModal("Ocurrio un error", "simple");
-                    setEnviando(false);
                 }
+                setEnviando(false);
             });
         }
+        setEnviando(false);
     };
 
     return (
@@ -278,7 +296,7 @@ const Planilla = ({ datos, planilla, asistencia, actualizar, retornar }) => {
                                 </div>
                             </div>
                         </div>
-                        {asistencia.map((a) => {
+                        {asistencia.map((a, i) => {
                             return (
                                 <div
                                     className="col border-bottom border-eva-info"
@@ -286,7 +304,14 @@ const Planilla = ({ datos, planilla, asistencia, actualizar, retornar }) => {
                                 >
                                     <div className="d-flex justify-content-between align-items-center text-capitalize">
                                         {a.nombre_usuario}
-                                        <input type="checkbox" name="" id="" />
+                                        <input
+                                            type="checkbox"
+                                            name={`as-${a.id}`}
+                                            defaultChecked={asistencias[i]}
+                                            onChange={(ev) => {
+                                                actualizarAsistencia(ev, i);
+                                            }}
+                                        />
                                     </div>
                                 </div>
                             );
@@ -412,7 +437,7 @@ const Planilla = ({ datos, planilla, asistencia, actualizar, retornar }) => {
                             <button
                                 className="btn btn-eva-secondary w-100"
                                 onClick={terminarSeguimiento}
-                                disabled={agregarTarea}
+                                disabled={agregarTarea || enviando}
                             >
                                 Terminar
                             </button>
