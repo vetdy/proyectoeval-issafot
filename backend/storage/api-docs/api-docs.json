@@ -10,6 +10,108 @@
         }
     ],
     "paths": {
+        "/api/asistencia_evaluacion/{id}": {
+            "put": {
+                "tags": [
+                    "Asistencia Evaluacion"
+                ],
+                "summary": "Actualizar una asistencia",
+                "operationId": "e7c97f9ba883a0b4c5801bfc6830957d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del asistencia evaluacion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "presente": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "observacion": {
+                                        "type": "string",
+                                        "example": "no tiene todos los datos"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "asistencia modificada con éxito"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    },
+                    "404": {
+                        "description": "Asistencia no encontrada"
+                    }
+                }
+            }
+        },
+        "/api/asistencia_planilla_seguimiento/{id}": {
+            "put": {
+                "tags": [
+                    "Asistencia Planilla Seguimiento"
+                ],
+                "summary": "Actualizar una asistencia",
+                "operationId": "a6587d6a2444066d15ff1dfcd7329e04",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del asistencia planilla seguimiento",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "presente": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "observacion": {
+                                        "type": "string",
+                                        "example": "no tiene todos los datos"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "asistencia modificada con éxito"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    },
+                    "404": {
+                        "description": "Asistencia no encontrada"
+                    }
+                }
+            }
+        },
         "/api/docente": {
             "get": {
                 "tags": [
@@ -394,6 +496,34 @@
                 }
             }
         },
+        "/api/empresa/docente/{id}": {
+            "get": {
+                "tags": [
+                    "Empresas"
+                ],
+                "summary": "Mostar una empresa por docente",
+                "operationId": "d1508a4ce67d6c6d62e6ca552a9d256d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del docente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos de una empresa"
+                    },
+                    "404": {
+                        "description": "Empresa no encontrada"
+                    }
+                }
+            }
+        },
         "/api/evaluacion": {
             "get": {
                 "tags": [
@@ -595,7 +725,7 @@
                     "Evaluaciones"
                 ],
                 "summary": "Mostar una evaluaciones por empresa",
-                "operationId": "392328bc1513e1d0fc998815ae24f3b7",
+                "operationId": "d59c40faf7662e492a9d3daa3a01189d",
                 "parameters": [
                     {
                         "name": "id",
@@ -613,6 +743,62 @@
                     },
                     "404": {
                         "description": "evaluacion no encontrada"
+                    }
+                }
+            }
+        },
+        "/api/planilla_seguimiento/semanal/{idUsuario}": {
+            "get": {
+                "tags": [
+                    "planillas Seguimientos"
+                ],
+                "summary": "Mostar planillas Seguimientos por docente",
+                "operationId": "4d600d818da1159d8d415fdec31b2ab0",
+                "parameters": [
+                    {
+                        "name": "idUsuario",
+                        "in": "path",
+                        "description": "ID de el docente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos del planilla Seguimiento por docente"
+                    },
+                    "404": {
+                        "description": "docente no encontrada"
+                    }
+                }
+            }
+        },
+        "/api/evaluacion/asistencia/": {
+            "get": {
+                "tags": [
+                    "Evaluacion"
+                ],
+                "summary": "Mostar planillas Seguimientos con asistencia",
+                "operationId": "40dbedd4ee85f8d7af7b640aa2ba0aae",
+                "parameters": [
+                    {
+                        "name": "idUsuario",
+                        "in": "path",
+                        "description": "ID de la plantilla",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos del planilla Seguimiento con asistencia"
+                    },
+                    "404": {
+                        "description": "planilla no encontrada"
                     }
                 }
             }
@@ -1329,7 +1515,7 @@
                     "planillas Seguimientos"
                 ],
                 "summary": "Mostar un planilla Seguimiento",
-                "operationId": "16be7e8b9b1b461db43ba3d217cb0e3c",
+                "operationId": "6499d46758118e22d420dd7655f8a116",
                 "parameters": [
                     {
                         "name": "id",
@@ -1351,18 +1537,18 @@
                 }
             }
         },
-        "/api/planilla_seguimiento/semanal/{idUsuario}": {
+        "/api/planilla_seguimiento/semana/{idUsuario}": {
             "get": {
                 "tags": [
-                    "planillas Seguimientos"
+                    "Planillas Seguimientos"
                 ],
-                "summary": "Mostar planillas Seguimientos por docente",
-                "operationId": "bfe745f507e29ceee65e862596bc018e",
+                "summary": "Mostrar planillas de seguimiento por docente",
+                "operationId": "ae5c6ea85a043dd5266f40864f9b01a9",
                 "parameters": [
                     {
                         "name": "idUsuario",
                         "in": "path",
-                        "description": "ID de el docente",
+                        "description": "ID del docente",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -1371,10 +1557,24 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Datos del planilla Seguimiento por docente"
+                        "description": "Datos del planilla de seguimiento por docente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                },
+                                "example": {
+                                    "id": 1,
+                                    "titulo": "Planilla semanal",
+                                    "docente": "Juan Pérez",
+                                    "fecha_inicio": "2024-10-01",
+                                    "fecha_fin": "2024-10-07"
+                                }
+                            }
+                        }
                     },
                     "404": {
-                        "description": "docente no encontrada"
+                        "description": "Docente no encontrado"
                     }
                 }
             }
@@ -1403,6 +1603,184 @@
                     },
                     "404": {
                         "description": "planilla no encontrada"
+                    }
+                }
+            }
+        },
+        "/api/revision_planificacion": {
+            "get": {
+                "tags": [
+                    "Revision planificacion"
+                ],
+                "summary": "Obtiene una lista de los revision planificacion",
+                "operationId": "cbbb7e7ba2fac0ceb2334b1920d86e8b",
+                "responses": {
+                    "200": {
+                        "description": "Lista de revision planificacion"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Revision planificacion"
+                ],
+                "summary": "Crear un nueva revision Planificacion",
+                "operationId": "621ab20cfcbd2a8a7e6aa0d1400b1f17",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id_proyecto_empresa"
+                                ],
+                                "properties": {
+                                    "id_proyecto_empresa": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Revision Planificacion creada con éxito"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    }
+                }
+            }
+        },
+        "/api/R/{id}": {
+            "get": {
+                "tags": [
+                    "Revision Planificaciones"
+                ],
+                "summary": "Mostar un Revision Planificacion",
+                "operationId": "964fc31b20ca12e000a4e30f5595cad5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la Revision Planificacion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos de la Revision Planificacion"
+                    },
+                    "404": {
+                        "description": "Revision Planificacion no encontrada"
+                    }
+                }
+            }
+        },
+        "/api/revision_planificacion/{id}": {
+            "get": {
+                "tags": [
+                    "Revision Planificacion"
+                ],
+                "summary": "Mostar revision planificacion con el id proyecto empresa",
+                "operationId": "b3d4337a1497f3d14f29cf1308b345e2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la proyecto empresa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalle Revision Planificacion "
+                    },
+                    "404": {
+                        "description": "proyecto empresa no encontrada"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Revision planificacion"
+                ],
+                "summary": "Crear un nueva revision Planificacion",
+                "operationId": "19342a2ec3b4f022f862b2ee705bf1af",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la Revision Planificacion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id_proyecto_empresa"
+                                ],
+                                "properties": {
+                                    "id_proyecto_empresa": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Revision Planificacion creada con éxito"
+                    },
+                    "422": {
+                        "description": "Problemas con los datos ingresados"
+                    },
+                    "404": {
+                        "description": "Revision Planificacion no encontrada"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Revision Planificacion"
+                ],
+                "summary": "Eliminar una Revision Planificacion",
+                "operationId": "09981a3a30dcefdc8c07762b46127182",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la Revision Planificacion",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Revision Planificacion eliminada "
+                    },
+                    "404": {
+                        "description": "Revision Planificacion no encontrada"
                     }
                 }
             }
@@ -1613,6 +1991,34 @@
                 }
             }
         },
+        "/api/tarea/evaluacion/{id}": {
+            "get": {
+                "tags": [
+                    "Tarea"
+                ],
+                "summary": "Mostar una lista tareas por evaluacion",
+                "operationId": "01d4cafa703fe7c3292f44bb158d509b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del empresa",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Datos del tarea por evaluacion"
+                    },
+                    "404": {
+                        "description": "evaluacion no encontrada"
+                    }
+                }
+            }
+        },
         "/api/tipo_evaluacion": {
             "get": {
                 "tags": [
@@ -1770,7 +2176,36 @@
             }
         }
     },
+    "components": {
+        "responses": {
+            "200": {
+                "description": "planillas Seguimiento creados"
+            },
+            "404": {
+                "description": "grupo empresa no encontrado"
+            }
+        },
+        "parameters": {
+            "idGrupoEmpresa": {
+                "name": "idGrupoEmpresa",
+                "in": "path",
+                "description": "ID de la empresa",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                }
+            }
+        }
+    },
     "tags": [
+        {
+            "name": "Asistencia Evaluacion",
+            "description": "Asistencia Evaluacion"
+        },
+        {
+            "name": "Asistencia Planilla Seguimiento",
+            "description": "Asistencia Planilla Seguimiento"
+        },
         {
             "name": "Docentes",
             "description": "Docentes"
@@ -1784,6 +2219,14 @@
             "description": "Evaluaciones"
         },
         {
+            "name": "planillas Seguimientos",
+            "description": "planillas Seguimientos"
+        },
+        {
+            "name": "Evaluacion",
+            "description": "Evaluacion"
+        },
+        {
             "name": "Item planificaciones",
             "description": "Item planificaciones"
         },
@@ -1792,16 +2235,32 @@
             "description": "Item planillas"
         },
         {
-            "name": "planillas Seguimientos",
-            "description": "planillas Seguimientos"
-        },
-        {
             "name": "Planificaciones",
             "description": "Planificaciones"
         },
         {
+            "name": "Planillas Seguimientos",
+            "description": "Planillas Seguimientos"
+        },
+        {
+            "name": "Revision planificacion",
+            "description": "Revision planificacion"
+        },
+        {
+            "name": "Revision Planificaciones",
+            "description": "Revision Planificaciones"
+        },
+        {
+            "name": "Revision Planificacion",
+            "description": "Revision Planificacion"
+        },
+        {
             "name": "Tareas",
             "description": "Tareas"
+        },
+        {
+            "name": "Tarea",
+            "description": "Tarea"
         },
         {
             "name": "Tipo Evaluaciones",
