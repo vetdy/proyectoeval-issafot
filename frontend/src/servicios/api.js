@@ -165,13 +165,29 @@ export const agregarItemPlanillaSeguimiento = async (datos={}) => {
     return respuesta;
 }
 
+export const agregarItemPlanillaEvaluacion = async (datos={}) => {
+    const respuesta = await solicitud(`${rutas.ITEM_PLANILLA_EVALUACION}`, "POST", datos);
+    return respuesta;
+}
+
 export const actualizarItemPlanillaSeguimiento = async (itemID=1, datos={}) => {
     const respuesta = await solicitud(`${rutas.ITEM_PLANILLA_SEGUIMIENTO}/${itemID}`, "PUT", datos);
     return respuesta;
 }
 
+export const actualizarItemPlanillaEvaluacion = async (itemID=1, datos={}) => {
+    const respuesta = await solicitud(`${rutas.ITEM_PLANILLA_EVALUACION}/${itemID}`, "PUT", datos);
+    return respuesta;
+}
+
+
 export const obtenerAsistenciaPlanillaSeguimiento = async (planilla=1) =>{
     const respuesta = await solicitud(`${rutas.ASISTENCIA_PLANILLA_SEGUIMIENTO}/${planilla}`);
+    return respuesta;
+}
+
+export const obtenerAsistenciaPlanillaEvaluacion = async (planilla=1) =>{
+    const respuesta = await solicitud(`${rutas.ASISTENCIA_PLANILLA_EVALUACION}/${planilla}`);
     return respuesta;
 }
 

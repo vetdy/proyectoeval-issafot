@@ -75,7 +75,7 @@ const RevisionPlanificacionesDocente = () => {
                     <SelectorProyecto />
                 </div>
             </div> */}
-            <Tabla datos={["Empresa", "Proyecto", "Estado", "Revisión"]} hover={false} px0={true}>
+            <Tabla datos={["Empresa", "Proyecto", "Estado Planif.", "Revisión"]} hover={false} px0={true}>
                 {proyectosEmpresas.map( (p, idx) => {
                     return(
                         <tr key={`proy-emp${idx}`}>

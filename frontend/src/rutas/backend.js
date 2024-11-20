@@ -14,9 +14,11 @@ export const ESTADO_PLANIFICACION = `${URL_BACKEND}/api/revision_planificacion`;
 export const ITEMS_PLANILLA_SEGUIMIENTO = `${URL_BACKEND}/api/item_planilla/planilla_seguimiento`;
 export const ITEM_PLANILLA_SEGUIMIENTO = `${URL_BACKEND}/api/item_planilla`;
 export const ITEMS_PLANILLA_EVALUACION = `${URL_BACKEND}/api/tarea/evaluacion`;
+export const ITEM_PLANILLA_EVALUACION = `${URL_BACKEND}/api/tarea`;
 
 export const PLANILLAS_DOCENTE_SEGUIMIENTO = `${URL_BACKEND}/api/planilla_seguimiento/semana`;
-export const ASISTENCIA_PLANILLA_SEGUIMIENTO = `${URL_BACKEND}/api/planilla_seguimiento/asistencia`
+export const ASISTENCIA_PLANILLA_SEGUIMIENTO = `${URL_BACKEND}/api/planilla_seguimiento/asistencia`;
+export const ASISTENCIA_PLANILLA_EVALUACION = `${URL_BACKEND}/api/planilla_seguimiento/asistencia`;
 export const PROYECTOS_EMPRESA_DOCENTE = `${URL_BACKEND}/api/proyecto_empresa/docente`;
 export const PLANILLAS_DOCENTE_EVALUACION = `${URL_BACKEND}/api/evaluacion/semana`;
 

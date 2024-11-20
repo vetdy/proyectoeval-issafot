@@ -747,6 +747,7 @@ const OtroRegistroPlanificacion = () => {
                                     <option value="15:45">15:45</option>
                                     <option value="17:15">17:15</option>
                                     <option value="18:45">18:45</option>
+                                    <option value="20:15">20:15</option>
                                 </select>
                             </label>
                         </div>
