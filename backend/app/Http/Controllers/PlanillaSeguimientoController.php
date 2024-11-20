@@ -185,7 +185,7 @@ class PlanillaSeguimientoController extends Controller
                 'concluido' => 'nullable|boolean',
                 'hora_revision' => 'nullable|date_format:H:i',
             ]);
-            $data = $request->only(['titulo', 'fecha_revision', 'hora_revision']);
+            $data = $request->only(['titulo', 'fecha_revision', 'hora_revision','concluido']);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json(["contenido" => $e->errors()], 422);
         }
