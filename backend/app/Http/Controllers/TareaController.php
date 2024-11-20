@@ -170,11 +170,11 @@ class TareaController extends Controller
     {
         try {
             $request->validate([
-                'terminado' => 'nullable|boolean',
+                'nota' => 'nullable|integer',
                 'titulo' => 'nullable|max:64',
                 'observacion' => 'nullable|max:255',
             ]);
-            $data = $request->only(['titulo', 'observacion']);
+            $data = $request->only(['titulo', 'observacion', 'nota']);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json(['contenido' => $e->errors()], 422);
         }
