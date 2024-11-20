@@ -18,7 +18,7 @@ class CreateTareaTable extends Migration
             $table->string('titulo');
             $table->string('creada')->default(true);
             $table->string('observacion')->default('');
-            $table->boolean('nota')->default(0);
+            $table->integer('nota')->default(0);
             $table->foreignId('id_evaluacion')->constrained('evaluacions')->onDelete('cascade');
             $table->timestamps();
         });
