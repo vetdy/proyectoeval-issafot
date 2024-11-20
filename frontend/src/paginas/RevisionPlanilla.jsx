@@ -10,23 +10,29 @@ import {
     agregarItemPlanillaEvaluacion,
     actualizarItemPlanillaSeguimiento,
     actualizarItemPlanillaEvaluacion,
+    actualizarPlanillaSeguimiento,
+    actualizarPlanillaEvaluacion,
+    actualizarAsistenciaSeguimiento,
+    actualizarAsistenciaEvaluacion,
 } from "../servicios/api";
 import { IconoCargando } from "../componentes/iconos";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "../componentes/modales";
 import { Error } from "../componentes/general";
 
-const Planilla = ({ datos, planilla, asistencia, actualizar }) => {
+const Planilla = ({ datos, planilla, asistencia, actualizar, retornar }) => {
     const titulos = ["#", "Tarea", "Observacion"];
 
     const consultas = {
         seguimiento: {
             agregar: agregarItemPlanillaSeguimiento,
-            actualizar: actualizarItemPlanillaSeguimiento,
+            actualizar: actualizarPlanillaSeguimiento,
+            actualizarItem: actualizarItemPlanillaSeguimiento,
         },
         evaluacion: {
             agregar: agregarItemPlanillaEvaluacion,
-            actualizar: actualizarItemPlanillaEvaluacion,
+            actualizar: actualizarPlanillaEvaluacion,
+            actualizarItem: actualizarItemPlanillaEvaluacion,
         },
     };
 
@@ -43,9 +49,17 @@ const Planilla = ({ datos, planilla, asistencia, actualizar }) => {
         cancelar: null,
     });
     const [obs, setObs] = useState(planilla.map((p) => p.observacion));
+    const [notas, setNotas] = useState(
+        datos.tipo === "evaluacion" ? planilla.map((p) => p.nota) : []
+    );
     const [nombreNuevaTarea, setNombreNuevaTarea] = useState("");
     const [enviando, setEnviando] = useState(false);
     const [agregarTarea, setAgregarTarea] = useState(false);
+
+    const oldDatos = useRef({
+        obs: planilla.map((p) => p.observacion),
+        notas: datos.tipo === "evaluacion" ? planilla.map((p) => p.nota) : [],
+    });
 
     const cerrarModal = () => {
         setModal({
@@ -78,6 +92,18 @@ const Planilla = ({ datos, planilla, asistencia, actualizar }) => {
         const nuevaObs = [...obs];
         nuevaObs[idx] = ev.target.value;
         setObs(nuevaObs);
+    };
+
+    const actualizarNotas = (ev, idx) => {
+        const nuevasNotas = [...notas];
+        nuevasNotas[idx] = ev.target.value;
+        if (ev.target.value < 0) {
+            nuevasNotas[idx] = 0;
+        }
+        if (ev.target.value > 100) {
+            nuevasNotas[idx] = 100;
+        }
+        setNotas(nuevasNotas);
     };
 
     const crearTarea = async () => {
@@ -117,28 +143,62 @@ const Planilla = ({ datos, planilla, asistencia, actualizar }) => {
 
     const terminarSeguimiento = async () => {
         setEnviando(true);
-        const consultas = [];
+        const consultasActualizacion = [];
 
         planilla.forEach((p, index) => {
             const observacion = p.observacion;
+            const nota = p.nota;
+            const nuevosDatos = {};
 
-            if (observacion !== obs[index]) {
-                consultas.push(
-                    actualizarItemPlanillaSeguimiento(p.id, {
-                        observacion: obs[index],
-                    })
+            if (observacion !== obs[index] && obs[index] && obs[index].trim()) {
+                nuevosDatos["observacion"] = obs[index];
+            }
+            if (datos.tipo === "evaluacion" && nota !== notas[index]) {
+                nuevosDatos["nota"] = notas[index];
+            }
+            if (Object.keys(nuevosDatos).length) {
+                consultasActualizacion.push(
+                    consultas[datos.tipo].actualizarItem(p.id, nuevosDatos)
                 );
             }
         });
-        const res = await Promise.all(consultas);
+
+        const res = await Promise.all(consultasActualizacion);
+
+        console.log(res);
+
+        let errors = false;
 
         res.forEach((r) => {
             if (r.status !== 200) {
+                errors = true;
                 console.error(r.message);
             }
         });
 
-        setEnviando(false);
+        if (errors) {
+            abrirModal("Ocurrio un error", "simple");
+            setEnviando(false);
+        } else {
+            abrirModal(`Terminar la ${datos.tipo}?`, "confirmar", async () => {
+                const datosEnviar = { concluido: true };
+
+                if(datos.tipo === "evaluacion"){
+                    datosEnviar["nota"] = notas.reduce((suma, n) => {return suma + n.nota}) / notas.length;
+                }
+
+                const consultaTerminar = await consultas[datos.tipo].actualizar(
+                    datos.idSeguimiento,
+                    { concluido: true }
+                );
+                if (consultaTerminar.status === 200) {
+                    retornar();
+                } else {
+                    abrirModal("Ocurrio un error", "simple");
+                    setEnviando(false);
+                }
+            });
+        }
     };
 
     return (
@@ -264,6 +324,10 @@ const Planilla = ({ datos, planilla, asistencia, actualizar }) => {
                                         <input
                                             className="form-control"
                                             type="number"
+                                            value={notas[index]}
+                                            onChange={(ev) => {
+                                                actualizarNotas(ev, index);
+                                            }}
                                             disabled={agregarTarea || enviando}
                                         />
                                     </td>
@@ -378,8 +442,12 @@ const RevisionPlanilla = () => {
         },
         evaluacion: {
             items: obtenerItemsPlanillaEvaluacion,
-            asistencia: obtenerAsistenciaPlanillaSeguimiento,
+            asistencia: obtenerAsistenciaPlanillaEvaluacion,
         },
+    };
+
+    const irAPlanillas = () => {
+        history("/planillas");
     };
 
     const actualizarItems = async () => {
@@ -399,16 +467,12 @@ const RevisionPlanilla = () => {
     };
 
     useEffect(() => {
-        const irAPlanillas = () => {
-            history("/planillas");
-        };
-
         const solicitud = async () => {
             const solicitudes = [
                 consultas[datos.tipo].items(datos.idSeguimiento),
                 consultas[datos.tipo].asistencia(datos.idSeguimiento),
             ];
-            //console.log(datos.idSeguimiento);
+
             const res = await Promise.all(solicitudes);
 
             if (res.filter((r) => r.status === 200).length === 2) {
@@ -417,7 +481,7 @@ const RevisionPlanilla = () => {
                     setAsistencia(res[1].message.usuarios);
                 } else {
                     setPlanilla(res[0].message.tarea);
-                    //setAsistencia(res[1].message.usuarios);
+                    setAsistencia(res[1].message.usuarios);
                 }
             } else {
                 setError(true);
@@ -456,6 +520,7 @@ const RevisionPlanilla = () => {
             planilla={planilla}
             asistencia={asistencia}
             actualizar={actualizarItems}
+            retornar={irAPlanillas}
         />
     );
 };
