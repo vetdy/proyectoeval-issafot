@@ -280,11 +280,17 @@ class EvaluacionController extends Controller
         $proyectoEmpresas = Proyecto_empresa::where('id_empresa', $id)->get();
         if (!$proyectoEmpresas->isEmpty()) {
             foreach ($proyectoEmpresas as $proyectoEmpresa) {
-                $evaluacion_empresa[] = Evaluacion::where('id_proyecto_empresa', $proyectoEmpresa->id)->groupBy('id')->get();
+                
+                $evaluaciones=Evaluacion::where('id_proyecto_empresa', $proyectoEmpresa->id)->groupBy('id')->get();
+                if(!$evaluaciones->isEmpty()){
+                    $evaluacion_empresa[] = $evaluaciones;
+                }else{
+                    return response()->json(['contenido' => 'no existe evaluacion'], 404);
+                }
             }
             return response()->json(['contenido' => compact('evaluacion_empresa')], 200);
         } else {
-            return response()->json(['contenido' => 'no existe la evaluacion'], 404);
+            return response()->json(['contenido' => 'no existe la empresa'], 404);
         }
     }
 
