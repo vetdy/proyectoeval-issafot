@@ -35,7 +35,7 @@ class EmpresaSeeder extends Seeder
             ],
             [
                 'nombre' => 'marcos',
-                'apellido' => 'Valencia',
+                'apellido' => 'valencia',
                 'codigo_sis' => '124096429',
                 'correo' => 'email15@gmail.com',
                 'telefono' => '4561592',
