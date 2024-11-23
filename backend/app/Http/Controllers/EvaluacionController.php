@@ -279,7 +279,7 @@ class EvaluacionController extends Controller
         $proyectoEmpresas = Proyecto_empresa::where('id_empresa', $id)->get();
         if (!$proyectoEmpresas->isEmpty()) {
             foreach ($proyectoEmpresas as $proyectoEmpresa){
-                $evaluacion_empresa[]=Evaluacion::where('id_proyecto_empresa',$proyectoEmpresa->id)->get();
+                $evaluacion_empresa[]=Evaluacion::where('id_proyecto_empresa',$proyectoEmpresa->id)->groupBy('id')->get();
             }
             return response()->json(['contenido' => compact('evaluacion_empresa')], 200);
         } else {
@@ -320,9 +320,9 @@ class EvaluacionController extends Controller
         if (!$proyectos->isEmpty()) {
             $evaluacions = [];
             foreach ($proyectos as $proyecto) {
-                $protectoEmpresa = Proyecto_empresa::where('id_proyecto', $proyecto->id)->get();
+                $protectoEmpresa = Proyecto_empresa::where('id_proyecto', $proyecto->id)->groupBy('id')->get();
                 foreach ($protectoEmpresa as $proyect) {
-                    $usuario = Evaluacion::where('id_proyecto_empresa', $proyect->id)->get();
+                    $usuario = Evaluacion::where('id_proyecto_empresa', $proyect->id)->groupBy('id')->get();
                     foreach ($usuario as $usua) {
 
                         $fechaActual = Carbon::now();
@@ -377,7 +377,7 @@ class EvaluacionController extends Controller
  
          $evaluacion = Evaluacion::find($id);
          if ($evaluacion) {
-             $usuarios = Asistencia_evaluacion::where('id_evaluacion', $id)->get();
+             $usuarios = Asistencia_evaluacion::where('id_evaluacion', $id)->groupBy('id')->get();
  
              foreach ($usuarios as $us) {
                  $aux = Usuario::find($us->id_usuario);

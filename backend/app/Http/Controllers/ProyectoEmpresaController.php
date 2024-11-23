@@ -17,7 +17,7 @@ class ProyectoEmpresaController extends Controller
     
     public function show_empresa($id){
         $proyecto_por_empresa=[];
-        $proyectoEmpresas=Proyecto_empresa::where('id_empresa',$id)->get();
+        $proyectoEmpresas=Proyecto_empresa::where('id_empresa',$id)->groupBy('id')->get();
         if(!$proyectoEmpresas->isEmpty()){
             foreach($proyectoEmpresas as $proyectoEmpresa){
                 $proyecto=Proyecto::find($proyectoEmpresa->id_proyecto);
@@ -40,7 +40,7 @@ class ProyectoEmpresaController extends Controller
         
         if(!$proyecto_docente->isEmpty()){
             foreach($proyecto_docente as $proyecto){
-                $proyectoEmpresas=Proyecto_empresa::where('id_proyecto',$proyecto->id)->get();
+                $proyectoEmpresas=Proyecto_empresa::where('id_proyecto',$proyecto->id)->groupBy('id')->get();
                 foreach($proyectoEmpresas as $proyectoEmpresa){
                     if ($proyectoEmpresa->habilitado){
                         $proyect = new \stdClass();
