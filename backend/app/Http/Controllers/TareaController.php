@@ -314,7 +314,7 @@ class TareaController extends Controller
      */
     public function show_evaluacion($id)
     {
-        $tarea = Tarea::where('id_evaluacion', $id)->get();
+        $tarea = Tarea::where('id_evaluacion', $id)->groupBy('id')->get();
         if (!$tarea->isEmpty()) {
             return response()->json(['contenido' => compact('tarea')], 200);
         } else {

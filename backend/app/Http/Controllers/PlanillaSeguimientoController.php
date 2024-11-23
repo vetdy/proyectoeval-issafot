@@ -12,6 +12,7 @@ use App\Models\Proyecto_empresa;
 use App\Models\Revision_planificacion;
 use App\Models\Usuario;
 use App\Services\PlanillaSeguimientoService;
+use App\Services\SortService;
 use Carbon\Carbon;
 use Exception;
 
@@ -193,6 +194,7 @@ class PlanillaSeguimientoController extends Controller
 
 
         if ($planilla_seguimiento) {
+            //dd($planilla_seguimiento, $request);
             $planilla_seguimiento->update($data);
             return response()->json(['contenido' => 'se actualizo a la planilla_seguimiento con exito'], 200);
         } else {
@@ -277,7 +279,7 @@ class PlanillaSeguimientoController extends Controller
      */
     public function show_proyecto_empresa($id)
     {
-        $planilla_seguimiento = Planilla_seguimiento::where('id_proyecto_empresa', $id)->get();;
+        $planilla_seguimiento = Planilla_seguimiento::where('id_proyecto_empresa', $id)->groupBy('id')->get();;
         if (!$planilla_seguimiento->isEmpty()) {
             $idEmpresa = Proyecto_empresa::find($id);
             $nombre_empresa = Empresa::find($idEmpresa->id_empresa)->nombre_corto;
@@ -330,9 +332,9 @@ class PlanillaSeguimientoController extends Controller
             foreach ($proyectos as $proyecto) {
 
 
-                $protectoEmpresa = Proyecto_empresa::where('id_proyecto', $proyecto->id)->get();
+                $protectoEmpresa = Proyecto_empresa::where('id_proyecto', $proyecto->id)->groupBy('id')->get();
                 foreach ($protectoEmpresa as $proyect) {
-                    $usuario = Planilla_seguimiento::where('id_proyecto_empresa', $proyect->id)->get();
+                    $usuario = Planilla_seguimiento::where('id_proyecto_empresa', $proyect->id)->groupBy('id')->get();
                     foreach ($usuario as $usua) {
 
                         $fechaActual = Carbon::now();
@@ -387,14 +389,16 @@ class PlanillaSeguimientoController extends Controller
 
         $planilla_seguimiento = Planilla_seguimiento::find($id);
         if ($planilla_seguimiento) {
-            $usuarios = Asistencia_planilla_seguimiento::where('id_planilla_seguimiento', $id)->get();
+            $usuarios = Asistencia_planilla_seguimiento::where('id_planilla_seguimiento', $id)->groupBy('id')->get();
 
             foreach ($usuarios as $us) {
                 $aux = Usuario::find($us->id_usuario);
                 $us->nombre_usuario = $aux->nombre . ' ' . $aux->apellido;
             }
             $proyecto_empresa = Proyecto_empresa::find($planilla_seguimiento->id_proyecto_empresa);
-
+            $sortService=new SortService();
+            $usuarios=$usuarios->toArray();
+            $usuarios=$sortService->sortNombre($usuarios);
 
             $logo = Empresa::find($proyecto_empresa->id_empresa)->url_logo;
             $nombre_corto = Empresa::find($proyecto_empresa->id)->nombre_corto;

@@ -280,12 +280,13 @@ class PlanificacionController extends Controller
 
     public function show_observacion($id){
         $planifiaciones_ob=[];
-        $planificaciones=Planificacion::where('id_proyecto_empresa',$id)->get();
+        $planificaciones=Planificacion::where('id_proyecto_empresa',$id)->groupBy('id')->get();
         if(!$planificaciones->isEmpty()){
             foreach($planificaciones as $planificacion){
-                $rp=Revision_planificacion::where('id_proyecto_empresa',$id)->first();
+                $rp=Revision_planificacion::where('id_proyecto_empresa',$id)->groupBy('id')->first();
                 $estado_planifiacion = Estado_planificacion::find($rp->id_estado_planificacion);
                 $planificacion->estado_planificacion=$estado_planifiacion->estado;
+                $planificacion->observacion=$rp->observacion;
                 $planifiaciones_ob[]=$planificacion;
             }
             return response()->json(['contenido' => compact('planifiaciones_ob')], 200);
@@ -296,10 +297,10 @@ class PlanificacionController extends Controller
 
     public function show_items($id){
         $planifiaciones_ob=[];
-        $planificaciones=Planificacion::where('id_proyecto_empresa',$id)->get();
+        $planificaciones=Planificacion::where('id_proyecto_empresa',$id)->groupBy('id')->get();
         if(!$planificaciones->isEmpty()){
             foreach($planificaciones as $planificacion){
-                $items=Item_planificacion::where('id_planificacion',$planificacion->id)->get();
+                $items=Item_planificacion::where('id_planificacion',$planificacion->id)->groupBy('id')->get();
                 $planificacion->items=$items;
                 $planifiaciones_ob[]=$planificacion;
             }

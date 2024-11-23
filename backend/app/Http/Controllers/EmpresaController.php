@@ -311,7 +311,7 @@ class EmpresaController extends Controller
         $lists=Proyecto::where('id_creado_por',$id)->get();
         if(!$lists->isEmpty()){
             foreach($lists as $proyecto){
-                foreach(Proyecto_empresa::where('id_proyecto',$proyecto->id)->get() as $proyectoEmpresa){
+                foreach(Proyecto_empresa::where('id_proyecto',$proyecto->id)->groupBy('id')->get() as $proyectoEmpresa){
                     $empresas[]=Empresa::find($proyectoEmpresa->id_empresa);
                 }
             }

@@ -260,7 +260,7 @@ class ItemPlanillaController extends Controller
      */
     public function show_planilla_seguimiento($id)
     {
-        $item_planilla = Item_planilla::where('id_planilla_seguimiento', $id)->orderBy('id', 'asc')->get();
+        $item_planilla = Item_planilla::where('id_planilla_seguimiento', $id)->groupBy('id')->get();
         
         if (!$item_planilla->isEmpty()) {
             return response()->json(['contenido' => compact('item_planilla')], 200);
