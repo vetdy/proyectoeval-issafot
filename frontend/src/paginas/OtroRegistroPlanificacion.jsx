@@ -76,7 +76,25 @@ const titulosIguales = (plan=[]) => {
         }
     });
 
-    return repetidos.length ? repetidos[0] : -1;
+    return repetidos;
+}
+
+const entregablesIguales = (plan = []) => {
+    const repetidos = [];
+
+    plan.forEach( (p, idx ) => {
+        const entregables = {};
+        p.tarea.forEach( (t, i) => {
+            if( entregables[t] ){
+                repetidos.push([idx, i]);
+                return;
+            }
+            else{
+                entregables[t] = true;
+            }
+        });
+    });
+    return repetidos;
 }
 
 const quitarEspaciosFinales = (plan=[]) => {
@@ -105,6 +123,7 @@ const OtroRegistroPlanificacion = () => {
         dia_rev: "1",
         hora_rev: "08:15",
     });
+    const [observaciones, setObservaciones] = useState("");
     const [modal, setModal] = useState({
         mostrar: false,
         texto: "",
@@ -140,6 +159,7 @@ const OtroRegistroPlanificacion = () => {
                 if( nuevoEstado === 2 || nuevoEstado === 3 ){
                     setEditable(false);
                 }
+                setObservaciones(consultaEstado.message.revision_planificacion.observacion);
             }
             else{
                 nuevoError = true;
@@ -149,6 +169,7 @@ const OtroRegistroPlanificacion = () => {
                 const consultaPlan = await obtenerPlanificacionEmpresa(proyEmpID.current);
                 if( consultaPlan.status === 200 ){
                     const previo = consultaPlan.message.planifiaciones_ob;
+                    console.log(previo);
                     setPlanificacion( reconstruirPlanificacion( previo ) );
                     refPlanPrevio.current = previo;
                     setRevision({
@@ -357,9 +378,23 @@ const OtroRegistroPlanificacion = () => {
 
         if ( planificacion.length ) {
             const duplicados = titulosIguales(planificacion);
-            
-            if( duplicados !== -1 ){
+            console.log(duplicados.length)
+            if( duplicados.length ){
+                console.log(duplicados);
                 abrirModal(`Existen titulos duplicados: ${planificacion[duplicados].titulo}`);
+                return false;
+            }
+            
+            const duplicados2 = entregablesIguales(planificacion);
+
+            if( duplicados2.length ){
+                const [t, e] = duplicados2[0];
+
+                abrirModal(
+                    `Existen entregables duplicados en el hito ${planificacion[t].titulo}: ${
+                        planificacion[t].tarea[e]
+                    }`
+                );
                 return false;
             }
 
@@ -790,6 +825,7 @@ const OtroRegistroPlanificacion = () => {
                     <textarea
                         name=""
                         id=""
+                        value={observaciones}
                         className="w-100 user-select-none"
                         disabled={true}
                     ></textarea>
