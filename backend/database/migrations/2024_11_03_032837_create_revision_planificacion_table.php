@@ -17,6 +17,7 @@ class CreateRevisionPlanificacionTable extends Migration
             $table->id();
             $table->timestamps();
             $table->text('observacion')->default('');
+            $table->boolean('planillas_creada')->default(false);
             $table->foreignId('id_proyecto_empresa')->constrained('proyecto_empresas')->onDelete('cascade');            
             $table->foreignId('id_estado_planificacion')->default('2')->constrained('estado_planificacion');
         });

@@ -10,6 +10,7 @@ use App\Models\Item_planificacion;
 use App\Models\Item_planilla;
 use App\Models\Planilla_seguimiento;
 use App\Models\Proyecto_empresa;
+use App\Models\Revision_planificacion;
 use App\Models\Socio_empresa;
 use App\Models\Tarea;
 use Illuminate\Support\Carbon;
@@ -28,6 +29,8 @@ class PlanillaSeguimientoService
         $fecha_inicio = Carbon::createFromDate($planillaService->getProximoDiaRevision($fecha_inicio, $dia));
         #($fecha_fin,$fecha_fin);
         $pe=Proyecto_empresa::find($registar['id_proyecto_empresa']);
+        $rp=Revision_planificacion::where('id_proyecto_empresa',$registar['id_proyecto_empresa']);
+        
         while ($fecha_inicio->lt($fecha_fin)) {
             $pg = new Planilla_seguimiento();
             
@@ -81,6 +84,7 @@ class PlanillaSeguimientoService
             $t->id_evaluacion=$e->id;
             $t->save();
         }
+        $rp->update(['planillas_creada'=>true]);
     }
 
 }
