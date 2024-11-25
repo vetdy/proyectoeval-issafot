@@ -393,7 +393,7 @@ const RevisionPlanificacionDocente = () => {
                         <button
                             className="btn btn-eva-secondary"
                             onClick={habilitarRevision}
-                            disabled={actualizando}
+                            disabled={actualizando || datosEstado.planillas_creada}
                         >
                             Habilitar Revisión
                         </button>
