@@ -62,7 +62,7 @@ function App() {
                 <Route path="evaluaciones/planes-empresa/revision"
                     element={<paginas.RevisionPlanificacionDocente />}
                 ></Route>
-                <Route path="/generarPLanillasDeSeguimientoYEvaSemanal"
+                <Route path="/planillas/generar"
                     element={<paginas.generarPLanillasDeSeguimientoYEvaSemanal/>}
                 ></Route>
             </Routes>
