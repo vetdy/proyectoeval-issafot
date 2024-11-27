@@ -74,7 +74,7 @@ return [
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
-            'schema' => 'issasoft_db',
+            'schema' => env('DB_SCHEMA', 'public'),
             'sslmode' => 'prefer',
         ],
 
