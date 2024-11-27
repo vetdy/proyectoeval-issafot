@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Modal } from "../componentes/modales";
 import { generarPlanillasProyectoEmpresa } from "../servicios/api";
 import { IconoCargando } from "../componentes/iconos";
+import { backend as rutas } from "../rutas";
 
 function GenerarPlanillas() {
     const [empresas, setEmpresas] = useState([]);
@@ -38,7 +39,7 @@ function GenerarPlanillas() {
         const fetchEmpresas = async () => {
             try {
                 const response = await fetch(
-                    "http://127.0.0.1:8000/api/proyecto_empresa/docente/1"
+                    `${rutas.PROYECTOS_EMPRESA_DOCENTE}/1`
                 );
 
                 // Verifica si la respuesta es exitosa
