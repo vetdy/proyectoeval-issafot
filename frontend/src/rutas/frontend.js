@@ -11,6 +11,7 @@ export const DOC_EVALUACIONES_REVISAR_PLANIFICACION = "/evaluaciones/planes-empr
 export const DOC_EVALUACIONES_RECUPERAR = "/evaluaciones";
 
 export const DOC_EVALUACIONES_PLANILLAS_SEGUIMIENTO = "/planillas"
+export const DOC_GENERAR_PLANILLAS = "/planillas/generar";
 
 export const DOC_REPORTES_EMPRESAS = "/reportes/desempeno";
 export const DOC_REPORTES_EVAL_REALIZADAS = "/reportes/evaluaciones";
