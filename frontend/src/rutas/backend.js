@@ -19,6 +19,8 @@ export const ITEM_PLANILLA_SEGUIMIENTO = `${URL_BACKEND}/api/item_planilla`;
 export const ITEMS_PLANILLA_EVALUACION = `${URL_BACKEND}/api/tarea/evaluacion`;
 export const ITEM_PLANILLA_EVALUACION = `${URL_BACKEND}/api/tarea`;
 
+export const GENERAR_PLANILLAS_PROYECTO_EMPRESA = `${URL_BACKEND}/api/planilla_seguimiento/crear`
+
 export const PLANILLAS_DOCENTE_SEGUIMIENTO = `${URL_BACKEND}/api/planilla_seguimiento/semana`;
 export const ASISTENCIA_PLANILLA_SEGUIMIENTO = `${URL_BACKEND}/api/planilla_seguimiento/asistencia`;
 export const ASISTENCIA_PLANILLA_EVALUACION = `${URL_BACKEND}/api/evaluacion/asistencia`;

@@ -87,6 +87,11 @@ export const registrarEmpresa = async (datos={}) => {
     return respuesta;
 }
 
+export const generarPlanillasProyectoEmpresa = async (proyEmprID=1) => {
+    const respuesta = await solicitud(`${rutas.GENERAR_PLANILLAS_PROYECTO_EMPRESA}/${proyEmprID}`, "PATCH");
+    return respuesta;
+}
+
 export const obtenerProyectosEmpresa = async (empresaID=1) => {
     const respuesta = await solicitud(`${rutas.PROYECTOS_EMPRESA}/${empresaID}`);
     return respuesta;
