@@ -445,6 +445,7 @@ class PlanillaSeguimientoController extends Controller
                 foreach ($p as $planificacion) {
                     $planillaSeguimientoService->registarPlanillaSeguimiento($planificacion);
                 }
+                $pe->update(['planillas_creada'=>true]);
                 return response()->json(['contenido' => 'planillas de seguimiento creadas'], 200);
             } else {
                 return response()->json(['contenido' => "planillas fue creada con anterioridad o no ha sido aprobada"], 409);

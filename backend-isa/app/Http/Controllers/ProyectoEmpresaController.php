@@ -47,7 +47,9 @@ class ProyectoEmpresaController extends Controller
                         $proyect->id_proyecto_empresa=$proyectoEmpresa->id;
                         $proyect->nombre_empresa=Empresa::find($proyectoEmpresa->id_empresa)->nombre_corto;
                         $rp=Revision_planificacion::where('id_proyecto_empresa',$proyect->id_proyecto_empresa)->first();
+                        
                         $proyect->estado=Estado_planificacion::find($rp->id_estado_planificacion)->estado;
+                        $proyect->planillas_creada=$rp->planillas_creada;
                         $proyect->habilitado_planilla=Planilla_seguimiento::where('id_proyecto_empresa', $proyect->id_proyecto_empresa)->get()->isEmpty();
                         $proyecto_por_docente[]=$proyect;
                     }
