@@ -570,7 +570,7 @@ const OtroRegistroPlanificacion = () => {
             <TituloRegistros titulo="Planificación de Empresa" />
             <div className="row">
                 <div className="col d-flex align-items-center">
-                    <h6 className="m-0">Estado:</h6>
+                    <h6 className="m-0">Estado Planif.:</h6>
                     <p className="m-0 px-2">{estadosPlanificacion[estadoPlanif]}</p>
                 </div>
             </div>
