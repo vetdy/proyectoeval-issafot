@@ -328,7 +328,6 @@ const Planilla = ({ datos, planilla, asistencia, actualizar, retornar }) => {
             <div className="row px-2">
                 <Tabla datos={titulos}>
                     {planilla.map((p, index) => {
-                        console.log(p);
                         return (
                             <tr key={`planilla-item-${index}`}>
                                 <td
