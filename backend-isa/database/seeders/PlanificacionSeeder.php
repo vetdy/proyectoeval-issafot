@@ -74,38 +74,45 @@ class PlanificacionSeeder extends Seeder
         ]);
         DB::table('item_planificacion')->insert([
             [
-                'nombre' => 'codificacion de historias de usuario',
+                'nombre' => 'product backlog sprint',
                 'id_planificacion' => '1'
             ],
             [
-                'nombre' => 'codificacion de historias de usuario',
+                'nombre' => 'product backlog sprint con carry over',
                 'id_planificacion' => '2'
             ],
             [
-                'nombre' => 'codificacion de historias de usuario',
+                'nombre' => 'Correcion del product backlog',
                 'id_planificacion' => '3'
             ],
             [
-                'nombre' => 'diseño de las interfaces',
+                'nombre' => 'historias de usuario del sprint',
                 'id_planificacion' => '1'
             ],
             [
-                'nombre' => 'diseño de las interfaces',
+                'nombre' => 'historias de usuario mejoradas para el sprint',
                 'id_planificacion' => '2'
             ],
             [
-                'nombre' => 'diseño de las interfaces',
+                'nombre' => 'mejora de las historias del sprint3',
                 'id_planificacion' => '3'
             ],[
-                'nombre' => 'poblar la base de datos',
+                'nombre' => 'mockups de las interfaces',
                 'id_planificacion' => '1'
             ],
             [
-                'nombre' => 'poblar la base de datos',
+                'nombre' => 'mejora a las mockups',
                 'id_planificacion' => '2'
             ],
             [
-                'nombre' => 'poblar la base de datos',
+                'nombre' => 'mockups del sprint3',
+                'id_planificacion' => '3'
+            ],[
+                'nombre' => 'Manual de usuario',
+                'id_planificacion' => '3'
+            ],
+            [
+                'nombre' => 'Manual de instalacion',
                 'id_planificacion' => '3'
             ],
 
