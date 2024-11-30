@@ -16,7 +16,7 @@ class CreateItemPlanillaTable extends Migration
         Schema::create('item_planillas', function (Blueprint $table) {
             $table->id();
             $table->string('titulo');
-            $table->boolean('generada')->default(true);
+            $table->boolean('generada')->default(false);
             $table->string('observacion')->default('');
             $table->foreignId('id_planilla_seguimiento')->constrained('planilla_seguimientos')->onDelete('cascade');
             $table->timestamps();
