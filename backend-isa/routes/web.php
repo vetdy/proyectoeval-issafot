@@ -14,6 +14,6 @@ use App\Http\Controllers\DocenteController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/{any}', function () {
+    return view('index');
+})->where('any','.*');

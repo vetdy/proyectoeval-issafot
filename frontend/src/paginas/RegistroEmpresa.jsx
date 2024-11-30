@@ -128,7 +128,7 @@ function RegistroEmpresa(){
             return;
         }
         
-        const id_rep = "10";   //<========= Debe cambiar cuando hayan usuarios
+        const id_rep = "13";   //<========= Debe cambiar cuando hayan usuarios
         const imagenBase64 = await base64(logoEmpresa);
         const datos = {
             nombre_corto: nuevosCampos.nombre_corto,
