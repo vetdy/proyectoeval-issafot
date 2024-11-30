@@ -280,6 +280,7 @@ class PlanillaSeguimientoController extends Controller
     public function show_proyecto_empresa($id)
     {
         $planilla_seguimiento = Planilla_seguimiento::where('id_proyecto_empresa', $id)->groupBy('id')->get();;
+        //dd($planilla_seguimiento);
         if (!$planilla_seguimiento->isEmpty()) {
             $idEmpresa = Proyecto_empresa::find($id);
             $nombre_empresa = Empresa::find($idEmpresa->id_empresa)->nombre_corto;

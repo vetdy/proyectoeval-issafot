@@ -283,7 +283,7 @@ class EvaluacionController extends Controller
                 
                 $evaluaciones=Evaluacion::where('id_proyecto_empresa', $proyectoEmpresa->id)->groupBy('id')->get();
                 if(!$evaluaciones->isEmpty()){
-                    $evaluacion_empresa[] = $evaluaciones;
+                    $evaluacion_empresa = $evaluaciones;
                 }else{
                     return response()->json(['contenido' => 'no existe evaluacion'], 404);
                 }
