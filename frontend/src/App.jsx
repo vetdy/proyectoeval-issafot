@@ -20,17 +20,8 @@ function App() {
                 <Route path="/registrar/docentes" 
                     element={<paginas.RegistroDocentes />}
                 ></Route>
-                <Route path="/em-registradas/EmpresasRegistradas" 
-                    element={<paginas.EmpresasRegistradas />}
-                ></Route>
                 <Route path="/mis-planillas" 
                     element={<paginas.PlanillasSeguimiento />}
-                ></Route>
-                <Route path="/registro-item-planilla" 
-                    element={<paginas.RegistroItemPlanilla />}
-                ></Route>
-                <Route path="/registrar/planificacion" 
-                    element={<paginas.RegistroPlanificacion />}
                 ></Route>
                 <Route path="/mi-proyecto"
                     element={<paginas.ProyectosEstudiante />}
@@ -46,9 +37,6 @@ function App() {
                 ></Route>
                 <Route path="/planillas/revision"
                     element={<paginas.RevisionPlanilla />}
-                ></Route>
-                <Route path="/IncluirTareas/EnPlanillas"
-                    element={<paginas.IncluirTareasEnPlanillas />}
                 ></Route>
                 <Route path="/recuperar/resultados"
                     element={<paginas.RecuperarResultadosEvaluacion />}
