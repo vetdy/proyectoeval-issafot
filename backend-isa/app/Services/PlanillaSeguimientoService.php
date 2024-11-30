@@ -69,7 +69,6 @@ class PlanillaSeguimientoService
         foreach (Socio_empresa::where('id_empresa', $pe->id_empresa)->get() as $id_usuario) {
             $ae = new Asistencia_evaluacion();
             $ae->id_usuario = $id_usuario->id;
-            $ae->presente = false;
             $ae->observacion = '';
             $ae->id_evaluacion = $e->id;
             $ae->save();

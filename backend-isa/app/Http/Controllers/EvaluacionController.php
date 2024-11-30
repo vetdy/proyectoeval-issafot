@@ -191,7 +191,7 @@ class EvaluacionController extends Controller
                 'fecha_revision' => 'nullable|date',
                 'hora_revision' => 'nullable|date_format:H:i',
                 'concluido' => 'nullable|boolean',
-                'nota' => 'nullable|integer',
+                'nota' => 'nullable|integer|max:100|min:0',
                 'id_tipo_evaluacion' => 'nullable|exists:tipo_evaluacions,id',
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
