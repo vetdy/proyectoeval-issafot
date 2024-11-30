@@ -362,7 +362,12 @@ const Planilla = ({ datos, planilla, asistencia, actualizar, retornar }) => {
                                     />
                                 </td>
                                 {datos.tipo === "evaluacion" && (
-                                    <td style={{ maxWidth: "50px" }}>
+                                    <td
+                                        style={{ maxWidth: "50px" }}
+                                        className={`${
+                                            p.generada ? "bg-l-gray" : ""
+                                        }`}
+                                    >
                                         <input
                                             className="form-control"
                                             type="number"
