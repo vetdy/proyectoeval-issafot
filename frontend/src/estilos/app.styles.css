@@ -95,3 +95,6 @@ input[type=number] {
 .bg-inherit {
     background-color: inherit !important;
 }
+.bg-l-gray {
+    background-color: #F0F0F0 !important;
+}
