@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import logoDefecto from "/logo.png"
 import { Input, InputFile, Formulario } from "../componentes/formularios";
 import { validador as validar } from "../utils";
@@ -22,6 +22,8 @@ function RegistroEmpresa(){
         texto: "",
         aceptar: null
     });
+
+    const [idUser, setIdUser] = useState("13");
 
     const formatosValidosImagen = ["image/png", "image/jpeg", "image/jpg"];
     const pesoMaximoImagen = 1048576;
@@ -128,7 +130,7 @@ function RegistroEmpresa(){
             return;
         }
         
-        const id_rep = "10";   //<========= Debe cambiar cuando hayan usuarios
+        const id_rep = idUser;   //<========= Debe cambiar cuando hayan usuarios
         const imagenBase64 = await base64(logoEmpresa);
         const datos = {
             nombre_corto: nuevosCampos.nombre_corto,
@@ -152,6 +154,7 @@ function RegistroEmpresa(){
             <Modal mostrar={modal.mostrar} aceptar={modal.aceptar} texto={modal.texto}>
             </Modal>
         }
+        
         <Formulario tituloFormulario="Registro de Empresa" nombreBoton="Registrar"
             encType="multipart/form-data" onSubmit={enviarRegistro}
             enviando={enviando}
@@ -213,6 +216,36 @@ function RegistroEmpresa(){
                     <h5 className="m-auto">Jose</h5>
                 </div>
                 <input type="hidden" name="id_representante_legal" value="Usuario"></input>
+            </div>
+
+            <div className="row">
+                <div className="col">
+                    <label htmlFor="iduser" className="px-2">
+                        Usuario
+                    </label>
+                    <select
+                        name="iduser"
+                        id="iduser"
+                        value={idUser}
+                        onChange={(ev) => {
+                            setIdUser(ev.target.value);
+                        }}
+                    >
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                    </select>
+                </div>
             </div>
         </Formulario>
         </>
