@@ -20,6 +20,19 @@ import { useNavigate } from "react-router-dom";
 import { Modal } from "../componentes/modales";
 import { Error } from "../componentes/general";
 
+const calcNota = (notas = []) => {
+    let sum = 0;
+    notas.forEach(n => {
+        if( typeof n === "string" ){
+            sum = sum + parseInt(n);
+        }
+        else{
+            sum = sum + n;
+        }
+    });
+    return Math.round(sum / notas.length);
+}
+
 const Planilla = ({ datos, planilla, asistencia, actualizar, retornar }) => {
     const titulos = ["#", "Tarea", "Observacion"];
 
@@ -198,13 +211,9 @@ const Planilla = ({ datos, planilla, asistencia, actualizar, retornar }) => {
                 const datosEnviar = { concluido: true };
 
                 if (datos.tipo === "evaluacion") {
-                    datosEnviar["nota"] = Math.round(
-                        notas.reduce((suma, n) => {
-                            return suma + n;
-                        }) / notas.length
-                    );
+                    datosEnviar["nota"] = calcNota(notas);
                 }
-
+                
                 const consultaTerminar = await consultas[datos.tipo].actualizar(
                     datos.idSeguimiento,
                     datosEnviar
