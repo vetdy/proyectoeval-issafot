@@ -332,27 +332,21 @@ const Planilla = ({ datos, planilla, asistencia, actualizar, retornar }) => {
                             <tr key={`planilla-item-${index}`}>
                                 <td
                                     className={`${
-                                        p.generada && datos.tipo === "seguimiento"
-                                            ? "bg-l-gray"
-                                            : ""
+                                        p.generada ? "bg-l-gray" : ""
                                     }`}
                                 >
                                     {index + 1}
                                 </td>
                                 <td
                                     className={`${
-                                        p.generada && datos.tipo === "seguimiento"
-                                            ? "bg-l-gray"
-                                            : ""
+                                        p.generada ? "bg-l-gray" : ""
                                     }`}
                                 >
                                     {p.titulo}
                                 </td>
                                 <td
                                     className={`${
-                                        p.generada && datos.tipo === "seguimiento"
-                                            ? "bg-l-gray"
-                                            : ""
+                                        p.generada ? "bg-l-gray" : ""
                                     }`}
                                 >
                                     <input
