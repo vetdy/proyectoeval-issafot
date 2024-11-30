@@ -43,7 +43,7 @@ class PlanillaSeguimientoService
             foreach ($tareas as $tarea) {
                 $ta = new Item_planilla();
                 $ta->titulo = $tarea->nombre;
-                $ta->creada = false;
+                $ta->generada = false;
                 $ta->id_planilla_seguimiento = $pg->id;
                 $ta->save();
             }

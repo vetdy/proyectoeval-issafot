@@ -16,7 +16,7 @@ class CreateTareaTable extends Migration
         Schema::create('tareas', function (Blueprint $table) {
             $table->id();
             $table->string('titulo');
-            $table->boolean('creada')->default(true);
+            $table->boolean('generada')->default(true);
             $table->string('observacion')->default('');
             $table->integer('nota')->default(0);
             $table->foreignId('id_evaluacion')->constrained('evaluacions')->onDelete('cascade');
