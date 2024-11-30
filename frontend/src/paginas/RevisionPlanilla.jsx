@@ -198,10 +198,11 @@ const Planilla = ({ datos, planilla, asistencia, actualizar, retornar }) => {
                 const datosEnviar = { concluido: true };
 
                 if (datos.tipo === "evaluacion") {
-                    datosEnviar["nota"] =
-                        Math.round(notas.reduce((suma, n) => {
+                    datosEnviar["nota"] = Math.round(
+                        notas.reduce((suma, n) => {
                             return suma + n;
-                        }) / notas.length);
+                        }) / notas.length
+                    );
                 }
 
                 const consultaTerminar = await consultas[datos.tipo].actualizar(
@@ -325,13 +326,36 @@ const Planilla = ({ datos, planilla, asistencia, actualizar, retornar }) => {
                 <h3>Planilla</h3>
             </div>
             <div className="row px-2">
-                <Tabla datos={titulos} hover={false} px0={true}>
+                <Tabla datos={titulos}>
                     {planilla.map((p, index) => {
+                        console.log(p);
                         return (
                             <tr key={`planilla-item-${index}`}>
-                                <td>{index + 1}</td>
-                                <td>{p.titulo}</td>
-                                <td>
+                                <td
+                                    className={`${
+                                        p.generada && datos.tipo === "seguimiento"
+                                            ? "bg-l-gray"
+                                            : ""
+                                    }`}
+                                >
+                                    {index + 1}
+                                </td>
+                                <td
+                                    className={`${
+                                        p.generada && datos.tipo === "seguimiento"
+                                            ? "bg-l-gray"
+                                            : ""
+                                    }`}
+                                >
+                                    {p.titulo}
+                                </td>
+                                <td
+                                    className={`${
+                                        p.generada && datos.tipo === "seguimiento"
+                                            ? "bg-l-gray"
+                                            : ""
+                                    }`}
+                                >
                                     <input
                                         className="form-control"
                                         type="text"
