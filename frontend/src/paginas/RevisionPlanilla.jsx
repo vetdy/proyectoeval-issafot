@@ -361,9 +361,9 @@ const Planilla = ({ datos, planilla, asistencia, actualizar, retornar }) => {
                                     <input
                                         className="form-control"
                                         type="text"
-                                        name=""
+                                        name={`obs${p.titulo}`}
                                         id=""
-                                        value={obs[index]}
+                                        value={obs[index] || ""}
                                         onChange={(ev) => {
                                             actualizarObs(ev, index);
                                         }}
@@ -381,6 +381,7 @@ const Planilla = ({ datos, planilla, asistencia, actualizar, retornar }) => {
                                             className="form-control"
                                             type="number"
                                             value={notas[index] || 0}
+                                            name={`nota${p.titulo}`}
                                             onChange={(ev) => {
                                                 actualizarNotas(ev, index);
                                             }}
@@ -411,6 +412,7 @@ const Planilla = ({ datos, planilla, asistencia, actualizar, retornar }) => {
                             }
                         }}
                         className="form-control"
+                        name="newTarea"
                         value={nombreNuevaTarea}
                         onChange={(ev) => {
                             setNombreNuevaTarea(ev.target.value);
