@@ -182,7 +182,6 @@ const PlanillasDocente = () => {
             const res1 = await obtenerPlanillasDocenteSeguimiento(1);
             if(res1.status === 200){
                 setSeguimiento(res1.message.planillas_seguimientos);
-                console.log(res1);
             }
             else{
                 setError(true);

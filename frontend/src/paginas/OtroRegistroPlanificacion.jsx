@@ -3,8 +3,13 @@ import { BotonControl } from "../componentes/botones";
 import { useState, useRef, useEffect } from "react";
 import { TituloRegistros } from "../componentes/titulos";
 import { validador } from "../utils";
-import { ModalConfirmar, ModalSimple } from "../componentes/modales";
-import { registrarPlanificacionEmpresa, obtenerPlanificacionEmpresa } from "../servicios/api"
+import { Modal } from "../componentes/modales";
+import {
+    registrarPlanificacionEmpresa,
+    obtenerPlanificacionEmpresa,
+    obtenerEstadoPlanificacionProyectoEmpresa,
+    borrarPlanificacionEmpresa,
+} from "../servicios/api";
 import { cadenaValoresJSON } from "../utils/conversor";
 import { tiempo } from "../utils";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -18,6 +23,7 @@ const reconstruirPlanificacion = (datos=[]) => {
                 tarea: d.items.map(i => {return i.nombre}),
                 fecha_inicio: tiempo.normalizarFecha(d.fecha_inicio),
                 fecha_fin: tiempo.normalizarFecha(d.fecha_fin),
+                id: d.id,
             }
         );
     });
@@ -70,7 +76,25 @@ const titulosIguales = (plan=[]) => {
         }
     });
 
-    return repetidos.length ? repetidos[0] : -1;
+    return repetidos;
+}
+
+const entregablesIguales = (plan = []) => {
+    const repetidos = [];
+
+    plan.forEach( (p, idx ) => {
+        const entregables = {};
+        p.tarea.forEach( (t, i) => {
+            if( entregables[t] ){
+                repetidos.push([idx, i]);
+                return;
+            }
+            else{
+                entregables[t] = true;
+            }
+        });
+    });
+    return repetidos;
 }
 
 const quitarEspaciosFinales = (plan=[]) => {
@@ -84,71 +108,88 @@ const quitarEspaciosFinales = (plan=[]) => {
 }
 
 const OtroRegistroPlanificacion = () => {
-    const titulos = ["Hito", "Objetivo", "Fecha Inicio", "Fecha Fin"];
+    const titulos = ["Hito", "Entregable", "Fecha Inicio", "Fecha Fin"];
+    const estadosPlanificacion = {
+        1:"No Existe",
+        2:"En Revisión",
+        3:"Aceptado",
+        4:"Rechazado"
+    }
     const fecha = tiempo.obtenerFechaActual();
     const ref = useRef(null);
-    const [fechasValidadProyecto, setFechasValidasProyecto] = useState({
-        fecha_inicio: "",
-        fecha_fin: ""
-    });
+
     const [planificacion, setPlanificacion] = useState([]);
     const [revision, setRevision] = useState({
         dia_rev: "1",
         hora_rev: "08:15",
     });
+    const [observaciones, setObservaciones] = useState("");
     const [modal, setModal] = useState({
         mostrar: false,
         texto: "",
-        accion: null,
-    });
-    const [modalInf, setModalInf] = useState({
-        mostrar: false,
         tipo: "",
-        texto: ""
+        estilo: "",
+        aceptar: null,
+        cancelar: null,
     });
-    const [deshabilitarEnvio, setDeshabilitarEnvio] = useState(false);
-    const [estadoPlanif, setEstadoPlanif] = useState("No Iniciado");
-    const [modificable, setModificable] = useState(true);
 
     const [cargando, setCargando] = useState(true);
+    const [estadoPlanif, setEstadoPlanif] = useState(1);
+
+    const [editable, setEditable] = useState(true);
+    const [enviando, setEnviando] = useState(false);
+    const [error, setError] = useState(false);
+
     const refCarga = useRef(true);
+    const refPlanPrevio = useRef(null);
 
     const datosPlanificacion = useLocation();
     const history = useNavigate();
-    const idEmpr = useRef(null);
+    const proyEmpID = useRef(null);
 
     useEffect(()=>{
+        const irProyectos = () => {history("/mi-proyecto")};
         const cargarDatos = async () => {
-            const id_empresa = datosPlanificacion.state.id_empresa;
-            idEmpr.current = id_empresa;
-            const consulta = await obtenerPlanificacionEmpresa(id_empresa);
-            if( consulta.status === 200){
-                const previo = consulta.message.planifiaciones_ob;
-                setPlanificacion( reconstruirPlanificacion( previo ) );
-                console.log(previo);
-                const estado = previo[0].id_estado_planificacion;
-                if( estado === 2 || estado === 3 ){
-                    setModificable(false);
+            proyEmpID.current = datosPlanificacion.state.id_empresa;
+            let nuevoEstado = 0;
+            let nuevoError = false;
+            const consultaEstado = await obtenerEstadoPlanificacionProyectoEmpresa(proyEmpID.current);
+            if( consultaEstado.status === 200 ){
+                nuevoEstado = consultaEstado.message.revision_planificacion.id_estado_planificacion;
+                if( nuevoEstado === 2 || nuevoEstado === 3 ){
+                    setEditable(false);
                 }
-                if( estado === 2 ){
-                    setEstadoPlanif("En Revisión");
+                setObservaciones(consultaEstado.message.revision_planificacion.observacion);
+            }
+            else{
+                nuevoError = true;
+            }
+
+            if( !nuevoError && nuevoEstado > 1){
+                const consultaPlan = await obtenerPlanificacionEmpresa(proyEmpID.current);
+                if( consultaPlan.status === 200 ){
+                    const previo = consultaPlan.message.planifiaciones_ob;
+                    setPlanificacion( reconstruirPlanificacion( previo ) );
+                    refPlanPrevio.current = previo;
+                    setRevision({
+                        dia_rev: previo[0].dia_revision,
+                        hora_rev: previo[0].hora_revision
+                            .split(":")
+                            .map((h) => h.padStart(2, "0"))
+                            .join(":"),
+                    });
                 }
-                if( estado === 3 ){
-                    setEstadoPlanif("Aceptado");
+                else{
+                    nuevoError = true;
                 }
-                if( estado === 4 ){
-                    setEstadoPlanif("Requiere Mejorar");
-                }
-                setRevision({
-                    dia_rev: previo[0].dia_revision,
-                    hora_rev: previo[0].hora_revision
-                        .split(":")
-                        .map((h) => h.padStart(2, "0"))
-                        .join(":"),
-                });
             }
             setCargando(false);
+            setError(nuevoError);
+            setEstadoPlanif(nuevoEstado);
         };
+        if( !datosPlanificacion.state ){
+            irProyectos();
+        }
         if(refCarga.current){
             refCarga.current = false;
             cargarDatos();
@@ -162,12 +203,27 @@ const OtroRegistroPlanificacion = () => {
         }
     }, [planificacion]);
 
-    const abrirModal = (texto, accion) => {
+    const abrirModal = (texto, funcion=null, tipo="simple") => {
         const nuevoModal = {
             mostrar: true,
             texto: texto,
-            accion: accion,
+            tipo: tipo,
+            estilo: "normal",
+            aceptar: cerrarModal,
+            cancelar: null,
         };
+        if( tipo === "simple" && funcion !== null ){
+            nuevoModal.aceptar = funcion;
+        }
+        if( tipo === "confirmar" ){
+            nuevoModal.estilo = "eliminar";
+            nuevoModal.aceptar = funcion;
+            nuevoModal.cancelar = cerrarModal;
+        }
+        if( tipo === "temporal" ){
+            nuevoModal.estilo = "info";
+        }
+
         setModal(nuevoModal);
     };
 
@@ -175,24 +231,10 @@ const OtroRegistroPlanificacion = () => {
         setModal({
             mostrar: false,
             texto: "",
-            accion: null,
-        });
-    };
-
-    const AbrirModalInf = (texto, tipo="error") => {
-        const nuevoModal = {
-            mostrar: true,
-            tipo: tipo,
-            texto: texto
-        };
-        setModalInf(nuevoModal);
-    }
-
-    const cerrarModalInf = () => {
-        setModalInf({
-            mostrar: false,
             tipo: "",
-            texto: "",
+            estilo: "",
+            aceptar: null,
+            cancelar: null,
         });
     };
 
@@ -239,24 +281,26 @@ const OtroRegistroPlanificacion = () => {
                 );
             } else {
                 abrirModal(
-                    `La fila contiene Objetivos, eliminar de todas formas?`,
+                    "La fila no esta vacia, eliminar de todas formas?",
                     () => {
                         setPlanificacion(
                             planificacion.filter((v, i) => i !== indexFila)
                         );
                         cerrarModal();
-                    }
+                    },
+                    "confirmar"
                 );
             }
         } else {
             abrirModal(
-                `Eliminar fila: ${planificacion[indexFila].titulo}?`,
+                `Eliminar Hito: ${planificacion[indexFila].titulo}?`,
                 () => {
                     setPlanificacion(
                         planificacion.filter((v, i) => i !== indexFila)
                     );
                     cerrarModal();
-                }
+                },
+                "confirmar"
             );
         }
     };
@@ -284,7 +328,7 @@ const OtroRegistroPlanificacion = () => {
                 nuevaPlanif[indexFila][name] = value;
                 setPlanificacion(nuevaPlanif);
             } else {
-                AbrirModalInf("La fecha fin Debe ser Mayor a la fecha inicio.");
+                abrirModal("La fecha fin Debe ser Mayor a la fecha inicio.");
             }
         }
         if (name === "fecha_inicio") {
@@ -333,90 +377,170 @@ const OtroRegistroPlanificacion = () => {
 
         if ( planificacion.length ) {
             const duplicados = titulosIguales(planificacion);
+            if( duplicados.length ){
+                abrirModal(`Existen titulos duplicados: ${planificacion[duplicados].titulo}`);
+                return false;
+            }
             
-            if( duplicados !== -1 ){
-                AbrirModalInf(`Existen titulos duplicados: ${planificacion[duplicados].titulo}`);
+            const duplicados2 = entregablesIguales(planificacion);
+
+            if( duplicados2.length ){
+                const [t, e] = duplicados2[0];
+
+                abrirModal(
+                    `Existen entregables duplicados en el hito ${planificacion[t].titulo}: ${
+                        planificacion[t].tarea[e]
+                    }`
+                );
                 return false;
             }
 
             for (const p of planificacion) {
                 if (p.titulo === "") {
-                    AbrirModalInf("Ningun titulo puede estar vacio");
+                    abrirModal("Ningun titulo puede estar vacio");
                     return false;
                 }
 
                 if ( !p.tarea.length ) {
-                    AbrirModalInf(`Debe haber al menos 1 objetivo por fila. En la fila con titulo: ${p.titulo}`);
+                    abrirModal(`Debe haber al menos 1 entregable por fila. En el hito: ${p.titulo}`);
                     return false;
                 }
                 
                 for ( const t of p.tarea ) {
                     if (t === "") {
-                        AbrirModalInf(`Ningun objetivo puede ser vacio. En la fila con titulo: ${p.titulo}`);
+                        abrirModal(`Ningun entregable puede ser vacio. En el hito: ${p.titulo}`);
                         return false;
                     }
                 }
 
                 /* if ( compararFecha(p.fecha_inicio) === -1 ){
-                    AbrirModalInf(`La fecha inicio debe ser mayor o igual a la fecha actual. En la fila con titulo: ${p.titulo}`);
+                    abrirModal(`La fecha inicio debe ser mayor o igual a la fecha actual. En el hito: ${p.titulo}`);
                     return false;
                 } */
                 
                 if ( compararFecha(p.fecha_inicio, p.fecha_fin) !== -1) {
-                    AbrirModalInf(`La fecha fin debe ser mayor a la Fecha Inicio. En la fila con titulo: ${p.titulo}`);
+                    abrirModal(`La fecha fin debe ser mayor a la Fecha Inicio. En el hito: ${p.titulo}`);
                     return false;
                 }
 
-                if (compararFecha(p.fecha_inicio, fechaFinProyecto) === 1){
-                    AbrirModalInf(`La fecha inicio no puede ser mayor a la Fecha establecida de duración del proyecto (${fechaFinProyecto}). En la fila con titulo: ${p.titulo}`);
+                /* if (compararFecha(p.fecha_inicio, fechaFinProyecto) === 1){
+                    abrirModal(`La fecha inicio no puede ser mayor a la Fecha establecida de duración del proyecto (${fechaFinProyecto}). En el hito: ${p.titulo}`);
                     return false;
                 }
 
                 if (compararFecha(p.fecha_fin, fechaFinProyecto) === 1){
-                    AbrirModalInf(`La fecha fin no puede ser mayor a la Fecha establecida de duración del proyecto (${fechaFinProyecto}). En la fila con titulo: ${p.titulo}`);
+                    abrirModal(`La fecha fin no puede ser mayor a la Fecha establecida de duración del proyecto (${fechaFinProyecto}). En el hito: ${p.titulo}`);
                     return false;
-                }
+                } */
             }
             return true;
         } else {
-            AbrirModalInf("Debe llenar al menos una fila con datos.");
+            abrirModal("Debe llenar al menos un hito con entregables.");
             return false;
         }
     };
 
-    const enviarDatos = async (ev) => {
+    const enviarPlanificacion = async (ev) => {
         const datos = {};
 
         const irProyectos = () => { history("/mi-proyecto") };
 
         if ( controlDatos() ) {
-            setDeshabilitarEnvio(true);
-            datos["id_proyecto_empresa"] = idEmpr.current; //<=== Debe cambiar con usuario/empresa
-            datos["dia_revision"] = revision.dia_rev;
-            datos["hora_revision"] = revision.hora_rev;
-            datos["planificacion"] = quitarEspaciosFinales(planificacion);
-            const res = await registrarPlanificacionEmpresa(datos);
-            if (res.status === 200){
-                AbrirModalInf("Se ha registrado la planificación", "normal");
-                alert("Se ha registrado la planificación");
-                irProyectos();
+            setEnviando(true);
+            if( estadoPlanif === 1 ){
+                datos["id_proyecto_empresa"] = proyEmpID.current;
+                datos["dia_revision"] = revision.dia_rev;
+                datos["hora_revision"] = revision.hora_rev;
+                datos["planificacion"] = quitarEspaciosFinales(planificacion);
+                const res = await registrarPlanificacionEmpresa(datos);
+                if (res.status === 200){
+                    abrirModal("Se ha enviado la planificación", 
+                        () =>{window.location.reload()}
+                    );
+                }
+                else if ( res.status === 422 ){
+                    abrirModal( cadenaValoresJSON(res.message) );
+                }
+                else{
+                    abrirModal( res.message );
+                }
             }
-            else if ( res.status === 422 ){
-                AbrirModalInf( cadenaValoresJSON(res.message) );
-            }
-            else{
-                AbrirModalInf( res.message );
-            }
-            setDeshabilitarEnvio(false);
+            setEnviando(false);
         }
     };
+
+    const modificarPlanificacion = async (ev) => {
+        const datos = {};
+
+        if ( controlDatos() ) {
+            setEnviando(true);
+            if( estadoPlanif === 4 ){
+                datos["id_proyecto_empresa"] = proyEmpID.current;
+                datos["dia_revision"] = revision.dia_rev;
+                datos["hora_revision"] = revision.hora_rev;
+                datos["planificacion"] = quitarEspaciosFinales(planificacion);
+
+                const listaBorrar = [];
+                refPlanPrevio.current.forEach( p =>{
+                    listaBorrar.push( borrarPlanificacionEmpresa(p.id) );
+                });
+
+                const resBorrar = await Promise.all(listaBorrar);
+                let cancelarOP = false;
+
+                resBorrar.forEach( (r, i) => {
+                    if( !(r.status === 200 || r.status === 404) ){
+                        console.error(`No se borro el itemID=${refPlanPrevio.current[i].id}`);
+                        cancelarOP = true;
+                    }
+                });
+                if(cancelarOP){
+                    abrirModal( "Ocurrio un error." );
+                }
+                else{
+                    const res = await registrarPlanificacionEmpresa(datos);
+                    if (res.status === 200){
+                        abrirModal("Se ha enviado la planificación.", 
+                            () =>{window.location.reload()}
+                        );
+                    }
+                    else if ( res.status === 422 ){
+                        abrirModal( cadenaValoresJSON(res.message) );
+                    }
+                    else{
+                        abrirModal( res.message );
+                    }
+                }
+            }
+            setEnviando(false);
+        }
+    }
 
     if ( cargando ){
         return(
             <div className="container-fluid">
                 <div className="row">
                     <div className="col d-flex justify-content-center">
-                        <IconoCargando></IconoCargando>
+                        <IconoCargando/>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if( error ){
+        return (
+            <div className="container-fluid">
+                <div className="row">
+                    <div className="col d-flex align-items-center justify-content-center">
+                        <h4 className="m-0">
+                            Ocurrio un error. 
+                        </h4>
+                        <button 
+                            className="btn btn-link text-eva-dark fs-5 fw-medium"
+                            onClick={()=>{window.location.reload()}}
+                        >Reintentar
+                        </button>
                     </div>
                 </div>
             </div>
@@ -426,27 +550,25 @@ const OtroRegistroPlanificacion = () => {
     return (
         <div className="container-fluid">
             {modal.mostrar && (
-                <ModalConfirmar
-                    texto={modal.texto}
-                    tipo={"borrar"}
+                <Modal
                     mostrar={modal.mostrar}
-                    aceptar={modal.accion}
-                    cancelar={cerrarModal}
+                    texto={modal.texto}
+                    tipo={modal.tipo}
+                    estilo={modal.estilo}
+                    aceptar={modal.aceptar}
+                    cancelar={modal.cancelar}
                 />
             )}
-            {modalInf.mostrar && (
-                <ModalSimple
-                    mostrar={modalInf.mostrar}
-                    texto={modalInf.texto}
-                    tipo={modalInf.tipo}
-                    cerrar={cerrarModalInf}
-                />
+            {enviando && (
+                <div className="row">
+                    <IconoCargando tipo="linea"/>
+                </div>
             )}
             <TituloRegistros titulo="Planificación de Empresa" />
             <div className="row">
                 <div className="col d-flex align-items-center">
-                    <h6 className="m-0">Estado:</h6>
-                    <p className="m-0 px-2">{estadoPlanif}</p>
+                    <h6 className="m-0">Estado Planif.:</h6>
+                    <p className="m-0 px-2">{estadosPlanificacion[estadoPlanif]}</p>
                 </div>
             </div>
             <div className="row">
@@ -472,7 +594,7 @@ const OtroRegistroPlanificacion = () => {
                                                         : undefined
                                                 }
                                                 className="form-control"
-                                                placeholder="Titulo"
+                                                placeholder="Nombre del Hito"
                                                 maxLength={40}
                                                 onChange={(ev) => {
                                                     editarTitulo(ev, idx);
@@ -486,9 +608,9 @@ const OtroRegistroPlanificacion = () => {
                                                         idx
                                                     );
                                                 }}
-                                                disabled={!modificable}
+                                                disabled={!editable}
                                             />
-                                            {modificable && (
+                                            {editable && (
                                                 <BotonControl
                                                     tipo="<eliminar>"
                                                     handle={() => {
@@ -514,7 +636,7 @@ const OtroRegistroPlanificacion = () => {
                                                                 type="text"
                                                                 name={`${key}-t-${i}`}
                                                                 value={t}
-                                                                placeholder="Objetivo"
+                                                                placeholder="Nombre del Entregable"
                                                                 maxLength={64}
                                                                 className="form-control"
                                                                 ref={
@@ -552,9 +674,9 @@ const OtroRegistroPlanificacion = () => {
                                                                         i
                                                                     );
                                                                 }}
-                                                                disabled={!modificable}
+                                                                disabled={!editable}
                                                             />
-                                                            {modificable && (
+                                                            {editable && (
                                                                 <BotonControl
                                                                     tipo="<eliminar>"
                                                                     handle={() => {
@@ -569,7 +691,7 @@ const OtroRegistroPlanificacion = () => {
                                                     </li>
                                                 );
                                             })}
-                                            {modificable && (
+                                            {editable && (
                                                 <li className="list-group">
                                                     <BotonControl
                                                         tipo="<agregar>"
@@ -591,7 +713,7 @@ const OtroRegistroPlanificacion = () => {
                                             onChange={(ev) => {
                                                 actualizarFecha(ev, idx);
                                             }}
-                                            disabled={!modificable}
+                                            disabled={!editable}
                                         />
                                     </td>
                                     <td key={`${key}-f_f`}>
@@ -604,7 +726,7 @@ const OtroRegistroPlanificacion = () => {
                                             onChange={(ev) => {
                                                 actualizarFecha(ev, idx);
                                             }}
-                                            disabled={!modificable}
+                                            disabled={!editable}
                                         />
                                     </td>
                                 </tr>
@@ -613,7 +735,7 @@ const OtroRegistroPlanificacion = () => {
                     </Tabla>
                     {!planificacion.length && (
                         <div className="text-center fw-bold mt-0 mb-2">
-                            Agrega una Fila...
+                            Agrega un Hito...
                         </div>
                     )}
                 </div>
@@ -629,7 +751,7 @@ const OtroRegistroPlanificacion = () => {
                                     className="form-select"
                                     value={revision.dia_rev}
                                     onChange={editarRevision}
-                                    disabled={!modificable}
+                                    disabled={!editable}
                                 >
                                     <option value="1">Lunes</option>
                                     <option value="2">Martes</option>
@@ -646,7 +768,7 @@ const OtroRegistroPlanificacion = () => {
                                     className="form-select"
                                     value={revision.hora_rev}
                                     onChange={editarRevision}
-                                    disabled={!modificable}
+                                    disabled={!editable}
                                 >
                                     <option value="06:45">06:45</option>
                                     <option value="08:15">08:15</option>
@@ -657,13 +779,14 @@ const OtroRegistroPlanificacion = () => {
                                     <option value="15:45">15:45</option>
                                     <option value="17:15">17:15</option>
                                     <option value="18:45">18:45</option>
+                                    <option value="20:15">20:15</option>
                                 </select>
                             </label>
                         </div>
                     </div>
                 </div>
             </div>
-            {modificable && (
+            {editable && (
                 <div className="row g-0 bg-white pb-3 rounded-bottom-3">
                     <div className="col d-flex justify-content-center gap-2">
                         <button
@@ -672,13 +795,24 @@ const OtroRegistroPlanificacion = () => {
                         >
                             Agregar Hito
                         </button>
-                        <button
-                            className="btn btn-eva-secondary"
-                            onClick={enviarDatos}
-                            disabled={deshabilitarEnvio}
-                        >
-                            Registrar
-                        </button>
+                        {estadoPlanif === 1 && (
+                            <button
+                                className="btn btn-eva-secondary"
+                                onClick={enviarPlanificacion}
+                                disabled={enviando}
+                            >
+                                Enviar
+                            </button>
+                        )}
+                        {estadoPlanif === 4 && (
+                            <button
+                                className="btn btn-eva-secondary"
+                                onClick={modificarPlanificacion}
+                                disabled={enviando}
+                            >
+                                Enviar
+                            </button>
+                        )}
                     </div>
                 </div>
             )}
@@ -688,6 +822,7 @@ const OtroRegistroPlanificacion = () => {
                     <textarea
                         name=""
                         id=""
+                        value={observaciones}
                         className="w-100 user-select-none"
                         disabled={true}
                     ></textarea>

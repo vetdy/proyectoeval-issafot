@@ -12,6 +12,7 @@ use App\Models\Proyecto_empresa;
 use App\Models\Revision_planificacion;
 use App\Models\Usuario;
 use App\Services\PlanillaSeguimientoService;
+use App\Services\SortService;
 use Carbon\Carbon;
 use Exception;
 
@@ -193,6 +194,7 @@ class PlanillaSeguimientoController extends Controller
 
 
         if ($planilla_seguimiento) {
+            //dd($planilla_seguimiento, $request);
             $planilla_seguimiento->update($data);
             return response()->json(['contenido' => 'se actualizo a la planilla_seguimiento con exito'], 200);
         } else {
@@ -277,7 +279,7 @@ class PlanillaSeguimientoController extends Controller
      */
     public function show_proyecto_empresa($id)
     {
-        $planilla_seguimiento = Planilla_seguimiento::where('id_proyecto_empresa', $id)->get();;
+        $planilla_seguimiento = Planilla_seguimiento::where('id_proyecto_empresa', $id)->groupBy('id')->get();;
         if (!$planilla_seguimiento->isEmpty()) {
             $idEmpresa = Proyecto_empresa::find($id);
             $nombre_empresa = Empresa::find($idEmpresa->id_empresa)->nombre_corto;
@@ -288,31 +290,39 @@ class PlanillaSeguimientoController extends Controller
         }
     }
     /**
-     * @OA\Get( 
-     *     path="/api/planilla_seguimiento/semanal/{idUsuario}",
-     *     summary="Mostar planillas Seguimientos por docente",
-     *     tags={"planillas Seguimientos"},
-     *     @OA\Parameter(
-     *         name="idUsuario",
-     *         in="path",
-     *         description="ID de el docente",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer"
-     *         )
-     *      ),
-     *     
-     *     @OA\Response(
-     *         response=200,
-     *         description="Datos del planilla Seguimiento por docente"
-     *     ),
-     *      @OA\Response(
-     *         response=404,
-     *         description="docente no encontrada"
-     *     )
-     * 
-     * )
-     */
+ * @OA\Get(
+ *     path="/api/planilla_seguimiento/semana/{idUsuario}",
+ *     summary="Mostrar planillas de seguimiento por docente",
+ *     tags={"Planillas Seguimientos"},
+ *     @OA\Parameter(
+ *         name="idUsuario",
+ *         in="path",
+ *         description="ID del docente",
+ *         required=true,
+ *         @OA\Schema(
+ *             type="integer"
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Datos del planilla de seguimiento por docente",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             example={
+ *                 "id": 1,
+ *                 "titulo": "Planilla semanal",
+ *                 "docente": "Juan Pérez",
+ *                 "fecha_inicio": "2024-10-01",
+ *                 "fecha_fin": "2024-10-07"
+ *             }
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Docente no encontrado"
+ *     )
+ * )
+ */
     public function show_semanal($idUsuario)
     {
 
@@ -322,9 +332,9 @@ class PlanillaSeguimientoController extends Controller
             foreach ($proyectos as $proyecto) {
 
 
-                $protectoEmpresa = Proyecto_empresa::where('id_proyecto', $proyecto->id)->get();
+                $protectoEmpresa = Proyecto_empresa::where('id_proyecto', $proyecto->id)->groupBy('id')->get();
                 foreach ($protectoEmpresa as $proyect) {
-                    $usuario = Planilla_seguimiento::where('id_proyecto_empresa', $proyect->id)->get();
+                    $usuario = Planilla_seguimiento::where('id_proyecto_empresa', $proyect->id)->groupBy('id')->get();
                     foreach ($usuario as $usua) {
 
                         $fechaActual = Carbon::now();
@@ -379,14 +389,16 @@ class PlanillaSeguimientoController extends Controller
 
         $planilla_seguimiento = Planilla_seguimiento::find($id);
         if ($planilla_seguimiento) {
-            $usuarios = Asistencia_planilla_seguimiento::where('id_planilla_seguimiento', $id)->get();
+            $usuarios = Asistencia_planilla_seguimiento::where('id_planilla_seguimiento', $id)->groupBy('id')->get();
 
             foreach ($usuarios as $us) {
                 $aux = Usuario::find($us->id_usuario);
                 $us->nombre_usuario = $aux->nombre . ' ' . $aux->apellido;
             }
             $proyecto_empresa = Proyecto_empresa::find($planilla_seguimiento->id_proyecto_empresa);
-
+            $sortService=new SortService();
+            $usuarios=$usuarios->toArray();
+            $usuarios=$sortService->sortNombre($usuarios);
 
             $logo = Empresa::find($proyecto_empresa->id_empresa)->url_logo;
             $nombre_corto = Empresa::find($proyecto_empresa->id)->nombre_corto;

@@ -40,9 +40,12 @@ export const solicitud = async (url = URL_BACKEND, metodo = "get", datos={}) => 
                 message: respuesta.statusText,
             };
         } */
-
+       
         if(! contenido.hasOwnProperty("contenido") ){
-            console.error(`Error en backend: Se devolvio una respuesta sin contenido`);
+            const cad = Object.entries(contenido).map(([k, v]) => {return `${k}: ${v}`}).join(" ");
+            console.error(
+                `La respuesta no tiene contenido: ${cad}`
+            );
             return {
                 status: 404,
                 message: "No se encuentra el contenido.",
@@ -84,13 +87,38 @@ export const registrarEmpresa = async (datos={}) => {
     return respuesta;
 }
 
+export const generarPlanillasProyectoEmpresa = async (proyEmprID=1) => {
+    const respuesta = await solicitud(`${rutas.GENERAR_PLANILLAS_PROYECTO_EMPRESA}/${proyEmprID}`, "PATCH");
+    return respuesta;
+}
+
 export const obtenerProyectosEmpresa = async (empresaID=1) => {
     const respuesta = await solicitud(`${rutas.PROYECTOS_EMPRESA}/${empresaID}`);
     return respuesta;
 }
 
-export const obtenerPlanillasEmpresa = async (empresa=1) => {
-    const respuesta = await solicitud(`${rutas.PLANTILLA_EMPRESA}/${empresa}`);
+export const obtenerProyectosEmpresaDocente = async (docenteID) => {
+    const respuesta = await solicitud(`${rutas.PROYECTOS_EMPRESA_DOCENTE}/${docenteID}`);
+    return respuesta
+}
+
+export const obtenerPlanillasSeguimientoEmpresa = async (empresaID=1) => {
+    const respuesta = await solicitud(`${rutas.PLANILLA_SEGUIMIENTO_EMPRESA}/${empresaID}`);
+    return respuesta;
+}
+
+export const obtenerPlanillasEvaluacionEmpresa = async (empresaID = 1) => {
+    const respuesta = await solicitud(`${rutas.PLANILLA_EVALUACION_EMPRESA}/${empresaID}`);
+    return respuesta;
+}
+
+export const obtenerItemsPlanillaSeguimiento = async (planilla=1) => {
+    const respuesta = await solicitud(`${rutas.ITEMS_PLANILLA_SEGUIMIENTO}/${planilla}`);
+    return respuesta;
+}
+
+export const obtenerItemsPlanillaEvaluacion = async (planilla=1) => {
+    const respuesta = await solicitud(`${rutas.ITEMS_PLANILLA_EVALUACION}/${planilla}`);
     return respuesta;
 }
 
@@ -99,8 +127,36 @@ export const obtenerPlanificacionEmpresa = async (empresaID=1) => {
     return respuesta;
 }
 
+export const obtenerEstadoPlanificacionProyectoEmpresa = async (proyEmprID = 1) => {
+    const respuesta = await solicitud(`${rutas.ESTADO_PLANIFICACION_PROYECTO_EMPRESA}/${proyEmprID}`);
+    return respuesta;
+}
+
+export const actualizarRevisionPlanificacion = async (
+    revisionPlanifID = 1,
+    nuevoEstado = 1,
+    observasion = ""
+) => {
+    const datos = {id_estado_planificacion: nuevoEstado};
+    if(observasion){
+        datos["observacion"] = observasion;
+    }
+
+    const respuesta = await solicitud(
+        `${rutas.ESTADO_PLANIFICACION}/${revisionPlanifID}`,
+        "PUT",
+        datos
+    );
+    return respuesta;
+};
+
 export const registrarPlanificacionEmpresa = async (datos={}) => {
     const respuesta = await solicitud(`${rutas.REGISTRAR_PLANIFICACION_EMPRESA}`,"POST", datos);
+    return respuesta;
+}
+
+export const borrarPlanificacionEmpresa = async ( planificacionID ) => {
+    const respuesta = await solicitud(`${rutas.ELEMENTO_PLANIFICACION_PROYECTO_EMPRESA}/${planificacionID}`, "DELETE");
     return respuesta;
 }
 
@@ -109,23 +165,58 @@ export const obtenerPlanillasDocenteSeguimiento = async (docenteID = 1) => {
     return respuesta;
 }
 
-export const obtenerItemsPlanillaSeguimiento = async (planilla=1) => {
-    const respuesta = await solicitud(`${rutas.ITEMS_PLANTILLA_SEGUIMIENTO}/${planilla}`);
+export const agregarItemPlanillaSeguimiento = async (datos={}) => {
+    const respuesta = await solicitud(`${rutas.ITEM_PLANILLA_SEGUIMIENTO}`, "POST", datos);
     return respuesta;
 }
+
+export const agregarItemPlanillaEvaluacion = async (datos={}) => {
+    const respuesta = await solicitud(`${rutas.ITEM_PLANILLA_EVALUACION}`, "POST", datos);
+    return respuesta;
+}
+
+export const actualizarItemPlanillaSeguimiento = async (itemID=1, datos={}) => {
+    const respuesta = await solicitud(`${rutas.ITEM_PLANILLA_SEGUIMIENTO}/${itemID}`, "PUT", datos);
+    return respuesta;
+}
+
+export const actualizarPlanillaSeguimiento = async (planillaID=1, datos={}) => {
+    const respuesta = await solicitud(`${rutas.PLANILLA_SEGUIMIENTO}/${planillaID}`, "PUT", datos);
+    return respuesta;
+}
+
+export const actualizarPlanillaEvaluacion = async (planillaID=1, datos={}) => {
+    const respuesta = await solicitud(`${rutas.PLANILLA_EVALUACION}/${planillaID}`, "PUT", datos);
+    return respuesta;
+}
+
+export const actualizarItemPlanillaEvaluacion = async (itemID=1, datos={}) => {
+    const respuesta = await solicitud(`${rutas.ITEM_PLANILLA_EVALUACION}/${itemID}`, "PUT", datos);
+    return respuesta;
+}
+
 
 export const obtenerAsistenciaPlanillaSeguimiento = async (planilla=1) =>{
     const respuesta = await solicitud(`${rutas.ASISTENCIA_PLANILLA_SEGUIMIENTO}/${planilla}`);
     return respuesta;
 }
 
-export const obtenerPlanillasDocenteEvaluacion = async (docenteID = 1) => {
-    const respuesta = await solicitud(`${rutas.PLANILLAS_DOCENTE_EVALUACION}/${docenteID}`);
+export const obtenerAsistenciaPlanillaEvaluacion = async (planilla=1) =>{
+    const respuesta = await solicitud(`${rutas.ASISTENCIA_PLANILLA_EVALUACION}/${planilla}`);
     return respuesta;
 }
 
-export const obtenerItemsPlanillaEvaluacion = async (planilla=1) => {
-    const respuesta = await solicitud(`${rutas.ITEMS_PLANTILLA_EVALUACION}/${planilla}`);
+export const actualizarAsistenciaSeguimiento = async(asistenciaID=1, datos={}) => {
+    const respuesta = await solicitud(`${rutas.ASISTENCIA_SEGUIMIENTO}/${asistenciaID}`,"PUT", datos);
+    return respuesta;
+}
+export const actualizarAsistenciaEvaluacion = async(asistenciaID=1, datos={}) => {
+    const respuesta = await solicitud(`${rutas.ASISTENCIA_EVALUACION}/${asistenciaID}`,"PUT", datos);
+    return respuesta;
+}
+
+export const obtenerPlanillasDocenteEvaluacion = async (docenteID = 1) => {
+    const respuesta = await solicitud(`${rutas.PLANILLAS_DOCENTE_EVALUACION}/${docenteID}`);
     return respuesta;
 }
 

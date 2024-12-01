@@ -9,6 +9,7 @@ use App\Models\Evaluacion;
 use App\Models\Proyecto;
 use App\Models\Proyecto_empresa;
 use App\Models\Usuario;
+use App\Services\SortService;
 use Carbon\Carbon;
 
 class EvaluacionController extends Controller
@@ -275,15 +276,21 @@ class EvaluacionController extends Controller
 
     public function index_proyecto_empresa($id)
     {
-        $evaluacion_empresa=[];
+        $evaluacion_empresa = [];
         $proyectoEmpresas = Proyecto_empresa::where('id_empresa', $id)->get();
         if (!$proyectoEmpresas->isEmpty()) {
-            foreach ($proyectoEmpresas as $proyectoEmpresa){
-                $evaluacion_empresa[]=Evaluacion::where('id_proyecto_empresa',$proyectoEmpresa->id)->get();
+            foreach ($proyectoEmpresas as $proyectoEmpresa) {
+                
+                $evaluaciones=Evaluacion::where('id_proyecto_empresa', $proyectoEmpresa->id)->groupBy('id')->get();
+                if(!$evaluaciones->isEmpty()){
+                    $evaluacion_empresa[] = $evaluaciones;
+                }else{
+                    return response()->json(['contenido' => 'no existe evaluacion'], 404);
+                }
             }
             return response()->json(['contenido' => compact('evaluacion_empresa')], 200);
         } else {
-            return response()->json(['contenido' => 'no existe la evaluacion'], 404);
+            return response()->json(['contenido' => 'no existe la empresa'], 404);
         }
     }
 
@@ -320,9 +327,9 @@ class EvaluacionController extends Controller
         if (!$proyectos->isEmpty()) {
             $evaluacions = [];
             foreach ($proyectos as $proyecto) {
-                $protectoEmpresa = Proyecto_empresa::where('id_proyecto', $proyecto->id)->get();
+                $protectoEmpresa = Proyecto_empresa::where('id_proyecto', $proyecto->id)->groupBy('id')->get();
                 foreach ($protectoEmpresa as $proyect) {
-                    $usuario = Evaluacion::where('id_proyecto_empresa', $proyect->id)->get();
+                    $usuario = Evaluacion::where('id_proyecto_empresa', $proyect->id)->groupBy('id')->get();
                     foreach ($usuario as $usua) {
 
                         $fechaActual = Carbon::now();
@@ -372,25 +379,28 @@ class EvaluacionController extends Controller
      * )
      */
 
-     public function show_asistencia($id)
-     {
- 
-         $evaluacion = Evaluacion::find($id);
-         if ($evaluacion) {
-             $usuarios = Asistencia_evaluacion::where('id_evaluacion', $id)->get();
- 
-             foreach ($usuarios as $us) {
-                 $aux = Usuario::find($us->id_usuario);
-                 $us->nombre_usuario = $aux->nombre . ' ' . $aux->apellido;
-             }
-             $proyecto_empresa = Proyecto_empresa::find($evaluacion->id_proyecto_empresa);
- 
- 
-             $logo = Empresa::find($proyecto_empresa->id_empresa)->url_logo;
-             $nombre_corto = Empresa::find($proyecto_empresa->id)->nombre_corto;
-             return response()->json(['contenido' => compact('usuarios', 'proyecto_empresa', 'logo', 'nombre_corto')]);
-         } else {
-             return response()->json(['contenido' => 'id de la planilla seguimiento no encontrado'], 404);
-         }
-     }
+    public function show_asistencia($id)
+    {
+
+        $evaluacion = Evaluacion::find($id);
+        if ($evaluacion) {
+            $usuarios = Asistencia_evaluacion::where('id_evaluacion', $id)->groupBy('id')->get();
+
+            foreach ($usuarios as $us) {
+                $aux = Usuario::find($us->id_usuario);
+                $us->nombre_usuario = $aux->nombre . ' ' . $aux->apellido;
+            }
+            $proyecto_empresa = Proyecto_empresa::find($evaluacion->id_proyecto_empresa);
+            $sortService=new SortService();
+            $usuarios=$usuarios->toArray();
+            $usuarios=$sortService->sortNombre($usuarios);
+            $logo = Empresa::find($proyecto_empresa->id_empresa)->url_logo;
+            $nombre_corto = Empresa::find($proyecto_empresa->id)->nombre_corto;
+            return response()->json(['contenido' => compact('usuarios', 'proyecto_empresa', 'logo', 'nombre_corto')]);
+        } else {
+            return response()->json(['contenido' => 'id de la planilla seguimiento no encontrado'], 404);
+        }
+    }
+
+    
 }

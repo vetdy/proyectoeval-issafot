@@ -63,7 +63,7 @@ const genBoton = ({cadena = "", index = 0, llave = "",  pkey="", botones, handle
  * @param {(Object<string,*>[]|[])} datos Los datos
  * @returns El componente Tabla con los datos
  */
-const Tabla = ({ datos = [], children, px0 = false, hover = true, handle }) => {
+const Tabla = ({ datos = [], children, px0 = true, hover = false, handle }) => {
     const titulos = leerTitulos(datos);
     const botones = /(<detalle>|<agregar>|<editar>|<eliminar>)/;
     return (

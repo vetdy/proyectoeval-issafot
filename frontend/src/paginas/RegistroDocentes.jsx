@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import logo from "/logo.png";
 import '../estilos/RegistroDocentes.css';
+import { backend as rutas } from "../rutas";
 
 function RegistroDocentes() {
     const [nombre, setNombre] = useState('');
@@ -100,7 +100,7 @@ function RegistroDocentes() {
     
             try {
                 // Llamada a la API
-                const response = await fetch('http://127.0.0.1:8000/api/docente', {
+                const response = await fetch(rutas.REGISTRO_DOCENTE, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

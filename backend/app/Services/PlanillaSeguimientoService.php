@@ -10,6 +10,7 @@ use App\Models\Item_planificacion;
 use App\Models\Item_planilla;
 use App\Models\Planilla_seguimiento;
 use App\Models\Proyecto_empresa;
+use App\Models\Revision_planificacion;
 use App\Models\Socio_empresa;
 use App\Models\Tarea;
 use Illuminate\Support\Carbon;
@@ -27,6 +28,9 @@ class PlanillaSeguimientoService
         $fecha_fin = Carbon::createFromDate($planillaService->getAnteriorFecha($registar['fecha_fin'], $dia));
         $fecha_inicio = Carbon::createFromDate($planillaService->getProximoDiaRevision($fecha_inicio, $dia));
         #($fecha_fin,$fecha_fin);
+        $pe=Proyecto_empresa::find($registar['id_proyecto_empresa']);
+        $rp=Revision_planificacion::where('id_proyecto_empresa',$registar['id_proyecto_empresa']);
+        
         while ($fecha_inicio->lt($fecha_fin)) {
             $pg = new Planilla_seguimiento();
             
@@ -43,7 +47,7 @@ class PlanillaSeguimientoService
                 $ta->id_planilla_seguimiento = $pg->id;
                 $ta->save();
             }
-            $pe=Proyecto_empresa::find($pg->id_proyecto_empresa);
+            
             
             foreach (Socio_empresa::where('id_empresa',$pe->id_empresa)->get() as $id_usuario) {
                 $ape = new Asistencia_planilla_seguimiento();
@@ -62,13 +66,14 @@ class PlanillaSeguimientoService
         $e->id_tipo_evaluacion = '1';
 
         $e->save();
-        
-        foreach (Socio_empresa::where('id_empresa', $e->id_empresa)->get() as $id_usuario) {
+        foreach (Socio_empresa::where('id_empresa', $pe->id_empresa)->get() as $id_usuario) {
             $ae = new Asistencia_evaluacion();
             $ae->id_usuario = $id_usuario->id;
-            $ae->creada = false;
+            $ae->presente = false;
+            $ae->observacion = '';
             $ae->id_evaluacion = $e->id;
             $ae->save();
+            
         }
         // tareas
         $tareas=Item_planificacion::where('id_planificacion',$registar['id'])->get();
@@ -79,6 +84,7 @@ class PlanillaSeguimientoService
             $t->id_evaluacion=$e->id;
             $t->save();
         }
+        $rp->update(['planillas_creada'=>true]);
     }
 
 }
