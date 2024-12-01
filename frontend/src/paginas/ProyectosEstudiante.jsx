@@ -13,7 +13,7 @@ const filtrarDatos = (datos = [], idEmpr) => {
             state: {id_empresa: idEmpr},
         }
     });
-    console.log(datos);
+    
     return nuevosDatos;
 }
 
