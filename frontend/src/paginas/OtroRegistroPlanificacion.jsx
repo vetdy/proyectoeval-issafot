@@ -169,7 +169,6 @@ const OtroRegistroPlanificacion = () => {
                 const consultaPlan = await obtenerPlanificacionEmpresa(proyEmpID.current);
                 if( consultaPlan.status === 200 ){
                     const previo = consultaPlan.message.planifiaciones_ob;
-                    console.log(previo);
                     setPlanificacion( reconstruirPlanificacion( previo ) );
                     refPlanPrevio.current = previo;
                     setRevision({
@@ -378,9 +377,7 @@ const OtroRegistroPlanificacion = () => {
 
         if ( planificacion.length ) {
             const duplicados = titulosIguales(planificacion);
-            console.log(duplicados.length)
             if( duplicados.length ){
-                console.log(duplicados);
                 abrirModal(`Existen titulos duplicados: ${planificacion[duplicados].titulo}`);
                 return false;
             }
