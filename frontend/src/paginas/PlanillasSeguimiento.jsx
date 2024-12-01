@@ -11,7 +11,7 @@ import {
 import { tiempo } from "../utils";
 
 const Planillas = ({ datos, tipo }) => {
-    const titulos = ["ID", "Fecha", "Hora", "Concluido", "Detalle"];
+    const titulos = ["Hito", "Fecha", "Hora", "Concluido", "Detalle"];
     const [mostrar, setMostrar] = useState(datos.map((d) => false));
     const [items, setItems] = useState(datos.map((d) => null));
 
@@ -185,7 +185,10 @@ const PlanillasSeguimiento = () => {
     const [datosEvaluacion, setDatosEvaluacion] = useState(null);
     const [error, setError] = useState(false);
     const [cargando, setCargando] = useState(true);
-    const [hayPlanillas, setHayPlanillas] = useState(true);
+    const [hayPlanillas, setHayPlanillas] = useState({
+        seguimiento: false,
+        evaluacion: false
+    });
     const consultar = useRef(true);
 
     const [empresa, setEmpresa] = useState(1);
@@ -194,7 +197,10 @@ const PlanillasSeguimiento = () => {
         setDatosSeguimiento(null);
         setError(false);
         setCargando(true);
-        setHayPlanillas(true);
+        setHayPlanillas({
+            seguimiento: false,
+            evaluacion: false
+        });
         consultar.current = true;
     };
 
@@ -209,14 +215,22 @@ const PlanillasSeguimiento = () => {
 
             const res = await Promise.all(consultas);
 
-            if (res.filter((r) => r.status === 200).length === 2) {
-                setDatosSeguimiento(res[0].message.planilla_seguimiento);
-                setDatosEvaluacion(res[1].message.evaluacion_empresa[0]);
+            const nuevoHayPlanillas = {
+                seguimiento: false,
+                evaluacion: false
             }
 
-            if (res.filter((r) => r.status === 404).length) {
-                setHayPlanillas(false);
+            if( res[0].status === 200 ){
+                setDatosSeguimiento(res[0].message.planilla_seguimiento);
+                nuevoHayPlanillas.seguimiento = true;
             }
+            
+            if( res[1].status === 200 ){
+                setDatosEvaluacion(res[1].message.evaluacion_empresa);
+                nuevoHayPlanillas.evaluacion = true;
+            }
+
+            setHayPlanillas(nuevoHayPlanillas);
 
             if (
                 res.filter((r) => r.status !== 200 && r.status !== 404).length
@@ -256,7 +270,7 @@ const PlanillasSeguimiento = () => {
             </div>
 
             <div className="row">
-                {hayPlanillas && (
+                {(hayPlanillas.seguimiento || hayPlanillas.evaluacion) && (
                     <div className="col-12 d-flex justify-content-between">
                         <div>
                             <h5 className="fw-bold">
@@ -279,13 +293,13 @@ const PlanillasSeguimiento = () => {
             <div className="row">
                 <div className="col-12">
                     <h6>Seguimiento</h6>
-                    {!hayPlanillas && <p>No existen Planillas</p>}
+                    {!hayPlanillas.seguimiento && <p>No existen Planillas</p>}
                 </div>
             </div>
 
             <div className="row">
                 <div className="col-12">
-                    {hayPlanillas && (
+                    {hayPlanillas.seguimiento && (
                         <Planillas
                             datos={datosSeguimiento}
                             tipo={"seguimiento"}
@@ -297,13 +311,13 @@ const PlanillasSeguimiento = () => {
             <div className="row">
                 <div className="col-12">
                     <h6>Evaluación</h6>
-                    {!hayPlanillas && <p>No existen Planillas</p>}
+                    {!hayPlanillas.evaluacion && <p>No existen Planillas</p>}
                 </div>
             </div>
 
             <div className="row">
                 <div className="col-12">
-                    {hayPlanillas && (
+                    {hayPlanillas.evaluacion && (
                         <Planillas
                             datos={datosEvaluacion}
                             tipo={"evaluacion"}
