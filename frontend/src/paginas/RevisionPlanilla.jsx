@@ -380,7 +380,7 @@ const Planilla = ({ datos, planilla, asistencia, actualizar, retornar }) => {
                                         <input
                                             className="form-control"
                                             type="number"
-                                            value={notas[index]}
+                                            value={notas[index] || 0}
                                             onChange={(ev) => {
                                                 actualizarNotas(ev, index);
                                             }}
