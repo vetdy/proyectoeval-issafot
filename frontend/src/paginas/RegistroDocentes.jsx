@@ -162,15 +162,17 @@ function RegistroDocentes() {
 
     return (
         <div className="container w-75">
-            <div className="row mb-2">
-         </div>
-            <div className="banda-titulo">
-            <h2 className="text-center text-white">REGISTRO DE DOCENTES</h2>
-         </div>
+            <div className="row">
+                <div className="col">
+                    <div className="bg-eva-dark shadow-sm m-auto mt-2 rounded rounded-3">
+                        <h2 className="text-center text-eva-info text-center fw-bold py-2 m-0">REGISTRO DE DOCENTES</h2>
+                    </div>
+                </div>
+            </div>
 
     
 
-            <form>
+            <form className="bg-light">
                 <div className="row mb-2">
                     <div className="col-md-3"></div>
                     <div className="col-md-6">
