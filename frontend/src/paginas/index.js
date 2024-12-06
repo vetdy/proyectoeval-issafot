@@ -1,3 +1,4 @@
+import PaginaPrincipal from "./PaginaPrincipal";
 import RegistroDocentes from "./RegistroDocentes"; /* EXPORTAR OMPONENTE DE LAS PAGINAS */
 import RegistroEmpresa from "./RegistroEmpresa";
 import PlanillasSeguimiento from "./PlanillasSeguimiento";
@@ -12,6 +13,7 @@ import RevisionPlanificacionDocente from "./RevisionPlanificacionDocente"
 import RevisionPlanificacionesDocente from "./RevisionPlanificacionesDocente"
 import generarPLanillasDeSeguimientoYEvaSemanal from "./generarPLanillasDeSeguimientoYEvaSemanal"
 export {
+    PaginaPrincipal,
     RegistroDocentes,
     RegistroEmpresa,
     PlanillasSeguimiento,

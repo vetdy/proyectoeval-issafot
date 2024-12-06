@@ -14,6 +14,9 @@ function App() {
 
             <Navbar menuReferencia={usrMenu}></Navbar>
             <Routes>
+                <Route path="/" 
+                    element={<paginas.PaginaPrincipal />}
+                ></Route>
                 <Route path="/mi-empresa/registro" 
                     element={<paginas.RegistroEmpresa />}
                 ></Route>
