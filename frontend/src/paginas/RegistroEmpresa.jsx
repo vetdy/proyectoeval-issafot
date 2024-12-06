@@ -24,6 +24,23 @@ function RegistroEmpresa(){
     });
 
     const [idUser, setIdUser] = useState("13");
+    const [nombreUser, setNombreUser] = useState("Ivan");
+    const nombresUser = [
+        "Vacio",
+        "Mateo",
+        "Carla",
+        "Marcos",
+        "Marcos",
+        "Ariel",
+        "Ever",
+        "Erlinda",
+        "Jose",
+        "Samuel",
+        "Juan",
+        "Carlos",
+        "Marcelo",
+        "Ivan",
+    ];
 
     const formatosValidosImagen = ["image/png", "image/jpeg", "image/jpg"];
     const pesoMaximoImagen = 1048576;
@@ -213,7 +230,7 @@ function RegistroEmpresa(){
                     <h5 className="fw-bold m-auto">Representante Legal:</h5>
                 </div>
                 <div className="col-md-8">
-                    <h5 className="m-auto">Jose</h5>
+                    <h5 className="m-auto">{nombreUser}</h5>
                 </div>
                 <input type="hidden" name="id_representante_legal" value="Usuario"></input>
             </div>
@@ -229,6 +246,7 @@ function RegistroEmpresa(){
                         value={idUser}
                         onChange={(ev) => {
                             setIdUser(ev.target.value);
+                            setNombreUser(nombresUser[ev.target.value]);
                         }}
                     >
                         <option value="1">1</option>

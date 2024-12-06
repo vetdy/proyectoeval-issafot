@@ -1,4 +1,5 @@
 import {IconoLogo, IconoCampana, IconoUsuario} from "../iconos";
+import { Link } from "react-router-dom";
 import color from "../../estilos/color";
 
 function Boton({children}){
@@ -21,15 +22,16 @@ function Header(){
                 <div style={{height:"4rem", width:"4rem"}}>
                     <IconoLogo />
                 </div>
-                <h1 className={`${color.navbar.texto} fw-bold user-select-none text-shadow`}
-                >
-                    Proyecto EVA
-                </h1>
+                
+                <Link className={`${color.navbar.texto} h1 text-decoration-none fw-bold user-select-none text-shadow `} 
+                    to={"/"}
+                >Proyecto EVA
+                </Link>
             </div>
 
             <div className="d-flex align-items-center">
-                <Boton><IconoCampana /></Boton>
-                <Boton><IconoUsuario /></Boton>
+                {/* <Boton><IconoCampana /></Boton>
+                <Boton><IconoUsuario /></Boton> */}
             </div>
         </header>
     );
