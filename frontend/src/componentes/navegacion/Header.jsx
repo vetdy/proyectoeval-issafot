@@ -30,8 +30,8 @@ function Header(){
             </div>
 
             <div className="d-flex align-items-center">
-                <Boton><IconoCampana /></Boton>
-                <Boton><IconoUsuario /></Boton>
+                {/* <Boton><IconoCampana /></Boton>
+                <Boton><IconoUsuario /></Boton> */}
             </div>
         </header>
     );
