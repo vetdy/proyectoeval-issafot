@@ -9,8 +9,10 @@ use App\Models\Evaluacion;
 use App\Models\Item_planificacion;
 use App\Models\Item_planilla;
 use App\Models\Planilla_seguimiento;
+use App\Models\Proyecto;
 use App\Models\Proyecto_empresa;
 use App\Models\Revision_planificacion;
+use App\Models\Semestre;
 use App\Models\Socio_empresa;
 use App\Models\Tarea;
 use Illuminate\Support\Carbon;
@@ -85,6 +87,16 @@ class PlanillaSeguimientoService
             $t->save();
         }
         $rp->update(['planillas_creada'=>true]);
+    }
+    public function checkFechaValida($idProyectoEmpresa){
+
+        $fechaHoy= Carbon::now();
+        $proyectoEmpresa= Proyecto_empresa::find($idProyectoEmpresa);
+        $proyecto=Proyecto::find($proyectoEmpresa->id_proyecto);
+        $semestre=Semestre::find($proyecto->id_semestre);
+        $fechaMaximo = Carbon::parse($semestre->fecha_generacion);
+        return $fechaMaximo->gte($fechaHoy);
+
     }
 
 }

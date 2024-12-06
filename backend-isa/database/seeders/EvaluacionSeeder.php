@@ -31,49 +31,49 @@ class EvaluacionSeeder extends Seeder
         
 
 
-        DB::table('evaluacions')->insert([
-            [
-                'titulo' => 'evaluacion uno',
-                'fecha_revision' => '2024/11/1',
-                'hora_revision' => '18:00',
-                'concluido' => false,
-                'nota' => 20,
-                'id_proyecto_empresa' => '1',
-                'id_tipo_evaluacion' => '2'
-            ],
-            [
-                'titulo' => 'evaluacion dos',
-                'fecha_revision' => '2024/10/29',
-                'hora_revision' => '15:00',
-                'concluido' => false,
-                'nota' => 20,
-                'id_proyecto_empresa' => '1',
-                'id_tipo_evaluacion' => '2'
-            ],
-            [
-                'titulo' => 'evaluacion tres',
-                'fecha_revision' => '2024/10/11',
-                'hora_revision' => '20:00',
-                'concluido' => false,
-                'nota' => 20,
-                'id_proyecto_empresa' => '1',
-                'id_tipo_evaluacion' => '2'
-            ],
-        ]);
+        // DB::table('evaluacions')->insert([
+        //     [
+        //         'titulo' => 'evaluacion uno',
+        //         'fecha_revision' => '2024/11/1',
+        //         'hora_revision' => '18:00',
+        //         'concluido' => false,
+        //         'nota' => 20,
+        //         'id_proyecto_empresa' => '1',
+        //         'id_tipo_evaluacion' => '2'
+        //     ],
+        //     [
+        //         'titulo' => 'evaluacion dos',
+        //         'fecha_revision' => '2024/10/29',
+        //         'hora_revision' => '15:00',
+        //         'concluido' => false,
+        //         'nota' => 20,
+        //         'id_proyecto_empresa' => '1',
+        //         'id_tipo_evaluacion' => '2'
+        //     ],
+        //     [
+        //         'titulo' => 'evaluacion tres',
+        //         'fecha_revision' => '2024/10/11',
+        //         'hora_revision' => '20:00',
+        //         'concluido' => false,
+        //         'nota' => 20,
+        //         'id_proyecto_empresa' => '1',
+        //         'id_tipo_evaluacion' => '2'
+        //     ],
+        // ]);
 
-        DB::table('tareas')->insert([
-            [
-                'titulo' => 'tarea evaluacion dos 1',
-                'id_evaluacion' => '2'
-            ],
-            [
-                'titulo' => 'tarea evaluacion dos 3',
-                'id_evaluacion' => '2'
-            ],
-            [
-                'titulo' => 'tarea evaluacion dos 2',
-                'id_evaluacion' => '2'
-            ],
-        ]);
+        // DB::table('tareas')->insert([
+        //     [
+        //         'titulo' => 'tarea evaluacion dos 1',
+        //         'id_evaluacion' => '2'
+        //     ],
+        //     [
+        //         'titulo' => 'tarea evaluacion dos 3',
+        //         'id_evaluacion' => '2'
+        //     ],
+        //     [
+        //         'titulo' => 'tarea evaluacion dos 2',
+        //         'id_evaluacion' => '2'
+        //     ],
+        // ]);
     }
 }

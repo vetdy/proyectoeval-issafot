@@ -22,7 +22,7 @@ class EmpresaSeeder extends Seeder
                 'correo' => 'emaila32@gmail.com',
                 'telefono' => '4320972',
                 'contrasena' => 'passwords11',
-                'id_rol' => '2'
+                'id_rol' => '1'
             ],
             [
                 'nombre' => 'carla',
@@ -131,6 +131,24 @@ class EmpresaSeeder extends Seeder
                 'telefono' => '42709003',
                 'contrasena' => 'fantasma273',
                 'id_rol' => '2'
+            ],
+            [
+                'nombre' => 'usuario4',
+                'apellido' => 'fantasma',
+                'codigo_sis' => '124146010',
+                'correo' => 'fantasma4@gmail.com',
+                'telefono' => '42709004',
+                'contrasena' => 'fantasma274',
+                'id_rol' => '2'
+            ],
+            [
+                'nombre' => 'usuario5',
+                'apellido' => 'fantasma',
+                'codigo_sis' => '124146009',
+                'correo' => 'fantasma5@gmail.com',
+                'telefono' => '42709005',
+                'contrasena' => 'fantasma275',
+                'id_rol' => '2'
             ]
 
         ];
@@ -211,6 +229,14 @@ class EmpresaSeeder extends Seeder
             [
                 'id_usuario' => $ids[11],
                 'id_empresa' => $ids2[3]
+            ],
+            [
+                'id_usuario' => $ids[13],
+                'id_empresa' => $ids2[2]
+            ],
+            [
+                'id_usuario' => $ids[14],
+                'id_empresa' => $ids2[2]
             ]
         ]);
     }

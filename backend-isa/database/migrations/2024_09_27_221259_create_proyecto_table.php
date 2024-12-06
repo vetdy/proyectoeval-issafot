@@ -22,6 +22,7 @@ class CreateProyectoTable extends Migration
             $table->date('fecha_cierre');
             $table->timestamps();
             $table->foreignId('id_creado_por')->constrained('usuarios')->onDelete('cascade');
+            $table->foreignId('id_semestre')->constrained('semestre')->onDelete('cascade');
         });
     }
   
