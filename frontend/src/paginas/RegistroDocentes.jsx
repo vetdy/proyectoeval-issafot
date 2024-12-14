@@ -172,7 +172,7 @@ function RegistroDocentes() {
 
     
 
-            <form className="bg-light">
+            <form className="bg-light pt-2">
                 <div className="row mb-2">
                     <div className="col-md-3"></div>
                     <div className="col-md-6">
@@ -271,7 +271,7 @@ function RegistroDocentes() {
 
                 <div className="row justify-content-center">
     <button 
-        className="btn btn-eva-secondary col-sm-3" 
+        className="btn btn-eva-secondary col-sm-3 mb-2" 
         onClick={registrarDocente} 
         style={{ fontWeight: 'bold' }}
     >
